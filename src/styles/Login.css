@@ -1,0 +1,126 @@
+.login-contain {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.login-img {
+    height: 100vh;
+    object-fit: contain;
+}
+
+.login-mg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 80;
+    background-color: #c5473b;
+    opacity: 0.4;
+}
+
+.log-form {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    width: 52%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    background-color: white;
+    z-index: 85;
+}
+
+.log-form > h2 {
+    font-size: xx-large;
+}
+
+.login-sm-title {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    justify-content: space-between;
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.log-input {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.login-box {
+    padding: 5px 40px;
+    margin: 10px;
+    border: 1px solid;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-color: #cdbdad;;
+    outline: none;
+    background-color: transparent;
+    font-size: large;
+    width: 100%;
+}
+
+.login-box:focus {
+    border-color: #c5473b;
+}
+
+.form-end {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: smaller;
+    margin: 5px;
+}
+
+.but {
+    padding: 11px;
+    background-color: #c5473b;
+    color: white;
+    font-size: medium;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.login-divider {
+    margin: 20px;
+}
+
+.login-divider::before, .login-divider::after {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1px;
+    width: 185px;
+    margin: 0 20px;
+    background-color: #cdbdad;
+    content: " "; 
+}
+
+.img-end {
+    width: 80px;
+    transition: 1s;
+    cursor: pointer;
+}
+
+.img-end:hover {
+    transform: scale(1.1);
+}
