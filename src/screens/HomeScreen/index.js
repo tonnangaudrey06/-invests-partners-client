@@ -7,10 +7,15 @@ import image2 from "../../assets/img/partner-image.png";
 import image3 from "../../assets/img/arriereplan.png";
 
 import { FaCheck } from 'react-icons/fa';
-import { MdAddCircle } from 'react-icons/md';
+import { MdAddCircle, MdPhoneInTalk } from 'react-icons/md';
 import { AiOutlineHeart } from 'react-icons/ai';
 
 import { SliderData } from '../../data/SliderData';
+import { TiCalendar, TiCalendarOutline, TiInfoLarge } from 'react-icons/ti';
+
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css'
+import { GrMail } from 'react-icons/gr';
 
 const HomeScreen = () => {
   return ( 
@@ -23,7 +28,7 @@ const HomeScreen = () => {
             <div className="service-component">
             <div>
               <div className="services-icon">
-                i
+                <TiInfoLarge size={25} />
               </div>
             </div>
             <div>
@@ -61,8 +66,39 @@ const HomeScreen = () => {
                 <img className="experts-image" alt="img" src={item.image} />
               </div>
               <div className="experts-name">{item.name}</div>
-              <div className="experts-bio">{item.bio}</div>
-              <div className="experts-button"><MdAddCircle fill="#c5473b" size={40} /></div>
+              <div className="experts-bio"><p>{item.role}</p></div>
+              <div className="experts-button">
+                
+                <Popup
+                  trigger={<MdAddCircle fill="#c5473b" size={40} />}
+                  modal
+                  nested
+
+                >
+                  {close => (
+                    <div className="modal">
+                      <button className="close-modal" onClick={close}>
+                        &times;
+                      </button>
+                      <div className="modal-content">
+                        <img className="modal-image" alt="img" src={item.image} />
+                        <div className="modal-text">
+                          <p style={{marginTop: 0, color: "#c5473b", fontSize: 25, marginBottom: 0}}>{item.name}</p>
+                            <div style={{marginBottom:20}}>{item.role}</div>
+                            <div style={{marginTop: 0, color: "#c5473b", fontSize: 25}}>Biographie</div>
+                            {item.bio}
+                          <p className="contact-modal">
+                          <MdPhoneInTalk fill="#c5473b" size={20} style={{marginRight: 5}} /> 
+                          {item.tel}
+                          <GrMail fill= "#c5473b" size={20} style={{marginLeft:20, marginRight: 5}} /> 
+                          {item.email}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Popup>
+                </div>
             </div>
           ))}
         </div>
@@ -108,10 +144,106 @@ const HomeScreen = () => {
         <TitleCustom title="EVENEMENTS IMPORTANTS" />
         <div className="events">
         <div className="events-images">
-          <img className="events-image" src={image1} alt="" />
-          <img className="events-image" src={image1} alt="" />
-          <img className="events-image" src={image1} alt="" />
-          <img className="events-image" src={image1} alt="" />
+          <div className="events-component">          
+            <img className="events-image" src={image1} alt="" /> 
+            <div className="events-div-hover">
+              <div style={{margin: 8}}>
+                <div style={{fontWeight: 'bold'}}>
+                  Titre de l'evenement
+                </div>
+                <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                </p>
+                <div style={{display: 'flex', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+                  <TiCalendar size={20} fill="#c5473b" /> 25-06-2021 | 12H00
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+                  <div className="events-hover-button">
+                    Participer
+                  </div>
+                  <div className="events-hover-button">
+                    En savoir plus
+                  </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+
+          <div className="events-component">          
+            <img className="events-image" src={image1} alt="" /> 
+            <div className="events-div-hover">
+              <div style={{margin: 8}}>
+                <div style={{fontWeight: 'bold'}}>
+                  Titre de l'evenement
+                </div>
+                <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                </p>
+                <div style={{display: 'flex', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+                  <TiCalendar size={20} fill="#c5473b" /> 25-06-2021 | 12H00
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+                  <div className="events-hover-button">
+                    Participer
+                  </div>
+                  <div className="events-hover-button">
+                    En savoir plus
+                  </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+
+          <div className="events-component">          
+            <img className="events-image" src={image1} alt="" /> 
+            <div className="events-div-hover">
+              <div style={{margin: 8}}>
+                <div style={{fontWeight: 'bold'}}>
+                  Titre de l'evenement
+                </div>
+                <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                </p>
+                <div style={{display: 'flex', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+                  <TiCalendar size={20} fill="#c5473b" /> 25-06-2021 | 12H00
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+                  <div className="events-hover-button">
+                    Participer
+                  </div>
+                  <div className="events-hover-button">
+                    En savoir plus
+                  </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+
+          <div className="events-component">          
+            <img className="events-image" src={image1} alt="" /> 
+            <div className="events-div-hover">
+              <div style={{margin: 8}}>
+                <div style={{fontWeight: 'bold'}}>
+                  Titre de l'evenement
+                </div>
+                <p>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                </p>
+                <div style={{display: 'flex', flexDirection:'row', alignItems: 'center', justifyContent: 'center'}}>
+                  <TiCalendar size={20} fill="#c5473b" /> 25-06-2021 | 12H00
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+                  <div className="events-hover-button">
+                    Participer
+                  </div>
+                  <div className="events-hover-button">
+                    En savoir plus
+                  </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+
         </div>
         </div>
       </div>

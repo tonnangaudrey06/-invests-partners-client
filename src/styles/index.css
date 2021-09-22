@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'karla-regular';
+  src: local('karla-regular'), url(../assets/fonts/Karla-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Building';
+  src: local('Building'), url(../assets/fonts/Building_Typeface.ttf) format('truetype');
+}
