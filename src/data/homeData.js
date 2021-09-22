@@ -48,22 +48,34 @@ const expertsData = [
   {
     image: expert1,
     name: "NOM PRENOM",
-    bio: "Lorem ipsum dolor sit amet, consetetur"
+    tel: "+237 694 58 78 23",
+    email: "name@gmail.com",
+    role: "Lorem ipsum dolor sit amet, consetetur",
+    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
   },
   {
     image: expert2,
     name: "NOM PRENOM",
-    bio: "Lorem ipsum dolor sit amet, consetetur"
+    tel: "+237 694 58 78 23",
+    email: "name@gmail.com",
+    role: "Lorem ipsum dolor sit amet, consetetur",
+    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
   },
   {
     image: expert3,
     name: "NOM PRENOM",
-    bio: "Lorem ipsum dolor sit amet, consetetur"
+    tel: "+237 694 58 78 23",
+    email: "name@gmail.com",
+    role: "Lorem ipsum dolor sit amet, consetetur",
+    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
   },
   {
     image: expert4,
     name: "NOM PRENOM",
-    bio: "Lorem ipsum dolor sit amet, consetetur"
+    tel: "+237 694 58 78 23",
+    email: "name@gmail.com",
+    role: "Lorem ipsum dolor sit amet, consetetur",
+    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
   }
 ]
 

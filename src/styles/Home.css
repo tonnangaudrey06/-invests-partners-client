@@ -4,8 +4,9 @@
   align-items: center;
   flex-direction: column;
   color: #585b60;
-  font-size: xx-large;
+  font-size: 60px;
   margin: 1em;
+  font-family: 'building';
 }
 
 .dividerTitles {
@@ -111,12 +112,63 @@
 
 .experts-bio {
   padding-bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 
 .experts-button {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.modal {
+  font-size: 18px;
+  width: 100%;
+}
+.modal > .modal-content {
+  width: 100%;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: row;
+}
+.modal-image {
+  flex: 10%;
+  width: 10%;
+  height: 10%;
+  margin: 0 20px;
+}
+
+.modal-text {
+  flex: 60%;
+}
+.modal-contact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.modal > .modal-actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close-modal {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
 }
 
 .partner-text {
@@ -127,7 +179,7 @@
 }
 
 .partner-image {
-  width: 100%;
+  width: 60%;
   height: auto;
   object-fit: contain;
 }
@@ -136,6 +188,7 @@
   display: flex;
   flex: 0 0 auto;
   width: 45%;
+  height: 250px;
   margin: 10px 10px;
   box-shadow: 0 0 6px grey;
   border-radius: 10px;
@@ -166,7 +219,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 7; /* number of lines to show */
+  -webkit-line-clamp: 5; /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 
@@ -205,8 +258,45 @@
 }
 
 .events-image {
+  width: 100%;
+}
+
+.events-component {
+  position: relative;
   width: 45%;
   margin: 20px;
+}
+
+.events-div-hover {
+  position: absolute;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  top: -10px;
+  z-index: 100;
+  width: 100%;
+  height: 99%;
+  background-color: #585b608a;
+  transition: all 0.5s ease;
+}
+
+.events-div-hover:hover {
+  opacity: 1;
+  top: inherit;
+  top: 0;
+}
+
+.events-hover-button {
+  border: 1px solid #c5473b;
+  width: max-content;
+  margin: 10px;
+  padding: 5px;
+}
+.events-hover-button:hover {
+  background-color: #c5473b;
 }
 
 .img-banner {
@@ -220,10 +310,8 @@
 .sliderSection {
   position: relative;
   height: 100vh;
-  width: 100vw;
-  margin: 0 auto;
+  margin: 0;
   overflow: hidden;
-  white-space: nowrap;
 }
 .sliderWrapper {
   width: 100%;
@@ -236,28 +324,25 @@
 }
 .sliderButtons {
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  bottom: 0px;
+  left: 100px;
   display: flex;
   z-index: 10;
 }
 .prevArrow, .forwardArrow {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   color: aliceblue;
   cursor: pointer;
-  background: #000d1a;
-  border-radius: 50px;
   padding: 10px;
-  margin-right: 1rem;
   user-select: none;
   transition: 0.3s;
 }
 
-.prevArrow:hover, .forwardArrow:hover {
-  background: #cd853f;
-  transform: scale(1.05);
+.prevArrow {
+  border-right: 1px solid white;
 }
+
 .slide {
   z-index: 1;
   width: 100%;
@@ -306,23 +391,18 @@
   flex-direction: column;
   width: 600px;
   color: aliceblue;
-  background-color: tomato;
 }
 .slideContent > h1 {
- 
-  margin-bottom: 1.2rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 7; /* number of lines to show */
-  -webkit-box-orient: vertical;
+  font-size: clamp(1rem, 8vw, 2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  text-align: left;
+  margin-bottom: 0.8rem;
+  font-family: 'building';
+  font-size: 50px;
 }
 .slideContent > p {
   margin-bottom: 1.2rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 7; /* number of lines to show */
-  -webkit-box-orient: vertical;
 }
 /* Slider Styles ------------------------------------------*/

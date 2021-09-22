@@ -2,6 +2,7 @@ import ButtonCustom from '../Button';
 import {IoMdArrowRoundForward} from 'react-icons/io';
 import {IoArrowForward, IoArrowBack} from 'react-icons/io5';
 import {useEffect, useRef, useState} from 'react';
+import ButtonRadius from '../ButtonRadius';
 
 const Slider = ({slides}) => {
   const [current, setCurrent] = useState(0);
@@ -49,10 +50,7 @@ const Slider = ({slides}) => {
                     <div className="slideContent">
                       <h1 id="title">{slide.title}</h1>
                       <p>{slide.subtitle}</p>
-                      <ButtonCustom to={slide.path} primary>
-                          {slide.label}
-                          <IoMdArrowRoundForward style={{marginLeft: 10}} />
-                      </ButtonCustom>
+                      <ButtonRadius title={slide.label} />
                     </div>
                 </div>
                 )}

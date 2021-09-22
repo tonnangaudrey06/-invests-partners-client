@@ -1,4 +1,5 @@
 const ButtonRadius = ({title, borderColor, color}) => {
+    
     return (
         <div
             style={{
@@ -11,7 +12,8 @@ const ButtonRadius = ({title, borderColor, color}) => {
                 marginLeft: 10,
                 color: "white",
                 backgroundColor: color,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                width: 'max-content'
             }}
         >{title}</div>
     )
