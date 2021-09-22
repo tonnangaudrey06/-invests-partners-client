@@ -1,5 +1,5 @@
-import Image1 from '../assets/img/slides/slideh.png';
-import Image2 from '../assets/img/slides/slideg.png';
+import Image1 from '../assets/img/slideh.png';
+import Image2 from '../assets/img/slideg.png';
 
 export const SliderData = [
     {

@@ -2,7 +2,7 @@ import expert1 from '../assets/img/expert1.png';
 import expert2 from '../assets/img/expert2.png';
 import expert3 from '../assets/img/expert3.png';
 import expert4 from '../assets/img/expert4.png';
-import proj1 from '../assets/img/proj1.png';
+import proj1 from '../assets/img/proj2.png';
 import proj2 from '../assets/img/proj2.png';
 import proj3 from '../assets/img/proj3.png';
 
