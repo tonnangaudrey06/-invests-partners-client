@@ -15,7 +15,7 @@ const Footer = () => {
           <FaTwitterSquare size={50} fill="white" style={{marginRight: 10}} />
           <FaInstagramSquare size={50} fill="white" style={{marginRight: 10}} />
         </div>
-          <form className="input" action="">
+          <form className="input-footer" action="">
             <input placeholder="Votre Email" className="text-input" type="text" name="email" id="" />
             <input className="input-button" type="button" value="OK" />
           </form>
@@ -43,11 +43,12 @@ const Footer = () => {
           <p><TiChevronRightOutline /> Lorem ipsum</p>
         </div>
         <div>
-          <h2>I&P</h2>
-          <p><TiChevronRightOutline /> Lorem ipsum</p>
-          <p><TiChevronRightOutline /> Lorem ipsum</p>
-          <p><TiChevronRightOutline /> Lorem ipsum</p>
-          <p><TiChevronRightOutline /> Lorem ipsum</p>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
           <h3>Contact</h3>
           <p><MdPhoneInTalk style={{marginRight: 8}} size={24} />(+237) 698-55-62-14</p>
           <p><MdPhoneInTalk style={{marginRight: 8}} size={24} /> (+237) 655-85-07-14 </p>

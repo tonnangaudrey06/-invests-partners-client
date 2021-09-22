@@ -11,7 +11,7 @@ const Slider = ({slides}) => {
 
   useEffect(() => {
     const title = document.getElementById("title");
-    title.style.animation = "anim 3s ease in out";
+    title.style.animation = "anim 5s ease in out";
     timeout.current = setTimeout(nextSlide, 3000)
       return () => {
           if (timeout.current) {
@@ -43,14 +43,16 @@ const Slider = ({slides}) => {
       <div className="sliderWrapper">
         {slides.map((slide, index) => {
           return (
-            <div className="slide" key={index}>
+            <div className={current === index ? "slide active-anim-slider" : "slide"} key={index}>
                 {index === current && (
                     <div className="slider">
-                    <img src={slide.image} alt={slide.alt} className="slideImage" />
+                    <img src={slide.image} alt={slide.alt} className={current === index ? "slideImage active-anim-slider" : "slideImage"} />
                     <div className="slideContent">
                       <h1 id="title">{slide.title}</h1>
                       <p>{slide.subtitle}</p>
-                      <ButtonRadius title={slide.label} />
+                      <div style={{display: 'flex', flexDirection: 'row'}}>
+                      {slide.label.map((item) => <ButtonRadius title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
+                      </div>
                     </div>
                 </div>
                 )}

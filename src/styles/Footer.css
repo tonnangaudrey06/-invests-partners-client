@@ -3,8 +3,8 @@ footer {
   flex-direction: column;
   margin: 0;
   color: white;
-  background-color: #585b60;
-  padding: 40px;
+  background-color: rgb(29, 29, 29);
+  padding: 50px;
 }
 
 .row-2{
@@ -23,14 +23,14 @@ footer {
   justify-content: space-evenly;
 }
 
-.input {
+.input-footer {
   display: flex;
   position: relative;
 }
 
 .text-input {
-  padding: 10px;
-  border-radius: 20px;
+  padding: 15px;
+  border-radius: 30px;
   border: none;
 }
 
@@ -40,9 +40,9 @@ footer {
   outline: none;
   border: none;
   background-color: #c5473b;
-  padding: 10px;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+  padding: 15px;
+  border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
   color: white;
   cursor: pointer;
 }

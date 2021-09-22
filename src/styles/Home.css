@@ -11,7 +11,7 @@
 
 .dividerTitles {
   border-top: 2px solid #cdbdad;
-  width: 5em;
+  width: 5rem;
   margin-top: 2px;
 }
 
@@ -64,32 +64,32 @@
 }
 
 .image-banner-content {
-  position: absolute;
-  right: 20px;
-  top: 20px;
   z-index: 10;
   display: flex;
   flex-direction: column;
-  max-width: 700px;
 }
 
-.image-banner-content h5 {
-  font-size: 28px;
+.image-banner-content > h5 {
+  font-size: 50px;
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 0.8rem;
   color: white;
+  font-family: 'building';
+  text-align: center;
 }
 
 .image-banner-content p {
   color: white;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .experts-grid {
   display: flex;
   flex-wrap: nowrap;
   margin-bottom: 70px;
+  margin: 0 50px;
 }
 
 .experts-component {
@@ -123,6 +123,14 @@
   position: absolute;
   right: 10px;
   top: 10px;
+}
+.experts-button-icon {
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.experts-button-icon:hover {
+  transform: scale(0.9);
 }
 
 .modal {
@@ -188,20 +196,44 @@
   display: flex;
   flex: 0 0 auto;
   width: 45%;
-  height: 250px;
+  height: 320px;
   margin: 10px 10px;
   box-shadow: 0 0 6px grey;
   border-radius: 10px;
   overflow: hidden;
 }
 
+.projects-container {
+  position: relative;
+}
+
 .projects {
+  position: relative;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  margin: 0 30px;
+  margin: 0 55px;
   margin-bottom: 70px;
+  overflow: hidden;
 }
+
+.projects-button-left, .projects-button-right {
+  position: absolute;
+  top: 50%;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 4px black;
+  cursor: pointer;
+}
+
+.projects-button-right {
+  right: 15px;
+}
+
+.projects-button-left{
+  left: 15px;
+}
+
 
 .projects-image {
   width: 100%;
@@ -219,8 +251,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* number of lines to show */
+  -webkit-line-clamp: 7; /* number of lines to show */
   -webkit-box-orient: vertical;
+}
+.projects-content > h3 {
+  font-family: 'Building';
+  font-size: 30px;
+  margin-top: 0;
 }
 
 .projects-button {
@@ -229,6 +266,12 @@
   width: max-content;
   color: white;
   border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.projects-button:hover {
+  opacity: 0.8;
 }
 
 .projects-content-bottom {
@@ -294,6 +337,7 @@
   width: max-content;
   margin: 10px;
   padding: 5px;
+  cursor: pointer;
 }
 .events-hover-button:hover {
   background-color: #c5473b;
@@ -324,7 +368,7 @@
 }
 .sliderButtons {
   position: absolute;
-  bottom: 0px;
+  bottom: 30px;
   left: 100px;
   display: flex;
   z-index: 10;
@@ -347,6 +391,8 @@
   z-index: 1;
   width: 100%;
   height: 100%;
+  opacity: 0.2;
+  transition: opacity ease-in-out 0.4s;
 }
 .slider {
   position: absolute;
@@ -367,7 +413,6 @@
   bottom: 0vh;
   left: 0;
   overflow: hidden;
-  opacity: 0.4;
   background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.2) 0%,
@@ -383,9 +428,14 @@
   height: 100vh;
   object-fit: cover;
 }
+
+.active-anim-slider {
+  opacity: 1;
+}
 .slideContent {
   position: absolute;
   left: 50px;
+  top: 90px;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -400,9 +450,11 @@
   text-align: left;
   margin-bottom: 0.8rem;
   font-family: 'building';
-  font-size: 50px;
+  font-size: 60px;
+  margin-top: 0;
 }
 .slideContent > p {
   margin-bottom: 1.2rem;
+  font-size: 23px;
 }
 /* Slider Styles ------------------------------------------*/
