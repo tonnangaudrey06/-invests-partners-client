@@ -60,6 +60,10 @@
     border-bottom: 2px solid white;
 }
 
+.header-link-active {
+    border-bottom: 2px solid white;
+}
+
 .nav-connect {
     display: flex;
     flex-direction: row;
