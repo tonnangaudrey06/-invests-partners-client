@@ -2,6 +2,7 @@ import ButtonCustom from '../Button';
 import {IoMdArrowRoundForward} from 'react-icons/io';
 import {IoArrowForward, IoArrowBack} from 'react-icons/io5';
 import {useEffect, useRef, useState} from 'react';
+import ButtonRadius from '../ButtonRadius';
 
 const Slider = ({slides}) => {
   const [current, setCurrent] = useState(0);
@@ -10,8 +11,8 @@ const Slider = ({slides}) => {
 
   useEffect(() => {
     const title = document.getElementById("title");
-    title.style.animation = "anim 3s ease in out";
-    timeout.current = setTimeout(nextSlide, 3000)
+    title.style.animation = "anim 1s ease in out";
+    timeout.current = setTimeout(nextSlide, 10000)
       return () => {
           if (timeout.current) {
               clearTimeout(timeout.current)
@@ -42,17 +43,16 @@ const Slider = ({slides}) => {
       <div className="sliderWrapper">
         {slides.map((slide, index) => {
           return (
-            <div className="slide" key={index}>
+            <div className={current === index ? "slide active-anim-slider" : "slide"} key={index}>
                 {index === current && (
                     <div className="slider">
-                    <img src={slide.image} alt={slide.alt} className="slideImage" />
+                    <img src={slide.image} alt={slide.alt} className={current === index ? "slideImage active-anim-slider" : "slideImage"} />
                     <div className="slideContent">
                       <h1 id="title">{slide.title}</h1>
                       <p>{slide.subtitle}</p>
-                      <ButtonCustom to={slide.path} primary>
-                          {slide.label}
-                          <IoMdArrowRoundForward style={{marginLeft: 10}} />
-                      </ButtonCustom>
+                      <div style={{display: 'flex', flexDirection: 'row'}}>
+                      {slide.label.map((item) => <ButtonRadius title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
+                      </div>
                     </div>
                 </div>
                 )}

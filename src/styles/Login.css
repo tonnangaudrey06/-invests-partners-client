@@ -29,15 +29,15 @@
     height: 100%;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     border-top-left-radius: 80px;
     border-bottom-left-radius: 80px;
     background-color: white;
     z-index: 85;
 }
 
-.log-form > h2 {
+.log-form > div > h2 {
     font-size: xx-large;
+    margin-top: 50px;
 }
 
 .login-sm-title {
@@ -53,6 +53,21 @@
     display: flex;
     flex-direction: column;
     width: 60%;
+    overflow-y: scroll;
+    height: 60%;
+}
+
+.login-form::-webkit-scrollbar {
+    width: 6px; /* width of the entire scrollbar */
+}
+  
+.login-form::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+}
+  
+.login-form::-webkit-scrollbar-thumb {
+    background-color: #c5473b; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
 }
 
 .log-input {
@@ -85,7 +100,7 @@
 .form-end {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     font-size: smaller;
     margin: 5px;
