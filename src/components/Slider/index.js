@@ -11,8 +11,8 @@ const Slider = ({slides}) => {
 
   useEffect(() => {
     const title = document.getElementById("title");
-    title.style.animation = "anim 5s ease in out";
-    timeout.current = setTimeout(nextSlide, 3000)
+    title.style.animation = "anim 1s ease in out";
+    timeout.current = setTimeout(nextSlide, 10000)
       return () => {
           if (timeout.current) {
               clearTimeout(timeout.current)

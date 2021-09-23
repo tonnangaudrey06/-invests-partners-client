@@ -57,7 +57,7 @@ const HomeScreen = () => {
               </div>
             </div>
             <div>
-              <div style={{color: "#c5473b", marginBottom: 5, fontSize: "x-large"}}>
+              <div style={{fontFamily: 'building', color: "#c5473b", marginBottom: 5, fontSize: "xx-large"}}>
                 {item.title}
               </div>
               <div style={{fontWeight: 'bold'}}>
