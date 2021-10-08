@@ -3,7 +3,7 @@ import config from './config';
 import localStorage from './localstorage';
 
 const instance = axios.create({
-    baseURL: config.HOSTURL,
+    baseURL: config.URL,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json'
