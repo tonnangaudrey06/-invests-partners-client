@@ -42,7 +42,7 @@ import { ScrollToTopOnMount } from '../../../../navigation/ScrollToTop'
 import { UserService, MembreService, SecteurService, ProjetService } from '../../../../core/services'
 import { user } from '../../../../core/reducers/auth/actions'
 
-import expert from '../../../../assets/img/expert1.png';
+import expert from '../../../../assets/img/profil.jpg'
 
 import { Pays } from '../../../../data';
 
@@ -432,7 +432,7 @@ const ProjetAdd = (props) => {
                         <div>
                             <ScrollToTopOnMount />
                             <h3 className="fw-bolder">Informations personnelles</h3>
-                            <p className="text-muted mb-5">Vérifier vos informations personnelles avant de procédé à la creation de votre projet.</p>
+                            <p className="text-muted mb-5">Vérifier vos informations personnelles avant de procédé à la creation de votre projet. <span className="fw-bolder">NB: Les chapms avec (*) sont obligatoires</span></p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={12}>
                                     <p className="fw-bolder fs-5">Nom complet</p>
@@ -545,15 +545,6 @@ const ProjetAdd = (props) => {
                                                         <p className="small text-muted">Cliquez pour importer votre CNI<br />(ce documemt est obligatoire)</p>
                                                     </label>
                                                 )}
-                                                <p>
-                                                    <Chip
-                                                        icon={auth.user?.cni ? <CheckCircleIcon /> : <AddCircleOutlineIcon />}
-                                                        label="CNI"
-                                                        color={auth.user?.cni ? "success" : "error"}
-                                                        variant="outlined"
-                                                    />
-                                                </p>
-                                                {auth.user?.cni && (<p className="small text-muted">Cliquez pour importer votre CNI</p>)}
                                             </>
                                         )}
 
@@ -953,7 +944,7 @@ const ProjetAdd = (props) => {
                                         <div key={index} className="col-sm-12 col-md-4 col-lg-3 p-0">
                                             <div className="projet-add-expert-item">
                                                 <div style={{ width: '100%', position: 'relative' }}>
-                                                    <img className="projet-add-expert-image" alt="Expert I&P" src={item.membre?.photo ? item.membre?.photo : expert} />
+                                                    <img className="projet-add-expert-image" alt="Expert I&P" src={(item.membre?.photo && item.membre?.photo !== 'null') ? item.membre?.photo : expert} />
                                                     <div className="projet-add-expert-item-remove-btn" onClick={() => removeNewMembre(item.membre?.id)}>
                                                         <MdRemoveCircle className="projet-add-expert-button-modal" fill="#c5473b" size={40} />
                                                     </div>
@@ -1264,7 +1255,7 @@ const ProjetAdd = (props) => {
                                                 <div key={index} className="col-sm-12 col-md-4 col-lg-3 p-0">
                                                     <div className="projet-add-expert-item">
                                                         <div style={{ width: '100%', position: 'relative' }}>
-                                                            <img className="projet-add-expert-image" alt="Expert I&P" src={item.membre?.photo ? item.membre?.photo : expert} />
+                                                            <img className="projet-add-expert-image" alt="Expert I&P" src={item.membre?.photo && item.membre?.photo !== 'null' ? item.membre?.photo : expert} />
                                                             {/* <div className="projet-add-expert-item-remove-btn" onClick={() => removeNewMembre(item.membre?.id)}>
                                                                 <Tooltip title="Retirer ce membre dans votre équipe" TransitionComponent={Zoom} disableInteractive arrow>
                                                                     <MdRemoveCircle className="projet-add-expert-button-modal" fill="#c5473b" size={40} />
