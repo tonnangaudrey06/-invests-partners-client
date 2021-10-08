@@ -1,0 +1,48 @@
+.service-details-content {
+    padding: 40px;
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .service-img {
+        img {
+            width: 90%;
+            height: auto;
+        }
+    }
+
+    .service-description {
+        p {
+            .marked {
+                font-weight: bold;
+                color: $primary;
+            }
+        }
+
+        .check {
+            color: $primary;
+            display: block;
+            margin-top: .5em;
+            p {
+                color: rgb(27, 26, 26);
+            }
+            .text {
+                font-weight: bold;
+            }
+        }
+
+        h4 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        // .points {
+        //     margin-top: 40px;
+        // }
+
+        // .points2 {
+        //     margin-top: 20px;
+        // }
+    }
+}

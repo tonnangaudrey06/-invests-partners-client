@@ -1,0 +1,11 @@
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const REMOVE_CURRENT_USER = "REMOVE_CURRENT_USER";
+export const SET_USER = "SET_USER";
+export const REMOVE_USER = "REMOVE_USER";
+export const SET_USER_PROJETS = "SET_USER_PROJETS";
+export const SET_CURRENT_USER_MESSAGE = "SET_CURRENT_USER_MESSAGE";
+
+export const SET_SECTEUR = "SET_SECTEUR";
+export const SET_PROJET = "SET_PROJET";
+export const SET_COUNTRY = "SET_COUNTRY";
+export const SET_TOWN = "SET_TOWN";

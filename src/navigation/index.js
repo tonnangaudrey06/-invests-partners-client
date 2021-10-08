@@ -1,14 +1,39 @@
 import { Switch, Route } from "react-router-dom";
-import { HomeScreen, LoginScreen, ProjectsScreen } from "../screens";
+import ProtectedRoute from "../core/guards/auth";
+import {
+  Auth,
+  Home,
+  Projet,
+  ProjetSecteur,
+  ProjetTown,
+  Dashboard,
+  ProjetDetails,
+  About,
+  Contact,
+  DashboardInvestor,
+  Event
+} from "../modules";
+
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 
 const AppNavigator = () => {
-  return ( 
-    <Switch>
-      <Route exact path="/" component={HomeScreen} />
-      <Route exact path="/Login" component={LoginScreen} />
-      <Route exact path="/Projects" component={ProjectsScreen} />
+  return (
+    <Switch history={history}>
+      <Route exact path="/" component={Home} />
+      <Route path="/about-us" component={About} />
+      <Route exact path="/contact" component={Contact} />
+      <Route exact path="/events" component={Event} />
+      <ProtectedRoute exact path="/projets" component={Projet} role={4} />
+      <ProtectedRoute exact path="/projets/:section" component={ProjetSecteur} role={4} />
+      <ProtectedRoute exact path="/projets/:section/:town" component={ProjetTown} role={4} />
+      <ProtectedRoute exact path="/projets/:section/:town/:projet/details" role={4} component={ProjetDetails} />
+      <ProtectedRoute path="/dashboard" component={Dashboard} role={3} />
+      <ProtectedRoute path="/investor" component={DashboardInvestor} role={4} />
+      <Route exact path="/auth" component={Auth} />
+      <Route component={Home} />
     </Switch>
-   );
+  );
 }
- 
+
 export default AppNavigator;

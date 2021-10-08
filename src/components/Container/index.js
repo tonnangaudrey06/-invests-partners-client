@@ -1,15 +1,13 @@
-import Header from "../Header";
-import '../../styles/Container.css'
-import { Footer } from "..";
+import { Footer, Header } from "..";
 
-const Container = ({children, header, footer, headerActive}) => {
-  return ( 
-    <div>
+const Container = ({ children, header, footer, headerActive }) => {
+  return (
+    <>
       {header && <Header headerActive={headerActive} />}
-      <div className="container">{children}</div>
+      <div>{children}</div>
       {footer && <Footer />}
-    </div>
-   );
+    </>
+  );
 }
- 
+
 export default Container;

@@ -1,0 +1,26 @@
+.navigation{
+    margin: 26px 0;
+    
+    .pagedesc{
+        padding: 0!important;
+        margin: 0!important;
+        text-align: justify;
+    }
+
+    a{
+        margin-right: 70px;
+       font-weight: bold;
+        position: relative;
+    }
+    .lineInf{
+        width: 100%;
+        height: 1px;
+        background: #707070;
+        margin-top: 10px;
+        
+        
+    }
+    .nav-active{
+        color: $primary;
+    }
+}

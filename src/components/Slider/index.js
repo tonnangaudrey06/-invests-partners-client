@@ -1,71 +1,84 @@
-import ButtonCustom from '../Button';
-import {IoMdArrowRoundForward} from 'react-icons/io';
-import {IoArrowForward, IoArrowBack} from 'react-icons/io5';
-import {useEffect, useRef, useState} from 'react';
-import ButtonRadius from '../ButtonRadius';
+import { Button } from '..';
 
-const Slider = ({slides}) => {
-  const [current, setCurrent] = useState(0);
-  const length = slides.length;
-  const timeout = useRef(null)
+import Slider from "react-slick";
 
-  useEffect(() => {
-    const title = document.getElementById("title");
-    title.style.animation = "anim 1s ease in out";
-    timeout.current = setTimeout(nextSlide, 10000)
-      return () => {
-          if (timeout.current) {
-              clearTimeout(timeout.current)
-          }
-      }
-  }, [current, length])
+import { IoArrowForward, IoArrowBack } from 'react-icons/io5';
 
-  const nextSlide = () => {
-    if (timeout.current) {
-        clearTimeout(timeout.current)
-    }
-      setCurrent(current === length - 1 ? 0 : current + 1)
-  }
+import AOS from 'aos';
 
-  const prevSlide = () => {
-    if (timeout.current) {
-        clearTimeout(timeout.current)
-    }
-    setCurrent(current === 0 ? length - 1 : current - 1)
-  }
+const BannerSlider = ({ slides }) => {
 
-  if (!Array.isArray(slides) || slides.length <= 0) {
-    return null
-  }
+  AOS.init({
+    isable: false,
+    startEvent: 'load',
+    initClassName: 'aos-init',
+    animatedClassName: 'aos-animate',
+    useClassNames: false,
+    disableMutationObserver: false,
+    debounceDelay: 50,
+    throttleDelay: 99,
 
-  return (
-    <div className="sliderSection">
-      <div className="sliderWrapper">
-        {slides.map((slide, index) => {
-          return (
-            <div className={current === index ? "slide active-anim-slider" : "slide"} key={index}>
-                {index === current && (
-                    <div className="slider">
-                    <img src={slide.image} alt={slide.alt} className={current === index ? "slideImage active-anim-slider" : "slideImage"} />
-                    <div className="slideContent">
-                      <h1 id="title">{slide.title}</h1>
-                      <p>{slide.subtitle}</p>
-                      <div style={{display: 'flex', flexDirection: 'row'}}>
-                      {slide.label.map((item) => <ButtonRadius title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
-                      </div>
-                    </div>
-                </div>
-                )}
-            </div>
-          );
-        })}
-        <div className="sliderButtons">
-          <IoArrowBack className="prevArrow" onClick={prevSlide} />
-          <IoArrowForward className="forwardArrow" onClick={nextSlide} />
-        </div>
-      </div>
-    </div>
-  );
+    // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
+    offset: 120,
+    delay: 0,
+    duration: 400,
+    easing: 'ease-in-out-quad',
+    once: false,
+    mirror: false,
+    anchorPlacement: 'top-bottom'
+
+  });
+
+const settings = {
+  dots: false,
+  arrows: false,
+  infinite: true,
+  speed: 1500,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  slidesToShow: 1,
+  slidesToScroll: 1
 };
 
-export default Slider;
+let slider = new Slider(settings);
+
+const next = () => {
+  slider.slickNext();
+}
+
+const previous = () => {
+  slider.slickPrev();
+}
+
+if (!Array.isArray(slides) || slides.length <= 0) {
+  return null
+}
+
+return (
+  <div className="slide-section">
+    <div>
+      <Slider ref={c => (slider = c)} {...settings}>
+        {slides.map((slide, index) => (
+          <div key={index}>
+            <div className="slide-preview" style={{ backgroundImage: "url('" + slide.image + "')" }}>
+              <div className="slide-content">
+                <h1 id="title" data-aos='fade-up'>{slide.title}</h1>
+                <p>{slide.subtitle}</p>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  {slide.label.map((item) => <Button title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+      <div className="slider-buttons">
+        <IoArrowBack className="prev-arrow" onClick={previous} />
+        <IoArrowForward className="forward-arrow" onClick={next} />
+      </div>
+    </div>
+  </div>
+);
+};
+
+export default BannerSlider;

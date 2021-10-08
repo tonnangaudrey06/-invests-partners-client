@@ -1,0 +1,49 @@
+$primary: #c5473b;
+$secondary: #585b60;
+$color-6: #eeeeee;
+
+@import "./components/descriptionProjet";
+@import "./components/detailsservices";
+@import "./components/enteteprojet";
+@import "./components/infoprojets";
+@import "./components/navigation";
+@import "./components/navigationservice";
+@import "./components/post";
+@import "./components/sidebar";
+@import "./components/videoPlay";
+
+.detailPage {
+    text-shadow: none !important;
+
+    .master {
+        padding-left: 60px;
+        padding-right: 60px;
+        .vidDesc {
+            margin-top: 100px;
+            .vidProj {
+                height: 100%;
+                background: black;
+            }
+        }
+        .corpsDetail {
+            margin-top: 40px;
+        }
+    }
+}
+
+.projet-details-tab {
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+        color: $primary !important;
+        background-color: #fff !important;
+        border-color: #dee2e6 #dee2e6 #fff !important;
+    }
+    .nav-tabs .nav-link {
+        margin-bottom: -1px !important;
+        background: $primary!important;
+        color: $color-6 !important;
+        border: 1px solid $primary !important;
+        border-top-left-radius: 0.25rem !important;
+        border-top-right-radius: 0.25rem !important;
+    }
+}
