@@ -3,11 +3,15 @@ import config from './config';
 import localStorage from './localstorage';
 import { CampayService } from '../services'
 
-axios.defaults.baseURL = config.CAMPAY;
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.headers.common['Accept'] = 'application/json';
+const instance = axios.create({
+    baseURL: config.CAMPAY,
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
+    }
+});
 
-axios.interceptors.request.use(
+instance.interceptors.request.use(
     request => {
         const token = localStorage.exist('campay-token') ? localStorage.get('campay-token') : null;
         if (token !== null && !request.url.includes('token')) {
@@ -20,7 +24,7 @@ axios.interceptors.request.use(
     }
 );
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
     response => {
         return response;
     },
@@ -30,15 +34,15 @@ axios.interceptors.response.use(
             if (error.response.status === 401) {
                 try {
                     await CampayService.token();
-                    return axios.request(originalConfig);
+                    return instance.request(originalConfig);
                 } catch (error) {
                     return Promise.reject(error);
                 }
             }
         }
-        
+
         return Promise.reject(error);
     }
 );
 
-export default axios;
+export default instance;

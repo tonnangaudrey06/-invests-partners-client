@@ -2,11 +2,15 @@ import axios from "axios";
 import config from './config';
 import localStorage from './localstorage';
 
-axios.defaults.baseURL = config.HOSTURL;
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.headers.common['Accept'] = 'application/json';
+const instance = axios.create({
+    baseURL: config.HOSTURL,
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
+    }
+});
 
-axios.interceptors.request.use(
+instance.interceptors.request.use(
     request => {
         const token = localStorage.get('token');
         if (token !== null) {
@@ -19,7 +23,7 @@ axios.interceptors.request.use(
     }
 );
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
     response => {
         return response;
     },
@@ -28,4 +32,4 @@ axios.interceptors.response.use(
     }
 );
 
-export default axios;
+export default instance;
