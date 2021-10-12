@@ -50,7 +50,7 @@ const Header = ({ removeUser, auth, headerActive }) => {
   };
 
   const changeBackgroundColor = () => {
-    if (headerActive) {
+    if (headerActive || click) {
       setColor(true)
     } else if (window.scrollY >= 66) {
       setColor(true)
