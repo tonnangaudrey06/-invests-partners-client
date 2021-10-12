@@ -49,7 +49,7 @@ const Projet = (props) => {
           {(secteurs || []).map((item, index) => (
             <div className="col-sm-12 col-md-6 col-lg-3">
               <div className="secteur-item shadow-lg" onClick={() => { history.push(`/projets/${item.id}`) }}>
-                <div className="secteur-content" data-content={item.libelle} style={{ backgroundImage: item.photo ? `url(${item.image})` : `url(${secteurImg})` }}></div>
+                <div className="secteur-content" data-content={item.libelle} style={{ backgroundImage: item.photo ? `url(${item.photo})` : `url(${secteurImg})` }}></div>
               </div>
             </div>
           ))}
