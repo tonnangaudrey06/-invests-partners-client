@@ -32,9 +32,9 @@ const CustomSlide = ({ projet, ...props }) => {
     <div className="p-3" {...props}>
       <div className="projet-ip-item d-flex justify-content-start">
         <div className="projet-ip-image">
-          <img src={projet.image} alt="" />
+          <img src={projet.image} alt="" style={{borderRadius: "10px 0 0 10px"}} />
         </div>
-        <div className="projet-ip-content">
+        <div className="projet-ip-content justify-content-center" >
           <h3>{projet.title}</h3>
           <p>{projet.content}</p>
           <Popup
@@ -80,10 +80,55 @@ const HomeScreen = () => {
     slidesToShow: 2,
     slidesToScroll: 1,
     speed: 500,
-    arrows: false
+    arrows: false,
+    
+
+    
+  };
+
+  var settings2 = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    adaptiveHeight: true,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          button: false,
+          initialSlide: 0,
+          lazyLoad: true,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
 
   let slider = new Slider(settings);
+  let slider2 = new Slider(settings2);
 
   const next = () => {
     slider.slickNext();
@@ -117,36 +162,36 @@ const HomeScreen = () => {
 
         <div className="section-banner">
           <img alt="Banner backgound" src={image1} className="banner-image" />
-          <div className="banner-wrapper">
+          <div className="banner-wrapper  ">
             <div className="banner-content">
-              <h5>Votre meilleur partenaire d'affaire</h5>
-              <p className="fs-5">Faire le choix de cheminer avec Invests & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
+              <h5 style={{ marginTop: '.5em' }}>Votre meilleur partenaire d'affaire</h5>
+              <p className="sousT">Faire le choix de cheminer avec Invests & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
               {navigateBanner &&
-                <div className="fs-5 lh-base mt-2">
-                  <p><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Invests & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p>
-                  <p className="mt-1"><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</p>
-                  <p className="mt-1"><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</p>
+                <div className="vv lh-base mt-1 ">
+                  <p className="inner-wrapper" style={{ marginTop: '.5em' }} ><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Invests & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p>
+                  <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</p>
+                  <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</p>
                 </div>
               }
               {!navigateBanner &&
-                <div className="fs-5 lh-base mt-2">
-                  <p><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</p>
-                  <p className="mt-2"><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</p>
+                <div className="fs-5 lh-base mt-1 vv">
+                  <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</p>
+                  <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</p>
                 </div>
               }
             </div>
             <div className="banner-button">
-              <FaArrowLeft className="previous" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' size={30} />
-              <FaArrowRight className="next" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' size={30} />
+              <FaArrowLeft className="previous" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' />
+              <FaArrowRight className="next" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' />
             </div>
           </div>
         </div>
 
         <div className="section-expert pt-3 pb-5">
           <SectionTitle title="NOS EXPERTS" />
-          <div className="expert-grid mt-5">
+          <div className="expert-grid mt-5 row">
             {HomeData.expertsData.map((item, index) => (
-              <div key={index} className="expert-item">
+              <div key={index} className="expert-item col-sm">
                 <div style={{ width: '100%' }}>
                   <img className="expert-image" alt="Expert I&P" src={item.image} />
                 </div>
@@ -187,12 +232,15 @@ const HomeScreen = () => {
           </div>
         </div>
 
-        <div className="section-partner pt-3 pb-5 bg-light">
+        <div className="section-partner container-fluid pt-3 pb-5 bg-white">
           <SectionTitle title="NOS PARTENAIRES" />
           <div className="partner-text mt-5">
             <p>Invests & Partners s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes.</p>
-            <div className="mt-4">
-              <img className="partner-image" alt="Partenaires" src={image2} />
+            <div className="mt-4 row">
+              <div className="col-sm">
+                <img className="partner-image" alt="Partenaires" src={image2} />
+              </div>
+              
             </div>
           </div>
         </div>
@@ -201,14 +249,14 @@ const HomeScreen = () => {
           <SectionTitle title="Nos projets" />
           <div className="projet-ip-container mt-5">
             <div className="projet-ip-wrapper">
-              <Slider ref={c => (slider = c)} {...settings}>
+              <Slider ref={c => (slider = c)} {...settings2}>
                 {HomeData?.projectsData.map((item, index) => (
                   <CustomSlide projet={item} key={index} />
                 ))}
               </Slider>
             </div>
             <div>
-              <span className="projet-ip-button-left" onClick={previous}>
+              <span className="projet-ip-button-left " onClick={previous}>
                 <IoArrowBack />
               </span>
               <span className="projet-ip-button-right" onClick={next}>

@@ -55,29 +55,35 @@ if (!Array.isArray(slides) || slides.length <= 0) {
 }
 
 return (
-  <div className="slide-section">
-    <div>
+  <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+      <div className="slide-section carousel-inner" role="listbox">
       <Slider ref={c => (slider = c)} {...settings}>
         {slides.map((slide, index) => (
-          <div key={index}>
-            <div className="slide-preview" style={{ backgroundImage: "url('" + slide.image + "')" }}>
-              <div className="slide-content">
-                <h1 id="title" data-aos='fade-up'>{slide.title}</h1>
-                <p>{slide.subtitle}</p>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  {slide.label.map((item) => <Button title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
-                </div>
+          <div class="carousel-item active">
+              <img class="d-block img-fluid" src={slide.image} alt={slide.image}/>
+              <div className="filter"></div>
+              <div class="carousel-caption text-white ">
+                  <h1 id="title"  data-aos='fade-up'>{slide.title}</h1>
+                  <div className="mb-2 textEntete">{slide.subtitle}</div>
+                  <div class="d-grid gap-2  bouttonEntete">
+                      {slide.label.map((item) => <Button title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
+                  </div>
               </div>
-            </div>
           </div>
-        ))}
-      </Slider>
-      <div className="slider-buttons">
+        ))}</Slider>
+
+    <div className="slider-buttons">
         <IoArrowBack className="prev-arrow" onClick={previous} />
         <IoArrowForward className="forward-arrow" onClick={next} />
       </div>
-    </div>
+                                
+      </div>
+
+
+      
+ 
   </div>
+  
 );
 };
 

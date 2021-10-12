@@ -15,7 +15,7 @@ const Button = ({ title, borderColor, color }) => {
     };
 
     return (
-        <button style={css}>{title}</button>
+        <button type="button" className="btn" style={css}>{title}</button>
     )
 }
 

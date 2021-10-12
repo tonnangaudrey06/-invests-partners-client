@@ -22,7 +22,7 @@ const SliderData = [
         alt: 'image 1'
     },
     {
-        title: 'Investisseurs, développez votre patrimoine',
+        title: 'Investisseurs, developpez votre patrimoine',
         subtitle: 'Réelle alternative au placement boursier ou bancaire, l’investissement dans des entreprises non-cotées vous permet de participer activement au dynamisme économique de votre territoire. Découvrez une grande diversité de projets, tous validés par nos experts financiers.',
         Path: '/',
         label: [
