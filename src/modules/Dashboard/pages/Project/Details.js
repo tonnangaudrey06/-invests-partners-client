@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Navigation } from 'react-minimal-side-navigation';
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
 
+import Button from '@mui/material/Button';
+
 import { AiOutlineEdit } from "react-icons/ai";
 
-// import { Container } from "../../../components";
 import DashContainer from '../../components/DashContainer';
 import RightSide from '../../components/RightSide';
 
@@ -68,7 +69,10 @@ const ProjectDetails = (props) => {
     return (
         <div>
             <div className="projects-details-dashboard-top" style={{ background: `url(${banner})` }}>
-                <AiOutlineEdit fill="white" style={{ cursor: 'pointer', position: 'absolute', right: 10, top: 10, zIndex: 2 }} size={30} />
+
+                <div style={{ cursor: 'pointer', position: 'absolute', right: 10, bottom: 10, zIndex: 2 }}>
+                    <Button className="btn-default" variant="contained">Payer les frais d'etude</Button>
+                </div>
                 <div className="projects-details-dashboard-top" >
                     <h1 className="title-container">{projet?.intitule}</h1>
                 </div>

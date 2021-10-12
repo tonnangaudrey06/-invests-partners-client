@@ -21,8 +21,11 @@ import { GiHistogram } from 'react-icons/gi';
 
 import { Container } from '../../../components';
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
-const ProjetTown = ({ match, location, history }) => {
+import { moneyFormat } from '../../../core/utils/helpers';
+
+const ProjetTown = ({ match, location, history, user }) => {
 
     const { params: { section, town } } = match;
 
@@ -50,8 +53,8 @@ const ProjetTown = ({ match, location, history }) => {
     }, [section, town]);
 
     return (
-        <Container header headerActive active="projets" footer>
-            <div className="projects-top-all-projet bg-light pb-5">
+        <Container header headerActive active="projets" className="bg-light" footer>
+            <div className="projects-top-all-projet bg-white pb-5">
                 <div className="search-bar-container-all-projet">
                     <div className="container">
                         <div className="row gy-3">
@@ -148,36 +151,43 @@ const ProjetTown = ({ match, location, history }) => {
 
             <Divider />
 
-            <div className="container-md my-5">
+            <div className="container-md py-5">
                 <div className="row g-5">
                     {projets.map((item, index) => (
                         <div key={index} className="col-sm-12 col-md-6 col-lg-4">
-                            <Card classes={{ root: 'projects-cards bg-light' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }}>
+                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }}>
                                 <CardMedia
                                     component="img"
                                     height="170"
-                                    image={item.logo ? item.logo : projetimg}
-                                    alt={item.intitule}
+                                    image={item?.logo ? item.logo : projetimg}
+                                    alt={item?.intitule}
                                 />
                                 <CardContent>
                                     <div className="projects-cards-title-container mb-1">
-                                        <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none text-dark">
-                                            <h5 className="fw-bold">{item.intitule}</h5>
-                                        </Link>
+                                        {user?.profil_invest?.montant_max > item.financement ? (
+                                            <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none text-dark">
+                                                <h5 className="fw-bold">{item.intitule}</h5>
+                                            </Link>
+                                        ) : (
+                                            <h5 className="fw-bold text-muted">{item.intitule}</h5>
+                                        )}
                                         <AiOutlineHeart fill={"#c5473b"} size={25} />
                                     </div>
-                                    <p className="projects-cards-content mb-1">{item.description}</p>
-                                    <p className="mb-1 text-primary fw-bold">{item.financement} XAF déjà investi</p>
-                                    <div className="projects-cards-bottom">
-                                        <div>{item.investisseur?.lenght} contributions</div>
+                                    <p className={user?.profil_invest?.montant_max > item.financement ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
+                                    <p className={user?.profil_invest?.montant_max > item.financement ? "mb-1 text-primary fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
+                                    <div className={user?.profil_invest?.montant_max > item.financement ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
+                                        <div>{moneyFormat(item.iv_count)} contributions</div>
                                         <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div>
                                     </div>
                                 </CardContent>
-                                <div className="projects-cards-plus">
-                                    <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
-                                        En savoir plus
-                                    </Link>
-                                </div>
+                                {user?.profil_invest?.montant_max > item.financement && (
+                                    <div className="projects-cards-plus">
+                                        <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
+                                            En savoir plus
+                                        </Link>
+                                    </div>
+                                )}
+
                             </Card>
                         </div>
                     ))}
@@ -188,4 +198,6 @@ const ProjetTown = ({ match, location, history }) => {
     );
 }
 
-export default ProjetTown;
+const mapStateToProps = (state) => ({ user: state.auth.user });
+
+export default connect(mapStateToProps)(ProjetTown);

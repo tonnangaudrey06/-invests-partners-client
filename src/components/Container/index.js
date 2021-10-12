@@ -1,10 +1,10 @@
 import { Footer, Header } from "..";
 
-const Container = ({ children, header, footer, headerActive }) => {
+const Container = ({ children, header, footer, headerActive, className }) => {
   return (
     <>
       {header && <Header headerActive={headerActive} />}
-      <div>{children}</div>
+      <div className={className}>{children}</div>
       {footer && <Footer />}
     </>
   );

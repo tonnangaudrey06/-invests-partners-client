@@ -36,11 +36,12 @@ import { MdAddCircle } from 'react-icons/md';
 import { MdRemoveCircle } from "react-icons/md";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-// import { Container } from '../../../../components';
+import { CurrencyInput } from '../../../../components';
 import { ScrollToTopOnMount } from '../../../../navigation/ScrollToTop'
 
 import { UserService, MembreService, SecteurService, ProjetService } from '../../../../core/services'
 import { user } from '../../../../core/reducers/auth/actions'
+import { setLoadingFalse, setLoadingTrue } from '../../../../core/reducers/app/actions'
 
 import expert from '../../../../assets/img/profil.jpg'
 
@@ -68,7 +69,7 @@ const ProjetAdd = (props) => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [completed, setCompleted] = React.useState({});
     const [modalOpen, setModalOpen] = React.useState(false);
-    // const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const [tab, setTab] = React.useState('new');
     const [message, setMessage] = React.useState('');
     const [success, setSuccess] = React.useState(false);
@@ -92,7 +93,6 @@ const ProjetAdd = (props) => {
     // const [user, setUser] = React.useState(null);
 
     const isLastStep = () => {
-        console.log('last', activeStep === steps.length);
         return activeStep === steps.length - 1;
     };
 
@@ -126,11 +126,12 @@ const ProjetAdd = (props) => {
         let formData = new FormData();
         formData.append('type', type);
         formData.append('document', e.target.files[0]);
-        // setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(auth?.user?.id, formData).then(
             (rs) => {
                 // setUser(rs.data.data);
                 props.setUserData(rs.data.data);
+                props.setLoadingFalse();
                 setMessage(type + ' mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -142,7 +143,7 @@ const ProjetAdd = (props) => {
                     error.message ||
                     error.toString();
 
-                // setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -161,9 +162,10 @@ const ProjetAdd = (props) => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    // const handleStep = (step) => () => {
-    //     setActiveStep(step);
-    // };
+    const getSelectedSecteur = () => {
+        console.log(projet?.secteur);
+        return (secteurs || []).find(secteur => secteur.id === +projet?.secteur);
+    };
 
     const loadSecteur = () => {
         SecteurService.getAll().then(response => {
@@ -179,6 +181,7 @@ const ProjetAdd = (props) => {
 
     const saveMembre = (e) => {
         e.preventDefault();
+        props.setLoadingTrue();
         if (tab === 'new') {
             let formData = new FormData();
             for (const key of Object.keys(membre)) {
@@ -188,6 +191,7 @@ const ProjetAdd = (props) => {
                 (response) => {
                     setMembres([...membres, { membre: response.data.data, statut: statutNewMembre }]);
                     setUserMembres([...userMembres, response.data.data]);
+                    props.setLoadingFalse();
                 },
                 (error) => {
                     const resMessage =
@@ -196,14 +200,19 @@ const ProjetAdd = (props) => {
                             error.response.data.message) ||
                         error.message ||
                         error.toString();
+
+                    props.setLoadingFalse();
                     setMessage(resMessage);
                     handleErrorAlertOpen();
                 });
         } else {
-            const checkMembre = membres.find(elt => elt?.membre?.id === membreSelect.id);
-            if (!checkMembre) {
-                setMembres([...membres, { membre: membreSelect, statut: statutNewMembre }]);
+            if (!membreSelect) {
+                const checkMembre = membres.find(elt => elt?.membre?.id === membreSelect.id);
+                if (!checkMembre) {
+                    setMembres([...membres, { membre: membreSelect, statut: statutNewMembre }]);
+                }
             }
+            props.setLoadingFalse();
         }
 
         setStatutNewMembre('Chef du projet');
@@ -233,6 +242,8 @@ const ProjetAdd = (props) => {
         e.preventDefault();
         let formData = new FormData();
 
+        props.setLoadingTrue();
+
         if (logo) {
             formData.append('logo', logo)
         }
@@ -253,6 +264,7 @@ const ProjetAdd = (props) => {
 
         ProjetService.addProjet(formData).then(
             (rs) => {
+                props.setLoadingFalse();
                 props.history.goBack();
             },
             (error) => {
@@ -262,6 +274,8 @@ const ProjetAdd = (props) => {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
+
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -278,18 +292,12 @@ const ProjetAdd = (props) => {
             photo: null,
             user: auth.user.id
         })
-        // setUser({
-        //     email: '',
-        //     telephone: '',
-        //     pays: null,
-        //     ville: ''
-        // })
         setProjet({
             intitule: '',
             secteur: '',
             site: '',
             niveau: 'IDEE',
-            financement: 0,
+            financement: '',
             pays_activite: 'Cameroun',
             ville_activite: '',
             description: '',
@@ -304,13 +312,17 @@ const ProjetAdd = (props) => {
     const changeUser = (e, data) => {
         e.preventDefault();
 
+        props.setLoadingTrue();
+
         if (!e.target.value) {
+            props.setLoadingFalse();
             return;
         }
+
         UserService.updateProfil(auth?.user.id, data).then(
             (rs) => {
                 props.setUserData(rs.data.data);
-                // setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Profil mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -323,7 +335,7 @@ const ProjetAdd = (props) => {
                     error.toString();
 
                 setMessage(resMessage);
-                // setLoading(false);
+                props.setLoadingFalse();
                 handleErrorAlertOpen();
             }
         );
@@ -332,10 +344,13 @@ const ProjetAdd = (props) => {
     const changeCni = (e) => {
         let formData = new FormData();
         formData.append('cni', e.target.files[0]);
+
+        props.setLoadingTrue();
+
         UserService.updateCNI(auth?.user.id, formData).then(
             (rs) => {
                 props.setUserData(rs.data.data);
-                // setLoading(false);
+                props.setLoadingFalse();
                 setMessage('CNI mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -389,19 +404,27 @@ const ProjetAdd = (props) => {
     };
 
     const checkUserDone = () => {
-        if (auth.user?.status === "PARTICULIER") {
-            if (!auth.user?.cni) {
-                return false;
-            }
-            return true;
-        }
-
         if (!auth?.user?.telephone) {
             return false;
         }
 
         if (!auth?.user?.email) {
             return false;
+        }
+
+        if (!auth?.user?.pays) {
+            return false;
+        }
+
+        if (!auth?.user?.ville) {
+            return false;
+        }
+
+        if (auth.user?.status === "PARTICULIER") {
+            if (!auth.user?.cni) {
+                return false;
+            }
+            return true;
         }
 
         if (!checkFiscal('CARTE_CONTRIBUABLE')) {
@@ -435,7 +458,7 @@ const ProjetAdd = (props) => {
                             <p className="text-muted mb-5">Vérifier vos informations personnelles avant de procédé à la creation de votre projet. <span className="fw-bolder">NB: Les chapms avec (*) sont obligatoires</span></p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={12}>
-                                    <p className="fw-bolder fs-5">Nom complet</p>
+                                    <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Votre nom complet" : "Nom de l'entreprise"}</p>
                                     <p className="fs-6">{auth.user.nom_complet}</p>
                                     <Divider></Divider>
                                 </Grid>
@@ -449,8 +472,10 @@ const ProjetAdd = (props) => {
                                     ) : (
                                         <TextField
                                             fullWidth
+                                            required
                                             variant="filled"
                                             label="Email"
+                                            size="small"
                                             placeholder="Email"
                                             value={auth?.user?.email}
                                             onBlur={(e) => changeUser(e, { email: e.target.value })}
@@ -467,7 +492,9 @@ const ProjetAdd = (props) => {
                                     ) : (
                                         <TextField
                                             fullWidth
+                                            required
                                             variant="filled"
+                                            size="small"
                                             label="Numéro de téléphone"
                                             placeholder="Numéro de téléphone"
                                             value={auth?.user?.telephone}
@@ -478,21 +505,23 @@ const ProjetAdd = (props) => {
                                 <Grid item xs={12} md={6} className="mt-1">
                                     {auth.user.pays ? (
                                         <>
-                                            <p className="fw-bolder fs-5">Pays de résidence</p>
+                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}</p>
                                             <p className="fs-6">{auth.user.pays}</p>
                                             <Divider></Divider>
                                         </>
                                     ) : (
                                         <TextField
                                             fullWidth
+                                            required
+                                            size="small"
                                             select
                                             SelectProps={{
                                                 native: true,
                                             }}
                                             defaultValue=""
                                             variant="filled"
-                                            label="Pays de résidence"
-                                            placeholder="Pays de résidence"
+                                            label={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Ville d'activité"}
+                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}
                                             onChange={(e) => changeUser(e, { pays: e.target.value })}
                                         >
                                             <option>Aucun</option>
@@ -507,38 +536,59 @@ const ProjetAdd = (props) => {
                                 <Grid item xs={12} md={6} className="mt-1">
                                     {auth.user.ville ? (
                                         <>
-                                            <p className="fw-bolder fs-5">Ville de résidence</p>
+                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}</p>
                                             <p className="fs-6">{auth.user.ville}</p>
                                             <Divider></Divider>
                                         </>
                                     ) : (
                                         <TextField
                                             fullWidth
+                                            required
+                                            size="small"
                                             variant="filled"
-                                            label="Ville de résidence"
-                                            placeholder="Ville de résidence"
+                                            label={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
+                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
                                             value={auth?.user?.ville}
                                             onBlur={(e) => changeUser(e, { ville: e.target.value })}
                                         />
                                     )}
                                 </Grid>
+                                {(auth.user?.status === 'ENTREPRISE') && (
+                                    <Grid item xs={12} md={12}>
+                                        <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                                            <h5 className="fw-bolder">Création de l'entreprise ?</h5>
+                                            <RadioGroup
+                                                row
+                                                aria-label="etat"
+                                                name="row-etat-buttons-group"
+                                                value={user.anciennete}
+                                                onChange={(e, value) => changeUser(e, { anciennete: value })}
+                                            >
+                                                <FormControlLabel value={-1} control={<Radio />} label="Moins d'un an six mois" />
+                                                <FormControlLabel value={1} control={<Radio />} label="Plus ou égale à un an" />
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </Grid>
+                                )}
                                 <Grid item xs={12} md={12} className="mt-1">
                                     <FormControl sx={{ m: 1, width: '100%' }}>
                                         {auth.user.status === 'PARTICULIER' && (
                                             <>
                                                 {auth.user?.cni ? (
-                                                    <Chip
-                                                        icon={<CheckCircleIcon />}
-                                                        label="CNI"
-                                                        color={"success"}
-                                                        variant="outlined"
-                                                    />
+                                                    <label className="cursor-pointer d-flex align-items-center flex-column w-25">
+                                                        <Chip className="w-100"
+                                                            icon={<CheckCircleIcon />}
+                                                            label="CNI/Passport"
+                                                            color={"success"}
+                                                            variant="outlined"
+                                                        />
+                                                    </label>
                                                 ) : (
-                                                    <label htmlFor="doc-fisc-rccm" className="cursor-pointer">
-                                                        <Input id="doc-fisc-rccm" type="file" onChange={changeCni} />
-                                                        <Chip className="cursor-pointer" component="span"
+                                                    <label htmlFor="doc-fisc-rccm" className="cursor-pointer d-flex align-items-center flex-column w-25">
+                                                        <Input id="doc-fisc-rccm" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={changeCni} />
+                                                        <Chip className="cursor-pointer w-100" component="span"
                                                             icon={<AddCircleOutlineIcon />}
-                                                            label="CNI"
+                                                            label="CNI/Passport"
                                                             color={"error"}
                                                             variant="outlined"
                                                         />
@@ -550,132 +600,183 @@ const ProjetAdd = (props) => {
 
                                         {auth.user.status === 'ENTREPRISE' && (
                                             <div className="d-flex justify-content-start align-items-center flex-wrap w-100">
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('RCCM') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="RCCM"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-rccm" className="cursor-pointer">
-                                                            <Input id="doc-fisc-rccm" type="file" onChange={(e) => changeDocumentFiscal(e, 'RCCM')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="RCCM"
-                                                                color={"error"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer le RCCM<br />(ce documemt est obligatoire)</p>
-                                                        </label>
-                                                    )}
-                                                </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('CARTE_CONTRIBUABLE') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="Carte contribuable"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-cc" className="cursor-pointer">
-                                                            <Input id="doc-fisc-cc" type="file" onChange={(e) => changeDocumentFiscal(e, 'CARTE_CONTRIBUABLE')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="Carte contribuable"
-                                                                color={"error"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer la carte contribuable<br />(ce documemt est obligatoire)</p>
-                                                        </label>
-                                                    )}
-                                                </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('DSF') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="DSF"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-dsf" className="cursor-pointer">
-                                                            <Input id="doc-fisc-dsf" type="file" onChange={(e) => changeDocumentFiscal(e, 'DSF')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="DSF"
-                                                                color={"secondary"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer la DSF</p>
-                                                        </label>
-                                                    )}
-                                                </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('COMPTE_EXPLOITATION') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="Compte d'exploitation"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-ce" className="cursor-pointer">
-                                                            <Input id="doc-fisc-ce" type="file" onChange={(e) => changeDocumentFiscal(e, 'COMPTE_EXPLOITATION')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="Compte d'exploitation"
-                                                                color={"secondary"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer le compte d'exploitation</p>
-                                                        </label>
-                                                    )}
-                                                </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('ANR') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="ANR"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-anr" className="cursor-pointer">
-                                                            <Input id="doc-fisc-anr" type="file" onChange={(e) => changeDocumentFiscal(e, 'ANR')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="ANR"
-                                                                color={"secondary"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer l'ANR</p>
-                                                        </label>
-                                                    )}
-                                                </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                    {checkFiscal('ATTESTATION_DOMICILIATION_BANCAIRE') ? (
-                                                        <Chip
-                                                            icon={<CheckCircleIcon />}
-                                                            label="Attestation domiciliation bancaire"
-                                                            color={"success"}
-                                                            variant="outlined"
-                                                        />
-                                                    ) : (
-                                                        <label htmlFor="doc-fisc-adb" className="cursor-pointer">
-                                                            <Input id="doc-fisc-adb" type="file" onChange={(e) => changeDocumentFiscal(e, 'ATTESTATION_DOMICILIATION_BANCAIRE')} />
-                                                            <Chip className="cursor-pointer" component="span"
-                                                                icon={<AddCircleOutlineIcon />}
-                                                                label="Attestation domiciliation bancaire"
-                                                                color={"secondary"}
-                                                                variant="outlined"
-                                                            />
-                                                            <p className="small text-muted">Cliquez pour importer l'attestation domiciliation bancaire</p>
-                                                        </label>
-                                                    )}
-                                                </div>
+                                                {(auth.user?.anciennete && auth.user?.anciennete === -1) &&
+                                                    <>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('RCCM') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="RCCM"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-rccm" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-rccm" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'RCCM')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="RCCM"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer le RCCM<br />(ce documemt est obligatoire)</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('CARTE_CONTRIBUABLE') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Carte contribuable"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-cc" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-cc" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'CARTE_CONTRIBUABLE')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Carte contribuable"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer la carte contribuable<br />(ce documemt est obligatoire)</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                    </>
+                                                }
+
+                                                {(auth.user?.anciennete && auth.user?.anciennete === 1) &&
+                                                    <>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('RCCM') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="RCCM"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-rccm" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-rccm" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'RCCM')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="RCCM"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer le RCCM</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('CARTE_CONTRIBUABLE') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Carte contribuable"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-cc" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-cc" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'CARTE_CONTRIBUABLE')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Carte contribuable"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer la carte contribuable</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('DSF') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="DSF"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-dsf" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-dsf" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'DSF')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="DSF"
+                                                                        color={"secondary"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer la DSF</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('COMPTE_EXPLOITATION') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Compte d'exploitation"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-ce" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-ce" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'COMPTE_EXPLOITATION')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Compte d'exploitation"
+                                                                        color={"secondary"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer le compte d'exploitation</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('ANR') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="ANR"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-anr" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-anr" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'ANR')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="ANR"
+                                                                        color={"secondary"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer l'ANR</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('ATTESTATION_DOMICILIATION_BANCAIRE') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Attestation domiciliation bancaire"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-adb" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-adb" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'ATTESTATION_DOMICILIATION_BANCAIRE')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Attestation domiciliation bancaire"
+                                                                        color={"secondary"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer l'attestation domiciliation bancaire</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                    </>
+                                                }
                                             </div>
                                         )}
                                     </FormControl>
@@ -687,13 +788,14 @@ const ProjetAdd = (props) => {
                         <div>
                             <ScrollToTopOnMount />
                             <h3 className="fw-bolder">Informations générales du projet</h3>
-                            <p className="text-muted mb-5">Rempliser les champs suivant avant de soumettre votre projet.</p>
+                            <p className="text-muted mb-5">Rempliser les champs suivant avant de soumettre votre projet. <span className="fw-bolder">NB: Les chapms avec (*) sont obligatoires</span></p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={6}>
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <TextField
                                             fullWidth
                                             required
+                                            size="small"
                                             variant="filled"
                                             label="Nom du projet"
                                             placeholder="Nom du projet"
@@ -708,6 +810,7 @@ const ProjetAdd = (props) => {
                                             fullWidth
                                             required
                                             select
+                                            size="small"
                                             SelectProps={{
                                                 native: true,
                                             }}
@@ -718,7 +821,7 @@ const ProjetAdd = (props) => {
                                             value={projet.secteur}
                                             onChange={(e) => setProjet({ ...projet, secteur: e.target.value })}
                                         >
-                                            <option value={''}>Aucun</option>
+                                            <option value=''>Secteur d'activité</option>
                                             {secteurs.map((item, index) => (
                                                 <option key={item.id} value={item.id}>
                                                     {item.libelle}
@@ -752,31 +855,46 @@ const ProjetAdd = (props) => {
 
                                 <Grid item xs={12} md={12}>
                                     <FormControl sx={{ m: 1, width: "100%" }}>
-                                        <TextField
-                                            fullWidth
-                                            required
-                                            variant="filled"
-                                            type="number"
-                                            InputProps={{
-                                                inputMode: 'numeric',
-                                                pattern: '[0-9]*',
-                                                startAdornment: <InputAdornment position="start">XAF</InputAdornment>
-                                            }}
-
+                                        <CurrencyInput
                                             label="Besoin d'un financement de"
                                             placeholder="Financement"
+                                            required
+                                            minimumValue="0"
+                                            color="primary"
+                                            digitGroupSeparator=" "
+                                            size="small"
+                                            variant="filled"
+                                            textAlign="left"
                                             value={projet.financement}
-                                            onChange={(e) => setProjet({ ...projet, financement: e.target.value })}
+                                            currencySymbol="XAF"
+                                            onChange={(event, value) => setProjet({ ...projet, financement: value })}
                                         />
+                                        {/* <TextField
+                                                fullWidth
+                                                required
+                                                variant="filled"
+                                                type="number"
+                                                InputProps={{
+                                                    inputMode: 'numeric',
+                                                    pattern: '[0-9]*',
+                                                    startAdornment: <InputAdornment position="start">XAF</InputAdornment>
+                                                }}
+
+                                                label="Besoin d'un financement de"
+                                                placeholder="Financement"
+                                                value={projet.financement}
+                                                onChange={(e) => setProjet({ ...projet, financement: e.target.value })}
+                                            /> */}
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12} md={12}>
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <TextField
                                             fullWidth
+                                            size="small"
                                             variant="filled"
                                             type="url"
-                                            label="Site web"
+                                            label="Site web du projet"
                                             placeholder="Site web"
                                             value={projet.site}
                                             onChange={(e) => setProjet({ ...projet, site: e.target.value })}
@@ -787,6 +905,7 @@ const ProjetAdd = (props) => {
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <TextField
                                             fullWidth
+                                            size="small"
                                             select
                                             required
                                             SelectProps={{
@@ -812,6 +931,7 @@ const ProjetAdd = (props) => {
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <TextField
                                             fullWidth
+                                            size="small"
                                             required
                                             variant="filled"
                                             label="Ville d'activité"
@@ -825,6 +945,7 @@ const ProjetAdd = (props) => {
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <TextField
                                             fullWidth
+                                            size="small"
                                             required
                                             variant="filled"
                                             label="Brève description de votre projet"
@@ -850,7 +971,14 @@ const ProjetAdd = (props) => {
                                         </label>
                                         {logo && (
                                             <List sx={{ width: '100%' }}>
-                                                <ListItem disableGutters>
+                                                <ListItem
+                                                    disableGutters
+                                                    secondaryAction={
+                                                        <IconButton color="primary" onClick={() => setLogo(null)} edge="end">
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    }
+                                                >
                                                     <ListItemAvatar>
                                                         <Avatar>
                                                             <ImageIcon />
@@ -867,7 +995,7 @@ const ProjetAdd = (props) => {
                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                         <h5 className="fw-bolder">Document de présentation du projet</h5>
                                         <label htmlFor="doc-presentation">
-                                            <Input id="doc-presentation" type="file" onChange={changeProjetDoc} />
+                                            <Input accept="image/jpeg,image/gif,image/png,application/pdf" id="doc-presentation" type="file" onChange={changeProjetDoc} />
                                             <Button className="btn-default" variant="contained" component="span">
                                                 Ajouter
                                             </Button>
@@ -875,7 +1003,14 @@ const ProjetAdd = (props) => {
                                         </label>
                                         {doc_presentation && (
                                             <List sx={{ width: '100%' }}>
-                                                <ListItem disableGutters>
+                                                <ListItem
+                                                    disableGutters
+                                                    secondaryAction={
+                                                        <IconButton color="primary" onClick={() => setDocPresentation(null)} edge="end">
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    }
+                                                >
                                                     <ListItemAvatar>
                                                         <Avatar>
                                                             <ImageIcon />
@@ -1089,7 +1224,6 @@ const ProjetAdd = (props) => {
                                                                     value={membreSelect?.id}
                                                                     onChange={setNewMembre}
                                                                 >
-                                                                    <option value={''}>Aucun</option>
                                                                     {userMembres.map((item, index) => (
                                                                         <option key={item.id} value={item.id}>
                                                                             {item.nom_complet}
@@ -1151,13 +1285,13 @@ const ProjetAdd = (props) => {
                             <p className="text-muted mb-5">Vérifier les informations de votre projet avant de le soumettre. Il n'y aura pas de retour en arrière après soumission de votre projet.</p>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={12}>
-                                    <p className="fw-bolder fs-5">Projet</p>
+                                    <p className="fw-bolder fs-5">Nom du projet</p>
                                     <p className="fs-6">{projet?.intitule}</p>
                                     <Divider></Divider>
                                 </Grid>
                                 <Grid item xs={12} md={6} className="mt-1">
                                     <p className="fw-bolder fs-5">Secteur d'activité</p>
-                                    <p className="fs-6">{projet?.secteur}</p>
+                                    <p className="fs-6">{getSelectedSecteur()?.libelle}</p>
                                     <Divider></Divider>
                                 </Grid>
                                 <Grid item xs={12} md={6} className="mt-1">
@@ -1286,7 +1420,7 @@ const ProjetAdd = (props) => {
                     >
                         Précedent
                     </Button>
-                    {activeStep !== steps.length-1 && (
+                    {activeStep !== steps.length - 1 && (
                         <Button
                             className="btn-default"
                             variant="contained"
@@ -1297,8 +1431,8 @@ const ProjetAdd = (props) => {
                             Suivant
                         </Button>
                     )}
-                    
-                    {activeStep === steps.length-1 && (
+
+                    {activeStep === steps.length - 1 && (
                         <Button
                             className="btn-default"
                             variant="contained"
@@ -1310,13 +1444,13 @@ const ProjetAdd = (props) => {
                     )}
                 </Box>
             </form>
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
             </Snackbar>
 
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
@@ -1329,7 +1463,9 @@ const mapStateToProps = (state) => ({ auth: state.auth })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUserData: (payload) => dispatch(user(payload))
+        setUserData: (payload) => dispatch(user(payload)),
+        setLoadingTrue: (payload) => dispatch(setLoadingTrue()),
+        setLoadingFalse: (payload) => dispatch(setLoadingFalse())
     }
 };
 

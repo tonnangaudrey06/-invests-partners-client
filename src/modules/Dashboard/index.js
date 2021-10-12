@@ -40,9 +40,13 @@ const Dashboard = (props) => {
         }
     };
 
-    const logoutUser = () => {
-        AuthService.logout()
-        removeUser()
+    const logoutUser = async () => {
+        try {
+            await AuthService.logout()
+            removeUser()
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -68,7 +72,7 @@ const Dashboard = (props) => {
                     </div>
                     <div className="my-3 pt-5">
                         <Switch history={history}>
-                            <Route exact path={`${match.path}/projets/add`} render={(props) => <ProjetAdd history={history} rootUrl={match.url} /> } />
+                            <Route exact path={`${match.path}/projets/add`} render={(props) => <ProjetAdd history={history} rootUrl={match.url} />} />
                             <Route exact path={`${match.path}/projets`} component={ProjetList} />
                             <Route exact path={`${match.path}/projets/:id`} component={ProjectDetails} />
                             <Route exact path={`${match.path}/messages`} component={MessagesPorteurProjet} />

@@ -3,28 +3,38 @@ import config from '../utils/config'
 import localstorage from '../utils/localstorage'
 
 class CampayService {
+    payInscription(numero) {
+        const data = {
+            amount: 10,
+            currency: "XAF",
+            from: numero,
+            description: 'Creation de votre compte d\'investisseur sur la plateforme Invest & Partners',
+            external_reference: "",
+            external_user: ""
+        };
 
-    post(path, data) {
         return new Promise((resolve, reject) => {
-            http.post(path, data)
+            http.post('collect/', data)
                 .then(response => {
                     resolve(response.data);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
+                },
+                    error => {
+                        reject(error);
+                    }
+                );
         });
     }
 
-    get(path) {
+    checkPayment(reference) {
         return new Promise((resolve, reject) => {
-            http.get(path)
-                .then(response => {
+            http.get('transaction/' + reference + '/').then(
+                response => {
                     resolve(response.data);
-                })
-                .catch((error) => {
+                },
+                error => {
                     reject(error);
-                });
+                }
+            );
         });
     }
 

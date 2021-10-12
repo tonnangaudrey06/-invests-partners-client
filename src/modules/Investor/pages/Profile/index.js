@@ -6,20 +6,20 @@ import moment from 'moment'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-// import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-// import Avatar from '@mui/material/Avatar';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { UserService } from '../../../../core/services'
+import { UserService, PlageInvestissementService } from '../../../../core/services'
+
+import { moneyFormat } from '../../../../core/utils/helpers'
 import { user } from '../../../../core/reducers/auth/actions'
 
 import profile from '../../../../assets/img/profil.jpg';
@@ -41,6 +41,7 @@ const ProfilPorteurProjet = (props) => {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const [plage, setPlage] = React.useState([])
     const [password, setPassword] = React.useState({
         old: '',
         new: ''
@@ -247,6 +248,15 @@ const ProfilPorteurProjet = (props) => {
 
     React.useEffect(() => {
         setUser(props.auth.user)
+        function loadPlage() {
+            PlageInvestissementService.getAll().then(
+                (rs) => {
+                    setPlage(rs.data.data);
+                }
+            );
+        }
+
+        loadPlage();
     }, [props])
 
     return (
@@ -266,6 +276,7 @@ const ProfilPorteurProjet = (props) => {
                     </div>
                 </div>
             </div>
+
             <div className="container border bg-white rounded shadow my-5">
                 <div className="row">
                     <div className="col-md-3 border-right">
@@ -363,7 +374,8 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
-                                                        required
+                                                        size="small"
+                                                        autoFocus
                                                         InputLabelProps={{ shrink: true }}
                                                         label="Nom"
                                                         placeholder="Nom"
@@ -378,6 +390,7 @@ const ProfilPorteurProjet = (props) => {
                                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                                         <TextField
                                                             fullWidth
+                                                            size="small"
                                                             InputLabelProps={{ shrink: true }}
                                                             label="Prenom"
                                                             placeholder="Prenom"
@@ -392,7 +405,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
-                                                        required
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         variant="filled"
                                                         type="email"
@@ -407,7 +420,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
-                                                        required
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         label="Téléphone"
                                                         variant="filled"
@@ -422,6 +435,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         select
                                                         SelectProps={{
@@ -446,6 +460,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         label={user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
                                                         variant="filled"
@@ -464,9 +479,9 @@ const ProfilPorteurProjet = (props) => {
                                                         clearText="Effacer"
                                                         okText="OK"
                                                         value={new Date(user.date_naissance)}
-                                                        minDate={new Date('1990-01-01')}
                                                         onChange={(value) => setUser({ ...user, date_naissance: moment(value).format('YYYY[-]MM[-]DD') })}
-                                                        renderInput={(params) => <TextField {...params} variant="filled" InputLabelProps={{ shrink: true }} />}
+                                                        renderInput={(params) => <TextField {...params} variant="filled" InputLabelProps={{ shrink: true }}
+                                                            size="small" />}
                                                     />
                                                 </FormControl>
                                             </Grid>
@@ -476,6 +491,7 @@ const ProfilPorteurProjet = (props) => {
                                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                                         <TextField
                                                             fullWidth
+                                                            size="small"
                                                             InputLabelProps={{ shrink: true }}
                                                             label="Profession"
                                                             placeholder="Profession"
@@ -491,6 +507,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         label={user?.status === 'PARTICULIER' ? "Parcours" : "Histoire"}
                                                         placeholder={"Présenter vous en quelques mots"}
@@ -530,6 +547,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         type="password"
                                                         label="Mot de passe actuel"
                                                         placeholder="Mot de passe actuel"
@@ -543,6 +561,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         type="password"
                                                         label="Nouveau mot de passe"
                                                         placeholder="Nouveau mot de passe"
@@ -572,66 +591,26 @@ const ProfilPorteurProjet = (props) => {
 
                             <div className="tab-pane fade" id="nav-abonnement" role="tabpanel" aria-labelledby="abonnement-tab">
                                 <div className="container my-5">
-                                    <h3 className="fw-bolder">Profil d'investissement</h3>
-                                    <p className="text-muted mb-5">Modifier votre profil d'investissement.</p>
+                                    <h3 className="fw-bolder">Plage d'investissement</h3>
+                                    <p className="text-muted mb-5">Modifier votre plage d'investissement.</p>
                                     <div class="row card-deck mb-3 text-center">
-                                        <div className="col-md-4">
-                                            <div class="card mb-4 box-shadow border-success">
-                                                <div class="card-header">
-                                                    <h4 class="my-0 font-weight-normal">Free</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h1 class="card-title pricing-card-title">15000 XAF</h1>
-                                                    <p class="mt-3">
-                                                        Peut investir sur des projets de 50000 XAF à 100000XAF
-                                                    </p>
-                                                    <span class="badge bg-success p-2 mt-3">Votre abonnement actuel</span>
-                                                    {/* <button type="button" class="mt-3 btn btn-sm btn-block btn-outline-primary">Sign up for free</button> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div class="card mb-4 box-shadow">
-                                                <div class="card-header">
-                                                    <h4 class="my-0 font-weight-normal">Pro</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h1 class="card-title pricing-card-title">15000 XAF</h1>
-                                                    <p class="mt-3">
-                                                        Peut investir sur des projets de 50000 XAF à 100000XAF
-                                                    </p>
-                                                    <button type="button" class="mt-3 btn btn-sm btn-block btn-primary">Sign up for free</button>
+                                        {(plage || []).map((item, index) => (
+                                            <div className="col-md-4">
+                                                <div class={item.id === user?.profil ? "card mb-4 box-shadow border-success" : "card mb-4 box-shadow" }>
+                                                    <div class="card-header">
+                                                        <h4 class="my-0 fw-bolder">{ item.type }</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h1 class="card-title pricing-card-title">{ moneyFormat(item.frais_abonnement) } XAF</h1>
+                                                        <p class="mt-3">
+                                                            Peut investir sur des projets de { moneyFormat(item.montant_min) } XAF à { moneyFormat(item.montant_max) } XAF
+                                                        </p>
+                                                        {item.id === user?.profil && (<span class="badge bg-success p-2 mt-3">Votre abonnement actuel</span>)}
+                                                        {item.id !== user?.profil && (<button type="button" class="mt-3 btn btn-sm btn-block btn-primary">souscrire</button>)}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div class="card mb-4 box-shadow">
-                                                <div class="card-header">
-                                                    <h4 class="my-0 font-weight-normal">Pro</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h1 class="card-title pricing-card-title">15000 XAF</h1>
-                                                    <p class="mt-3">
-                                                        Peut investir sur des projets de 50000 XAF à 100000XAF
-                                                    </p>
-                                                    <button type="button" class="mt-3 btn btn-sm btn-block btn-primary">Sign up for free</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div class="card mb-4 box-shadow">
-                                                <div class="card-header">
-                                                    <h4 class="my-0 font-weight-normal">Enterprise</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h1 class="card-title pricing-card-title">15000 XAF</h1>
-                                                    <p class="mt-3">
-                                                        Peut investir sur des projets de 50000 XAF à 100000XAF
-                                                    </p>
-                                                    <button type="button" class="mt-3 btn btn-sm btn-block btn-primary">Sign up for free</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

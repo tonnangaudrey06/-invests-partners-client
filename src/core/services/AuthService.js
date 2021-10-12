@@ -21,8 +21,6 @@ class AuthService {
         return new Promise((resolve, reject) => {
             http.post(source + 'logout', {})
                 .then(response => {
-                    localstorage.remove('token');
-                    localstorage.remove('user');
                     resolve(response.data);
                 })
                 .catch((error) => {

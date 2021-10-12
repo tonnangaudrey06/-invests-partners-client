@@ -46,7 +46,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      remenber: false,
+      remenber: true,
       loading: false,
       message: null,
       showPassword: false,
@@ -59,6 +59,7 @@ class Login extends React.Component {
     this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
     this.handleErrorAlertOpen = this.handleErrorAlertOpen.bind(this);
     this.handleErrorAlertClose = this.handleErrorAlertClose.bind(this);
+    this.validation = this.validation.bind(this);
   }
 
   onChangeUsername(e) {
@@ -91,6 +92,18 @@ class Login extends React.Component {
     this.setState({ error: false });
   };
 
+  validation() {
+    if (this.state.email.length === 0) {
+      return false;
+    }
+
+    if (this.state.password.length === 0) {
+      return false;
+    }
+
+    return true;
+  }
+
   handleLogin(e) {
     e.preventDefault();
 
@@ -102,7 +115,7 @@ class Login extends React.Component {
     const user = {
       email: this.state.email,
       password: this.state.password,
-      remember: this.state.remember
+      remember: this.state.remenber
     }
 
     authService.login(user).then(
@@ -111,10 +124,10 @@ class Login extends React.Component {
           loading: false
         });
         this.props.setUser(rs.data.data.user);
-        if(rs.data.data.user.role === 3) {
+        if (rs.data.data.user.role === 3) {
           this.props.history.push(this.props?.location?.state?.from?.pathname || "/dashboard");
         } else {
-          this.props.history.push(this.props?.location?.state?.from?.pathname || "/investor");
+          this.props.history.push(this.props?.location?.state?.from?.pathname || "/projets");
         }
       },
       error => {
@@ -138,7 +151,7 @@ class Login extends React.Component {
   render() {
     console.log(this.props?.location?.state?.from?.pathname);
     return (
-      <form className="login-form" onSubmit={this.handleLogin}>
+      <form className="login-form px-sm-0 px-md-5" onSubmit={this.handleLogin}>
         <div className="d-flex justify-content-xl-center align-items-center">
           <img src={logo} width="150" alt="I&P" />
         </div>
@@ -148,6 +161,7 @@ class Login extends React.Component {
               <TextField
                 fullWidth
                 required
+                size="small"
                 error={this.state.error}
                 type="email"
                 variant="filled"
@@ -168,6 +182,7 @@ class Login extends React.Component {
             <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
               <TextField
                 fullWidth
+                size="small"
                 error={this.state.error}
                 required
                 variant="filled"
@@ -197,23 +212,24 @@ class Login extends React.Component {
             </FormControl>
           </Grid>
         </Grid>
-        <div className="form-end">
+        <div className="form-end w-75">
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <FormControlLabel control={<Checkbox value={this.state.remenber} onChange={() => this.setState({ remember: !this.state.remember })} />} label="Se souvenir de moi" />
+            <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label="Se souvenir de moi" />
           </div>
           <a href="#" className="text-decoration-none fs-6">Mot de Passe oublié ?</a>
           {/* <a href="dsfdsf">Mot de Passe oublié ?</a> */}
         </div>
         <LoadingButton
-          className="btn-default btn-rounded flex flex-align-center flex-justify-center"
+          className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
           loading={this.state.loading}
+          disabled={!this.validation}
           type={'submit'}
           variant="contained"
         >
           Connexion
         </LoadingButton>
-        <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right"}} key="bottomright" open={this.state.error} autoHideDuration={10000} onClose={this.handleErrorAlertClose}>
-          <Alert onClose={this.handleErrorAlertClose} severity="error" sx={{ width: '100%' }}>
+        <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={this.state.error} autoHideDuration={10000} onClose={this.handleErrorAlertClose}>
+          <Alert onClose={this.handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
             {this.state.message}
           </Alert>
         </Snackbar>

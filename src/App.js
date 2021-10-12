@@ -1,45 +1,93 @@
 import AppNavigator from './navigation'
 import React from 'react';
 
-import { ThemeProvider } from '@mui/material/styles';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import frLocale from 'date-fns/locale/fr';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
-import theme from './theme'
-
-import { login } from './core/reducers/auth/actions'
+import { login, logout } from './core/reducers/auth/actions'
 import authService from './core/services/AuthService'
 
-import { connect } from 'react-redux'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setUser: (payload) => dispatch(login(payload))
-  }
-};
+import { BrowserRouter } from "react-router-dom";
+
+import { ScrollToTop } from './navigation/ScrollToTop'
+
+import { connect, useDispatch } from 'react-redux'
+
+import localStorage from './core/utils/localstorage';
+
+import LoadingOverlay from 'react-loading-overlay';
+
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 const App = (props) => {
 
+  const dispatch = useDispatch()
+
+  const [state, setState] = React.useState({
+    error: false,
+    message: ''
+  })
+
+  const handleErrorAlertOpen = () => {
+    setState({ ...state, error: true });
+  };
+
+  const handleErrorAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setState({ ...state, error: false });
+  };
+
   React.useEffect(() => {
-    const loadProfile = async () => {
-      await authService.profile().then(
-        (rs) => {
-          props.setUser(rs.data);
-        },
-        error => { }
-      );
+    function loadProfile() {
+      if (localStorage.exist('user')) {
+        authService.profile().then(
+          (rs) => {
+            dispatch(login(rs.data));
+          },
+          error => {
+            dispatch(logout());
+            handleErrorAlertOpen();
+            setState(prevState => {
+              return { ...prevState, message: 'Votre session a expiré. Veuillez vous connecter pour continuer ' }
+            });
+          }
+        );
+      }
     }
     loadProfile();
-  }, [props]);
+  }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
-        <AppNavigator />
-      </LocalizationProvider>
-    </ThemeProvider>
+    <LoadingOverlay
+      active={props?.loading}
+      spinner
+      text='Veuillez être patient...'
+    >
+      <React.StrictMode>
+        <BrowserRouter>
+          <ScrollToTop />
+          <AppNavigator />
+          <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={state.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+            <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
+              {state.message}
+            </Alert>
+          </Snackbar>
+        </BrowserRouter>
+      </React.StrictMode>
+    </LoadingOverlay>
   );
 }
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = state => {
+  return {
+    loading: state.app.loading
+  }
+}
+
+export default connect(mapStateToProps)(App);

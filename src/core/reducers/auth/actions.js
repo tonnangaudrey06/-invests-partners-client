@@ -4,12 +4,15 @@ import {
     SET_USER,
     SET_USER_PROJETS
 } from '../../utils/constants';
+import localstorage from '../../utils/localstorage';
 
 export const login = (user) => {
     return { type: SET_CURRENT_USER, payload: user };
 };
 
 export const logout = () => {
+    localstorage.remove('token');
+    localstorage.remove('user');
     return { type: REMOVE_CURRENT_USER };
 };
 

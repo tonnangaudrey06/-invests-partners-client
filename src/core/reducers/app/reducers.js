@@ -1,11 +1,20 @@
 import {
-    SET_COUNTRY,
+    SET_PAIEMENT_PENDING,
+    SET_PAIEMENT_DONE,
+    SET_PAIEMENT_FAILED,
     SET_SECTEUR,
-    SET_TOWN,
-    SET_PROJET
+    IS_LOADING,
+    STOP_LOADING
 } from "../../utils/constants";
 
-const initialState = { secteurs: [], countries: [], towns: [], projects: [] };
+const initialState = {
+    secteurs: [],
+    paiement: {
+        pending: false,
+        failed: false
+    },
+    loading: false
+};
 
 const authReducer = (state = initialState, action) => {
 
@@ -17,20 +26,33 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 secteurs: payload,
             };
-        case SET_COUNTRY:
+        case SET_PAIEMENT_PENDING:
             return {
                 ...state,
-                countries: payload,
+                pending: true,
+                failed: false,
             };
-        case SET_TOWN:
+        case SET_PAIEMENT_DONE:
             return {
                 ...state,
-                towns: payload,
+                pending: false,
+                failed: false,
             };
-        case SET_PROJET:
+        case SET_PAIEMENT_FAILED:
             return {
                 ...state,
-                projects: payload,
+                pending: false,
+                failed: true
+            };
+        case IS_LOADING:
+            return {
+                ...state,
+                loading: true
+            };
+        case STOP_LOADING:
+            return {
+                ...state,
+                loading: false
             };
         default:
             return state;

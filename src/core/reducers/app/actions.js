@@ -1,22 +1,32 @@
 import {
+    SET_PAIEMENT_PENDING,
+    SET_PAIEMENT_DONE,
+    SET_PAIEMENT_FAILED,
     SET_SECTEUR,
-    SET_COUNTRY,
-    SET_TOWN,
-    SET_PROJET
+    IS_LOADING,
+    STOP_LOADING
 } from '../../utils/constants';
 
 export const setSecteur = (secteurs) => {
     return { type: SET_SECTEUR, payload: secteurs };
 };
 
-export const setCountry = (countries) => {
-    return { type: SET_COUNTRY, payload: countries };
+export const setPaiementPending = () => {
+    return { type: SET_PAIEMENT_PENDING };
 };
 
-export const setTown = (towns) => {
-    return { type: SET_TOWN, payload: towns };
+export const setPaiementDone = () => {
+    return { type: SET_PAIEMENT_DONE };
 };
 
-export const setProjet = (projets) => {
-    return { type: SET_PROJET, payload: projets };
+export const setPaiementFailed = () => {
+    return { type: SET_PAIEMENT_FAILED };
+};
+
+export const setLoadingFalse = () => {
+    return { type: STOP_LOADING };
+};
+
+export const setLoadingTrue = () => {
+    return { type: IS_LOADING };
 };

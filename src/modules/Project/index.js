@@ -16,19 +16,17 @@ import { setSecteur } from '../../core/reducers/app/actions'
 
 const Projet = (props) => {
 
-  const { app, loadSecteur } = props;
-
   const history = useHistory();
 
-  const secteurs = app.secteurs;
+  const [secteurs, setSecteurs] = React.useState([]);
 
   React.useEffect(() => {
     async function fetchData() {
       const rs = await SecteurService.getAll();
-      loadSecteur(rs.data.data);
+      setSecteurs(rs.data.data);
     }
     fetchData();
-  }, [loadSecteur]);
+  }, []);
 
   return (
     <Container header footer headerActive active="projects">
@@ -48,7 +46,7 @@ const Projet = (props) => {
       <section className="container mb-5">
         <SectionTitle title="NOS SECTEURS D'ACTIVITÉES" />
         <div className="secteur-listing row g-3 d-flex justify-content-center mt-3">
-          {secteurs.map((item, index) => (
+          {(secteurs || []).map((item, index) => (
             <div className="col-sm-12 col-md-6 col-lg-3">
               <div className="secteur-item shadow-lg" onClick={() => { history.push(`/projets/${item.id}`) }}>
                 <div className="secteur-content" data-content={item.libelle} style={{ backgroundImage: item.photo ? `url(${item.image})` : `url(${secteurImg})` }}></div>
