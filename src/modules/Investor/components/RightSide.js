@@ -195,8 +195,8 @@ const RightSide = ({ form, projet }) => {
                 <div className="col-md-7 d-flex justify-content-center align-items-center">
                     <div style={{ width: 200, height: 200 }}>
                         <CircularProgressbar
-                            value={100}
-                            text="100%"
+                            value={projet?.iv_pourcent}
+                            text={projet?.iv_pourcent + '%'}
                             styles={{
                                 root: {},
                                 path: {
@@ -226,20 +226,20 @@ const RightSide = ({ form, projet }) => {
                 <div className="col-md-5" style={{ borderLeft: 'solid', borderLeftWidth: 1, borderLeftColor: 'gray', paddingLeft: 10 }}>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Montant cible</p>
-                        <p className="fs-4 text-primary">{moneyFormat(projet?.ca_previsionnel)} XAF</p>
+                        <p className="fs-4 text-primary">{moneyFormat(projet?.financement)} XAF</p>
                     </div>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Montant investi</p>
-                        <p className="fs-4 text-primary">30 000 000 XAF</p>
+                        <p className="fs-4 text-primary">{moneyFormat(projet?.iv_total)} XAF</p>
                     </div>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'investisseurs</p>
-                        <p className="fs-4 text-primary">10 investisseurs</p>
+                        <p className="fs-4 text-primary">{projet?.iv_count} investisseurs</p>
                     </div>
                     {/* <div className="mb-1">
-                        <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'ajout aux favoris</p>
-                        <p className="fs-4 text-primary">05</p>
-                    </div> */}
+                            <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'ajout aux favoris</p>
+                            <p className="fs-4 text-primary">05</p>
+                        </div> */}
                 </div>
             </div>
         )
@@ -262,7 +262,7 @@ const RightSide = ({ form, projet }) => {
                         </div>
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Duree du projet: </p>
-                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.ca_previsionnel)} XAF</p>
+                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.duree)}</p>
                             <Divider></Divider>
                         </div>
                         <div className="mb-1">
@@ -282,9 +282,9 @@ const RightSide = ({ form, projet }) => {
                         </div>
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Conseille en investissement</p>
-                            <p className="fs-4 lh-sm fw-bolder">{projet?.secteur_data?.conseille?.nom_complet}</p>
-                            <p className="text-muted small lh-sm">Email: {projet?.secteur_data?.conseille?.email}</p>
-                            <p className="text-muted small lh-sm">Téléphone: {projet?.secteur_data?.conseille?.telephone}</p>
+                            <p className="fs-4 lh-sm fw-bolder">{projet?.secteur_data?.conseille_data?.nom}</p>
+                            <p className="text-muted small lh-sm">Email: {projet?.secteur_data?.conseille_data?.email}</p>
+                            <p className="text-muted small lh-sm">Téléphone: {projet?.secteur_data?.conseille_data?.telephone}</p>
                         </div>
                         {/* <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'ajout aux favoris</p>

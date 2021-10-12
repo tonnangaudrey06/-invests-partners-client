@@ -31,14 +31,14 @@ const ProjetSecteur = (props) => {
     return (
         <Container header footer headerActive active="projets">
             <div className="projects-top" style={{ backgroundImage: `url(${backgroundTop})` }}>
-                <div className="container">
-                    <h1 className="text-uppercase" style={{ color: 'white', fontFamily: "building", fontSize: 60 }}>{secteur?.libelle}</h1>
+                <div className="container m-auto" style={{ zIndex: 1 }}>
+                    <h1 className="text-uppercase" style={{ color: 'white', fontFamily: "building", fontSize: '4.5em', width: 'fit-content', margin: '0px auto' }}>{secteur?.libelle}</h1>
                 </div>
             </div>
             <div>
                 <div className="section-grid-container row">
                     <div className="col-sm-12 col-md-6">
-                        <div className="row mt-3">
+                        <div className="row mt-3 px-3">
                             {secteur?.pays.map((item, index) => (
                                 <div className="col-sm-12 col-md-6 col-lg-4">
                                     <div className="project-item rounded shadow" key={index} onClick={() => setCountry(item)}>
@@ -55,7 +55,7 @@ const ProjetSecteur = (props) => {
                         <div className="vr"></div>
                         <div className="p-3 pt-0">
                             <h2 className="text-uppercase fw-bold" style={{ fontSize: '3em', marginTop: 0, fontFamily: 'Building' }} >{country?.libelle}</h2>
-                            <p className="lh-base">{country?.libelle}</p>
+                            {/* <p className="lh-base">{country?.libelle}</p> */}
                             <h4 className="fw-bolder mt-2">Vous pouvez investir dans ces villes</h4>
                             <div className="mt-1 d-flex justify-content-start align-items-center flex-wrap">
                                 {country?.viles.map((item, index) => (

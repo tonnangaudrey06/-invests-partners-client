@@ -19,6 +19,8 @@ import { TablePaginationActions, CustomTableHead } from '../../../../components'
 
 import { UserService } from '../../../../core/services';
 
+import { moneyFormat } from '../../../../core/utils/helpers';
+
 import { connect } from "react-redux";
 
 import { projets } from '../../../../core/reducers/auth/actions';
@@ -71,12 +73,17 @@ const headCells = [
     {
         align: 'right',
         disablePadding: false,
-        label: 'Investissement',
+        label: 'Besoin en financement',
     },
     {
-        align: 'center',
+        align: 'right',
         disablePadding: false,
-        label: '',
+        label: 'Investissement en cours',
+    },
+    {
+        align: 'right',
+        disablePadding: false,
+        label: 'Ecart',
     },
 ];
 
@@ -133,7 +140,7 @@ const ProjetList = (props) => {
     }, [setProjetsData, user])
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box className="shadow rounded" sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <Toolbar
                     sx={{
@@ -195,10 +202,14 @@ const ProjetList = (props) => {
 
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "15%" }}>
-                                            <span className="fw-bolder fs-6">{projet.financement} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement)} XAF</span>
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "5%" }}>
-                                            <i className="bi bi-chevron-compact-right"></i>
+                                        <TableCell align="right" style={{ width: "15%" }}>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.iv_total)} XAF</span>
+                                        </TableCell>
+                                        <TableCell align="right" style={{ width: "15%" }}>
+                                            {/* <i className="bi bi-chevron-compact-right"></i> */}
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement - projet.iv_total)} XAF</span>
                                         </TableCell>
                                     </StyledTableRow>
                                 </Tooltip>

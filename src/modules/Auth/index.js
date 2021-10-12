@@ -28,8 +28,8 @@ export default class Auth extends React.Component {
 
     this.switchPage = this.switchPage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.handleErrorAlertOpen = this.handleSuccessAlertOpen.bind(this);
-    this.handleErrorAlertClose = this.handleSuccessAlertClose.bind(this);
+    this.handleSuccessAlertOpen = this.handleSuccessAlertOpen.bind(this);
+    this.handleSuccessAlertClose = this.handleSuccessAlertClose.bind(this);
   }
 
   handleSuccessAlertOpen() {
@@ -67,10 +67,9 @@ export default class Auth extends React.Component {
               </div>
             </div>
           </div>
-          <div className="auth-form">
-            <div className="auth-content">
+          <div className="auth-form py-3 px-4">
               <div className="auth-head">
-                <div className="auth-nav">
+                <div className="auth-nav shadow">
                   <div onClick={() => this.switchPage("register")} className={this.state.page === "register" ? "auth-nav-item active" : "auth-nav-item"} >Inscription</div>
                   <div onClick={() => this.switchPage("login")} className={this.state.page === "login" ? "auth-nav-item active" : "auth-nav-item"}>Connexion</div>
                 </div>
@@ -80,12 +79,11 @@ export default class Auth extends React.Component {
               ) : (
                 <Login {...this.props} />
               )}
-            </div>
           </div>
         </div>
 
-        <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomright" open={this.state.success} autoHideDuration={10000} onClose={this.handleSuccessAlertClose}>
-          <Alert onClose={this.handleSuccessAlertClose} severity="success" sx={{ width: '100%' }}>
+        <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={this.state.success} autoHideDuration={10000} onClose={this.handleSuccessAlertClose}>
+          <Alert onClose={this.handleSuccessAlertClose} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
             {this.state.message}
           </Alert>
         </Snackbar>

@@ -1,29 +1,30 @@
 import React, { useState } from "react";
-import logoProject from "../../../../assets/allgreenico1.png";
 
 import { AiFillLike } from 'react-icons/ai';
 
-const EnteteProjet = () => {
+import projetimg from "../../../../assets/img/projet.jpg";
 
-    const [Titre] = useState("Titre du projet");
-    const [Description] = useState("Lorem ipsum dolor sit amet, consetetur sadipscing elitr.");
-    const [investi] = useState("500M XAF déjà investi");
-    const [contrib] = useState("20 Contributions");
-    const [nbLike] = useState("20");
+import { moneyFormat } from '../../../../core/utils/helpers';
+
+const EnteteProjet = (props) => {
+
+    const { projet } = props
+
+    const [nbLike] = useState("4");
 
     return (
         <div className="entete">
             <div className="upper-container">
                 <div className="image-container">
-                    <img src={logoProject} alt="Logo" height="100px" width="100px" />
+                    <img src={projet?.logo ? projet.logo : projetimg} alt="Logo" height="100px" width="100px" />
                 </div>
             </div>
             <div className="lower-container" >
-                <div className="titre"> <h3>{Titre}</h3></div>
-                <div className="desc"> <h4>{Description}</h4></div>
+                <div className="titre"> <h3>{projet?.intitule}</h3></div>
+                {/* <div className="desc"> <h4>{description}</h4></div> */}
                 <div className="info">
-                    <span className="donnee"> <h5>{investi}</h5></span>
-                    <span className="donnee"> <h5>{contrib}</h5></span>
+                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_total)} XAF déjà investi</h5></span>
+                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_count)} Contributions</h5></span>
                     <span className="donnee"> <h5><AiFillLike className="me-1" /> {nbLike}</h5></span>
                 </div>
             </div>

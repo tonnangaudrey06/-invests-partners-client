@@ -24,6 +24,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { UserService } from '../../../../core/services'
 import { user } from '../../../../core/reducers/auth/actions'
+import { setLoadingFalse, setLoadingTrue } from '../../../../core/reducers/app/actions'
 
 import profile from '../../../../assets/img/profil.jpg';
 
@@ -74,11 +75,12 @@ const ProfilPorteurProjet = (props) => {
     const changeCni = (e) => {
         let formData = new FormData();
         formData.append('cni', e.target.files[0]);
+        props.setLoadingTrue();
         UserService.updateCNI(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('CNI mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -89,7 +91,7 @@ const ProfilPorteurProjet = (props) => {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -100,6 +102,8 @@ const ProfilPorteurProjet = (props) => {
         e.preventDefault();
 
         setLoading(true);
+
+        props.setLoadingTrue();
 
         const data = user;
         delete data.nom_complet;
@@ -118,6 +122,7 @@ const ProfilPorteurProjet = (props) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Profil mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -131,6 +136,7 @@ const ProfilPorteurProjet = (props) => {
 
                 setMessage(resMessage);
                 setLoading(false);
+                props.setLoadingFalse();
                 handleErrorAlertOpen();
             }
         );
@@ -138,10 +144,12 @@ const ProfilPorteurProjet = (props) => {
 
     const changePassword = (e) => {
         e.preventDefault();
+        props.setLoadingTrue();
         setLoading(true);
         UserService.updatePassword(user.id, password).then(
             (rs) => {
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Mot de passe mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -155,6 +163,7 @@ const ProfilPorteurProjet = (props) => {
 
                 setMessage(resMessage);
                 setLoading(false);
+                props.setLoadingFalse();
                 handleErrorAlertOpen();
             }
         );
@@ -163,10 +172,12 @@ const ProfilPorteurProjet = (props) => {
     const changePhoto = (e) => {
         let formData = new FormData();
         formData.append('photo', e.target.files[0]);
+        props.setLoadingTrue();
         UserService.updatePhoto(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
+                props.setLoadingFalse();
                 setMessage('Photo de profil mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -179,6 +190,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setMessage(resMessage);
+                props.setLoadingFalse();
                 handleErrorAlertOpen();
             }
         )
@@ -188,12 +200,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'DSF');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('DSF mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -204,8 +216,7 @@ const ProfilPorteurProjet = (props) => {
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -216,12 +227,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'COMPTE_EXPLOITATION');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Compte d\'exploitation bancaire mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -233,7 +244,7 @@ const ProfilPorteurProjet = (props) => {
                     error.message ||
                     error.toString();
 
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -244,12 +255,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'RCCM');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('RCCM mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -261,7 +272,7 @@ const ProfilPorteurProjet = (props) => {
                     error.message ||
                     error.toString();
 
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -272,12 +283,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'ANR');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('ANR mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -289,7 +300,7 @@ const ProfilPorteurProjet = (props) => {
                     error.message ||
                     error.toString();
 
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -300,12 +311,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'CARTE_CONTRIBUABLE');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Carte contribuable mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -317,7 +328,7 @@ const ProfilPorteurProjet = (props) => {
                     error.message ||
                     error.toString();
 
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -328,12 +339,12 @@ const ProfilPorteurProjet = (props) => {
         let formData = new FormData();
         formData.append('type', 'ATTESTATION_DOMICILIATION_BANCAIRE');
         formData.append('document', e.target.files[0]);
-        setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Attestation domiciliation bancaire mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -345,7 +356,7 @@ const ProfilPorteurProjet = (props) => {
                     error.message ||
                     error.toString();
 
-                setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -441,6 +452,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         required
                                                         InputLabelProps={{ shrink: true }}
                                                         label="Nom"
@@ -456,6 +468,7 @@ const ProfilPorteurProjet = (props) => {
                                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                                         <TextField
                                                             fullWidth
+                                                            size="small"
                                                             InputLabelProps={{ shrink: true }}
                                                             label="Prenom"
                                                             placeholder="Prenom"
@@ -470,6 +483,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         required
                                                         InputLabelProps={{ shrink: true }}
                                                         variant="filled"
@@ -485,6 +499,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         required
                                                         InputLabelProps={{ shrink: true }}
                                                         label="Téléphone"
@@ -500,6 +515,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         select
                                                         SelectProps={{
@@ -511,6 +527,7 @@ const ProfilPorteurProjet = (props) => {
                                                         value={user?.pays || ''}
                                                         onChange={(e) => setUser({ ...user, pays: e.target.value })}
                                                     >
+                                                        <option value='' hidden>{user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}</option>
                                                         {Pays.map((item, index) => (
                                                             <option key={item} value={item}>
                                                                 {item}
@@ -524,6 +541,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         InputLabelProps={{ shrink: true }}
                                                         label={user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
                                                         variant="filled"
@@ -541,10 +559,10 @@ const ProfilPorteurProjet = (props) => {
                                                         cancelText="Annuler"
                                                         clearText="Effacer"
                                                         okText="OK"
-                                                        value={user.date_naissance ? new Date(user.date_naissance) : new Date()}
-                                                        minDate={new Date('1990-01-01')}
+                                                        value={user.date_naissance ? new Date(user.date_naissance) : null}
+                                                        // minDate={new Date('1990-01-01')}
                                                         onChange={(value) => setUser({ ...user, date_naissance: moment(value).format('YYYY[-]MM[-]DD') })}
-                                                        renderInput={(params) => <TextField {...params} variant="filled" InputLabelProps={{ shrink: true }} />}
+                                                        renderInput={(params) => <TextField {...params} size="small" variant="filled" InputLabelProps={{ shrink: true }} />}
                                                     />
                                                 </FormControl>
                                                 {(user?.status === 'ENTREPRISE') && (
@@ -568,6 +586,7 @@ const ProfilPorteurProjet = (props) => {
                                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                                         <TextField
                                                             fullWidth
+                                                            size="small"
                                                             InputLabelProps={{ shrink: true }}
                                                             label="Profession"
                                                             placeholder="Profession"
@@ -584,6 +603,7 @@ const ProfilPorteurProjet = (props) => {
                                                     <FormControl sx={{ m: 1, width: "100%" }}>
                                                         <TextField
                                                             fullWidth
+                                                            size="small"
                                                             InputLabelProps={{ shrink: true }}
                                                             label={user?.status === 'PARTICULIER' ? "Parcours" : "Histoire"}
                                                             placeholder={"Présenter vous en quelques mots"}
@@ -747,6 +767,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         type="password"
                                                         label="Mot de passe actuel"
                                                         placeholder="Mot de passe actuel"
@@ -760,6 +781,7 @@ const ProfilPorteurProjet = (props) => {
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
                                                     <TextField
                                                         fullWidth
+                                                        size="small"
                                                         type="password"
                                                         label="Nouveau mot de passe"
                                                         placeholder="Nouveau mot de passe"
@@ -792,13 +814,13 @@ const ProfilPorteurProjet = (props) => {
 
 
             </div>
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
             </Snackbar>
 
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
@@ -811,7 +833,9 @@ const mapStateToProps = (state) => ({ auth: state.auth });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUserData: (payload) => dispatch(user(payload))
+        setUserData: (payload) => dispatch(user(payload)),
+        setLoadingTrue: (payload) => dispatch(setLoadingTrue()),
+        setLoadingFalse: (payload) => dispatch(setLoadingFalse())
     }
 };
 

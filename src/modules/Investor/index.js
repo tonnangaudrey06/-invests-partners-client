@@ -40,9 +40,13 @@ const DashboardInvestor = (props) => {
         }
     };
 
-    const logoutUser = () => {
-        AuthService.logout()
-        removeUser()
+    const logoutUser = async () => {
+        try {
+            await AuthService.logout()
+            removeUser()
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

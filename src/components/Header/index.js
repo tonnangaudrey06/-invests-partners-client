@@ -60,10 +60,13 @@ const Header = ({ removeUser, auth, headerActive }) => {
     }
   }
 
-  const logoutUser = () => {
-    AuthService.logout();
-    removeUser();
-    // window.location.reload();
+  const logoutUser = async () => {
+    try {
+      await AuthService.logout()
+      removeUser()
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const location = useLocation();

@@ -3,31 +3,29 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 
 import './styles/style.scss';
 
+import App from './App';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from "react-router-dom";
 
-import App from './App';
-import { ScrollToTop } from './navigation/ScrollToTop'
-
-import reducers from './core/reducers'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import store from './core/reducers'
 
-const store = createStore(
-  reducers
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+import { ThemeProvider } from '@mui/material/styles';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import frLocale from 'date-fns/locale/fr';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
+import theme from './theme'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <ScrollToTop />
-        <App/>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+          <App />
+        </LocalizationProvider>
+      </ThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
 
