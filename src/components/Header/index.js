@@ -18,7 +18,8 @@ import {
   NavBtn,
   MobileIcone,
   Logocontainer,
-  FTime
+  FTime,
+  NavBtn2
 } from './NavbarElements';
 
 
@@ -112,7 +113,30 @@ const Header = ({ removeUser, auth, headerActive }) => {
                 <option className="select-items" value="en">Anglais</option>
               </select>
             </div>
-        
+            <div className="navMenuCache">
+                {auth.isLoggedIn && (
+                  <NavBtn2>
+                  <span>
+                    <span style={css} onClick={logoutUser}>Déconnexion</span>
+                    {auth.user?.role === 3 && (
+                      <NavLink style={css} to="/dashboard">Tableau de board</NavLink>
+                    )}
+                    {auth.user?.role === 4 && (
+                      <NavLink style={css} to="/investor">Tableau de board</NavLink>
+                    )}
+                  </span>
+                  </NavBtn2>
+                )}
+                {!auth.isLoggedIn && (
+                  
+                  <NavBtn2>
+                    <span>
+                    <span><NavLink style={css} to="/auth">Créer mon compte</NavLink></span>
+                    <span><NavLink style={css} to="/auth">Connexion</NavLink></span>
+                    </span>
+                  </NavBtn2>
+                )}
+          </div>
         </NavMenu>
         </div>
       
@@ -137,7 +161,7 @@ const Header = ({ removeUser, auth, headerActive }) => {
             <span><NavLink style={css} to="/auth">Créer mon compte</NavLink></span>
             <span><NavLink style={css} to="/auth">Connexion</NavLink></span>
             </span>
-            </NavBtn>
+          </NavBtn>
           
         )}
       </div>

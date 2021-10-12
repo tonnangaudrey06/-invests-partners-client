@@ -139,7 +139,7 @@ class Login extends React.Component {
     console.log(this.props?.location?.state?.from?.pathname);
     return (
       <form className="login-form" onSubmit={this.handleLogin}>
-        <div className="d-flex justify-content-xl-center align-items-center">
+        <div className="d-flex justify-content-center justify-items-center">
           <img src={logo} width="150" alt="I&P" />
         </div>
         <Grid container spacing={2}>

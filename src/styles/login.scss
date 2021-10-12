@@ -6,6 +6,10 @@
 .auth-wrapper {
     height: 100%;
     width: 100%;
+    @media screen and (max-width: 998px){
+        display: none;
+        
+    }
 }
 
 .auth-img {
@@ -14,6 +18,8 @@
     background-size: 100% 100%;
     background-position-x: center;
     background-position-y: center;
+    
+    
 }
 
 .auth-cover {
@@ -55,6 +61,11 @@
     border-bottom-left-radius: 50px;
     background-color: white;
     z-index: 2;
+    transition: width 0.2s ease-in;
+    @media screen and (max-width: 998px){
+        width: 100%;
+        
+    }
 }
 
 .auth-content {
