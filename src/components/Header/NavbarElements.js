@@ -100,6 +100,19 @@ export const NavBtn = styled.nav`
     display: none;
   }
 `;
+export const NavBtn2 = styled.nav`
+ /* display: flex;
+  align-items: center;
+  margin-right: 24px;
+
+   Third Nav */
+  /* justify-content: flex-end;
+  width: 100vw; */
+  display:none;
+  @media screen and (max-width: 998px) {
+    display: block;
+  }
+`;
 
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
