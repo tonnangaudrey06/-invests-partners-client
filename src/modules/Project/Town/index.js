@@ -2,6 +2,7 @@
 import '../../../styles/projet.scss'
 
 import React from 'react';
+import Popup from 'reactjs-popup';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -33,6 +34,8 @@ const ProjetTown = ({ match, location, history, user }) => {
     const [pays, setPays] = React.useState('');
     const [level, setLevel] = React.useState('');
     const [projets, setProjets] = React.useState([]);
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const [selectedCard, setSelectedCard] = React.useState(null);
 
     const handleChange = (event) => {
         if (event.target.name === "ville") {
@@ -43,6 +46,14 @@ const ProjetTown = ({ match, location, history, user }) => {
             setLevel(event.target.value);
         }
     };
+
+    const cardOnClick = (item) => {
+        if(user?.profil_invest?.montant_max < item?.financement) {
+            setModalOpen(true);
+            setSelectedCard(selectedCard);
+        }
+        return;
+    }
 
     React.useEffect(() => {
         async function fetchData() {
@@ -155,7 +166,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                 <div className="row g-5">
                     {projets.map((item, index) => (
                         <div key={index} className="col-sm-12 col-md-6 col-lg-4">
-                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }}>
+                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }}  onClick={() => cardOnClick(item)}>
                                 <CardMedia
                                     component="img"
                                     height="170"
@@ -193,6 +204,28 @@ const ProjetTown = ({ match, location, history, user }) => {
                     ))}
                 </div>
             </div>
+
+
+            <Popup
+                position="top center"
+                open={modalOpen}
+                closeOnDocumentClick={false}
+                closeOnEscape={false}
+                onClose={() => setModalOpen(false)}
+            >
+                <div className="container d-flex flex-column align-items-center text-center m-2">
+                    <p className="mt-1">Votre plage d'investissement ne vous permet pas de consulter les informations de ce projet.</p>
+                    <p className="mt-1">Aller dans votre profil et modifier votre plage d'investissement afin d'être éligible à consulter ce projet</p>
+                    <div className="mt-3 d-flex justify-content-center">
+                        <button className="btn btn-sm btn-outline-primary mr-2" onClick={() => setModalOpen(false)}>
+                            Ok, compris !
+                        </button>
+                        <Link to={`/investor/profil`} className="btn btn-sm btn-primary">
+                            Aller sur mon profil
+                        </Link>
+                    </div>
+                </div>
+            </Popup>
 
         </Container>
     );

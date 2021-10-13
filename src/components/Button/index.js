@@ -1,4 +1,7 @@
-const Button = ({ title, borderColor, color }) => {
+
+import { Link } from 'react-router-dom';
+
+const Button = ({ title, borderColor, color, url }) => {
 
     const css = {
         padding: 8,
@@ -15,7 +18,7 @@ const Button = ({ title, borderColor, color }) => {
     };
 
     return (
-        <button type="button" className="btn" style={css}>{title}</button>
+        <Link to={url} className="btn" style={css}>{title}</Link>
     )
 }
 

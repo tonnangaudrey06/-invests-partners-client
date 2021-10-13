@@ -66,7 +66,7 @@ return (
                   <h1 id="title"  data-aos='fade-up'>{slide.title}</h1>
                   <div className="mb-2 textEntete">{slide.subtitle}</div>
                   <div class="d-grid gap-2  bouttonEntete">
-                      {slide.label.map((item) => <Button title={item.text} color={item.backgroundColor} borderColor={item.color} />)}
+                      {slide.label.map((item) => <Button title={item.text} color={item.backgroundColor} borderColor={item.color} url={item.url} />)}
                   </div>
               </div>
           </div>

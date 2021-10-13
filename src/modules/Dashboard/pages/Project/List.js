@@ -193,12 +193,14 @@ const ProjetList = (props) => {
                                         </TableCell>
                                         <TableCell align="center" style={{ width: "5%" }}>
                                             {{
+                                                'ATTENTE': <span className="badge bg-secondary p-1">{projet.etat_complet}</span>,
+                                                'ATTENTE_VALIDATION_ADMIN': <span className="badge bg-secondary p-1">En attente d'approbation</span>,
                                                 'REJETE': <span className="badge bg-danger p-1">{projet.etat_complet}</span>,
                                                 'ATTENTE_DOCUMENT_SUP': <span className="badge bg-dark p-1">{projet.etat_complet}</span>,
                                                 'ATTENTE_PAIEMENT': <span className="badge bg-warning p-1">{projet.etat_complet}</span>,
                                                 'CLOTURE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
                                                 'PUBLIE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
-                                            }[projet.etat] || <span className="badge bg-secondary p-1">En attente</span>}
+                                            }[projet.etat] || <span className="badge bg-secondary p-1">En attente de publication</span>}
 
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "15%" }}>

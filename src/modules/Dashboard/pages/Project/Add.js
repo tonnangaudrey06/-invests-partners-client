@@ -8,7 +8,7 @@ import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
+// import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 // import LoadingButton from '@mui/lab/LoadingButton';
 import { styled } from '@mui/material/styles';
@@ -67,9 +67,9 @@ const ProjetAdd = (props) => {
     const { auth } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
-    const [completed, setCompleted] = React.useState({});
+    const [completed] = React.useState({});
     const [modalOpen, setModalOpen] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    // const [loading, setLoading] = React.useState(false);
     const [tab, setTab] = React.useState('new');
     const [message, setMessage] = React.useState('');
     const [success, setSuccess] = React.useState(false);

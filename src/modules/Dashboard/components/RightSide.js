@@ -5,13 +5,14 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
+import IconButton from '@mui/material/IconButton';
 
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
 import FilePresent from '@mui/icons-material/FilePresent';
 import React from 'react';
 
-import logo from '../../../assets/img/logo.png'
+import profil from '../../../assets/img/profil.jpg'
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 
@@ -19,10 +20,15 @@ import '../../../styles/dashboard.scss';
 import { moneyFormat, numberPercentage } from '../../../core/utils/helpers';
 
 import { BiPlusMedical } from 'react-icons/bi';
+import { RiDownload2Fill } from 'react-icons/ri';
 
 import { Link } from 'react-router-dom';
 
 const RightSide = ({ form, projet }) => {
+
+    const downloadFile = (fileurl) => {
+        window.open(fileurl, '_blank');
+    }
 
     const ProjetsInformations = () => {
         return (
@@ -71,56 +77,71 @@ const RightSide = ({ form, projet }) => {
 
                     <Grid item xs={12} md={12} className="mt-4">
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Membres de votre equipe</p>
-                        {projet?.membres.length > 0 && (
-                            <List sx={{ width: '100%' }}>
-                                <ListItem disableGutters>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <FilePresent />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={"Document presentation"} />
-                                </ListItem>
-                            </List>
-                        )}
+                        {projet?.membres.length > 0 &&
+                            projet?.membres.map((membre, index) => (
+                                <List sx={{ width: '100%' }}>
+                                    <ListItem disableGutters>
+                                        <ListItemAvatar>
+                                            <Avatar alt={membre?.nom_complet} src={membre?.photo ? membre?.photo : profil} />
+                                        </ListItemAvatar>
+                                        <ListItemText primary={membre?.nom_complet} secondary={membre?.pivot?.statut} />
+                                    </ListItem>
+                                </List>
+                            ))}
                     </Grid>
 
                     <Grid item xs={12} md={6} className="mt-4">
                         <Divider></Divider>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Logo</p>
-                        {logo && (
-                            <List sx={{ width: '100%' }}>
-                                <ListItem disableGutters>
+                        {projet?.logo && (
+                            <List sx={{ width: '80%' }}>
+                                <ListItem
+                                    disableGutters
+                                    secondaryAction={
+                                        <IconButton color="primary" onClick={() => downloadFile(projet?.logo)} edge="end">
+                                            <RiDownload2Fill />
+                                        </IconButton>
+                                    }
+                                >
                                     <ListItemAvatar>
                                         <Avatar>
                                             <ImageIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={logo} />
+                                    <ListItemText primary="Logo" />
                                 </ListItem>
                             </List>
                         )}
+                        <Divider />
                     </Grid>
 
                     <Grid item xs={12} md={6} className="mt-4">
                         <Divider></Divider>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Document de presentation</p>
                         {projet?.doc_presentation && (
-                            <List sx={{ width: '100%' }}>
-                                <ListItem disableGutters>
+                            <List sx={{ width: '80%' }}>
+                                <ListItem
+                                    disableGutters
+                                    secondaryAction={
+                                        <IconButton color="primary" onClick={() => downloadFile(projet?.doc_presentation)} edge="end">
+                                            <RiDownload2Fill />
+                                        </IconButton>
+                                    }
+                                >
                                     <ListItemAvatar>
                                         <Avatar>
                                             <FilePresent />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={"Document presentation"} />
+                                    <ListItemText primary="Document presentation" />
                                 </ListItem>
                             </List>
                         )}
+                        <Divider />
                     </Grid>
 
                     <Grid item xs={12} md={12} className="mt-4">
-                        <Divider></Divider>
+                        {/* <Divider></Divider> */}
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Medias</p>
                         <List sx={{ width: '100%' }}>
                             {projet?.medias.map((file, index) => {
@@ -130,6 +151,11 @@ const RightSide = ({ form, projet }) => {
                                             <ListItem
                                                 key={index}
                                                 disableGutters
+                                                secondaryAction={
+                                                    <IconButton color="primary" onClick={() => downloadFile(file?.url)} edge="end">
+                                                        <RiDownload2Fill />
+                                                    </IconButton>
+                                                }
                                             >
                                                 <ListItemAvatar>
                                                     <Avatar>
@@ -150,7 +176,7 @@ const RightSide = ({ form, projet }) => {
                                 {projet?.medias.map((media) => {
                                     if (media?.type === 'IMAGE' && media?.source === 'PP') {
                                         return (
-                                            <ImageListItem key={media?.id}>
+                                            <ImageListItem key={media?.id} onClick={() => downloadFile(media?.url)}>
                                                 <img className="rounded img-fluid shadow"
                                                     src={`${media?.url}?w=248&fit=crop&auto=format`}
                                                     srcSet={`${media?.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -263,7 +289,17 @@ const RightSide = ({ form, projet }) => {
                     <div className="col-md-12">
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Etat du projet : </p>
-                            <p className="fs-4 lh-sm fw-bolder">{projet?.etat_complet}</p>
+                            <p className="fs-4 lh-sm fw-bolder mb-1">
+                                {{
+                                    'ATTENTE': <span className="badge bg-secondary p-2">{projet.etat_complet}</span>,
+                                    'ATTENTE_VALIDATION_ADMIN': <span className="badge bg-secondary p-2">En attente d'approbation</span>,
+                                    'REJETE': <span className="badge bg-danger p-1">{projet.etat_complet}</span>,
+                                    'ATTENTE_DOCUMENT_SUP': <span className="badge bg-dark p-2">{projet.etat_complet}</span>,
+                                    'ATTENTE_PAIEMENT': <span className="badge bg-warning p-2">{projet.etat_complet}</span>,
+                                    'CLOTURE': <span className="badge bg-success p-2">{projet.etat_complet}</span>,
+                                    'PUBLIE': <span className="badge bg-success p-2">{projet.etat_complet}</span>,
+                                }[projet.etat] || <span className="badge bg-secondary p-2">En attente de publication</span>}
+                            </p>
                             <Divider></Divider>
                         </div>
                         <div className="mb-1">

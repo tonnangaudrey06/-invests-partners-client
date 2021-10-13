@@ -29,7 +29,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const ChatMessagesPorteurProjet = ({ match, history, user }) => {
-
     const { params: { receiver, conversation, projet } } = match;
 
     const [messages, setMessages] = React.useState([])
@@ -58,7 +57,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
 
         setSendLoading(true)
 
-        MessageService.send(user?.id, receiver, data).then(
+        MessageService.send(user?.id, receiver, conversation, data).then(
             (rs) => {
                 hidePayement();
                 setSuccess(true);
@@ -81,26 +80,24 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
         )
     }
 
-
     const handleSuccessAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setSuccess(false);
-    };
+    }
 
     const handleErrorAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setError(false);
-    };
-
+    }
 
     const fetchData = async () => {
         setLoading(true);
         try {
-            const rs = await MessageService.getAll(conversation);
+            const rs = await MessageService.getAll(user?.id, conversation);
             setMessages(rs.data.data);
             setLoading(false);
         } catch (error) {
@@ -115,7 +112,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
     return (
         <div>
             <div className="w-100 d-flex justify-content-between align-items-center mb-4">
-                <h3 className="fw-bolder">{messages.length > 0 && messages[0]?.projet_data?.intitule}</h3>
+                <h3 className="fw-bolder">{messages.length > 0 && messages[0]?.projet_data?.intitule ? messages[0]?.projet_data?.intitule : 'Conseil'}</h3>
                 <div className="message-actions d-flex align-items-center">
                     <Button
                         onClick={fetchData}
@@ -155,7 +152,6 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                     </div>
                 ))}
             </div>
-
 
             <Modal
                 show={visible}
