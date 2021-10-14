@@ -123,7 +123,7 @@ const RightSide = ({ form, projet }) => {
                             ))}
                     </Grid>
 
-                    <Grid item xs={12} md={6} className="mt-4">
+                    <Grid item xs={12} md={12} className="mt-4">
                         <Divider></Divider>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Document de presentation</p>
                         {projet?.doc_presentation && (
