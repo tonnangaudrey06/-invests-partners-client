@@ -17,6 +17,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 import * as Redux from 'react-redux'
 
@@ -45,6 +47,7 @@ class Login extends React.Component {
 
     this.state = {
       email: '',
+      role: 3,
       password: '',
       remenber: true,
       loading: false,
@@ -115,6 +118,7 @@ class Login extends React.Component {
     const user = {
       email: this.state.email,
       password: this.state.password,
+      role: this.state.role,
       remember: this.state.remenber
     }
 
@@ -149,85 +153,102 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(this.props?.location?.state?.from?.pathname);
     return (
       <form className="login-form px-sm-0 px-md-5" onSubmit={this.handleLogin}>
-        <div className="d-flex justify-content-xl-center align-items-center">
+        {/* <div className="d-flex justify-content-xl-center align-items-center">
           <img src={logo} width="150" alt="I&P" />
-        </div>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={12}>
-            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
-              <TextField
-                fullWidth
-                required
-                size="small"
-                error={this.state.error}
-                type="email"
-                variant="filled"
-                label="Email"
-                placeholder="example@domaine.com"
-                value={this.state.email}
-                onChange={this.onChangeUsername}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AiOutlineMail />
-                    </InputAdornment>
-                  ),
-                }} />
-            </FormControl>
+        </div> */}
+        <div className="d-flex flex-column justify-content-center align-items-center h-100">
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                <div className="d-flex flex-column align-items-center">
+                  <h6 className="fw-bolder">Qui êtes-vous ?</h6>
+                  <RadioGroup
+                    row
+                    value={this.state.role || 3}
+                    onChange={(e, value) => this.setState({ role: value })}
+                  >
+                    <FormControlLabel value={3} control={<Radio />} label="Un porteur de projet" />
+                    <FormControlLabel value={4} control={<Radio />} label="Un investisseur" />
+                  </RadioGroup>
+                </div>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                <TextField
+                  fullWidth
+                  required
+                  size="small"
+                  error={this.state.error}
+                  type="email"
+                  variant="filled"
+                  label="Email"
+                  placeholder="example@domaine.com"
+                  value={this.state.email}
+                  onChange={this.onChangeUsername}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AiOutlineMail />
+                      </InputAdornment>
+                    ),
+                  }} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  error={this.state.error}
+                  required
+                  variant="filled"
+                  label="Mot de passe"
+                  placeholder="*******"
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  value={this.state.password}
+                  onChange={this.onChangePassword}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <RiLock2Line />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }} />
+              </FormControl>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={12}>
-            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
-              <TextField
-                fullWidth
-                size="small"
-                error={this.state.error}
-                required
-                variant="filled"
-                label="Mot de passe"
-                placeholder="*******"
-                type={this.state.showPassword ? 'text' : 'password'}
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <RiLock2Line />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }} />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <div className="form-end w-75">
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label="Se souvenir de moi" />
+          <div className="form-end w-75">
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label="Se souvenir de moi" />
+            </div>
+            <a href="#" className="text-decoration-none fs-6">Mot de Passe oublié ?</a>
+            {/* <a href="dsfdsf">Mot de Passe oublié ?</a> */}
           </div>
-          <a href="#" className="text-decoration-none fs-6">Mot de Passe oublié ?</a>
-          {/* <a href="dsfdsf">Mot de Passe oublié ?</a> */}
+          <LoadingButton
+            className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
+            loading={this.state.loading}
+            disabled={!this.validation}
+            type={'submit'}
+            variant="contained"
+          >
+            Connexion
+          </LoadingButton>
         </div>
-        <LoadingButton
-          className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
-          loading={this.state.loading}
-          disabled={!this.validation}
-          type={'submit'}
-          variant="contained"
-        >
-          Connexion
-        </LoadingButton>
+
         <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={this.state.error} autoHideDuration={10000} onClose={this.handleErrorAlertClose}>
           <Alert onClose={this.handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
             {this.state.message}

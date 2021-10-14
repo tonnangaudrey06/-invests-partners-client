@@ -41,6 +41,18 @@ class AuthService {
         });
     }
 
+    check(user) {
+        return new Promise((resolve, reject) => {
+            http.post(source + 'check/register', user)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
     profile() {
         return new Promise((resolve, reject) => {
             http.get(source + 'profile')

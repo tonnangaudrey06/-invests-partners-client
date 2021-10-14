@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from "react-redux";
 
 import moment from 'moment'
+import { Modal } from 'react-bootstrap';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,12 +13,23 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { UserService, PlageInvestissementService } from '../../../../core/services'
+import { UserService, PlageInvestissementService, CampayService } from '../../../../core/services';
+import { setLoadingFalse, setLoadingTrue } from '../../../../core/reducers/app/actions'
+
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
+import useGeoLocation from "react-ipgeolocation";
 
 import { moneyFormat } from '../../../../core/utils/helpers'
 import { user } from '../../../../core/reducers/auth/actions'
@@ -41,11 +53,82 @@ const ProfilPorteurProjet = (props) => {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [message, setMessage] = React.useState('');
-    const [plage, setPlage] = React.useState([])
+    const [selectedPlage, setSelectedPlage] = React.useState(null);
+    const [supPay, setSupPay] = React.useState(0);
+    const [plage, setPlage] = React.useState([]);
+    const [numero, setNumero] = React.useState('')
+    const [messagePay, setMessagePay] = React.useState('')
+    const [methodPaiement, setMethodPaiement] = React.useState('OM')
+    const [paiement, setPaiement] = React.useState({
+        pending: false,
+        failed: false
+    })
     const [password, setPassword] = React.useState({
         old: '',
         new: ''
     });
+
+    const [visible, setVisible] = React.useState(false);
+
+    const loc = useGeoLocation();
+
+    const countdown = (refrence) => {
+        let x = setInterval(async () => {
+            try {
+                const rs = await CampayService.checkPayment(refrence);
+                if (rs.status === "FAILED") {
+                    clearInterval(x);
+                    setPaiement({ pending: false, failed: true });
+                    setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                } else if (rs.status === "SUCCESSFUL") {
+                    clearInterval(x);
+                    setPaiement({ pending: false, failed: false });
+                    hidePayement();
+                    changeUserPlage();
+                } else if (rs.status === "PENDING") {
+                    setPaiement({ pending: true, failed: false });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }, 5000);
+    }
+
+    const payer = async () => {
+        setPaiement({ pending: true, failed: false });
+        try {
+            const rs = await CampayService.payInscription(numero);
+            let messageP = 'La transaction ';
+
+            if (methodPaiement === 'MOMO') {
+                messageP = messageP + 'MTN Mobile Money'
+            }
+
+            if (methodPaiement === 'OM') {
+                messageP = messageP + 'Orange Money'
+            }
+
+            setMessagePay(`${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`);
+
+            countdown(rs.reference);
+        } catch (error) {
+            setPaiement({ pending: false, failed: true });
+            console.log(error);
+        }
+    }
+
+    const hidePayement = () => {
+        setVisible(false);
+        setMessage('');
+        setSupPay(0);
+        setSelectedPlage(null)
+    }
+
+    const openChangePlage = (item) => {
+        setVisible(true);
+        setSelectedPlage(item);
+        setSupPay(+item.frais_abonnement - (+user.profil_invest?.frais_abonnement))
+    }
 
     const handleErrorAlertOpen = () => {
         setError(true);
@@ -94,10 +177,40 @@ const ProfilPorteurProjet = (props) => {
         )
     };
 
+    const changeUserPlage = () => {
+        setLoading(true);
+        props.setLoadingTrue();
+        UserService.updateProfil(user.id, { profil: selectedPlage?.id }).then(
+            (rs) => {
+                setUser(rs.data.data);
+                props.setUserData(rs.data.data);
+                setLoading(false);
+                props.setLoadingFalse();
+                setMessage('Plage d\'investissement mis à jour avec succès');
+                handleSuccessAlertOpen()
+            },
+            (error) => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                props.setLoadingFalse();
+                setMessage(resMessage);
+                setLoading(false);
+                handleErrorAlertOpen();
+            }
+        );
+    };
+
+
     const changeUser = (e) => {
         e.preventDefault();
 
         setLoading(true);
+        props.setLoadingTrue();
 
         const data = user;
         delete data.nom_complet;
@@ -107,6 +220,7 @@ const ProfilPorteurProjet = (props) => {
         delete data.role_data;
         delete data.documents_fiscaux;
         delete data.email_verified_at;
+        delete data.profil_invest;
         delete data.updated_at;
         delete data.status;
         delete data.folder;
@@ -117,6 +231,7 @@ const ProfilPorteurProjet = (props) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Profil mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -129,6 +244,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setMessage(resMessage);
+                props.setLoadingFalse();
                 setLoading(false);
                 handleErrorAlertOpen();
             }
@@ -138,9 +254,11 @@ const ProfilPorteurProjet = (props) => {
     const changePassword = (e) => {
         e.preventDefault();
         setLoading(true);
+        props.setLoadingTrue();
         UserService.updatePassword(user.id, password).then(
             (rs) => {
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Mot de passe mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -153,6 +271,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setMessage(resMessage);
+                props.setLoadingFalse();
                 setLoading(false);
                 handleErrorAlertOpen();
             }
@@ -162,9 +281,11 @@ const ProfilPorteurProjet = (props) => {
     const changePhoto = (e) => {
         let formData = new FormData();
         formData.append('photo', e.target.files[0]);
+        props.setLoadingTrue();
         UserService.updatePhoto(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
+                props.setLoadingFalse();
                 props.setUserData(rs.data.data);
                 setMessage('Photo de profil mis à jour avec succès');
                 handleSuccessAlertOpen()
@@ -178,6 +299,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setMessage(resMessage);
+                props.setLoadingFalse();
                 handleErrorAlertOpen();
             }
         )
@@ -188,10 +310,12 @@ const ProfilPorteurProjet = (props) => {
         formData.append('type', 'RCCM');
         formData.append('document', e.target.files[0]);
         setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
+                props.setLoadingFalse();
                 setLoading(false);
                 setMessage('RCCM mis à jour avec succès');
                 handleSuccessAlertOpen()
@@ -205,6 +329,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -216,11 +341,13 @@ const ProfilPorteurProjet = (props) => {
         formData.append('type', 'CARTE_CONTRIBUABLE');
         formData.append('document', e.target.files[0]);
         setLoading(true);
+        props.setLoadingTrue();
         UserService.updateDocumentFiscal(user.id, formData).then(
             (rs) => {
                 setUser(rs.data.data);
                 props.setUserData(rs.data.data);
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage('Carte contribuable mis à jour avec succès');
                 handleSuccessAlertOpen()
             },
@@ -233,6 +360,7 @@ const ProfilPorteurProjet = (props) => {
                     error.toString();
 
                 setLoading(false);
+                props.setLoadingFalse();
                 setMessage(resMessage);
                 handleErrorAlertOpen();
             }
@@ -271,7 +399,7 @@ const ProfilPorteurProjet = (props) => {
                             Securité
                         </button>
                         <button className="nav-link fw-bolder fs-5" id="nav-abonnement-tab" data-bs-toggle="tab" data-bs-target="#nav-abonnement" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
-                            Abonnement
+                            Plage d'investissement
                         </button>
                     </div>
                 </div>
@@ -444,9 +572,10 @@ const ProfilPorteurProjet = (props) => {
                                                         label={user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}
                                                         variant="filled"
                                                         placeholder={user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}
-                                                        value={user?.pays}
+                                                        value={user?.pays || ''}
                                                         onChange={(e) => setUser({ ...user, pays: e.target.value })}
                                                     >
+                                                        <option hidden value="">{user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}</option>
                                                         {Pays.map((item, index) => (
                                                             <option key={item} value={item}>
                                                                 {item}
@@ -595,18 +724,18 @@ const ProfilPorteurProjet = (props) => {
                                     <p className="text-muted mb-5">Modifier votre plage d'investissement.</p>
                                     <div class="row card-deck mb-3 text-center">
                                         {(plage || []).map((item, index) => (
-                                            <div className="col-md-4">
-                                                <div class={item.id === user?.profil ? "card mb-4 box-shadow border-success" : "card mb-4 box-shadow" }>
+                                            <div className="col-sm-12 col-md-6 col-lg-4">
+                                                <div class={item.id === user?.profil ? "card mb-4 box-shadow border-success" : "card mb-4 box-shadow"}>
                                                     <div class="card-header">
-                                                        <h4 class="my-0 fw-bolder">{ item.type }</h4>
+                                                        <h4 class="my-0 fw-bolder">{item.type}</h4>
                                                     </div>
                                                     <div class="card-body">
-                                                        <h1 class="card-title pricing-card-title">{ moneyFormat(item.frais_abonnement) } XAF</h1>
+                                                        <h1 class="card-title pricing-card-title">{moneyFormat(item.frais_abonnement)} XAF</h1>
                                                         <p class="mt-3">
-                                                            Peut investir sur des projets de { moneyFormat(item.montant_min) } XAF à { moneyFormat(item.montant_max) } XAF
+                                                            Peut investir sur des projets de <br /> <strong>{(!item.montant_min || item.montant_min === 0) ? item.min : moneyFormat(item.montant_min) + ' XAF'}</strong> <br />à<br /> <strong>{(!item.montant_max || item.montant_max === 0) ? item.max : moneyFormat(item.montant_max) + ' XAF'}</strong>
                                                         </p>
                                                         {item.id === user?.profil && (<span class="badge bg-success p-2 mt-3">Votre abonnement actuel</span>)}
-                                                        {item.id !== user?.profil && (<button type="button" class="mt-3 btn btn-sm btn-block btn-primary">souscrire</button>)}
+                                                        {item.id !== user?.profil && (<button type="button" class="mt-3 btn btn-sm btn-block btn-primary" onClick={() => openChangePlage(item)}>Souscrire</button>)}
                                                     </div>
                                                 </div>
                                             </div>
@@ -618,13 +747,72 @@ const ProfilPorteurProjet = (props) => {
                     </div>
                 </div>
             </div>
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+
+            <Modal
+                show={visible}
+                onHide={hidePayement}
+                backdrop="static"
+                keyboard={false}
+                centered
+            >
+                <Modal.Header closeButton={!loading}>
+                    <Modal.Title>Changement votre plage</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Vous paierez un supplément de <strong>{moneyFormat(supPay)} XAF</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
+                    <hr/>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={12}>
+                            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                                <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
+                                <RadioGroup
+                                    row
+                                    value={methodPaiement || 'OM'}
+                                    onChange={(e, value) => setMethodPaiement(value)}
+                                >
+                                    <FormControlLabel value="OM" control={<Radio />} label="Orange Money" />
+                                    <FormControlLabel value="MOMO" control={<Radio />} label="MTN Mobile Money" />
+                                    {/* <FormControlLabel value="MASTER_CARD" control={<Radio />} label="Master card" /> */}
+                                </RadioGroup>
+                            </FormControl>
+                            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                                <h6 className="fw-bolder">Votre numéro de téléphone</h6>
+                                <PhoneInput
+                                    defaultCountry={loc.country}
+                                    placeholder="Numéro de téléphone"
+                                    value={numero || ''}
+                                    onChange={setNumero}
+                                />
+
+                            </FormControl>
+                            <p className="my-2 text-center fw-bolder">{messagePay}</p>
+                            {/* <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                                <h6 className="fw-bolder">Votre carte bancaire</h6>
+                                <input type="text" />
+                            </FormControl> */}
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <div className="d-flex justify-content-center align-items-center w-100">
+                                <LoadingButton
+                                    className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                                    loading={paiement.pending}
+                                    disabled={!numero}
+                                    onClick={payer}
+                                    variant="contained"
+                                >
+                                    Payer
+                                </LoadingButton>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </Modal.Body>
+            </Modal>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
             </Snackbar>
-
-            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%' }}>
                     {message}
                 </Alert>
@@ -637,7 +825,9 @@ const mapStateToProps = (state) => ({ auth: state.auth });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUserData: (payload) => dispatch(user(payload))
+        setUserData: (payload) => dispatch(user(payload)),
+        setLoadingTrue: () => dispatch(setLoadingTrue()),
+        setLoadingFalse: () => dispatch(setLoadingFalse())
     }
 };
 

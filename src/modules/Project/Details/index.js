@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Modal } from 'react-bootstrap';
 
 import Videoplay from './components/Videoplay';
 import Description from "./components/Description";
@@ -18,7 +18,6 @@ import { moneyFormat } from '../../../core/utils/helpers';
 
 import '../../../styles/detailProjet.scss'
 
-import { Modal } from 'react-bootstrap';
 import { connect } from "react-redux";
 
 import Snackbar from '@mui/material/Snackbar';
@@ -82,7 +81,6 @@ const ProjetDetails = ({ match, location, history, user }) => {
         setLoading(false)
     }
 
-
     const handleSuccessAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -136,12 +134,12 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                 <div className="card-body">
                                     <ul className="list-group list-group-flush">
                                         <li className="list-group-item"><span className="fw-bolder">Catégorie :</span> {details?.secteur_data?.libelle}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Localité :</span> {details?.ville_activite}, {details?.pays_activite}</li>
+                                        <li className="list-group-item mt-1"><span className="fw-bolder">Localisation :</span> {details?.ville_activite}, {details?.pays_activite}</li>
                                         {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Taux de rentabilité :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : 'Non defini'}</li>
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + '%' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' ans' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Retour sur investissement :</span> {details?.rsi ? details?.rsi + ' ans' : 'Non defini'}</li>
+                                        <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' mois' : 'Non defini'}</li>
+                                        <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
                                     </ul>
                                 </div>
                                 <div className="card-footer d-flex justify-content-between align-items-center py-3">
