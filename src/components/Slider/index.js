@@ -34,8 +34,8 @@ const BannerSlider = ({ slides }) => {
     arrows: false,
     infinite: true,
     speed: 1500,
-    autoplay: false,
-    autoplaySpeed: 15000,
+    autoplay: true,
+    autoplaySpeed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1
   };
@@ -57,7 +57,7 @@ const BannerSlider = ({ slides }) => {
   return (
     <div id="carouselExampleSlidesOnly" class="carousel slide" style={{height: '100vh'}}>
       <div className="slide-section carousel-inner h-100" role="listbox">
-        <Slider ref={c => (slider = c)} {...settings} className="slider-overlay">
+        <Slider ref={c => (slider = c)} {...settings}>
           {slides.map((slide, index) => (
             <div class="carousel-item active">
               <img class="d-block img-fluid" src={slide.image} alt={slide.image} />
