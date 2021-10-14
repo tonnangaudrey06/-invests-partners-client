@@ -202,6 +202,7 @@ const HomeScreen = () => {
                     trigger={<MdAddCircle className="expert-button-view" fill="#c5473b" size={40} />}
                     modal
                     nested
+                    
                   >
                     {close => (
                       <div className="modal-experts">
@@ -212,7 +213,7 @@ const HomeScreen = () => {
                           <img className="modal-experts-image" alt="Expert I&P" src={item.image} />
                           <div className="modal-experts-present">
                             <p className="name">{item.name}</p>
-                            <div style={{ marginBottom: 20 }}>{item.role}</div>
+                            <div className="poste" style={{ marginBottom: 20 }}>{item.role}</div>
                             <div className="bibio">Biographie</div>
                             <p>{item.bio}</p>
                             <p className="modal-experts-contact">

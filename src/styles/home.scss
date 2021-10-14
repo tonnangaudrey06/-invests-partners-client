@@ -593,6 +593,37 @@
 /**
   EXPERT
 **/
+
+.popup-content{
+   
+  justify-items: center;
+  
+  @media screen and (max-width:980px){
+    width: 95%!important;
+    margin-top: 80px!important;
+  }
+  
+  p{
+    @media screen and (max-width:680px){
+      font-size: x-small;
+      line-height: 1.5em;
+    }
+    @media screen and (min-width:980px){
+      font-size: 1em;
+    }
+  }
+ 
+}
+.poste{
+  @media screen and (max-width:680px){
+    font-size: x-small;
+    line-height: 1em;
+    
+  }
+  @media screen and (min-width:980px){
+    font-size: 1em;
+  }
+}
 .expert-grid {
   display: flex;
  // max-width: 100vw;
@@ -640,9 +671,15 @@
 }
 
 .modal-experts {
-  font-size: 18px;
-  width: 100%;
+  font-size: 1em;
+  width: 100%!important;
+
 }
+.popup{
+  background-color: hotpink!important;
+}
+
+
 
 .modal-experts .modal-experts-content {
   width: 100%;
