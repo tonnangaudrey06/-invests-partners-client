@@ -10,12 +10,14 @@ const SliderData = [
             {
                 text: 'Découvrir les opportunités',
                 color: 'white',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                url: '/projets'
             },
             {
-                text: 'Parler à un conseillé',
+                text: 'Parler à un conseiller',
                 color: 'grey',
-                backgroundColor: '#585b60'
+                backgroundColor: '#585b60',
+                url: '/contact'
             }
         ],
         image: Image1,
@@ -27,10 +29,17 @@ const SliderData = [
         Path: '/',
         label: [
             {
-                text: 'Voir les projets',
+                text: 'Découvrir les opportunités',
                 color: 'white',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                url: '/projets'
             },
+            {
+                text: 'Parler à un conseiller',
+                color: 'grey',
+                backgroundColor: '#585b60',
+                url: '/contact'
+            }
         ],
         image: Image2,
         alt: 'image 2'

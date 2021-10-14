@@ -60,7 +60,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
 
         setLoading(true)
 
-        MessageService.send(user?.id, details?.secteur_data?.conseiller_data?.id, data).then(
+        MessageService.interesse(user?.id, details?.secteur_data?.conseiller_data?.id, data).then(
             (rs) => {
                 hidePayement();
                 setSuccess(true);

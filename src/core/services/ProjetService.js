@@ -35,6 +35,17 @@ class ProjetService {
             }
         });
     }
+
+    valideProjet(projet) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.post(`${source}/${projet}/valide`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 
 export default new ProjetService();

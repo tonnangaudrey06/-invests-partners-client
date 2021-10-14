@@ -3,10 +3,10 @@ import http from '../utils/http-common';
 const source = "api/chats";
 
 class MessageService {
-    send(sender, receiver, data) {
+    send(sender, receiver, conversation, data) {
         return new Promise(async (resolve, reject) => {
             try {
-                const rs = await http.post(`${source}/${sender}/send/${receiver}`, data);
+                const rs = await http.post(`${source}/${sender}/${conversation}/send/${receiver}`, data);
                 resolve(rs);
             } catch (error) {
                 reject(error);
@@ -14,10 +14,32 @@ class MessageService {
         });
     }
 
-    getAll(sender) {
+    new(sender, receiver, data) {
         return new Promise(async (resolve, reject) => {
             try {
-                const rs = await http.get(`${source}/${sender}/inbox`);
+                const rs = await http.post(`${source}/${sender}/conversation/${receiver}`, data);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    interesse(sender, receiver, data) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.post(`${source}/${sender}/interesse/${receiver}`, data);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    getAll(sender, conversation) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(`${source}/${sender}/${conversation}/inbox`);
                 resolve(rs);
             } catch (error) {
                 reject(error);

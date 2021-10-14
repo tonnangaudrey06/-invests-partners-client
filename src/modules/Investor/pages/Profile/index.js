@@ -367,7 +367,7 @@ const ProfilPorteurProjet = (props) => {
                             <div className="tab-pane fade show active" id="nav-basic" role="tabpanel" aria-labelledby="basic-tab">
                                 <form onSubmit={changeUser}>
                                     <div className="p-3 py-5">
-                                        <h3 className="fw-bolder">Informations basics</h3>
+                                        <h3 className="fw-bolder">Informations de base</h3>
                                         <p className="text-muted mb-5">Modifier vos informations personnelles.</p>
                                         <Grid container spacing={2} sx={{ pb: 2 }}>
                                             <Grid item xs={12} md={user?.status === 'PARTICULIER' ? 6 : 12}>

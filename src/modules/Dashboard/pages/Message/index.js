@@ -10,6 +10,7 @@ const MessagesPorteurProjet = ({ match, history }) => {
             <Switch>
                 <Route exact path={`${match.path}`} component={ConversationMessagesPorteurProjet} />
                 <Route exact path={`${match.path}/:receiver/:conversation/:projet/chat`} component={ChatMessagesPorteurProjet} />
+                <Route exact path={`${match.path}/:receiver/:conversation/chat`} component={ChatMessagesPorteurProjet} />
                 <Route exact path={`${match.path}/new`} component={NouveauMessagePorteurProjet} />
                 <Route exact path={`${match.path}/:id/read`} component={RepondMessagePorteurProjet} />
             </Switch>
