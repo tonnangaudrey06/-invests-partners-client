@@ -275,7 +275,7 @@ const HomeScreen = () => {
             <div className="mt-4 row">
               <div className="col-sm">
                 
-                <img className="partner-image" alt="Partenaires" src={image2} />
+                {/* <img className="partner-image" alt="Partenaires" src={image2} /> */}
               </div>
 
             </div>
@@ -304,7 +304,7 @@ const HomeScreen = () => {
         </div>
 
         <div className="section-chiffre py-2 pb-5">
-          <SectionTitle title="Le Cameroun: une terre propice pour l'agriculture" titleCss={{ color: 'white' }} dividerCss={{ borderColor: 'white' }} />
+          {/* <SectionTitle title="Le Cameroun: une terre propice pour l'agriculture" titleCss={{ color: 'white' }} dividerCss={{ borderColor: 'white' }} /> */}
           <div className="container-fluid mt-5">
             <div className="row">
               <div className="col-md-4">
@@ -313,30 +313,30 @@ const HomeScreen = () => {
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Investisseurs
                   </p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="d-flex align-items-center flex-column">
-                  <h3 className="display-3 text-white">100 mm</h3>
+                  <h3 className="display-3 text-white">5</h3>
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Projet investis
                   </p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="d-flex align-items-center flex-column">
-                  <h3 className="display-3 text-white">9M Ha</h3>
+                  <h3 className="display-3 text-white">9M XAF</h3>
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Montant de financement recu
                   </p>
                 </div>
               </div>
