@@ -34,18 +34,51 @@ const RightSide = ({ form, projet }) => {
         return (
             <div className="p-4">
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={12}>
+                    <Grid item xs={12} md={3}>
+                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Logo</p>
+                        {projet?.logo && (
+                            <a download href={projet?.logo} rel="noreferrer" target="_blank" >
+                                <img className="rounded img-fluid shadow"
+                                    width="100"
+                                    src={`${projet?.logo}?w=248&fit=crop&auto=format`}
+                                    srcSet={`${projet?.logo}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                    alt={projet?.logo}
+                                    loading="lazy"
+                                />
+                            </a>
+
+                            // <List sx={{ width: '80%' }}>
+                            //     <ListItem
+                            //         disableGutters
+                            //         secondaryAction={
+                            //             <IconButton color="primary" onClick={() => downloadFile(projet?.logo)} edge="end">
+                            //                 <RiDownload2Fill />
+                            //             </IconButton>
+                            //         }
+                            //     >
+                            //         <ListItemAvatar>
+                            //             <Avatar>
+                            //                 <ImageIcon />
+                            //             </Avatar>
+                            //         </ListItemAvatar>
+                            //         <ListItemText primary="Logo" />
+                            //     </ListItem>
+                            // </List>
+                        )}
+                    </Grid>
+                    <Grid item xs={12} md={6}>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Projet</p>
                         <p className="fs-5">{projet?.intitule}</p>
-                        <Divider></Divider>
                     </Grid>
-                    <Grid item xs={12} md={6} className="mt-3">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Secteur d'activite</p>
+                    <Grid item xs={12} md={6} className="mt-1">
+                        <Divider></Divider>
+                        <p className="fw-bolder fs-3 text-primary mt-3" style={{ fontFamily: 'building' }}>Secteur d'activite</p>
                         <p className="fs-5">{projet?.secteur_data?.libelle}</p>
                         <Divider></Divider>
                     </Grid>
-                    <Grid item xs={12} md={6} className="mt-3">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Niveau d'avancement</p>
+                    <Grid item xs={12} md={6} className="mt-1">
+                        <Divider></Divider>
+                        <p className="fw-bolder fs-3 text-primary mt-3" style={{ fontFamily: 'building' }}>Niveau d'avancement</p>
                         <p className="fs-5">{projet?.avancement_complet}</p>
                         <Divider></Divider>
                     </Grid>
@@ -90,32 +123,7 @@ const RightSide = ({ form, projet }) => {
                             ))}
                     </Grid>
 
-                    <Grid item xs={12} md={6} className="mt-4">
-                        <Divider></Divider>
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Logo</p>
-                        {projet?.logo && (
-                            <List sx={{ width: '80%' }}>
-                                <ListItem
-                                    disableGutters
-                                    secondaryAction={
-                                        <IconButton color="primary" onClick={() => downloadFile(projet?.logo)} edge="end">
-                                            <RiDownload2Fill />
-                                        </IconButton>
-                                    }
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <ImageIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary="Logo" />
-                                </ListItem>
-                            </List>
-                        )}
-                        <Divider />
-                    </Grid>
-
-                    <Grid item xs={12} md={6} className="mt-4">
+                    <Grid item xs={12} md={12} className="mt-4">
                         <Divider></Divider>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Document de presentation</p>
                         {projet?.doc_presentation && (
@@ -199,10 +207,10 @@ const RightSide = ({ form, projet }) => {
     const News = () => {
         return (
             <div className="container mt-3 mb-5">
-                <p className="text-center w-100 fs-2" style={{ fontFamily: 'building' }}>Ajouter une actualite pour ce project</p>
+                {/* <p className="text-center w-100 fs-2" style={{ fontFamily: 'building' }}>Ajouter une actualite pour ce project</p>
                 <Link style={{ display: 'flex', justifyContent: 'center', borderRadius: 30, height: 80, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.1' }} className="dash-img-project">
                     <BiPlusMedical size={30} fill='grey' />
-                </Link>
+                </Link> */}
                 <div className="mt-5">
                     <p className="text-center w-100 fs-2 mb-5" style={{ fontFamily: 'building' }}>Toutes les actualites</p>
 
@@ -291,14 +299,14 @@ const RightSide = ({ form, projet }) => {
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Etat du projet : </p>
                             <p className="fs-4 lh-sm fw-bolder mb-1">
                                 {{
-                                    'ATTENTE': <span className="badge bg-secondary p-2">{projet.etat_complet}</span>,
-                                    'ATTENTE_VALIDATION_ADMIN': <span className="badge bg-secondary p-2">En attente d'approbation</span>,
+                                    'ATTENTE': <span className="badge bg-secondary p-1">{projet.etat_complet}</span>,
+                                    'ATTENTE_VALIDATION_ADMIN': <span className="badge bg-secondary p-1">En attente d'approbation</span>,
                                     'REJETE': <span className="badge bg-danger p-1">{projet.etat_complet}</span>,
-                                    'ATTENTE_DOCUMENT_SUP': <span className="badge bg-dark p-2">{projet.etat_complet}</span>,
-                                    'ATTENTE_PAIEMENT': <span className="badge bg-warning p-2">{projet.etat_complet}</span>,
-                                    'CLOTURE': <span className="badge bg-success p-2">{projet.etat_complet}</span>,
-                                    'PUBLIE': <span className="badge bg-success p-2">{projet.etat_complet}</span>,
-                                }[projet.etat] || <span className="badge bg-secondary p-2">En attente de publication</span>}
+                                    'ATTENTE_DOCUMENT_SUP': <span className="badge bg-dark p-1">{projet.etat_complet}</span>,
+                                    'ATTENTE_PAIEMENT': <span className="badge bg-warning p-1">{projet.etat_complet}</span>,
+                                    'CLOTURE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
+                                    'PUBLIE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
+                                }[projet.etat] || <span className="badge bg-secondary p-1">En attente de publication</span>}
                             </p>
                             <Divider></Divider>
                         </div>
@@ -309,29 +317,29 @@ const RightSide = ({ form, projet }) => {
                         </div>
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Duree du projet: </p>
-                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.duree)}</p>
+                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.duree)} Mois</p>
                             <Divider></Divider>
                         </div>
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Retour sur investissement: </p>
-                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.rsi)} ans</p>
+                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.rsi)} Mois</p>
                             <Divider></Divider>
                         </div>
-                        <div className="mb-1">
+                        {/* <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Duree du projet: </p>
                             <p className="fs-4 lh-sm fw-bolder"></p>
                             <Divider></Divider>
-                        </div>
+                        </div> */}
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Taux de rentabilite</p>
                             <p className="fs-4 lh-sm fw-bolder">{numberPercentage(projet?.taux_rentabilite)}</p>
                             <Divider></Divider>
                         </div>
                         <div className="mb-1">
-                            <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Conseille en investissement</p>
-                            <p className="fs-4 lh-sm fw-bolder">{projet?.secteur_data?.conseille_data?.nom_complet}</p>
-                            <p className="text-muted small lh-sm">Email: {projet?.secteur_data?.conseille_data?.email}</p>
-                            <p className="text-muted small lh-sm">Téléphone: {projet?.secteur_data?.conseille_data?.telephone}</p>
+                            <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Conseiller en investissement</p>
+                            <p className="fs-4 lh-sm fw-bolder">{projet?.secteur_data?.conseiller_data?.nom_complet}</p>
+                            <p className="text-muted small lh-sm">Email: {projet?.secteur_data?.conseiller_data?.email}</p>
+                            <p className="text-muted small lh-sm">Téléphone: {projet?.secteur_data?.conseiller_data?.telephone}</p>
                         </div>
                         {/* <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'ajout aux favoris</p>

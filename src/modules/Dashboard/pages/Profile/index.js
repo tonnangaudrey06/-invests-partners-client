@@ -112,6 +112,7 @@ const ProfilPorteurProjet = (props) => {
         delete data.anciennete_complet;
         delete data.documents_fiscaux;
         delete data.email_verified_at;
+        delete data.profil_invest;
         delete data.updated_at;
         delete data.status;
         delete data.folder;

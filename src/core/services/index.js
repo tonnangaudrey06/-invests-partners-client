@@ -6,5 +6,16 @@ import ProjetService from "./ProjetService"
 import CampayService from "./CampayService";
 import PlageInvestissementService from "./PlageInvestissementService"
 import MessageService from "./MessageService";
+import AppService from './AppService'
 
-export { AuthService, MembreService, SecteurService, UserService, ProjetService, CampayService, PlageInvestissementService, MessageService }
+export {
+    AppService,
+    AuthService,
+    MembreService,
+    SecteurService,
+    UserService,
+    ProjetService,
+    CampayService,
+    PlageInvestissementService,
+    MessageService
+}

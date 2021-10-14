@@ -8,9 +8,7 @@ import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-// import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
-// import LoadingButton from '@mui/lab/LoadingButton';
 import { styled } from '@mui/material/styles';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -90,8 +88,6 @@ const ProjetAdd = (props) => {
 
     const [projet, setProjet] = React.useState(null);
 
-    // const [user, setUser] = React.useState(null);
-
     const isLastStep = () => {
         return activeStep === steps.length - 1;
     };
@@ -129,7 +125,6 @@ const ProjetAdd = (props) => {
         props.setLoadingTrue();
         UserService.updateDocumentFiscal(auth?.user?.id, formData).then(
             (rs) => {
-                // setUser(rs.data.data);
                 props.setUserData(rs.data.data);
                 props.setLoadingFalse();
                 setMessage(type + ' mis à jour avec succès');
@@ -505,7 +500,7 @@ const ProjetAdd = (props) => {
                                 <Grid item xs={12} md={6} className="mt-1">
                                     {auth.user.pays ? (
                                         <>
-                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}</p>
+                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité de l'entreprise"}</p>
                                             <p className="fs-6">{auth.user.pays}</p>
                                             <Divider></Divider>
                                         </>
@@ -520,11 +515,11 @@ const ProjetAdd = (props) => {
                                             }}
                                             defaultValue=""
                                             variant="filled"
-                                            label={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Ville d'activité"}
-                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité"}
+                                            label={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité de l'entreprise"}
+                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité de l'entreprise"}
                                             onChange={(e) => changeUser(e, { pays: e.target.value })}
                                         >
-                                            <option>Aucun</option>
+                                            <option>{auth.user?.status === 'PARTICULIER' ? "Pays de résidence" : "Pays d'activité de l'entreprise"}</option>
                                             {Pays.map((item, index) => (
                                                 <option key={item} value={item}>
                                                     {item}
@@ -536,7 +531,7 @@ const ProjetAdd = (props) => {
                                 <Grid item xs={12} md={6} className="mt-1">
                                     {auth.user.ville ? (
                                         <>
-                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}</p>
+                                            <p className="fw-bolder fs-5">{auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité de l'entreprise"}</p>
                                             <p className="fs-6">{auth.user.ville}</p>
                                             <Divider></Divider>
                                         </>
@@ -546,8 +541,8 @@ const ProjetAdd = (props) => {
                                             required
                                             size="small"
                                             variant="filled"
-                                            label={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
-                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité"}
+                                            label={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité de l'entreprise"}
+                                            placeholder={auth.user?.status === 'PARTICULIER' ? "Ville de résidence" : "Ville d'activité de l'entreprise"}
                                             value={auth?.user?.ville}
                                             onBlur={(e) => changeUser(e, { ville: e.target.value })}
                                         />
@@ -565,7 +560,7 @@ const ProjetAdd = (props) => {
                                                 onChange={(e, value) => changeUser(e, { anciennete: value })}
                                             >
                                                 <FormControlLabel value={-1} control={<Radio />} label="Moins d'un an six mois" />
-                                                <FormControlLabel value={1} control={<Radio />} label="Plus ou égale à un an" />
+                                                <FormControlLabel value={1} control={<Radio />} label="Plus ou égal à un an six mois" />
                                             </RadioGroup>
                                         </FormControl>
                                     </Grid>
@@ -592,7 +587,7 @@ const ProjetAdd = (props) => {
                                                             color={"error"}
                                                             variant="outlined"
                                                         />
-                                                        <p className="small text-muted">Cliquez pour importer votre CNI<br />(ce documemt est obligatoire)</p>
+                                                        <p className="small text-muted">Cliquez pour importer votre CNI / Passport</p>
                                                     </label>
                                                 )}
                                             </>
@@ -777,6 +772,14 @@ const ProjetAdd = (props) => {
                                                         </div>
                                                     </>
                                                 }
+
+                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                    <Chip
+                                                        label="Autres"
+                                                        color="secondary"
+                                                        variant="outlined"
+                                                    />
+                                                </div>
                                             </div>
                                         )}
                                     </FormControl>

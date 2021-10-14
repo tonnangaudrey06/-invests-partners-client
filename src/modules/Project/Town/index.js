@@ -48,11 +48,23 @@ const ProjetTown = ({ match, location, history, user }) => {
     };
 
     const cardOnClick = (item) => {
-        if(user?.profil_invest?.montant_max < item?.financement) {
+        if(!checkCanFianance(item)) {
             setModalOpen(true);
             setSelectedCard(selectedCard);
         }
         return;
+    }
+
+    const checkCanFianance = (item) => {
+        if(!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
+            return true;
+        }
+
+        if(+user?.profil_invest?.montant_max >= +item?.financement) {
+            return true;
+        }
+
+        return false;
     }
 
     React.useEffect(() => {
@@ -175,7 +187,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                                 />
                                 <CardContent>
                                     <div className="projects-cards-title-container mb-1">
-                                        {user?.profil_invest?.montant_max > item.financement ? (
+                                        {checkCanFianance(item) ? (
                                             <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none text-dark">
                                                 <h5 className="fw-bold">{item.intitule}</h5>
                                             </Link>
@@ -184,14 +196,14 @@ const ProjetTown = ({ match, location, history, user }) => {
                                         )}
                                         <AiOutlineHeart fill={"#c5473b"} size={25} />
                                     </div>
-                                    <p className={user?.profil_invest?.montant_max > item.financement ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
-                                    <p className={user?.profil_invest?.montant_max > item.financement ? "mb-1 text-primary fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
-                                    <div className={user?.profil_invest?.montant_max > item.financement ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
+                                    <p className={checkCanFianance(item) ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
+                                    <p className={checkCanFianance(item) ? "mb-1 text-primary fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
+                                    <div className={checkCanFianance(item) ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
                                         <div>{moneyFormat(item.iv_count)} contributions</div>
                                         <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div>
                                     </div>
                                 </CardContent>
-                                {user?.profil_invest?.montant_max > item.financement && (
+                                {checkCanFianance(item) && (
                                     <div className="projects-cards-plus">
                                         <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
                                             En savoir plus

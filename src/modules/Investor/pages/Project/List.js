@@ -2,7 +2,7 @@ import '../../../../styles/projet.scss'
 
 import * as React from 'react';
 
-// import { MdAddCircle } from 'react-icons/md';
+import { MdAddCircle } from 'react-icons/md';
 // import act1 from '../../../../assets/img/projet.jpg'
 // import Avatar from '@mui/material/Avatar';
 
@@ -152,6 +152,10 @@ const ProjetList = (props) => {
                         <div className="d-flex align-items-cente">
                             <Button className="me-2" onClick={refreshProjets} variant="contained" startIcon={<RefreshIcon />}>
                                 Actualiser
+                            </Button>
+
+                            <Button onClick={() => { props.history.push(`/projets`) }} variant="contained" startIcon={<MdAddCircle />}>
+                                Nouveau investissement
                             </Button>
                         </div>
                     </div>

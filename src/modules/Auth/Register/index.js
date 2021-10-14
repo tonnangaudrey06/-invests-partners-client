@@ -33,7 +33,7 @@ import { useForm } from 'react-hook-form';
 
 import * as Redux from 'react-redux'
 
-import { setPaiementDone, setPaiementPending, setPaiementFailed } from '../../../core/reducers/app/actions'
+import { setLoadingTrue, setLoadingFalse } from '../../../core/reducers/app/actions'
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -44,10 +44,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setDone: () => dispatch(setPaiementDone()),
-        setPending: () => dispatch(setPaiementPending()),
-        setFailed: () => dispatch(setPaiementFailed()),
-        setReference: () => dispatch(setPaiementFailed())
+        setLoadingTrue: () => dispatch(setLoadingTrue()),
+        setLoadingFalse: () => dispatch(setLoadingFalse())
     }
 };
 
@@ -101,14 +99,33 @@ const Register = (props) => {
     const subscribe = () => {
         // setVisible(true);
         if (+state.role === 4) {
-            setVisible(true);
+            handleCheckRegister()
             return;
         }
-        handleLogin();
+        handleRegister();
     }
 
     const hidePayement = () => {
         setVisible(false);
+        setNumero('');
+        setPaiement({
+            pending: false,
+            failed: false
+        });
+        setMessagePay('');
+        setMethodPaiement('OM')
+        setEtat({ ...etat, loading: false });
+    }
+
+    const payementDone = () => {
+        setVisible(false);
+        setNumero('');
+        setPaiement({
+            pending: false,
+            failed: false
+        });
+        setMessagePay('');
+        setMethodPaiement('OM')
     }
 
     const handleErrorAlertOpen = () => {
@@ -122,14 +139,43 @@ const Register = (props) => {
         setEtat({ ...etat, error: false });
     };
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         setEtat({ ...etat, loading: true });
+        props.setLoadingTrue();
 
         AuthService.register(state).then(
             () => {
                 setEtat({ ...etat, loading: false });
+                props.setLoadingFalse();
                 props.switchPage("login");
                 props.sendMessage("Votre compte a été créé avec succès. Vous pouvez à présent vous connecter avec vos d'identifiants");
+            },
+            error => {
+                const rsMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                setMessage(rsMessage);
+                props.setLoadingFalse();
+                setEtat({ ...etat, loading: false });
+                handleErrorAlertOpen();
+            }
+        );
+    }
+
+    const handleCheckRegister = () => {
+        setEtat({ ...etat, loading: true });
+
+        AuthService.check(state).then(
+            () => {
+                if (+state.role === 4) {
+                    setVisible(true);
+                    return;
+                }
+                handleRegister();
             },
             error => {
                 const rsMessage =
@@ -183,8 +229,8 @@ const Register = (props) => {
                     setMessagePay(`La transaction a échoué. Essayez à nouveau`);
                 } else if (rs.status === "SUCCESSFUL") {
                     clearInterval(x);
-                    setPaiement({ pending: false, failed: false });
-                    handleLogin();
+                    payementDone()
+                    handleRegister();
                 } else if (rs.status === "PENDING") {
                     setPaiement({ pending: true, failed: false });
                 }
@@ -233,7 +279,7 @@ const Register = (props) => {
     const loc = useGeoLocation();
 
     return (
-        <form className="login-form" onSubmit={handleSubmit(subscribe)}>
+        <form className="login-form" onSubmit={handleSubmit(handleCheckRegister)}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
                     <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
@@ -303,7 +349,7 @@ const Register = (props) => {
                                 label="Prenom"
                                 placeholder="Prenom"
                                 value={state.prenom || ''}
-                                onChange={(e) => setState({ ...state, prenom: e.target.value })}
+                                onChange={(e) =>{ setValue('prenom', e.target.value, { shouldTouch: true }); setState({ ...state, prenom: e.target.value }) }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">

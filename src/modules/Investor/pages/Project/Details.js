@@ -71,7 +71,7 @@ const ProjectDetails = (props) => {
     return (
         <div>
             <div className="projects-details-dashboard-top" style={{ background: `url(${banner})` }}>
-                <AiOutlineEdit fill="white" style={{ cursor: 'pointer', position: 'absolute', right: 10, top: 10, zIndex: 2 }} size={30} />
+                {/* <AiOutlineEdit fill="white" style={{ cursor: 'pointer', position: 'absolute', right: 10, top: 10, zIndex: 2 }} size={30} /> */}
                 <div className="projects-details-dashboard-top" >
                     <h1 className="title-container">{projet?.intitule}</h1>
                 </div>

@@ -27,12 +27,15 @@ import { MdAddCircle, MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import { WiDayHail } from "react-icons/wi";
 
+import { AppService } from '../../core/services';
+
 const CustomSlide = ({ projet, ...props }) => {
+
   return (
     <div className="p-3" {...props}>
       <div className="projet-ip-item d-flex justify-content-start">
         <div className="projet-ip-image">
-          <img src={projet.image} alt="" style={{borderRadius: "10px 0 0 10px"}} />
+          <img src={projet.image} alt="" style={{ borderRadius: "10px 0 0 10px" }} />
         </div>
         <div className="projet-ip-content justify-content-center" >
           <h3>{projet.title}</h3>
@@ -71,6 +74,12 @@ const CustomSlide = ({ projet, ...props }) => {
 const HomeScreen = () => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
+  
+  const [sliders, setSliders] = React.useState([]);
+  
+  const [partenaires, setPartenaires] = React.useState([]);
+  
+  const [projets, setProjets] = React.useState([]);
 
   var settings = {
     className: "center",
@@ -81,13 +90,10 @@ const HomeScreen = () => {
     slidesToScroll: 1,
     speed: 500,
     arrows: false,
-    
-
-    
   };
 
   var settings2 = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 2,
@@ -130,6 +136,36 @@ const HomeScreen = () => {
   let slider = new Slider(settings);
   let slider2 = new Slider(settings2);
 
+  const fetchSlide = () => {
+    AppService.slider().then(
+      rs => {
+        setSliders(rs.data.data);
+      }
+    )
+  }
+
+  const fetchPartenaire = () => {
+    AppService.partenaire().then(
+      rs => {
+        setPartenaires(rs.data.data);
+      }
+    )
+  }
+
+  const fetchProjet = () => {
+    AppService.partenaire().then(
+      rs => {
+        setProjets(rs.data.data);
+      }
+    )
+  }
+
+  React.useEffect(() => {
+    fetchSlide();
+    fetchPartenaire();
+    fetchProjet();
+  }, [])
+
   const next = () => {
     slider.slickNext();
   }
@@ -140,7 +176,7 @@ const HomeScreen = () => {
 
   return (
     <div>
-      <BannerSlider slides={SlideData} />
+      <BannerSlider slides={sliders} />
 
       <Container header footer>
         <div className="section-service container-fluid px-5 pt-3 pb-5">
@@ -168,7 +204,7 @@ const HomeScreen = () => {
               <p className="sousT">Faire le choix de cheminer avec Invests & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
               {navigateBanner &&
                 <div className="vv lh-base mt-1 ">
-                  <p className="inner-wrapper" style={{ marginTop: '.5em' }} ><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Invests & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p>
+                  {/* <p className="inner-wrapper" style={{ marginTop: '.5em' }} ><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Invests & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p> */}
                   <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</p>
                   <p style={{ marginTop: '.5em' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</p>
                 </div>
@@ -239,9 +275,10 @@ const HomeScreen = () => {
             <p>Invests & Partners s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes.</p>
             <div className="mt-4 row">
               <div className="col-sm">
-                <img className="partner-image" alt="Partenaires" src={image2} />
+                
+                {/* <img className="partner-image" alt="Partenaires" src={image2} /> */}
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -268,7 +305,7 @@ const HomeScreen = () => {
         </div>
 
         <div className="section-chiffre py-2 pb-5">
-          <SectionTitle title="Le Cameroun: une terre propice pour l'agriculture" titleCss={{ color: 'white' }} dividerCss={{ borderColor: 'white' }} />
+          {/* <SectionTitle title="Le Cameroun: une terre propice pour l'agriculture" titleCss={{ color: 'white' }} dividerCss={{ borderColor: 'white' }} /> */}
           <div className="container-fluid mt-5">
             <div className="row">
               <div className="col-md-4">
@@ -277,30 +314,30 @@ const HomeScreen = () => {
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Investisseurs
                   </p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="d-flex align-items-center flex-column">
-                  <h3 className="display-3 text-white">100 mm</h3>
+                  <h3 className="display-3 text-white">5</h3>
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Projet investis
                   </p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="d-flex align-items-center flex-column">
-                  <h3 className="display-3 text-white">9M Ha</h3>
+                  <h3 className="display-3 text-white">9M XAF</h3>
                   <div>
                     <WiDayHail size={100} fill={'white'} />
                   </div>
-                  <p className="fs-3 text-white my-3 text-center">
-                    Les 10 régions du Cameroun offrent de nombreuses opportunités d'affaires
+                  <p className="fs-2 text-white my-3 text-center">
+                    Montant de financement recu
                   </p>
                 </div>
               </div>
