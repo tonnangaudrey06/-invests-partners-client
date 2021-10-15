@@ -372,7 +372,7 @@
 .event-wrapper {
   display: flex;
   flex-wrap: wrap;
-  max-width: 80%;
+  max-width: 90%;
   align-items: center;
   justify-content: center;
 }
@@ -385,6 +385,14 @@
   position: relative;
   width: 45%;
   margin: 20px;
+  @media screen and (max-width:980px) {
+    width: 100%;
+    margin: 10px auto;
+    overflow: hidden;
+
+    
+  }
+ 
 }
 
 .event-hover {
@@ -401,6 +409,16 @@
   height: 100%;
   background-color: #000000c7;
   transition: all 0.5s ease;
+
+  p{
+    
+    @media screen and (max-width:980px) {
+      line-height: 1.2em;
+      font-size: 3vw;
+  
+      
+    }
+  }
 }
 
 .event-hover:hover {
