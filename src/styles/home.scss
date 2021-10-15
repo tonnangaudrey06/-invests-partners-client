@@ -85,14 +85,20 @@
 **/
 .section-banner {
   width: 100%;
-  height: 600px;
+  min-height: 60vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   overflow: hidden;
   position: relative;
+  background-image: url('../assets/img/image1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   
-  /* margin: 5em 0; */
+  @media screen and (max-width: 530px) {
+    background: rgba(197, 71, 59, 1);
+  }
 }
 
 .banner-image {
@@ -167,8 +173,6 @@
   width: 75vw;
   @media screen and (max-width: 530px) {
     font-size: 1em!important;;
-
-    
   }
 }
 
@@ -179,12 +183,12 @@
 
 .banner-button .next {
   margin-left: 0.8em;
-  font-size: 1.3em;
+  font-size: 2em;
 }
 
 .banner-button .previous {
   margin-right: 0.8em;
-  font-size: 1.3em;
+  font-size: 2em;
 }
 
 /**
@@ -204,9 +208,20 @@
 }
 
 .partner-image {
-  width: 25em;
-  height: auto;
-  object-fit: contain;
+  width: 15%;
+  height: 15%;
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 
 /**
@@ -414,7 +429,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 60vh;
+  // min-height: 60vh;
   overflow: hidden;
   max-width: 100%;
 }
@@ -432,9 +447,9 @@
 .slide-section {
   position: relative;
   //height: 100vh;
-  text-overflow: ellipsis;
-  margin: 0;
-  overflow: hidden;
+  // text-overflow: ellipsis;
+  // margin: 0;
+  // overflow: hidden;
 }
 .slider-buttons {
   position: absolute;
@@ -445,6 +460,7 @@
     display: none;
   }
 }
+
 .carousel-caption{
  
     top: 50% ;
@@ -508,17 +524,18 @@
 .carousel-item {
   position: relative;
   .filter{
-    display: none;
+    // display: none;
     transition: all 0.2s ease-in;
-    @media screen and (max-width: 1020px) {
-    display: block;
-    background: rgba($color: #000000, $alpha: 0.7);
+    background: rgba($color: #00000045, $alpha: 0.45);
+    // @media screen and (max-width: 1020px) {
+    // display: block;
+    // background: rgba($color: #000000, $alpha: 0.7);
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
-    }
+    // }
 
   }
   

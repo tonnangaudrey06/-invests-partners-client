@@ -63,7 +63,7 @@ const BannerSlider = ({ slides }) => {
               <img class="d-block img-fluid" src={slide.image} alt={slide.image} />
               <div className="filter"></div>
               <div class="carousel-caption text-white ">
-                <h1 id="title">{slide.title}</h1>
+                <h1 id="title" className="text-uppercase">{slide.title}</h1>
                 <div className="mb-2 textEntete">{slide.description}</div>
                 <div class="d-grid gap-2  bouttonEntete">
                   <Button title={'Découvrir les opportunités'} color={'transparent'} borderColor={'white'} url={'/projets'} />

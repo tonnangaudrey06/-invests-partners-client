@@ -18,6 +18,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 
+import { useHistory } from 'react-router-dom';
+
 import { TablePaginationActions, CustomTableHead } from '../../../../components';
 
 import { UserService } from '../../../../core/services';
@@ -94,6 +96,7 @@ const ProjetList = (props) => {
 
     const [loading, setLoading] = React.useState(false);
 
+    const history = useHistory();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -154,8 +157,8 @@ const ProjetList = (props) => {
                                 Actualiser
                             </Button>
 
-                            <Button onClick={() => { props.history.push(`/projets`) }} variant="contained" startIcon={<MdAddCircle />}>
-                                Nouveau investissement
+                            <Button onClick={() => window.location.replace('/projets')} variant="contained" startIcon={<MdAddCircle />}>
+                                Nouvel investissement
                             </Button>
                         </div>
                     </div>

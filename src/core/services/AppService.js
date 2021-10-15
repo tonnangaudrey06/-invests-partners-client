@@ -28,7 +28,7 @@ class AppService {
     projet() {
         return new Promise(async (resolve, reject) => {
             try {
-                const rs = await http.get(`${source}/partenaire`);
+                const rs = await http.get(`${source}/projet`);
                 resolve(rs);
             } catch (error) {
                 reject(error);

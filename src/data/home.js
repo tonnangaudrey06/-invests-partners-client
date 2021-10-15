@@ -1,6 +1,6 @@
-import expert1 from '../assets/img/expert1.png';
-import expert2 from '../assets/img/expert2.png';
-import expert3 from '../assets/img/expert3.png';
+import expert1 from '../assets/img/expert-1.jpg';
+import expert2 from '../assets/img/expert-2.jpg';
+import expert3 from '../assets/img/expert-3.jpg';
 import expert4 from '../assets/img/expert4.png';
 
 import service1 from '../assets/img/icons/assets.png';
@@ -139,35 +139,27 @@ const messagesData = [
 const expertsData = [
   {
     image: expert1,
-    name: "NOM PRENOM",
-    tel: "+237 694 58 78 23",
-    email: "name@gmail.com",
-    role: "Lorem ipsum dolor sit amet, consetetur",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
-  },
-  {
-    image: expert2,
-    name: "NOM PRENOM",
-    tel: "+237 694 58 78 23",
-    email: "name@gmail.com",
-    role: "Lorem ipsum dolor sit amet, consetetur",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
+    name: "Evrard DIKONGO",
+    tel: null,
+    email: null,
+    role: "Auditeur / Analyste Financier",
+    bio: "Titulaire d'une licence professionnel en finances et comptabilité et d'un  Master Professionnel  Finance et Comptabilité - option audit et contrôle financier. Il s’est particulièrement investi dans la mise en place des systèmes d'informations comptables et de reportings financiers,  contrôle et audit au sein d’entreprises privées puis  s'est spécialisé dans le montage de dossiers de financement et la gestion de projets. Il a activement participé au lancement de 5 start-ups  et a à son actif plus de 12 grands dossiers de financement à hauteur d'un milliard chacun. Possédant d’excellentes compétences en matière d’audit (interne, comptable et financier), d’analyse financière, d’ingénierie financière, comptable et fiscale, et en management de la performance par les processus, il effectue depuis 7 ans des missions dans différents secteurs (industrie, numérique, prestations de services, hébergement, commerce général). Dans la même lancée, il met désormais ses compétences au service du Cabinet INVEST & PARTNERS"
   },
   {
     image: expert3,
-    name: "NOM PRENOM",
+    name: "Serge FOTSING",
     tel: "+237 694 58 78 23",
     email: "name@gmail.com",
-    role: "Lorem ipsum dolor sit amet, consetetur",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
+    role: "Financier",
+    bio: "Après un diplôme d’Etudes Générales de Commerce et  un diplôme d’Etudes Supérieures de Commerce en  Audit et Contrôle de Gestion (Ecole de Commerce – ESSEC), il a depuis lors exercé dans les domaines de l’audit financier, la gestion, le contrôle et la comptabilité au sein de plusieurs entreprises privées. Durant tout ce parcours il a peaufiné ses compétences en définition des procédures comptables,  gestion comptable, gestion de la trésorerie, contrôle et analyse des comptes, mise en place des politiques d’élaboration budgétaire, contrôle financier, entre autres. A date, Serge FOTSING prête ces compétences diverses au service du Cabinet INVEST & PARTNERS"
   },
   {
-    image: expert4,
-    name: "NOM PRENOM",
+    image: expert2,
+    name: "Alain-Guy BAYI",
     tel: "+237 694 58 78 23",
     email: "name@gmail.com",
-    role: "Lorem ipsum dolor sit amet, consetetur",
-    bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum. Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?"
+    role: "Conseiller en investissement",
+    bio: "Il exerce dans les domaines de banque et assurance. Après une licence professionnelle en banque monnaie finance (Institut Supérieur des Techniques Appliquées et de Gestion - ISTAG), puis une Maitrise en banque monnaie finance (Université de Yaoundé II SOA) Il a travaillé dans le secteur privé. Rompu aux activités de banque et d’assurance il a passé plus de 10 ans auprès d’entrepreneurs et particuliers en qualité de conseiller. Au-delà du conseil en organisation, en stratégie patrimoniale et en planification de projet, son expérience dans le financement, l’analyse et le montage de dossier de crédit, a principalement servi aux clients qui constituent son portefeuille. A date, il s’est mis au service des entrepreneurs au travers du Cabinet INVEST & PARTNERS"
   }
 ]
 
