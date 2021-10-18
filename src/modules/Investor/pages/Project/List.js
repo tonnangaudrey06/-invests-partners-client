@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 
-import { useHistory } from 'react-router-dom';
+import { moneyFormat } from '../../../../core/utils/helpers';
 
 import { TablePaginationActions, CustomTableHead } from '../../../../components';
 
@@ -68,11 +68,11 @@ const headCells = [
         disablePadding: false,
         label: 'Secteur d\'activité',
     },
-    {
-        align: 'center',
-        disablePadding: false,
-        label: 'Etat',
-    },
+    // {
+    //     align: 'center',
+    //     disablePadding: false,
+    //     label: 'Etat',
+    // },
     {
         align: 'right',
         disablePadding: false,
@@ -95,8 +95,6 @@ const ProjetList = (props) => {
     const [projets, setProjets] = React.useState([]);
 
     const [loading, setLoading] = React.useState(false);
-
-    const history = useHistory();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -189,10 +187,10 @@ const ProjetList = (props) => {
                                         <TableCell align="left">
                                             <span className="fw-bolder fs-6">{projet?.projet_data?.intitule}</span>
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "15%" }}>
+                                        <TableCell align="center" style={{ width: "25%" }}>
                                             <span className="fw-bolder fs-6">{projet?.projet_data?.secteur_data?.libelle}</span>
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "5%" }}>
+                                        {/* <TableCell align="center" style={{ width: "5%" }}>
                                             {{
                                                 'REJETE': <span className="badge bg-danger p-1">{projet?.projet_data?.etat_complet}</span>,
                                                 'ATTENTE_DOCUMENT_SUP': <span className="badge bg-dark p-1">{projet?.projet_data?.etat_complet}</span>,
@@ -201,9 +199,9 @@ const ProjetList = (props) => {
                                                 'PUBLIE': <span className="badge bg-success p-1">{projet?.projet_data?.etat_complet}</span>,
                                             }[projet?.projet_data?.etat] || <span className="badge bg-secondary p-1">En attente</span>}
 
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align="right" style={{ width: "15%" }}>
-                                            <span className="fw-bolder fs-6">{projet?.total_investi} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet?.total_investi)} XAF</span>
                                         </TableCell>
                                         <TableCell align="center" style={{ width: "5%" }}>
                                             <i className="bi bi-chevron-compact-right"></i>
@@ -219,7 +217,7 @@ const ProjetList = (props) => {
                                             {loading && (<CircularProgress />)}
                                             {!loading && (
                                                 <h5 className="fw-bolder text-muted">
-                                                    Aucun projet trouvé
+                                                    Aucun investissement réalisé
                                                 </h5>
                                             )}
                                         </div>

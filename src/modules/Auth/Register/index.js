@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch) => {
         setLoadingTrue: () => dispatch(setLoadingTrue()),
         setLoadingFalse: () => dispatch(setLoadingFalse())
     }
-};
+}
 
 const mapStateToProps = (state) => ({ paiement: state.app.paiement });
 
@@ -96,14 +96,14 @@ const Register = (props) => {
         failed: false
     })
 
-    const subscribe = () => {
-        // setVisible(true);
-        if (+state.role === 4) {
-            handleCheckRegister()
-            return;
-        }
-        handleRegister();
-    }
+    // const subscribe = () => {
+    //     // setVisible(true);
+    //     if (+state.role === 4) {
+    //         handleCheckRegister()
+    //         return;
+    //     }
+    //     handleRegister();
+    // }
 
     const hidePayement = () => {
         setVisible(false);
@@ -477,7 +477,7 @@ const Register = (props) => {
                                 ))}
                             </TextField>
                             <p className="text-muted">
-                                 <strong>{getSelectedPlage()?.type}</strong> =&gt; Investissement dans des projets dont la valeur du financement est comprise entre <strong>{moneyFormat(getSelectedPlage()?.montant_min)} XAF</strong> et <strong>{moneyFormat(getSelectedPlage()?.montant_max)} XAF</strong><br />
+                                 <strong>{getSelectedPlage()?.type}</strong> =&gt; Investissement dans des projets dont la valeur du financement est comprise entre <strong>{(!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min) + ' XAF'}</strong> et <strong>{(!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max) + ' XAF'}</strong><br />
                                 Frais d'abonnement annuel: <strong>{moneyFormat(getSelectedPlage()?.frais_abonnement)} XAF</strong></p>
                         </FormControl>
                     </Grid>
@@ -510,7 +510,7 @@ const Register = (props) => {
                     <Modal.Title>Paiement des frais d'abonnement</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="mb-1 small lh-base">Vous avez choisi le profil <strong>{getSelectedPlage()?.type}</strong> qui à une plage d'investissement entre <strong>{moneyFormat(getSelectedPlage()?.montant_min)} XAF</strong> à <strong>{moneyFormat(getSelectedPlage()?.montant_max)} XAF</strong></p>
+                    <p className="mb-1 small lh-base">Vous avez choisi le profil <strong>{getSelectedPlage()?.type}</strong> qui à une plage d'investissement entre <strong>{(!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min) + ' XAF'}</strong> à <strong>{(!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max) + ' XAF'}</strong></p>
                     <p className="mb-1 small text-muted">Pour ce profil d'investissement, vous allez payer <strong>{moneyFormat(getSelectedPlage()?.frais_abonnement)} XAF</strong> comme frais d'abonnement</p>
                     <hr />
                     <Grid container spacing={2}>

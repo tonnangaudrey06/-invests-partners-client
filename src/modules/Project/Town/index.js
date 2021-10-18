@@ -56,6 +56,10 @@ const ProjetTown = ({ match, location, history, user }) => {
     }
 
     const checkCanFianance = (item) => {
+        if(!user?.profil_invest) {
+            return false;
+        }
+
         if(!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
             return true;
         }

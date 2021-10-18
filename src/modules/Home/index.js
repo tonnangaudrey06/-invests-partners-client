@@ -7,13 +7,10 @@ import Popup from 'reactjs-popup';
 
 import { Container, SectionTitle, BannerSlider } from '../../components';
 
-import { HomeData, SlideData } from '../../data';
+import { HomeData } from '../../data';
 
 import Slider from "react-slick";
 
-import image1 from '../../assets/img/image1.png';
-import image2 from "../../assets/img/partner-image.png";
-// import image3 from "../../assets/img/arriereplan.png";
 import imag22 from "../../assets/img/imag22.png";
 import imag26 from "../../assets/img/imag26.png";
 import imag27 from "../../assets/img/imag27.png";
@@ -23,7 +20,8 @@ import { GrMail } from 'react-icons/gr';
 import { TiCalendar } from 'react-icons/ti';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
-import { MdAddCircle, MdPhoneInTalk } from 'react-icons/md';
+import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
+import { MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import { WiDayHail } from "react-icons/wi";
 
@@ -75,24 +73,24 @@ const HomeScreen = () => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
-  const [sliders, setSliders] = React.useState([]);
+  const [sliders, setSliders] = React.useState([])
 
-  const [partenaires, setPartenaires] = React.useState([]);
+  const [partenaires, setPartenaires] = React.useState([])
 
-  const [projets, setProjets] = React.useState([]);
+  const [projets, setProjets] = React.useState([])
 
-  var settings = {
-    className: "center",
-    centerMode: true,
-    infinite: true,
-    centerPadding: "100px",
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    speed: 500,
-    arrows: false,
-  };
+  // var settings = {
+  //   className: "center",
+  //   centerMode: true,
+  //   infinite: true,
+  //   centerPadding: "100px",
+  //   slidesToShow: 2,
+  //   slidesToScroll: 1,
+  //   speed: 500,
+  //   arrows: false,
+  // };
 
-  var settings2 = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -135,10 +133,9 @@ const HomeScreen = () => {
         }
       }
     ]
-  };
+  }
 
   let slider = new Slider(settings);
-  // let slider2 = new Slider(settings2);
 
   const fetchSlide = () => {
     AppService.slider().then(
@@ -204,23 +201,32 @@ const HomeScreen = () => {
           {/* <img alt="Banner backgound" src={image1} className="banner-image" /> */}
           <div className="banner-wrapper">
             <div className="banner-content">
-              <h5 style={{ marginTop: '1.1vw' }}>Votre meilleur partenaire d'affaire</h5>
-              <p>Faire le choix de cheminer avec Invest & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
+              <h5 className="display-3 text-white">Votre meilleur partenaire d'affaire</h5>
+              <p className="fs-5 text-white text-justify" style={{ margin: '1.2vw 0' }}>Faire le choix de cheminer avec Invest & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
               {navigateBanner &&
-                <div className="lh-base mt-1">
-                  {/* <p className="inner-wrapper" style={{ marginTop: '.5em' }} ><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} /> Invest & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p> */}
-                  <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</p>
-                  <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</p>
-                </div>
+                <ul className="list-unstyled lh-base">
+                  <li className="fs-5 text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</li>
+                  <li className="fs-5 text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</li>
+                </ul>
+                // <div className="lh-base mt-1">
+                //   {/* <p className="inner-wrapper" style={{ marginTop: '.5em' }} > Invest & Partners est titulaire d’un agrément COSUMAF, afin de vous rassurer sur la légalité de ses activités et la tutelle habilitée à l’encadrement de son offre de services ;</p> */}
+                //   {/* <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</p> */}
+                //   {/* <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</p> */}
+                // </div>
               }
               {!navigateBanner &&
-                <div className="lh-base mt-1">
-                  <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</p>
-                  <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</p>
-                </div>
+
+                <ul className="list-unstyled lh-base">
+                  <li className="fs-5 text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</li>
+                  <li className="fs-5 text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</li>
+                </ul>
+                // <div className="lh-base mt-1">
+                //   <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</p>
+                //   <p style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '1.1vw' }} size={13} /> Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</p>
+                // </div>
               }
             </div>
-            <div className="banner-button my-5">
+            <div className="banner-button">
               <FaArrowLeft className="previous" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' />
               <FaArrowRight className="next" style={{ cursor: 'pointer' }} onClick={() => setNavigateBanner(!navigateBanner)} fill='white' />
             </div>
@@ -232,20 +238,20 @@ const HomeScreen = () => {
           <div className="expert-grid mt-5 row d-flex justify-content-center">
             {HomeData.expertsData.map((item, index) => (
               <div key={index} className="expert-item col-md-3 mb-3">
-                <div style={{ width: '100%' }}>
-                  <img className="expert-image rounded shadow" alt="Expert I&P" src={item.image} />
+                <div className="expert-image-home shadow" style={{ width: '100%' }}>
+                  <img className="expert-image" alt="Expert I&P" src={item.image} />
                 </div>
-                <div className="expert-name fs-4">{item.name}</div>
-                <div className="expert-bibio fs-5 fw-bolder"><p>{item.role}</p></div>
+                <div className="expert-name">{item.name}</div>
+                <div className="expert-bibio fs-4 fw-bolder"><p>{item.role}</p></div>
                 <div className="expert-button">
                   <Popup
-                    trigger={<MdAddCircle className="expert-button-view" fill="#c5473b" size={40} />}
+                    trigger={<RiEyeFill className="expert-button-view" fill="#c5473b" size={40} />}
                     modal
                     nested
-
+                    className="expert-modal"
                   >
                     {close => (
-                      <div className="modal-experts">
+                      <div className="modal-experts p-3">
                         <button className="modal-experts-close" onClick={close}>
                           &times;
                         </button>
@@ -255,7 +261,7 @@ const HomeScreen = () => {
                             <p className="name">{item.name}</p>
                             <div className="poste" style={{ marginBottom: 20 }}>{item.role}</div>
                             <div className="bibio">Biographie</div>
-                            <p>{item.bio}</p>
+                            <p className="text-justify">{item.bio}</p>
                             <p className="modal-experts-contact">
                               <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
                               {item.tel}
@@ -292,7 +298,7 @@ const HomeScreen = () => {
             <SectionTitle title="Nos projets" />
             <div className="projet-ip-container mt-5">
               <div className="projet-ip-wrapper">
-                <Slider ref={c => (slider = c)} {...settings2}>
+                <Slider ref={c => (slider = c)} {...settings}>
                   {projets.map((item, index) => (
                     <CustomSlide projet={item} key={index} />
                   ))}
@@ -318,7 +324,7 @@ const HomeScreen = () => {
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
                 <h3 className="display-3 text-white">10</h3>
                 <div>
-                  <WiDayHail size={100} fill={'white'} />
+                  <RiTeamLine size={100} fill={'white'} />
                 </div>
                 <p className="display-5 text-white my-3 text-center">
                   Investisseurs
@@ -329,7 +335,7 @@ const HomeScreen = () => {
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
                 <h3 className="display-3 text-white">5M XAF</h3>
                 <div>
-                  <WiDayHail size={100} fill={'white'} />
+                  <RiCoinsLine size={100} fill={'white'} />
                 </div>
                 <p className="display-5 text-white my-3 text-center">
                   Investis
@@ -340,7 +346,7 @@ const HomeScreen = () => {
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
                 <h3 className="display-3 text-white">9</h3>
                 <div>
-                  <WiDayHail size={100} fill={'white'} />
+                  <RiTeamLine size={100} fill={'white'} />
                 </div>
                 <p className="display-5 text-white my-3 text-center">
                   Porteurs de projet
@@ -348,10 +354,6 @@ const HomeScreen = () => {
               </div>
             </div>
           </div>
-          {/* </div> */}
-
-
-          {/* <img className="img-banner" src={image3} alt="" /> */}
         </div>
 
         <div className="section-event pt-3 pb-5">

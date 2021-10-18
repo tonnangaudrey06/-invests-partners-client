@@ -137,7 +137,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Localisation :</span> {details?.ville_activite}, {details?.pays_activite}</li>
                                         {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Taux de rentabilité :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + '%' : 'Non defini'}</li>
+                                        <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : 'Non defini'}</li>
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' mois' : 'Non defini'}</li>
                                         <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
                                     </ul>

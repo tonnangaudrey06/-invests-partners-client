@@ -759,7 +759,7 @@ const ProfilPorteurProjet = (props) => {
                     <Modal.Title>Changement votre plage</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Vous paierez un supplément de <strong>{moneyFormat(supPay)} XAF</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
+                    <p>Vous paierez un supplément de <strong>{supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay)} XAF</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
                     <hr/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
