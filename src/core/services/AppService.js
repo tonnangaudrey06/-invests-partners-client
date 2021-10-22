@@ -35,6 +35,17 @@ class AppService {
             }
         });
     }
+
+    chiffre() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(`${source}/chiffre`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 
 export default new AppService();

@@ -227,23 +227,23 @@ const Event = () => {
     }, [])
     return (
         <Container header active="events" footer>
-            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white" style={{ backgroundImage: `url(${eventImg})` }}>
+            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{ backgroundImage: `url(${eventImg})` }}>
                 <h1 className="fw-default-title" style={{ fontSize: '3.5em' }}>Title of project or category presentation</h1>
-                <p className="my-4">Lorem ipsum dolor sit amet.</p>
+                <p className="my-4 fw-default-text">Lorem ipsum dolor sit amet.</p>
                 <Button title="Voir les evenements" borderColor='#c5473b' fontColor="white" />
             </div>
 
             <div className="container my-5">
                 <div className="row">
-                    <div className="col-md-12 col-lg-6">
-                        <h3 className="fw-default-title" style={{ fontSize: '3em' }}>
+                    <div className="col-md-12 col-lg-6 mb-4">
+                        <h3 className="fw-default-title event-all-list-title" style={{ fontSize: '3em' }}>
                             Creez votre reseau d'affaire en prenant part nos sessions.
                         </h3>
-                        <p>
+                        <p className="event-all-list-text">
                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
                         </p>
                     </div>
-                    <div className="col-md-12 col-lg-6 d-flex justify-content-end">
+                    <div className="col-md-12 col-lg-6 d-flex justify-content-center">
                         <img src={ene} className="img-fluid rounded shadow" alt="" width="600" />
                     </div>
                 </div>
@@ -256,7 +256,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun évenement trouvé
+                                Aucun évenement pour l'instant
                                 </h5>
                             )}
                         </div>
@@ -315,7 +315,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun évenement trouvé
+                                    Aucun évenement pour l'instant
                                 </h5>
                             )}
                         </div>

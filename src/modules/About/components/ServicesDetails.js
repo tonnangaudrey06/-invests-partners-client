@@ -1,22 +1,23 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
 
 const DetailsServices = (props) => {
-    const { imageLeft, rightMessage, titreService } = props
+    const { button, imageLeft, rightMessage, titreService } = props
     return (
-        <Row>
-            <Col>
-                <div className="service-img d-flex justify-content-center align-items-start h-100">
+        <div className="row">
+            <div className="col-md-6 mb-4">
+                <div className="service-img d-flex justify-content-start flex-column align-items-center h-100">
                     <img className="img-fluid rounded shadow" src={imageLeft} alt={titreService} />
+                    <div className="service-img d-flex justify-content-center align-items-start mt-5 w-100">
+                        {button}
+                    </div>
                 </div>
-            </Col>
-            <Col>
+            </div>
+            <div className="col-md-6 p-2 p-md-1">
                 <div className="service-description">
-                    {/* <h1>{titreService}</h1> */}
                     {rightMessage}
                 </div>
-            </Col>
-        </Row>
+            </div>
+        </div>
     );
 };
 

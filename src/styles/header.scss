@@ -8,7 +8,7 @@
     background-color: transparent;
     height: 60px;
     width: 100%;
-    z-index: 1000;
+    z-index: 500;
     /* padding: 10px 0; */
     font-family: "Karla";
     color: white;
@@ -24,7 +24,7 @@
     background-color: #c5473b;
     height: 60px;
     width: 100%;
-    z-index: 1000;
+    z-index: 500;
     /* padding: 10px 0; */
     font-family: "Karla";
     color: white;
@@ -32,7 +32,7 @@
 
 .nav-left {
     display: flex;
-    width: 55vw;
+    width: 50vw;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -53,17 +53,15 @@
 }
 
 .header-link {
-    padding-bottom: 0.3em;
+    padding-bottom: 0.3rem;
     position: relative;
     white-space: nowrap;
     cursor: pointer;
-    margin: 0.4em 1.5em;
+    margin: 0.4rem 1.2rem;
     transition: margin 0.2s ease-in;
 
-   
-
     @media screen and (max-width: 1085px) {
-        margin: 0.4em 0.5em;
+        margin: 0.4rem 0.5rem;
       }
      
 }
@@ -71,7 +69,7 @@
 .header-link a {
     text-decoration: none;
     color: white;
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .nav-left-link .header-link.active > a:before,
@@ -98,7 +96,7 @@
     background-color: transparent;
     color: white;
     border: none;
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .nav-right {
@@ -106,7 +104,7 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    margin: 0.8em 2em 0.8em 0;
+    margin: 0.8rem 2rem 0.8rem 0;
 }
 
 .nav-right > p {
@@ -119,10 +117,10 @@
 .nav-right .btn-projet {
     padding: 8px 10px;
     border: 3px solid rgb(197, 71, 59);
-    font-size: 1.1em;
+    font-size: 1.1rem;
     background: #00000061;
     border-radius: 30px;
-    margin-right: 0.2em;
+    margin-right: 0.2rem;
     color: white;
     cursor: pointer;
     width: max-content;
@@ -131,12 +129,12 @@
 .nav-right .btn-connect {
     padding: 8px 10px;
     /* border: 3px solid #00000061; */
-    font-size: 1.1em;
+    font-size: 1.1rem;
     background: #00000061;
     border-radius: 30px;
     text-decoration: none;
     /* margin-right: 10px; */
-    margin-left: 0.2em;
+    margin-left: 0.2rem;
     color: white;
     cursor: pointer;
     width: max-content;
@@ -150,8 +148,8 @@
 
 .select-items {
     position: relative;
-    height: 2em;
-    min-height: 2em;
+    height: 2rem;
+    min-height: 2rem;
     background-color: #c5473b;
     display: flex;
     justify-content: flex-start;

@@ -62,6 +62,13 @@ code {
   font-family: 'Building';
 }
 
+.event-all-list-text,
+.event-all-list-title {
+  @media screen and (max-width: 980px) {
+    text-align: center;
+  }
+}
+
 /**
   FORM
 **/
