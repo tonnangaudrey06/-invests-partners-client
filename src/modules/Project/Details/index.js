@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
 
 import { ProjetService, MessageService } from '../../../core/services';
 import { Container } from '../../../components'
@@ -36,6 +38,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
     const [details, setProjetDetails] = React.useState(null);
     const [visible, setVisible] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [loadingData, setLoadingData] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [message, setMessage] = React.useState('');
@@ -97,8 +100,15 @@ const ProjetDetails = ({ match, location, history, user }) => {
 
     React.useEffect(() => {
         async function fetchData() {
-            const rs = await ProjetService.getOneProjet(projet);
-            setProjetDetails(rs.data.data);
+            setLoadingData(true);
+            try {
+                const rs = await ProjetService.getOneProjet(projet);
+                setProjetDetails(rs.data.data);
+                setLoadingData(false);
+            } catch (error) {
+                setLoadingData(false);
+            }
+
         }
         fetchData();
     }, [projet]);
@@ -110,96 +120,82 @@ const ProjetDetails = ({ match, location, history, user }) => {
 
     return (
         <Container header footer headerActive active="projets">
-            <div className="container mt-5 py-5">
-                <div className="corpsDetail">
-                    <Row>
-                        <Col>
-                            <div className="entete2 d-flex justify-content-center">
-                                <EnteteProjet projet={details} />
-                            </div>
-                        </Col>
-                    </Row>
+            {!details ? (
+                <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+                    {loadingData && (<CircularProgress />)}
+                    {!loadingData && (
+                        <h5 className="fw-bolder text-muted">
+                            Projet introuvable
+                        </h5>
+                    )}
                 </div>
-                <div className="my-5">
-                    <Row>
-                        {checkFileIsVideo(details?.doc_presentation) && (
-                            <Col lg={true} >
-                                <div className="shadow embed-responsive embed-responsive-1by1 h-100">
-                                    <Videoplay video={details?.doc_presentation} />
+            ) : (
+                <div className="container mt-5 py-5">
+                    <div className="corpsDetail">
+                        <Row>
+                            <Col>
+                                <div className="entete2 d-flex justify-content-center">
+                                    <EnteteProjet projet={details} />
                                 </div>
                             </Col>
-                        )}
-                        <Col lg={true} >
-                            <div className="card shadow rounded">
-                                <div className="card-body">
-                                    <ul className="list-group list-group-flush">
-                                        <li className="list-group-item"><span className="fw-bolder">Catégorie :</span> {details?.secteur_data?.libelle}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Localisation :</span> {details?.ville_activite}, {details?.pays_activite}</li>
-                                        {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Taux de rentabilité :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' mois' : 'Non defini'}</li>
-                                        <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
-                                    </ul>
-                                </div>
-                                <div className="card-footer d-flex justify-content-between align-items-center py-3">
-                                    <div className="d-flex align-items-center fw-bolder">
-                                        <span className="me-2"><i className="bi bi-heart"></i></span>
-                                        <span>Ajouter au favoris</span>
+                        </Row>
+                    </div>
+                    <div className="my-5">
+                        <Row>
+                            {checkFileIsVideo(details?.doc_presentation) && (
+                                <Col lg={true} >
+                                    <div className="shadow embed-responsive embed-responsive-1by1 h-100">
+                                        <Videoplay video={details?.doc_presentation} />
                                     </div>
-                                    <div>
-                                        <button onClick={openMessage} className="btn btn-primary btn-sm rounded" type="button">Je suis interessé</button>
+                                </Col>
+                            )}
+                            <Col lg={true} >
+                                <div className="card shadow rounded">
+                                    <div className="card-body">
+                                        <ul className="list-group list-group-flush">
+                                            <li className="list-group-item"><span className="fw-bolder">Catégorie :</span> {details?.secteur_data?.libelle}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">Localisation :</span> {details?.ville_activite}, {details?.pays_activite}</li>
+                                            {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">Taux de rentabilité :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : 'Non defini'}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : 'Non defini'}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' mois' : 'Non defini'}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
+                                        </ul>
                                     </div>
-                                </div>
-                            </div>
-                            {/* <div className="infoProj"><InformationsProjet /></div> */}
-                        </Col>
-                    </Row>
-                </div>
-                <div className="navigation mt-2">
-                    <Row>
-                        <Col lg={true} >
-                            <div className="card">
-                                <div className="card-body">
-                                    <div className="nav nav-pills nav-fill profile-nav" role="tablist">
-                                        <button className="nav-link active fw-bolder fs-5 mr-1" id="nav-desc-tab" data-bs-toggle="tab" data-bs-target="#nav-desc" type="button" role="tab" aria-controls="nav-desc" aria-selected="true">
-                                            Description
-                                        </button>
-                                        <button className="nav-link fw-bolder fs-5" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">
-                                            Actualités
-                                        </button>
-                                        {/* <button className="nav-link fw-bolder fs-5" id="nav-securite-tab" data-bs-toggle="tab" data-bs-target="#nav-securite" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
-                                                    Securité
-                                                </button> */}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="container rounded border shadow bg-white my-5" >
-                                <div className="tab-content mh-100">
-                                    <div className="tab-pane fade show active" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
-                                        <Description desc={details?.description || ''} />
-                                    </div>
-                                    <div className="tab-pane fade" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
-                                        <div className="d-flex flex-column align-items-center">
-                                            <div className="mb-2"></div>
-                                            <News />
-                                            <div className="mb-2"></div>
-                                            <News />
-                                            <div className="mb-2"></div>
-                                            <News />
-                                            <div className="mb-2"></div>
-                                            <News />
+                                    <div className="card-footer d-flex justify-content-between align-items-center py-3">
+                                        <div className="d-flex align-items-center fw-bolder">
+                                            <span className="me-2"><i className="bi bi-heart"></i></span>
+                                            <span>Ajouter au favoris</span>
+                                        </div>
+                                        <div>
+                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default">Je suis interessé</Button>
                                         </div>
                                     </div>
-                                    <div className="tab-pane fade" id="nav-question" role="tabpanel" aria-labelledby="question-tab">
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className="navigation mt-2">
+                        <Row>
+                            <Col lg={true} >
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="nav nav-pills nav-fill profile-nav" role="tablist">
+                                            <button className="nav-link active fw-bolder fs-5 mr-1" id="nav-desc-tab" data-bs-toggle="tab" data-bs-target="#nav-desc" type="button" role="tab" aria-controls="nav-desc" aria-selected="true">
+                                                Description
+                                            </button>
+                                            <button className="nav-link fw-bolder fs-5" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">
+                                                Actualités
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {/* <Tabs defaultActiveKey="description" className="projet-details-tab">
-                                        <Tab eventKey="description" title="Histoire" className="projet-details-tab-header">
-                                            <Description />
-                                        </Tab>
-                                        <Tab eventKey="actualite" title="Actualités">
+                                <div className="container rounded border shadow bg-white my-5" >
+                                    <div className="tab-content mh-100">
+                                        <div className="tab-pane fade show active" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
+                                            <Description desc={details?.description || ''} />
+                                        </div>
+                                        <div className="tab-pane fade" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
                                             <div className="d-flex flex-column align-items-center">
                                                 <div className="mb-2"></div>
                                                 <News />
@@ -210,15 +206,16 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                                 <div className="mb-2"></div>
                                                 <News />
                                             </div>
-                                        </Tab>
-                                        <Tab eventKey="question" title="Questions">
-                                            <Question />
-                                        </Tab>
-                                    </Tabs> */}
-                        </Col>
-                    </Row>
+                                        </div>
+                                        <div className="tab-pane fade" id="nav-question" role="tabpanel" aria-labelledby="question-tab">
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <Modal
                 show={visible}
@@ -265,6 +262,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                     </Grid>
                 </Modal.Body>
             </Modal>
+            
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {rs_message}

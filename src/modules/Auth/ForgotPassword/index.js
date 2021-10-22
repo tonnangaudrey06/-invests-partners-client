@@ -1,17 +1,12 @@
 import React from "react";
 
 import { AiOutlineMail } from "react-icons/ai";
-import { RiLock2Line } from "react-icons/ri";
 
 import authService from '../../../core/services/AuthService'
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
@@ -20,25 +15,13 @@ import MuiAlert from '@mui/material/Alert';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
-import * as Redux from 'react-redux'
-
-import { login } from '../../../core/reducers/auth/actions'
-
 import logo from '../../../assets/img/logo.png'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setUser: (payload) => dispatch(login(payload))
-  }
-};
-
-const mapStateToProps = (state) => ({ auth: state.auth })
-
-class Login extends React.Component {
+class ForgotPassword extends React.Component {
 
   dispatch = null;
 
@@ -48,39 +31,21 @@ class Login extends React.Component {
     this.state = {
       email: '',
       role: 3,
-      password: '',
-      remenber: true,
       loading: false,
       message: null,
-      showPassword: false,
       error: false,
     };
 
-    this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
+    this.handleForgot = this.handleForgot.bind(this);
+    this.onChangeForm = this.onChangeForm.bind(this);
     this.handleErrorAlertOpen = this.handleErrorAlertOpen.bind(this);
     this.handleErrorAlertClose = this.handleErrorAlertClose.bind(this);
     this.validation = this.validation.bind(this);
   }
 
-  onChangeUsername(e) {
+  onChangeForm(key, value) {
     this.setState({
-      email: e.target.value
-    });
-  }
-
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value
-    });
-  }
-
-  handleMouseDownPassword(e) {
-    e.preventDefault();
-    this.setState({
-      showPassword: !this.state.showPassword
+      [key]: value
     });
   }
 
@@ -100,14 +65,10 @@ class Login extends React.Component {
       return false;
     }
 
-    if (this.state.password.length === 0) {
-      return false;
-    }
-
     return true;
   }
 
-  handleLogin(e) {
+  handleForgot(e) {
     e.preventDefault();
 
     this.setState({
@@ -117,22 +78,16 @@ class Login extends React.Component {
 
     const user = {
       email: this.state.email,
-      password: this.state.password,
-      role: this.state.role,
-      remember: this.state.remenber
+      role: this.state.role
     }
 
-    authService.login(user).then(
+    authService.forgot(user).then(
       (rs) => {
         this.setState({
           loading: false
         });
-        this.props.setUser(rs.data.data.user);
-        if (rs.data.data.user.role === 3) {
-          this.props.history.push(this.props?.location?.state?.from?.pathname || "/dashboard");
-        } else {
-          this.props.history.push(this.props?.location?.state?.from?.pathname || "/projets");
-        }
+        this.props.switchPage("login")
+        this.props.sendMessage('Un courrier contenant le lien de réinitialisation du mot de passe vous a été envoyé');
       },
       error => {
         const resMessage =
@@ -154,7 +109,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <form className="login-form px-0 px-md-5" onSubmit={this.handleLogin}>
+      <form className="login-form px-0 px-md-5" onSubmit={this.handleForgot}>
         <div className="d-lg-none d-flex justify-content-xl-center align-items-center">
           <img src={logo} width="150" alt="I&P" />
         </div>
@@ -188,7 +143,7 @@ class Login extends React.Component {
                   label="Email"
                   placeholder="example@domaine.com"
                   value={this.state.email}
-                  onChange={this.onChangeUsername}
+                  onChange={(e) => this.onChangeForm('email', e.target.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -198,45 +153,9 @@ class Login extends React.Component {
                   }} />
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  error={this.state.error}
-                  required
-                  variant="filled"
-                  label="Mot de passe"
-                  placeholder="*******"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  value={this.state.password}
-                  onChange={this.onChangePassword}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <RiLock2Line />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={this.handleClickShowPassword}
-                          onMouseDown={this.handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }} />
-              </FormControl>
-            </Grid>
           </Grid>
-          <div className="form-end d-flex justify-content-center justify-content-lg-between flex-column flex-lg-row w-100">
-            <div className="d-flex justify-content-start align-items-center">
-              <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label="Se souvenir de moi" />
-            </div>
-            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("forgot")}>Mot de Passe oublié ?</div>
+          <div className="form-end d-flex justify-content-center w-100">
+            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("login")}>Je me souviens de mon mot de passe</div>
           </div>
           <LoadingButton
             className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
@@ -245,7 +164,7 @@ class Login extends React.Component {
             type={'submit'}
             variant="contained"
           >
-            Connexion
+            Récupérer mon mot de passe
           </LoadingButton>
         </div>
 
@@ -259,4 +178,4 @@ class Login extends React.Component {
   }
 }
 
-export default Redux.connect(mapStateToProps, mapDispatchToProps)(Login)
+export default ForgotPassword;

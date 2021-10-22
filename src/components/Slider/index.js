@@ -1,11 +1,7 @@
 import { Button } from '..';
-
 import Slider from "react-slick";
-
 import { IoArrowForward, IoArrowBack } from 'react-icons/io5';
-
 import AOS from 'aos';
-
 import React from 'react';
 
 const BannerSlider = ({ slides }) => {
@@ -26,7 +22,6 @@ const BannerSlider = ({ slides }) => {
     once: false,
     mirror: false,
     anchorPlacement: 'top-bottom'
-
   });
 
   const settings = {
@@ -55,8 +50,8 @@ const BannerSlider = ({ slides }) => {
   }
 
   return (
-    <div id="carouselExampleSlidesOnly" class="carousel slide" style={{height: '100vh'}}>
-      <div className="slide-section carousel-inner h-100" role="listbox">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" style={{height: 'auto'}}>
+      <div className="slide-section carousel-inner" role="listbox">
         <Slider ref={c => (slider = c)} {...settings}>
           {slides.map((slide, index) => (
             <div class="carousel-item active">

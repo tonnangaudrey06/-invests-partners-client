@@ -2,6 +2,7 @@ import '../../../styles/projet.scss'
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { Container } from '../../../components';
 
@@ -18,12 +19,19 @@ const ProjetSecteur = (props) => {
 
     const [secteur, setSecteur] = React.useState(null);
     const [country, setCountry] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
         async function fetchData() {
-            const rs = await SecteurService.getOne(section);
-            setSecteur(rs.data.data);
-            setCountry(rs.data.data?.pays[0]);
+            setLoading(true);
+            try {
+                const rs = await SecteurService.getOne(section);
+                setSecteur(rs.data.data);
+                setCountry(rs.data.data?.pays[0]);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
         }
         fetchData();
     }, [section, props]);
@@ -39,6 +47,16 @@ const ProjetSecteur = (props) => {
                 <div className="section-grid-container row">
                     <div className="col-sm-12 col-md-6">
                         <div className="row mt-3 px-3">
+                            {(secteur?.pays || []).length <= 0 && (
+                                <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+                                    {loading && (<CircularProgress />)}
+                                    {!loading && (
+                                        <h5 className="fw-bolder text-muted">
+                                            Aucun pays trouvé
+                                        </h5>
+                                    )}
+                                </div>
+                            )}
                             {secteur?.pays.map((item, index) => (
                                 <div className="col-sm-12 col-md-6 col-lg-4">
                                     <div className="project-item rounded shadow" key={index} onClick={() => setCountry(item)}>
@@ -58,6 +76,16 @@ const ProjetSecteur = (props) => {
                             {/* <p className="lh-base">{country?.libelle}</p> */}
                             <h4 className="fw-bolder mt-2">Vous pouvez investir dans ces villes</h4>
                             <div className="mt-1 d-flex justify-content-start align-items-center flex-wrap">
+                                {(country?.viles || []).length <= 0 && (
+                                    <div className="py-3 d-flex justify-content-center align-items-center w-100">
+                                        {loading && (<CircularProgress />)}
+                                        {!loading && (
+                                            <h5 className="fw-bolder text-muted">
+                                                Aucune ville trouvé
+                                            </h5>
+                                        )}
+                                    </div>
+                                )}
                                 {country?.viles.map((item, index) => (
                                     <Link key={index} to={`${match.url}/${item?.libelle}`} className="mb-2 mr-2">
                                         <span className="badge rounded-pill bg-primary p-2 fs-6 text-uppercase" style={{ minWidth: '9em' }}>

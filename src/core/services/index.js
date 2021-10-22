@@ -8,6 +8,7 @@ import PlageInvestissementService from "./PlageInvestissementService"
 import MessageService from "./MessageService";
 import AppService from './AppService'
 import ContactService from "./ContactService";
+import EventService from './EventService';
 
 export {
     AppService,
@@ -19,5 +20,6 @@ export {
     CampayService,
     PlageInvestissementService,
     MessageService,
-    ContactService
+    ContactService,
+    EventService
 }

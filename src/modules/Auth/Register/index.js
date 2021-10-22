@@ -279,14 +279,15 @@ const Register = (props) => {
     const loc = useGeoLocation();
 
     return (
-        <form className="login-form" onSubmit={handleSubmit(handleCheckRegister)}>
+        <form className="login-form px-2 px-md-5 mt-4 mt-lg-0" onSubmit={handleSubmit(handleCheckRegister)}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
-                    <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                    <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                         <div className="d-flex flex-column align-items-center">
                             <h6 className="fw-bolder">Qui êtes-vous ?</h6>
                             <RadioGroup
                                 row
+                                className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                                 value={state.role || 3}
                                 onChange={(e, value) => handelRoleChange(value)}
                             >
@@ -297,11 +298,12 @@ const Register = (props) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                    <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                         <div className="d-flex flex-column align-items-center">
                             <h6 className="fw-bolder">Quelle est votre personnalité juridique ?</h6>
                             <RadioGroup
                                 row
+                                className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                                 value={state.status || "PARTICULIER"}
                                 onChange={(e, value) => setState({ ...state, status: value })}
                             >
@@ -312,7 +314,7 @@ const Register = (props) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={state.status === 'PARTICULIER' ? 6 : 12}>
-                    <FormControl sx={{ m: 1, width: "100%" }}>
+                    <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
                             fullWidth
                             required
@@ -337,7 +339,7 @@ const Register = (props) => {
                 </Grid>
                 {state.status === 'PARTICULIER' &&
                     <Grid item xs={12} md={6}>
-                        <FormControl sx={{ m: 1, width: "100%" }}>
+                        <FormControl sx={{ my: .5, width: "100%" }}>
                             <TextField
                                 fullWidth
                                 required
@@ -361,7 +363,7 @@ const Register = (props) => {
                     </Grid>
                 }
                 <Grid item xs={12} md={6}>
-                    <FormControl sx={{ m: 1, width: "100%" }}>
+                    <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
                             fullWidth
                             required
@@ -385,7 +387,7 @@ const Register = (props) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <FormControl sx={{ m: 1, width: "100%" }}>
+                    <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
                             fullWidth
                             required
@@ -409,7 +411,7 @@ const Register = (props) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <FormControl sx={{ m: 1, width: "100%" }}>
+                    <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
                             fullWidth
                             required
@@ -451,7 +453,7 @@ const Register = (props) => {
                 </Grid>
                 {state.role === 4 &&
                     <Grid item xs={12} md={12}>
-                        <FormControl sx={{ m: 1, width: "100%" }}>
+                        <FormControl sx={{ my: .5, width: "100%" }}>
                             <TextField
                                 fullWidth
                                 required
@@ -515,7 +517,7 @@ const Register = (props) => {
                     <hr />
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
-                            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                            <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                                 <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
                                 <RadioGroup
                                     row
@@ -527,7 +529,7 @@ const Register = (props) => {
                                     {/* <FormControlLabel value="MASTER_CARD" control={<Radio />} label="Master card" /> */}
                                 </RadioGroup>
                             </FormControl>
-                            <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                            <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                                 <h6 className="fw-bolder">Votre numéro de téléphone</h6>
                                 <PhoneInput
                                     defaultCountry={loc.country}
@@ -538,7 +540,7 @@ const Register = (props) => {
 
                             </FormControl>
                             <p className="my-2 text-center fw-bolder">{messagePay}</p>
-                            {/* <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
+                            {/* <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                                 <h6 className="fw-bolder">Votre carte bancaire</h6>
                                 <input type="text" />
                             </FormControl> */}

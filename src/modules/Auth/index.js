@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Login from './Login';
 import Register from './Register';
+import ForgotPassword from './ForgotPassword';
 import { Container } from '../../components';
 
 import image1 from "../../assets/img/ban.png";
@@ -32,8 +33,8 @@ export default class Auth extends React.Component {
 
     this.switchPage = this.switchPage.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.handleErrorAlertOpen = this.handleSuccessAlertOpen.bind(this);
-    this.handleErrorAlertClose = this.handleSuccessAlertClose.bind(this);
+    this.handleSuccessAlertOpen = this.handleSuccessAlertOpen.bind(this);
+    this.handleSuccessAlertClose = this.handleSuccessAlertClose.bind(this);
   }
 
   handleSuccessAlertOpen() {
@@ -82,15 +83,19 @@ export default class Auth extends React.Component {
                 <div onClick={() => this.switchPage("login")} className={this.state.page === "login" ? "auth-nav-item active" : "auth-nav-item"}>Connexion</div>
               </div>
             </div>
-            {this.state.page === "register" ? (
+            {this.state.page === "register" && (
               <Register switchPage={this.switchPage} sendMessage={this.sendMessage} {...this.props} />
-            ) : (
-              <Login {...this.props} />
+            )}
+            {this.state.page === "login" && (
+              <Login switchPage={this.switchPage} {...this.props} />
+            )}
+            {this.state.page === "forgot" && (
+              <ForgotPassword switchPage={this.switchPage} sendMessage={this.sendMessage} {...this.props} />
             )}
           </div>
         </div>
 
-        <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} key="bottomright" open={this.state.success} autoHideDuration={10000} onClose={this.handleSuccessAlertClose}>
+        <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={this.state.success} autoHideDuration={10000} onClose={this.handleSuccessAlertClose}>
           <Alert onClose={this.handleSuccessAlertClose} severity="success" sx={{ width: '100%' }}>
             {this.state.message}
           </Alert>

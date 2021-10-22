@@ -23,6 +23,12 @@ import { ProjetAdd, ProjetList, ProjectDetails } from './pages/Project'
 import ProfilPorteurProjet from './pages/Profile'
 import MessagesPorteurProjet from "./pages/Message";
 
+function stringAvatar(name) {
+    return {
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+}
+
 const Dashboard = (props) => {
     const { match, history, location, removeUser, auth } = props;
 
@@ -52,7 +58,7 @@ const Dashboard = (props) => {
     return (
         <div className="dashboard-section">
             <div className="nav-top d-flex align-items-center justify-content-around p-3">
-                <Chip className="me-3" onClick={() => { history.push(`${match.url}/profil`) }} avatar={<Avatar sx={{ width: 30, height: 30 }}>M</Avatar>} label={auth.user.nom_complet} color="primary" variant="outlined" />
+                <Chip className="me-3" onClick={() => { history.push(`${match.url}/profil`) }} avatar={auth.user.photo ? <Avatar alt={auth.user.nom_complet} src={auth.user.photo} /> : <Avatar {...stringAvatar(auth.user.nom + ' ' + auth.user.prenom)} />} label={auth.user.nom_complet} color="primary" variant="outlined" />
                 <IconButton className="me-3">
                     <Badge variant="dot" color="primary">
                         <NotificationsNoneIcon />

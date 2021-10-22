@@ -65,6 +65,30 @@ class AuthService {
                 });
         });
     }
+
+    forgot(user) {
+        return new Promise((resolve, reject) => {
+            http.post(source + 'forgot/password', user)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    reset(user) {
+        return new Promise((resolve, reject) => {
+            http.post(source + 'reset/password', user)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
 }
 
 export default new AuthService();

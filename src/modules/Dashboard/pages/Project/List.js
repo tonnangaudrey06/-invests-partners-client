@@ -188,10 +188,10 @@ const ProjetList = (props) => {
                                         <TableCell align="left">
                                             <span className="fw-bolder fs-6">{projet.intitule}</span>
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "15%" }}>
+                                        <TableCell align="center" style={{ width: "18%" }}>
                                             <span className="fw-bolder fs-6">{projet.secteur_data.libelle}</span>
                                         </TableCell>
-                                        <TableCell align="center" style={{ width: "5%" }}>
+                                        <TableCell align="center" style={{ width: "15%" }}>
                                             {{
                                                 'ATTENTE': <span className="badge bg-secondary p-1">{projet.etat_complet}</span>,
                                                 'ATTENTE_VALIDATION_ADMIN': <span className="badge bg-secondary p-1">En attente d'approbation</span>,
@@ -203,13 +203,13 @@ const ProjetList = (props) => {
                                             }[projet.etat] || <span className="badge bg-secondary p-1">En attente de publication</span>}
 
                                         </TableCell>
-                                        <TableCell align="right" style={{ width: "15%" }}>
+                                        <TableCell align="right" style={{ width: "14%" }}>
                                             <span className="fw-bolder fs-6">{moneyFormat(projet.financement)} XAF</span>
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "15%" }}>
                                             <span className="fw-bolder fs-6">{moneyFormat(projet.iv_total)} XAF</span>
                                         </TableCell>
-                                        <TableCell align="right" style={{ width: "15%" }}>
+                                        <TableCell align="right" style={{ width: "12%" }}>
                                             {/* <i className="bi bi-chevron-compact-right"></i> */}
                                             <span className="fw-bolder fs-6">{moneyFormat(projet.financement - projet.iv_total)} XAF</span>
                                         </TableCell>

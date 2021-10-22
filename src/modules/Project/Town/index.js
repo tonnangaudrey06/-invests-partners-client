@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { SecteurService } from '../../../core/services';
 import projetimg from "../../../assets/img/projet.jpg";
@@ -36,6 +37,7 @@ const ProjetTown = ({ match, location, history, user }) => {
     const [projets, setProjets] = React.useState([]);
     const [modalOpen, setModalOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
 
     const handleChange = (event) => {
         if (event.target.name === "ville") {
@@ -48,7 +50,7 @@ const ProjetTown = ({ match, location, history, user }) => {
     };
 
     const cardOnClick = (item) => {
-        if(!checkCanFianance(item)) {
+        if (!checkCanFianance(item)) {
             setModalOpen(true);
             setSelectedCard(selectedCard);
         }
@@ -56,15 +58,15 @@ const ProjetTown = ({ match, location, history, user }) => {
     }
 
     const checkCanFianance = (item) => {
-        if(!user?.profil_invest) {
+        if (!user?.profil_invest) {
             return false;
         }
 
-        if(!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
+        if (!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
             return true;
         }
 
-        if(+user?.profil_invest?.montant_max >= +item?.financement) {
+        if (+user?.profil_invest?.montant_max >= +item?.financement) {
             return true;
         }
 
@@ -73,8 +75,14 @@ const ProjetTown = ({ match, location, history, user }) => {
 
     React.useEffect(() => {
         async function fetchData() {
-            const rs = await SecteurService.getSecteurProjet(section, town);
-            setProjets(rs.data.data);
+            setLoading(true);
+            try {
+                const rs = await SecteurService.getSecteurProjet(section, town);
+                setProjets(rs.data.data);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
         }
         fetchData();
     }, [section, town]);
@@ -180,9 +188,19 @@ const ProjetTown = ({ match, location, history, user }) => {
 
             <div className="container-md py-5">
                 <div className="row g-5">
+                    {(projets || []).length <= 0 && (
+                        <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+                            {loading && (<CircularProgress />)}
+                            {!loading && (
+                                <h5 className="fw-bolder text-muted">
+                                    Aucun projet trouvé
+                                </h5>
+                            )}
+                        </div>
+                    )}
                     {projets.map((item, index) => (
                         <div key={index} className="col-sm-12 col-md-6 col-lg-4">
-                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }}  onClick={() => cardOnClick(item)}>
+                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }} onClick={() => cardOnClick(item)}>
                                 <CardMedia
                                     component="img"
                                     height="170"

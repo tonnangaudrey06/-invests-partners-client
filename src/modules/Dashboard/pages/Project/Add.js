@@ -158,7 +158,6 @@ const ProjetAdd = (props) => {
     };
 
     const getSelectedSecteur = () => {
-        console.log(projet?.secteur);
         return (secteurs || []).find(secteur => secteur.id === +projet?.secteur);
     };
 
@@ -433,6 +432,35 @@ const ProjetAdd = (props) => {
         return true;
     };
 
+    const checkProjetDone = () => {
+
+        if (!doc_presentation) {
+            return false;
+        }
+
+        if (!projet?.intitule) {
+            return false;
+        }
+
+        if (!projet?.secteur) {
+            return false;
+        }
+
+        if (!projet?.financement) {
+            return false;
+        }
+
+        if (!projet?.ville_activite) {
+            return false;
+        }
+
+        if (!projet?.description) {
+            return false;
+        }
+
+        return true;
+    };
+
     return (
         <div className="container">
             <Stepper nonLinear activeStep={activeStep}>
@@ -444,7 +472,7 @@ const ProjetAdd = (props) => {
                     </Step>
                 ))}
             </Stepper>
-            <form onSubmit={saveProjet}>
+            <div>
                 <div className="projet-create-content rounded shadow border bg-white">
                     {activeStep === 0 &&
                         <div>
@@ -1439,14 +1467,16 @@ const ProjetAdd = (props) => {
                         <Button
                             className="btn-default"
                             variant="contained"
-                            type="submit"
+                            type="button"
                             sx={{ mr: 1 }}
+                            disabled={!checkProjetDone()}
+                            onClick={saveProjet}
                         >
                             Enregistrer
                         </Button>
                     )}
                 </Box>
-            </form>
+            </div>
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%' }}>
                     {message}

@@ -11,7 +11,8 @@ import {
   About,
   Contact,
   DashboardInvestor,
-  Event
+  Event,
+  ResetPassword
 } from "../modules";
 
 import { createBrowserHistory } from "history";
@@ -31,6 +32,7 @@ const AppNavigator = () => {
       <ProtectedRoute path="/dashboard" component={Dashboard} role={3} />
       <ProtectedRoute path="/investor" component={DashboardInvestor} role={4} />
       <Route exact path="/auth" component={Auth} />
+      <Route exact path="/auth/password/reset/:token" component={ResetPassword} />
       <Route component={Home} />
     </Switch>
   );

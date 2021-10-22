@@ -4,6 +4,7 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 
 import { Container, SectionTitle } from '../../components';
+import CircularProgress from '@mui/material/CircularProgress';
 import secteurImg from '../../assets/img/secteur.jpg';
 
 import backgroundTop from '../../assets/img/ban.png';
@@ -19,11 +20,18 @@ const Projet = (props) => {
   const history = useHistory();
 
   const [secteurs, setSecteurs] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchData() {
-      const rs = await SecteurService.getAll();
-      setSecteurs(rs.data.data);
+      setLoading(true);
+      try {
+        const rs = await SecteurService.getAll();
+        setSecteurs(rs.data.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
     }
     fetchData();
   }, []);
@@ -38,7 +46,7 @@ const Projet = (props) => {
               <select className="projects-input-button" type="button" value="OK">
                 <option>Catégories</option>
               </select>
-              <input placeholder="Rechercher" className="projects-text-input" type="text"/>
+              <input placeholder="Rechercher" className="projects-text-input" type="text" />
             </div>
           </div>
         </div>
@@ -46,6 +54,16 @@ const Projet = (props) => {
       <section className="container mb-5">
         <SectionTitle title="NOS SECTEURS D'ACTIVITÉES" />
         <div className="secteur-listing row g-3 d-flex justify-content-center mt-3">
+          {(secteurs || []).length <= 0 && (
+            <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+              {loading && (<CircularProgress />)}
+              {!loading && (
+                <h5 className="fw-bolder text-muted">
+                  Aucun secteur trouvé
+                </h5>
+              )}
+            </div>
+          )}
           {(secteurs || []).map((item, index) => (
             <div className="col-sm-12 col-md-6 col-lg-3">
               <div className="secteur-item shadow-lg" onClick={() => { history.push(`/projets/${item.id}`) }}>
