@@ -61,8 +61,7 @@ class CurrencyTextField extends React.Component {
       classes,
       currencySymbol,
       inputProps,
-      InputProps,
-      ...others
+      InputProps
     } = this.props
 
     const otherProps = {}

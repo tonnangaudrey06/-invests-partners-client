@@ -15,10 +15,8 @@ import {
   ResetPassword
 } from "../modules";
 
-import { createBrowserHistory } from "history";
-const history = createBrowserHistory();
-
-const AppNavigator = () => {
+const AppNavigator = (props) => {
+  const {history} = props;
   return (
     <Switch history={history}>
       <Route exact path="/" component={Home} />

@@ -25,6 +25,17 @@ class MessageService {
         });
     }
 
+    deleteMessage(id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.delete(`${source}/delete/message/${id}`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     interesse(sender, receiver, data) {
         return new Promise(async (resolve, reject) => {
             try {

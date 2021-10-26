@@ -115,6 +115,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
     React.useEffect(() => {
         fetchData();
         loadSecteur();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
@@ -150,15 +151,15 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                 )}
                 {(contacts || []).map((item, index) => (
                     <div onClick={() => history.push(match.url + '/' + item.recepteur.id + '/' + item.conversation + (item.projet ? '/' + item.projet.id : '') + '/chat')} key={index} className="message-line border-bottom">
-                        <div>
+                        <div className="d-flex align-items-center">
                             {item.vu === 1 ? (
-                                <BiEnvelope color="success" />
+                                <BiEnvelopeOpen className="text-success" />
                             ) : (
-                                <BiEnvelopeOpen color="primary" />
+                                <BiEnvelope className="text-primary" />
                             )}
                         </div>
                         <div className="message-title border-end d-flex align-items-center">
-                            <h4 className="fw-bolder">{item.recepteur?.nom} | {item.projet?.intitule ? item.projet?.intitule : 'Conseille'}</h4>
+                            <h5 className="fw-bolder m-0">{item.recepteur?.nom} | {item.projet?.intitule ? item.projet?.intitule : 'Renseignements'}</h5>
                         </div>
                         <div className="message-content border-end">
                             {item.message}

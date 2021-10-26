@@ -37,6 +37,13 @@ export default class Auth extends React.Component {
     this.handleSuccessAlertClose = this.handleSuccessAlertClose.bind(this);
   }
 
+  componentDidMount() {
+    const params = new URLSearchParams(this.props.location.search);
+    if(params.get('page')) {
+      this.setState({ page: params.get('page') });
+    }
+  }
+
   handleSuccessAlertOpen() {
     this.setState({ success: true });
   };

@@ -1,7 +1,7 @@
 import '../../styles/header.scss';
 
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { logout } from '../../core/reducers/auth/actions'
 import { AuthService } from '../../core/services';
@@ -17,7 +17,6 @@ import {
   NavMenu,
   NavBtn,
   MobileIcone,
-  Logocontainer,
   FTime,
   NavBtn2
 } from './NavbarElements';
@@ -134,8 +133,8 @@ const Header = ({ removeUser, auth, headerActive }) => {
                   
                   <NavBtn2>
                     <span>
-                    <span><NavLink style={css} to="/auth">Créer mon compte</NavLink></span>
-                    <span><NavLink style={css} to="/auth">Connexion</NavLink></span>
+                    <span><NavLink style={css} to="/auth?page=register">Créer mon compte</NavLink></span>
+                    <span><NavLink style={css} to="/auth?page=login">Connexion</NavLink></span>
                     </span>
                   </NavBtn2>
                 )}
@@ -161,8 +160,8 @@ const Header = ({ removeUser, auth, headerActive }) => {
           
           <NavBtn>
             <span>
-            <span><NavLink style={css} to="/auth">Créer mon compte</NavLink></span>
-            <span><NavLink style={css} to="/auth">Connexion</NavLink></span>
+            <span><NavLink style={css} to="/auth?page=register">Créer mon compte</NavLink></span>
+            <span><NavLink style={css} to="/auth?page=login">Connexion</NavLink></span>
             </span>
           </NavBtn>
           

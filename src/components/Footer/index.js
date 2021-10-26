@@ -1,4 +1,7 @@
 import '../../styles/footer.scss'
+import { Link } from 'react-router-dom';
+import terms from '../../assets/Terms-and-Conditions.pdf'
+import conditions from '../../assets/CONFIDENTIALITY POLICY I&P.pdf'
 
 const Footer = () => {
   return (
@@ -46,28 +49,24 @@ const Footer = () => {
           <div className="col-md-7">
             <div className="row">
               <div className="col-md-4 mb-md-0 mb-4">
-                <h2 className="footer-heading">Invests & Partners</h2>
+                <h2 className="footer-heading">Invest & Partners</h2>
                 <ul className="list-unstyled">
-                  <li><a href="#" className="d-block">Qui sommes-nous?</a></li>
-                  <li><a href="#" className="d-block">Nos services</a></li>
-                  <li><a href="#" className="d-block">Nos experts</a></li>
-                  <li><a href="#" className="d-block">Nos projets</a></li>
+                  <li><Link to="/about-us" className="d-block">Qui sommes-nous?</Link></li>
                 </ul>
               </div>
               <div className="col-md-4 mb-md-0 mb-4">
                 <h2 className="footer-heading">Navigations</h2>
                 <ul className="list-unstyled">
-                  <li><a href="#" className="d-block">Projets</a></li>
-                  <li><a href="#" className="d-block">Événements</a></li>
-                  <li><a href="#" className="d-block">Contact</a></li>
+                  <li><Link to="/projets" className="d-block">Projets</Link></li>
+                  <li><Link to="/contact" className="d-block">Contact</Link></li>
                 </ul>
               </div>
               <div className="col-md-4 mb-md-0 mb-4">
                 <h2 className="footer-heading">Ressources</h2>
                 <ul className="list-unstyled">
-                  <li><a href="#" className="d-block">Événements</a></li>
-                  <li><a href="#" className="d-block">Newsletter</a></li>
-                  <li><a href="#" className="d-block">Politique de confidentialité</a></li>
+                  <li><Link to="/events" className="d-block">Événements</Link></li>
+                  <li><a href={terms} target="_blank" rel="noreferrer" className="d-block">Conditions générales d'utilisation</a></li>
+                  <li><a href={conditions} target="_blank" rel="noreferrer" className="d-block">Politique de confidentialité</a></li>
                 </ul>
               </div>
             </div>
@@ -77,7 +76,7 @@ const Footer = () => {
             <form action="#" className="subscribe-form">
               <div className="form-group d-flex">
                 <input type="text" className="form-control rounded-left" placeholder="Entrez l'adresse e-mail" />
-                <button type ="submit" class ="form-control submit rounded-right">Souscrire</button>
+                <button type ="submit" className ="form-control submit rounded-right">Souscrire</button>
               </div>
               <span className="subheading">Recevez les mises à jour sur les investissements et les partenaires dans votre boîte aux lettres électronique.</span>
             </form>
@@ -86,14 +85,14 @@ const Footer = () => {
         <div className="row mt-5 pt-4 border-top">
           <div className="col-md-6 col-lg-8 mb-md-0 mb-4">
             <p className="copyright mb-0">
-              Copyright &copy;2021 Tous droits réservés à Invests & Partners 
+              Copyright &copy;2021 Tous droits réservés à Invest & Partners 
             </p>
           </div>
-          <div className="col-md-6 col-lg-4 text-md-right">
+          <div className="col-md-6 col-lg-4 text-right">
             <ul className="ftco-footer-social p-0">
-              <li className="ftco-animate"><a href="#" title="Twitter"><span className="bi bi-twitter"></span></a></li>
-              <li className="ftco-animate"><a href="#" title="Facebook"><span className="bi bi-facebook"></span></a></li>
-              <li className="ftco-animate"><a href="#" title="Instagram"><span className="bi bi-instagram"></span></a></li>
+              {/* <li className="ftco-animate"><a href="#" title="Twitter"><span className="bi bi-twitter"></span></a></li> */}
+              {/* <li className="ftco-animate"><a href="#" title="Facebook"><span className="bi bi-facebook"></span></a></li> */}
+              <li className="ftco-animate"><Link to="#" title="LinkedIn"><span className="bi bi-linkedin"></span></Link></li>
             </ul>
           </div>
         </div>

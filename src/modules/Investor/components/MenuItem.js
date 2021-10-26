@@ -7,10 +7,10 @@ const MenuItem = (props) => {
     const location = useLocation();
     
     return (
-        <li onClick={props.onClick} >
-            <NavLink exact={exact} to={to} className={location.pathname.includes(to) ? "menu-item active" : "menu-item"}  >
+        <li onClick={props.onClick}className={location.pathname.includes(to) ? "menu-item active" : "menu-item"}>
+            <NavLink exact={exact} to={to} className="d-flex align-items-center" >
                 <span className="markActive"></span>
-                <div className="menu-icone">
+                <div className="menu-icone me-1">
                     <i className={iconClassName}></i>
                 </div>
                 <span className="name">{name}</span>

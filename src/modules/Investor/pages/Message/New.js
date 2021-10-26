@@ -14,11 +14,7 @@ const NouveauMessagesPorteurProjet = (props) => {
     const { history } = props;
 
     const [medias, setMedias] = useState([]);
-
-    const handleSendMessage = (e) => {
-        // history.push
-    };
-
+    
     const changeMedia = (e) => {
         let files = [...e.target.files];
         setMedias([...medias, ...files]);

@@ -134,8 +134,8 @@ const ProjectDetails = (props) => {
         ProjetService.valideProjet(projet?.id).then(
             (rs) => {
                 props.setLoadingFalse();
-                setEtat(prevEtat =>{ return { ...prevEtat, success: true }});
-                setEtat(prevEtat =>{ return { ...prevEtat, message: 'Paiement effectué' }});
+                setEtat(prevEtat => { return { ...prevEtat, success: true } });
+                setEtat(prevEtat => { return { ...prevEtat, message: 'Paiement effectué' } });
                 loadProjet();
             },
             (error) => {
@@ -153,7 +153,7 @@ const ProjectDetails = (props) => {
         )
     }
 
-    
+
     const loadProjet = () => {
         ProjetService.getOneProjet(id).then(
             (rs) => {
@@ -164,6 +164,7 @@ const ProjectDetails = (props) => {
 
     useEffect(() => {
         loadProjet();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match, user])
 
     const loc = useGeoLocation();
@@ -200,14 +201,14 @@ const ProjectDetails = (props) => {
 
     return (
         <div>
-            <div className="projects-details-dashboard-top" style={{ background: `url(${banner})` }}>
+            <div className="projects-details-dashboard-top shadow" style={{ background: `url(${banner})` }}>
                 <div className="projects-details-dashboard-top flex-column" >
                     <h1 className="title-container">{projet?.intitule}</h1>
                     {projet?.etat === 'ATTENTE_PAIEMENT' && (
                         <Button className="btn-default btn-rounded mt-2" variant="contained" startIcon={<RiCoinsLine />} onClick={() => setVisible(true)}>Payer les frais d'etude</Button>
                     )}
                 </div>
-                <div className="logo">
+                <div className="logo shadow">
                     <img src={projet?.logo ? projet?.logo : projetimg} alt="" />
                 </div>
             </div>
@@ -274,13 +275,13 @@ const ProjectDetails = (props) => {
                 </Modal.Body>
             </Modal>
 
-            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {etat.message}
                 </Alert>
             </Snackbar>
 
-            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={etat.success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
                     {etat.message}
                 </Alert>

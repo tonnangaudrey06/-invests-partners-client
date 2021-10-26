@@ -50,17 +50,17 @@ const BannerSlider = ({ slides }) => {
   }
 
   return (
-    <div id="carouselExampleSlidesOnly" class="carousel slide" style={{height: 'auto'}}>
+    <div id="carouselExampleSlidesOnly" className="carousel slide" style={{height: 'auto'}}>
       <div className="slide-section carousel-inner" role="listbox">
         <Slider ref={c => (slider = c)} {...settings}>
           {slides.map((slide, index) => (
-            <div class="carousel-item active">
-              <img class="d-block img-fluid" src={slide.image} alt={slide.image} />
+            <div key={index} className="carousel-item active">
+              <img className="d-block img-fluid" src={slide.image} alt={slide.image} />
               <div className="filter"></div>
-              <div class="carousel-caption text-white ">
+              <div className="carousel-caption text-white ">
                 <h1 id="title" className="text-uppercase">{slide.title}</h1>
                 <div className="mb-2 textEntete">{slide.description}</div>
-                <div class="d-grid gap-2  bouttonEntete">
+                <div className="d-grid gap-2  bouttonEntete">
                   <Button title={'Découvrir les opportunités'} color={'transparent'} borderColor={'white'} url={'/projets'} />
                   <Button title={'Parler à un conseiller'} color={'#585b60'} borderColor={'grey'} url={'/contact'} />
                 </div>

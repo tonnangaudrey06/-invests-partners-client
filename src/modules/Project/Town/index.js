@@ -89,11 +89,11 @@ const ProjetTown = ({ match, location, history, user }) => {
 
     return (
         <Container header headerActive active="projets" className="bg-light" footer>
-            <div className="projects-top-all-projet bg-white pb-5">
-                <div className="search-bar-container-all-projet">
+            <div className="projects-top-all-projet bg-white">
+                <div className="search-bar-container-all-projet" style={{marginTop: '5rem', marginBottom: '2rem'}}>
                     <div className="container">
                         <div className="row gy-3">
-                            <div className="col-12 d-flex justify-content-center align-items-center">
+                            <div className="col-12 d-flex justify-content-center align-items-center" style={{marginBottom: '2rem'}}>
                                 <div className="search-bar">
                                     <select className="projects-input-button" type="button" value="OK">
                                         <option>Catégories</option>
@@ -101,7 +101,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                                     <input placeholder="Rechercher" className="projects-text-input" type="text" name="search" id="" />
                                 </div>
                             </div>
-                            <div className="col-12 row pt-5">
+                            <div className="col-12 row">
                                 <div className="col-sm-12 col-md-4">
                                     <FormControl sx={{ m: 1, minWidth: "100%" }}>
                                         <TextField

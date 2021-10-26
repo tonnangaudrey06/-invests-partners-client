@@ -30,7 +30,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const News = () => { return (<Post />); };
+const News = (props) => { return (<Post {...props} />); };
 
 const ProjetDetails = ({ match, location, history, user }) => {
 
@@ -150,7 +150,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                 </Col>
                             )}
                             <Col lg={true} >
-                                <div className="card shadow rounded">
+                                <div className="card shadow-lg rounded mx-auto" style={{textAlign: checkFileIsVideo(details?.doc_presentation) ? 'start' : 'center'}}>
                                     <div className="card-body">
                                         <ul className="list-group list-group-flush">
                                             <li className="list-group-item"><span className="fw-bolder">Catégorie :</span> {details?.secteur_data?.libelle}</li>
@@ -162,13 +162,13 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                             <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
                                         </ul>
                                     </div>
-                                    <div className="card-footer d-flex justify-content-between align-items-center py-3">
-                                        <div className="d-flex align-items-center fw-bolder">
+                                    <div className="card-footer d-flex justify-content-center align-items-center py-4">
+                                        {/* <div className="d-flex align-items-center fw-bolder">
                                             <span className="me-2"><i className="bi bi-heart"></i></span>
                                             <span>Ajouter au favoris</span>
-                                        </div>
-                                        <div>
-                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default">Je suis interessé</Button>
+                                        </div> */}
+                                        <div className="w-100 d-flex justify-content-center align-items-center">
+                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-25">Je suis interessé</Button>
                                         </div>
                                     </div>
                                 </div>
@@ -190,21 +190,16 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="container rounded border shadow bg-white my-5" >
+                                <div className="container-md rounded border shadow bg-white my-5" >
                                     <div className="tab-content mh-100">
                                         <div className="tab-pane fade show active" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
                                             <Description desc={details?.description || ''} />
                                         </div>
                                         <div className="tab-pane fade" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
-                                            <div className="d-flex flex-column align-items-center">
-                                                <div className="mb-2"></div>
-                                                <News />
-                                                <div className="mb-2"></div>
-                                                <News />
-                                                <div className="mb-2"></div>
-                                                <News />
-                                                <div className="mb-2"></div>
-                                                <News />
+                                            <div className="container-md d-flex flex-column align-items-center mb-5">
+                                                {(details?.actualites || []).map((actualite, index) => (
+                                                    <News key={index} actualite={actualite} logo={details?.logo} />
+                                                ))}
                                             </div>
                                         </div>
                                         <div className="tab-pane fade" id="nav-question" role="tabpanel" aria-labelledby="question-tab">
@@ -262,7 +257,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                     </Grid>
                 </Modal.Body>
             </Modal>
-            
+
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {rs_message}

@@ -29,6 +29,9 @@ import { PlageInvestissementService, AuthService, CampayService } from '../../..
 
 import { moneyFormat } from '../../../core/utils/helpers'
 
+import terms from '../../../assets/Terms-and-Conditions.pdf'
+import conditions from '../../../assets/CONFIDENTIALITY POLICY I&P.pdf'
+
 import { useForm } from 'react-hook-form';
 
 import * as Redux from 'react-redux'
@@ -489,7 +492,7 @@ const Register = (props) => {
                 <small className="fw-bolder">NB: Les champs avec (*) sont obligatoires</small>
             </div>
             <div className="form-end-register">
-                <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label="J'accepte les conditions générales d'utilisations" />
+                <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label=""/> <label>J'accepte les <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">Conditions générales d'utilisation</a> et <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">Politique de confidentialité</a>.</label>
             </div>
 
             <LoadingButton

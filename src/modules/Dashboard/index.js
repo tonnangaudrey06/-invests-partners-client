@@ -32,7 +32,7 @@ function stringAvatar(name) {
 const Dashboard = (props) => {
     const { match, history, location, removeUser, auth } = props;
 
-    const [sectionCss, setSectionCss] = React.useState({ marginLeft: "15%" });
+    const [sectionCss, setSectionCss] = React.useState({ marginLeft: "18rem" });
 
     const goBack = () => {
         history.goBack();
@@ -40,9 +40,9 @@ const Dashboard = (props) => {
 
     const handleChangeActive = (value) => {
         if (!value) {
-            setSectionCss({ marginLeft: "6%" })
+            setSectionCss({ marginLeft: "6rem" })
         } else {
-            setSectionCss({ marginLeft: "15%" })
+            setSectionCss({ marginLeft: "18rem" })
         }
     };
 

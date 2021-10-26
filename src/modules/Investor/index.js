@@ -24,9 +24,9 @@ import ProfilPorteurProjet from './pages/Profile'
 import MessagesPorteurProjet from "./pages/Message";
 
 const DashboardInvestor = (props) => {
-    const { match, history, removeUser, auth } = props;
+    const { match, history, location, removeUser, auth } = props;
 
-    const [sectionCss, setSectionCss] = React.useState({ marginLeft: "15%" });
+    const [sectionCss, setSectionCss] = React.useState({ marginLeft: "18rem" });
 
     const goBack = () => {
         history.goBack();
@@ -34,9 +34,9 @@ const DashboardInvestor = (props) => {
 
     const handleChangeActive = (value) => {
         if (!value) {
-            setSectionCss({ marginLeft: "6%" })
+            setSectionCss({ marginLeft: "6rem" })
         } else {
-            setSectionCss({ marginLeft: "15%" })
+            setSectionCss({ marginLeft: "18rem" })
         }
     };
 
@@ -63,7 +63,7 @@ const DashboardInvestor = (props) => {
                 </IconButton>
             </div>
             <Router>
-                <Sidebar rootUrl={match.url} onChangeActive={handleChangeActive} />
+                <Sidebar location={location} history={history} rootUrl={match.url} onChangeActive={handleChangeActive} />
                 <div className="dashboard-section-content" style={sectionCss}>
                     <div className="mb-5">
                         <Button onClick={goBack} variant="contained" startIcon={<KeyboardReturnIcon />}>

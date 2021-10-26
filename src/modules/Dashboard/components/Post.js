@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import projetimg from "../../../../assets/img/projet.jpg";
+import projetimg from "../../../assets/img/projet.jpg";
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -30,7 +30,7 @@ const Post = (props) => {
   return (
     <>
       <div className="mb-2"></div>
-      <Card sx={{ width: '100%' }} classes={{ root: 'shadow-lg rounded' }}>
+      <Card sx={{ width: '60%' }} classes={{ root: 'shadow-lg rounded' }}>
         <CardHeader
           avatar={
             <Avatar src={logo ? logo : projetimg}></Avatar>

@@ -24,7 +24,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { moneyFormat } from '../../core/utils/helpers'
+import { moneyFormat, millionFormat } from '../../core/utils/helpers'
 
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
@@ -491,7 +491,7 @@ const HomeScreen = () => {
             <p>Invest & Partners s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes.</p>
             <div className="mt-5 d-flex justify-content-center align-items-center flex-column flex-lg-row">
               {partenaires.map((item, index) => (
-                <div className="partner-image shadow-lg mx-2">
+                <div key={index} className="partner-image shadow-lg mx-2">
                   <img className="img-fluid rounded" alt="Partenaires" src={item.image} />
                 </div>
               ))}
@@ -528,34 +528,34 @@ const HomeScreen = () => {
           <div className="row">
             <div className="col-md-12 col-lg-4 mb-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.iv}</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.users}</h3>
                 <div>
                   <RiTeamLine size={100} fill={'white'} />
                 </div>
                 <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
-                  Investisseurs
+                  Utilisateurs
                 </p>
               </div>
             </div>
             <div className="col-md-12 col-lg-4 mb-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.total && chiffre.total > 1000000 ? moneyFormat(chiffre.total) : '1M'} XAF</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.projets}</h3>
+                <div>
+                  <RiTeamLine size={100} fill={'white'} />
+                </div>
+                <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
+                  Projets
+                </p>
+              </div>
+            </div>
+            <div className="col-md-12 col-lg-4 mb-4">
+              <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{millionFormat(chiffre.total)} XAF</h3>
                 <div>
                   <RiCoinsLine size={100} fill={'white'} />
                 </div>
                 <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
                   Investis
-                </p>
-              </div>
-            </div>
-            <div className="col-md-12 col-lg-4 mb-4">
-              <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.pp}</h3>
-                <div>
-                  <RiTeamLine size={100} fill={'white'} />
-                </div>
-                <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
-                  Porteurs de projet
                 </p>
               </div>
             </div>

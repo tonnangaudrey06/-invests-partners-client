@@ -1,10 +1,10 @@
 const DashContainer = ({leftSide, rightSide}) => {
     return(
         <div className="dash-container">
-            <div className="dash-container-projet-left">
+            <div className="dash-container-projet-left shadow">
                 {leftSide}
             </div>
-            <div className="dash-container-projet-right">
+            <div className="dash-container-projet-right shadow-lg">
                 {rightSide}
             </div>
         </div>

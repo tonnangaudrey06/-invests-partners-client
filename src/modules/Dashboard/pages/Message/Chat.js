@@ -79,6 +79,28 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
         )
     }
 
+    const deleteMessage = (id) => {
+        MessageService.deleteMessage(id).then(
+            (rs) => {
+                hidePayement();
+                setSuccess(true);
+                setRsMessage('Votre message a été supprimer avec succès')
+                fetchData()
+            },
+            (error) => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                setRsMessage(resMessage);
+                setError(true)
+            }
+        )
+    }
+
     const handleSuccessAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -106,12 +128,13 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
 
     React.useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
         <div>
-            <div className="w-100 d-flex justify-content-between align-items-center mb-4">
-                <h3 className="fw-bolder">{messages.length > 0 && messages[0]?.projet_data?.intitule ? messages[0]?.projet_data?.intitule : 'Conseille'}</h3>
+            <div className="w-100 d-flex justify-content-between align-items-center mb-4 px-4">
+                <h3 className="fw-bolder">{messages.length > 0 && messages[0]?.projet_data?.intitule ? messages[0]?.projet_data?.intitule : 'Renseignements'}</h3>
                 <div className="message-actions d-flex align-items-center">
                     <Button
                         onClick={fetchData}
@@ -126,14 +149,14 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                     >Répondre</Button>
                 </div>
             </div>
-            <div className="bg-white">
+            <div className="bg-white overflow-y-auto px-4" style={{maxHeight: '75vh'}}>
                 {loading && (
                     <div className="message-item border d-flex align-items-center justify-content-center my-2">
                         <CircularProgress />
                     </div>
                 )}
                 {(messages || []).map((item, index) => (
-                    <div onClick={() => history.push(`${match.url}/${index}/read`)} key={index} className="message-item border mb-3">
+                    <div key={index} className="message-item border mb-3">
                         {/* <div className="message-seen" style={{ backgroundColor: item.vu === 1 ? "green" : "#c5473b" }}></div> */}
                         <div className="d-flex align-items-center justify-content-between mb-1">
                             <div className="d-flex align-items-center">
@@ -144,6 +167,11 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                                     <p className="bi bi-clock d-flex align-items-center"></p> <p className="text-capitalize ms-2">Envoyé le  <span className="text-capitalize ms-1">{moment(item.created_at).format(" DD MMMM YYYY [à] HH:mm:ss")}</span></p>
                                 </div>
                             </div>
+                            {(item.envoyeur === user?.id && item?.vu === 0) && (
+                                <div className="d-flex align-items-center cursor-pointer" title="Supprimer le message" onClick={() => deleteMessage(item?.id)}>
+                                    <span className="bi bi-trash text-white fw-bolder bg-primary p-3 icon-click rounded"></span>
+                                </div>
+                            )}
                         </div>
                         <div className="message-text">
                             {item.message}

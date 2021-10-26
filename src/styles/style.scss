@@ -1,11 +1,11 @@
 @font-face {
   font-family: "Karla";
-  src: local("karla-regular"), url('../assets/fonts/Karla-Regular.ttf') format("truetype");
+  src: local("karla-regular"), url("../assets/fonts/Karla-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Building";
-  src: local("Building"), url('../assets/fonts/Building_Typeface.ttf') format("truetype");
+  src: local("Building"), url("../assets/fonts/Building_Typeface.ttf") format("truetype");
 }
 
 $primary: #c5473b;
@@ -17,8 +17,8 @@ $font-family-sans-serif: "Karla";
 @import "~bootstrap/scss/bootstrap";
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
-@import '~react-perfect-scrollbar/dist/css/styles.css';
-@import '~react-circular-progressbar/dist/styles.css';
+@import "~react-perfect-scrollbar/dist/css/styles.css";
+@import "~react-circular-progressbar/dist/styles.css";
 
 *,
 *::before,
@@ -26,7 +26,7 @@ $font-family-sans-serif: "Karla";
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -59,7 +59,7 @@ code {
 }
 
 .fw-default-title {
-  font-family: 'Building';
+  font-family: "Building";
 }
 
 .event-all-list-text,
@@ -335,4 +335,13 @@ code {
   z-index: -1;
   background-color: rgba(0, 0, 0, 0.7);
   transition: all 0.2s ease-in-out;
+}
+
+.icon-click {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

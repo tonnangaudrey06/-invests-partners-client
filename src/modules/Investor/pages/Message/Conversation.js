@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../../../styles/dashboard.scss';
 
-import { BiPlusMedical, BiEnvelope, BiEnvelopeOpen  } from 'react-icons/bi';
+import { BiPlusMedical, BiEnvelope, BiEnvelopeOpen } from 'react-icons/bi';
 
 import { Modal } from 'react-bootstrap';
 
@@ -27,7 +27,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const ConversationMessagesInvestisseur = ({ match, history, user }) => {
+const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
 
     const [contacts, setContacts] = React.useState([])
     const [loading, setLoading] = React.useState(false)
@@ -115,6 +115,7 @@ const ConversationMessagesInvestisseur = ({ match, history, user }) => {
     React.useEffect(() => {
         fetchData();
         loadSecteur();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
@@ -150,16 +151,15 @@ const ConversationMessagesInvestisseur = ({ match, history, user }) => {
                 )}
                 {(contacts || []).map((item, index) => (
                     <div onClick={() => history.push(match.url + '/' + item.recepteur.id + '/' + item.conversation + (item.projet ? '/' + item.projet.id : '') + '/chat')} key={index} className="message-line border-bottom">
-                        <div>
+                        <div className="d-flex align-items-center">
                             {item.vu === 1 ? (
-                                <BiEnvelope color="success" />
+                                <BiEnvelopeOpen className="text-success" />
                             ) : (
-                                <BiEnvelopeOpen color="primary" />
+                                <BiEnvelope className="text-primary" />
                             )}
                         </div>
-
                         <div className="message-title border-end d-flex align-items-center">
-                            <h5 className="fw-bolder">{item.recepteur?.nom} | {item.projet?.intitule ? item.projet?.intitule : 'Conseil'}</h5>
+                            <h5 className="fw-bolder m-0">{item.recepteur?.nom} | {item.projet?.intitule ? item.projet?.intitule : 'Renseignements'}</h5>
                         </div>
                         <div className="message-content border-end">
                             {item.message}
@@ -259,4 +259,4 @@ function mapStateToProps(state) {
     return ({ user: state.auth.user });
 }
 
-export default connect(mapStateToProps)(ConversationMessagesInvestisseur);
+export default connect(mapStateToProps)(ConversationMessagesPorteurProjet);

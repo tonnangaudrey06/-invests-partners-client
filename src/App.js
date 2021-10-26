@@ -17,7 +17,7 @@ import localStorage from './core/utils/localstorage';
 
 import LoadingOverlay from 'react-loading-overlay';
 
-// import history from './core/utils/'
+import history from './core/utils/history'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -44,24 +44,26 @@ const App = (props) => {
     setState({ ...state, error: false });
   };
 
-  React.useEffect(() => {
-    function loadProfile() {
-      if (localStorage.exist('user')) {
-        authService.profile().then(
-          (rs) => {
-            dispatch(login(rs.data));
-          },
-          error => {
-            dispatch(logout());
-            handleErrorAlertOpen();
-            setState(prevState => {
-              return { ...prevState, message: 'Votre session a expiré. Veuillez vous connecter pour continuer ' }
-            });
-          }
-        );
-      }
+  const loadProfile = () => {
+    if (localStorage.exist('user')) {
+      authService.profile().then(
+        (rs) => {
+          dispatch(login(rs.data));
+        },
+        error => {
+          dispatch(logout());
+          handleErrorAlertOpen();
+          setState(prevState => {
+            return { ...prevState, message: 'Votre session a expiré. Veuillez vous connecter pour continuer ' }
+          });
+        }
+      );
     }
+  }
+
+  React.useEffect(() => {
     loadProfile();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -73,7 +75,7 @@ const App = (props) => {
       <React.StrictMode>
         <BrowserRouter>
           <ScrollToTop />
-          <AppNavigator />
+          <AppNavigator history={history} />
           <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={state.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
             <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
               {state.message}

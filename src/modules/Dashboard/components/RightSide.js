@@ -8,7 +8,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import IconButton from '@mui/material/IconButton';
 
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
 import FilePresent from '@mui/icons-material/FilePresent';
 import React from 'react';
 
@@ -19,10 +18,11 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import '../../../styles/dashboard.scss';
 import { moneyFormat, numberPercentage } from '../../../core/utils/helpers';
 
-import { BiPlusMedical } from 'react-icons/bi';
 import { RiDownload2Fill } from 'react-icons/ri';
 
-import { Link } from 'react-router-dom';
+import Post from "./Post";
+
+const PostContent = (props) => { return (<Post {...props}/>); };
 
 const RightSide = ({ form, projet }) => {
 
@@ -46,24 +46,6 @@ const RightSide = ({ form, projet }) => {
                                     loading="lazy"
                                 />
                             </a>
-
-                            // <List sx={{ width: '80%' }}>
-                            //     <ListItem
-                            //         disableGutters
-                            //         secondaryAction={
-                            //             <IconButton color="primary" onClick={() => downloadFile(projet?.logo)} edge="end">
-                            //                 <RiDownload2Fill />
-                            //             </IconButton>
-                            //         }
-                            //     >
-                            //         <ListItemAvatar>
-                            //             <Avatar>
-                            //                 <ImageIcon />
-                            //             </Avatar>
-                            //         </ListItemAvatar>
-                            //         <ListItemText primary="Logo" />
-                            //     </ListItem>
-                            // </List>
                         )}
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -207,29 +189,11 @@ const RightSide = ({ form, projet }) => {
     const News = () => {
         return (
             <div className="container mt-3 mb-5">
-                {/* <p className="text-center w-100 fs-2" style={{ fontFamily: 'building' }}>Ajouter une actualite pour ce project</p>
-                <Link style={{ display: 'flex', justifyContent: 'center', borderRadius: 30, height: 80, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.1' }} className="dash-img-project">
-                    <BiPlusMedical size={30} fill='grey' />
-                </Link> */}
-                <div className="mt-5">
-                    <p className="text-center w-100 fs-2 mb-5" style={{ fontFamily: 'building' }}>Toutes les actualites</p>
-
+                <div className="d-flex flex-column align-items-center">
+                    {(projet?.actualites || []).map((actualite, index) => (
+                        <PostContent key={index} actualite={actualite} logo={projet?.logo} />
+                    ))}
                 </div>
-                {/*  {HomeData.newsData.map((projet, index) => (
-                    <div key={index} className="news-container">
-                        <div className="header-news-container">
-                            <div style={{ width: 35, height: 35, border: 'solid', borderWidth: 1, borderRadius: 80 }}></div>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <div style={{ color: '#c5473b' }}>{projet?.titleP}</div>
-                                <div style={{ fontSize: 15, color: 'gray' }}>{projet?.date} | {projet?.hour}</div>
-                            </div>
-                        </div>
-                        <p style={{ fontFamily: 'building', fontSize: 18, color: 'gray' }}>{projet?.title}</p>
-                        <p style={{}}>{projet?.content}</p>
-                        <img src={projet?.image} />
-                        <div style={{ display: 'flex', alignItems: 'center', color: '#c5473b', marginTop: 2, fontSize: 10 }}><AiOutlineLike fill='#c5473b' size={20} /> <div>{projet?.like}</div></div>
-                    </div>
-                ))} */}
             </div>
         )
     }
@@ -352,12 +316,12 @@ const RightSide = ({ form, projet }) => {
     }
 
     return (
-        <div>
+        <>
             {form === "/info" && <ProjetsInformations />}
             {form === "/analyse" && <Analyse />}
             {form === "/news" && <News />}
             {form === "/invest" && <Invest />}
-        </div>
+        </>
     )
 }
 

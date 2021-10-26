@@ -41,7 +41,7 @@ const Projet = (props) => {
       <div className="projects-top" style={{ backgroundImage: `url(${backgroundTop})` }}>
         <div className="search-bar-container-home">
           <div className="container">
-            <h1 style={{ color: 'white', fontFamily: "building", fontSize: 60 }}>LA MEILLEURE AFFAIRE S'OFFRE A VOUS</h1>
+            <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>LA MEILLEURE AFFAIRE S'OFFRE A VOUS</h1>
             <div className="search-bar">
               <select className="projects-input-button" type="button" value="OK">
                 <option>Catégories</option>

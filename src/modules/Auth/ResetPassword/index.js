@@ -1,6 +1,6 @@
 import '../../../styles/login.scss';
 
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import authService from '../../../core/services/AuthService'
 

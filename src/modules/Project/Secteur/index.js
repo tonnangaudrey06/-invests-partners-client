@@ -40,7 +40,7 @@ const ProjetSecteur = (props) => {
         <Container header footer headerActive active="projets">
             <div className="projects-top" style={{ backgroundImage: `url(${backgroundTop})` }}>
                 <div className="container m-auto" style={{ zIndex: 1 }}>
-                    <h1 className="text-uppercase" style={{ color: 'white', fontFamily: "building", fontSize: '4.5em', width: 'fit-content', margin: '0px auto' }}>{secteur?.libelle}</h1>
+                    <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>{secteur?.libelle}</h1>
                 </div>
             </div>
             <div>

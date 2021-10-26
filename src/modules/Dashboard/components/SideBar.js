@@ -20,7 +20,7 @@ const Sidebar = (props) => {
         <div className={`side-menu ${inactive ? "inactive" : ""}`}>
             <div className="top-section">
                 <div className="logo">
-                    <a href="/" className="menu-item" >
+                    <a href="/">
                         <img src={logo} alt="Logo" />
                     </a>
                 </div>
@@ -31,10 +31,10 @@ const Sidebar = (props) => {
 
             <div className="main-menu">
                 <ul>
-                    <li>
-                        <a href="/" className="menu-item" >
+                    <li className="menu-item">
+                        <a href="/" className="d-flex align-items-center">
                             <span className="markActive"></span>
-                            <div className="menu-icone">
+                            <div className="menu-icone me-1">
                                 <i className="bi bi-globe2"></i>
                             </div>
                             <span className="name">Accueil</span>

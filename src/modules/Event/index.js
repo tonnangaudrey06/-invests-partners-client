@@ -223,7 +223,11 @@ const Event = () => {
     };
 
     React.useEffect(() => {
-        fetchData();
+        let isMounted = true;
+        if (isMounted) {
+            fetchData();
+        }
+        return () => { isMounted = false };
     }, [])
     return (
         <Container header active="events" footer>
@@ -256,7 +260,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                Aucun évenement pour l'instant
+                                    Aucun évenement pour l'instant
                                 </h5>
                             )}
                         </div>
@@ -509,12 +513,12 @@ const Event = () => {
                     {/*  */}
                 </Modal.Body>
             </Modal>
-            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {etat.message}
                 </Alert>
             </Snackbar>
-            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={etat.success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
                     {etat.message}
                 </Alert>

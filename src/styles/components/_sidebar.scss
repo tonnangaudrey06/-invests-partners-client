@@ -1,16 +1,16 @@
 .side-menu {
     position: fixed;
     background: #c5473b;
-    width: 15%;
+    width: 18rem;
     min-height: 100vh;
     box-sizing: border-box;
-    padding: 30px 20px;
+    padding: 2rem;
     transition: width 0.2s ease-in;
     .top-section {
         position: relative;
         .logo {
-            width: 40px;
-            height: 40px;
+            width: 3rem;
+            height: 3rem;
             overflow: hidden;
             display: inline-block;
             img {
@@ -20,9 +20,9 @@
         }
         .toggle-menu-btn {
             color: white;
-            font-size: 20px;
+            font-size: 1.5rem;
             position: absolute;
-            top: 50%;
+            top: 1.5rem;
             right: 0;
             transform: translateY(-50%);
             cursor: pointer;
@@ -32,7 +32,9 @@
     .main-menu {
         margin-top: 80px;
         .menu-item.active {
-            color: white;
+            a {
+                color: white;
+            }
             .markActive {
                 background: white;
                 border-radius: 0 10px 10px 0;
@@ -46,7 +48,9 @@
         }
 
         .menu-item:hover {
-            color: white;
+            a {
+                color: white;
+            }
             .markActive {
                 background: white;
                 border-radius: 0 10px 10px 0;
@@ -60,42 +64,43 @@
         }
 
         .menu-item {
-            color: rgba(255, 255, 255, 0.528);
-            font-size: 15px;
-            display: block;
-            font-weight: 600;
-            margin-bottom: 20px;
-            position: relative;
-            //background: violet;
+            a {
+                color: rgba(255, 255, 255, 0.528);
+                font-size: 1rem;
+                display: block;
+                font-weight: 600;
+                padding-bottom: 1.8rem;
+                position: relative;
+                text-decoration: none;
 
-            .name {
-                position: absolute;
-                display: inline-block;
-                line-height: 30px;
-                opacity: 1;
-                transition: opacity 0.5 ease-in;
-                overflow: hidden;
-            }
+                .name {
+                    // position: absolute;
+                    // display: inline-block;
+                    line-height: 1.5;
+                    opacity: 1;
+                    transition: opacity 0.5 ease-in;
+                    overflow: hidden;
+                }
 
-            .menu-icone {
-                display: inline-block;
-                width: 40px;
-                height: 40px;
-
-                font-size: 20px;
-                line-height: 30px;
-                text-align: center;
+                .menu-icone {
+                    // display: inline-block;
+                    width: 2rem;
+                    height: 2rem;
+                    font-size: 1.5rem;
+                    line-height: 1.5;
+                    // text-align: center;
+                }
             }
         }
     }
 }
 
 .side-menu.inactive {
-    width: 6%;
+    width: 6rem;
     .top-section {
         .toggle-menu-btn {
             position: absolute;
-            right: -50px;
+            right: -4rem;
             color: #c5473b;
             cursor: pointer;
         }

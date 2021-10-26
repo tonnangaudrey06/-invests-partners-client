@@ -135,19 +135,19 @@ const Contact = (props) => {
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" for="name">Nom complet</label>
+                                                        <label className="label" htmlFor="name">Nom complet</label>
                                                         <input type="text" className="form-control" onChange={(e) => handelOnChange('nom_complet', e.target.value)} placeholder="Nom" />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" for="email">Email</label>
+                                                        <label className="label" htmlFor="email">Email</label>
                                                         <input type="email" className="form-control" onChange={(e) => handelOnChange('email', e.target.value)} placeholder="Email" />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <div className="form-group">
-                                                        <label className="label" for="subject">Objet</label>
+                                                        <label className="label" htmlFor="subject">Objet</label>
                                                         <input type="text" className="form-control" onChange={(e) => handelOnChange('object', e.target.value)} placeholder="Objet" />
                                                     </div>
                                                 </div>
