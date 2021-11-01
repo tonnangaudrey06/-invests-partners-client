@@ -232,19 +232,17 @@ const Event = () => {
     return (
         <Container header active="events" footer>
             <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{ backgroundImage: `url(${eventImg})` }}>
-                <h1 className="fw-default-title" style={{ fontSize: '3.5em' }}>Title of project or category presentation</h1>
-                <p className="my-4 fw-default-text">Lorem ipsum dolor sit amet.</p>
-                <Button title="Voir les evenements" borderColor='#c5473b' fontColor="white" />
+                <h3 className="fw-default-title text-uppercase" style={{ fontSize: '3.5rem' }}>NOS ÉVÉNEMENTS</h3>
             </div>
 
             <div className="container my-5">
                 <div className="row">
                     <div className="col-md-12 col-lg-6 mb-4">
                         <h3 className="fw-default-title event-all-list-title" style={{ fontSize: '3em' }}>
-                            Creez votre reseau d'affaire en prenant part nos sessions.
+                            Creez votre reseau d'affaire en prenant part à nos sessions.
                         </h3>
                         <p className="event-all-list-text">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                            Saisissez cette opportunité, interagissez avec les conseillers et commencez le parcours vers votre indépendance financière.
                         </p>
                     </div>
                     <div className="col-md-12 col-lg-6 d-flex justify-content-center">
@@ -260,7 +258,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun évenement pour l'instant
+                                    Aucun événement pour l'instant
                                 </h5>
                             )}
                         </div>
@@ -319,7 +317,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun évenement pour l'instant
+                                    Aucun événement pour l'instant
                                 </h5>
                             )}
                         </div>

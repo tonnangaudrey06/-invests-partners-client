@@ -12,8 +12,13 @@ import service7 from '../assets/img/icons/rocket.png';
 
 const servicesData = [
   {
+    title: "Recherche De Financements",
+    content: "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses.",
+    icon: service5
+  },
+  {
     title: "Assistance A L'Investissement Et L’Implantation",
-    content: "Le Cameroun est un pays qui regorge d’énormes opportunités d’investissement. Afin de permettre aux différents investisseurs de mieux capitaliser sur cet atout, I&P accompagne l’investisseur dans l’une ou plusieurs phases de son parcours d’implantation",
+    content: "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement.",
     icon: service1,
   },
   {
@@ -25,11 +30,6 @@ const servicesData = [
     title: "Ingenierie Patrimoniale",
     content: "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées, en ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie.",
     icon: service2
-  },
-  {
-    title: "Recherche De Financements",
-    content: "L’approche de I&P consiste à accompagner les porteurs de projets dans la structuration et la valorisation du projet, l’élaboration d’un plan d'action clair avec tous les contenus que cela implique ...",
-    icon: service5
   },
   {
     title: "Mise En Relation",

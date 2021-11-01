@@ -44,8 +44,10 @@
 .service-item {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
+  padding: 1rem;
 }
+
 .navMenuCache {
   display: none;
   @media screen and (max-width: 998px) {
@@ -85,7 +87,12 @@
 
 .service-content .service-content-text {
   font-weight: bold;
-  line-height: 1.5rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 
   @media screen and (max-width: 998px) {
     text-align: center;

@@ -18,16 +18,38 @@ import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 
+import {
+    styled,
+    List,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    IconButton,
+    ListItemText,
+    Divider,
+    Chip,
+    Tooltip
+} from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import FilePresent from '@mui/icons-material/FilePresent';
+import MovieCreation from '@mui/icons-material/MovieCreation';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import CircularProgress from '@mui/material/CircularProgress';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 moment.locale('fr')
+
+const Input = styled('input')({
+    display: 'none',
+});
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const ChatMessagesPorteurProjet = ({ match, history, user }) => {
+
     const { params: { receiver, conversation, projet } } = match;
 
     const [messages, setMessages] = React.useState([])
@@ -38,6 +60,27 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
     const [success, setSuccess] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const [rs_message, setRsMessage] = React.useState('');
+    const [medias, setMedias] = React.useState([])
+
+    const changeMedia = (e) => {
+        let files = [...e.target.files];
+        setMedias([...medias, ...files]);
+    };
+
+    const removeFileInArray = (file) => {
+        const result = medias.filter((ele) => {
+            return ele.name !== file.name;
+        });
+        setMedias(result);
+    }
+
+    const convertFileSize = (file) => {
+        const size = file?.size?.toString();
+        if (size?.length < 7) {
+            return `${Math.round(+size / 1024).toFixed(2)} KB`
+        }
+        return `${(Math.round(+size / 1024) / 1000).toFixed(2)} MB`
+    };
 
     const hidePayement = () => {
         setVisible(false);
@@ -45,18 +88,29 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
     }
 
     const openMessage = (e) => {
+        setMedias([]);
+        setMessage('');
         setVisible(true);
     }
 
     const sendMessage = (e) => {
-        const data = {
-            body: message,
-            projet: projet
+        e.preventDefault();
+
+        let formData = new FormData();
+
+        for (const media of medias) {
+            formData.append('attachement[]', media)
+        }
+
+        formData.append('body', message)
+
+        if (projet) {
+            formData.append('projet', projet)
         }
 
         setSendLoading(true)
 
-        MessageService.send(user?.id, receiver, conversation, data).then(
+        MessageService.send(user?.id, receiver, conversation, formData).then(
             (rs) => {
                 hidePayement();
                 setSuccess(true);
@@ -149,7 +203,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                     >Répondre</Button>
                 </div>
             </div>
-            <div className="bg-white overflow-y-auto px-4" style={{maxHeight: '75vh'}}>
+            <div className="bg-white overflow-y-auto px-4" style={{ maxHeight: '75vh' }}>
                 {loading && (
                     <div className="message-item border d-flex align-items-center justify-content-center my-2">
                         <CircularProgress />
@@ -175,6 +229,15 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                         </div>
                         <div className="message-text">
                             {item.message}
+                            {(item?.attachements && item?.attachements?.length > 0) && (
+                                <div className="d-flex justify-content-start align-items-center mt-1">
+                                    {(item?.attachements || []).map((file, index) => (
+                                        <Tooltip key={index} title="Télécharger" arrow>
+                                            <Chip icon={file?.type === 'IMAGE' ? (<ImageIcon />) : (file?.type === 'VIDEO' ? (<MovieCreation />) : (<FilePresent />))} label={file?.nom} size="small" component="a" target="_blank" href={file?.url} clickable color="primary" variant="outlined" className="me-2" style={{maxWidth: '20%'}} />
+                                        </Tooltip>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -209,12 +272,45 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                                 />
                             </FormControl>
                         </Grid>
+                        <Grid item xs={12} md={12} className="text-center">
+                            <label htmlFor="media-files" className="mb-1">
+                                <Input multiple id="media-files" type="file" onChange={changeMedia} />
+                                <Button className="btn-default btn-rounded" variant="contained" component="span" size="small">
+                                    Ajouter un ou plusieur fichiers
+                                </Button>
+                            </label>
+
+                            {medias.length > 0 && (
+                                <List sx={{ width: '100%' }}>
+                                    {medias.map((file, index) => (
+                                        <div key={index}>
+                                            <Divider />
+                                            <ListItem
+                                                disableGutters
+                                                secondaryAction={
+                                                    <IconButton color="primary" onClick={() => removeFileInArray(file)} edge="end">
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                }
+                                            >
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <ImageIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText primary={file.name} secondary={convertFileSize(file)} />
+                                            </ListItem>
+                                        </div>
+                                    ))}
+                                </List>
+                            )}
+                            <Divider className="mb-1" />
+                        </Grid>
                         <Grid item xs={12} md={12}>
                             <div className="d-flex justify-content-center align-items-center w-100">
                                 <LoadingButton
                                     className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
                                     loading={sendLoading}
-                                    disabled={!message}
                                     onClick={sendMessage}
                                     variant="contained"
                                 >

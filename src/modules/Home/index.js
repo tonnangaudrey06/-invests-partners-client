@@ -394,7 +394,7 @@ const HomeScreen = () => {
       <Container header footer>
         <div className="section-service container-fluid px-5 pt-3 pb-5">
           <SectionTitle title="NOS SERVICES" />
-          <div className="row mt-5">
+          <div className="row mt-5 d-flex justify-content-center">
             {HomeData?.servicesData.map((item, index) => (
               <div key={index} className="col-sm-12 col-md-6 col-lg-4 service-item">
                 <div className="service-icon">

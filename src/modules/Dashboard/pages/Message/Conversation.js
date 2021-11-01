@@ -18,7 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import 'moment/locale/fr'
 
-import { MessageService, SecteurService } from '../../../../core/services';
+import { MessageService, UserService } from '../../../../core/services';
 import { connect } from "react-redux";
 
 moment.locale('fr')
@@ -37,13 +37,15 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
     const [success, setSuccess] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const [rs_message, setRsMessage] = React.useState('');
-    const [secteurs, setSecteurs] = React.useState([]);
-    const [secteur, setSecteur] = React.useState(null);
+    const [projets, setProjets] = React.useState([]);
+    const [projet, setProjet] = React.useState(null);
 
-    const loadSecteur = () => {
-        SecteurService.getAll().then(response => {
-            setSecteurs(response.data.data);
-        });
+    const loadProjets = () => {
+        UserService.getAllUserProjets(user.id).then(
+            rs => {
+                setProjets(rs.data.data);
+            }
+        )
     }
 
     const hidePayement = () => {
@@ -60,7 +62,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
             body: message
         }
 
-        const receiver = (secteurs || []).find(el => el?.id === +secteur)?.user;
+        const receiver = (projets || []).find(el => el?.id === +projet)?.user;
 
         setSendLoading(true)
 
@@ -114,7 +116,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
 
     React.useEffect(() => {
         fetchData();
-        loadSecteur();
+        loadProjets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
@@ -193,16 +195,16 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                                     }}
                                     size="small"
                                     InputLabelProps={{ shrink: true }}
-                                    label="Secteur d'activité"
-                                    placeholder="Secteur d'activité"
+                                    label="Projet"
+                                    placeholder="Projet"
                                     variant="filled"
-                                    value={secteur || undefined}
-                                    onChange={(e) => setSecteur(e.target.value)}
+                                    value={projet || ''}
+                                    onChange={(e) => setProjet(e.target.value)}
                                 >
-                                    <option value={null}>Secteur d'activité</option>
-                                    {secteurs.map((item, index) => (
+                                    <option value={null} hidden disabled>Projet</option>
+                                    {projets.map((item, index) => (
                                         <option key={item.id} value={item.id}>
-                                            {item.libelle}
+                                            {item.intitule}
                                         </option>
                                     ))}
                                 </TextField>
@@ -230,7 +232,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                                 <LoadingButton
                                     className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
                                     loading={sendLoading}
-                                    disabled={!(message && secteur)}
+                                    disabled={!(message && projet)}
                                     onClick={sendMessage}
                                     variant="contained"
                                 >

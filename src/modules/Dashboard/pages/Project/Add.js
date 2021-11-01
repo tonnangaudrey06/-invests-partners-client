@@ -421,6 +421,10 @@ const ProjetAdd = (props) => {
             return true;
         }
 
+        if (!checkFiscal('COMPTE_EXPLOITATION')) {
+            return false;
+        }
+
         if (!checkFiscal('CARTE_CONTRIBUABLE')) {
             return false;
         }
@@ -667,6 +671,27 @@ const ProjetAdd = (props) => {
                                                                 </label>
                                                             )}
                                                         </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('COMPTE_EXPLOITATION') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Compte d'exploitation"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-ce" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-ce" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'COMPTE_EXPLOITATION')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Compte d'exploitation"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer le compte d'exploitation</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
                                                     </>
                                                 }
 
@@ -715,6 +740,27 @@ const ProjetAdd = (props) => {
                                                             )}
                                                         </div>
                                                         <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                            {checkFiscal('COMPTE_EXPLOITATION') ? (
+                                                                <Chip
+                                                                    icon={<CheckCircleIcon />}
+                                                                    label="Compte d'exploitation"
+                                                                    color={"success"}
+                                                                    variant="outlined"
+                                                                />
+                                                            ) : (
+                                                                <label htmlFor="doc-fisc-ce" className="cursor-pointer d-flex align-items-center flex-column">
+                                                                    <Input id="doc-fisc-ce" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'COMPTE_EXPLOITATION')} />
+                                                                    <Chip className="cursor-pointer w-100" component="span"
+                                                                        icon={<AddCircleOutlineIcon />}
+                                                                        label="Compte d'exploitation"
+                                                                        color={"error"}
+                                                                        variant="outlined"
+                                                                    />
+                                                                    <p className="small text-muted">Cliquez pour importer le compte d'exploitation</p>
+                                                                </label>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
                                                             {checkFiscal('DSF') ? (
                                                                 <Chip
                                                                     icon={<CheckCircleIcon />}
@@ -732,27 +778,6 @@ const ProjetAdd = (props) => {
                                                                         variant="outlined"
                                                                     />
                                                                     <p className="small text-muted">Cliquez pour importer la DSF</p>
-                                                                </label>
-                                                            )}
-                                                        </div>
-                                                        <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
-                                                            {checkFiscal('COMPTE_EXPLOITATION') ? (
-                                                                <Chip
-                                                                    icon={<CheckCircleIcon />}
-                                                                    label="Compte d'exploitation"
-                                                                    color={"success"}
-                                                                    variant="outlined"
-                                                                />
-                                                            ) : (
-                                                                <label htmlFor="doc-fisc-ce" className="cursor-pointer d-flex align-items-center flex-column">
-                                                                    <Input id="doc-fisc-ce" accept="image/jpeg,image/gif,image/png,application/pdf" type="file" onChange={(e) => changeDocumentFiscal(e, 'COMPTE_EXPLOITATION')} />
-                                                                    <Chip className="cursor-pointer w-100" component="span"
-                                                                        icon={<AddCircleOutlineIcon />}
-                                                                        label="Compte d'exploitation"
-                                                                        color={"secondary"}
-                                                                        variant="outlined"
-                                                                    />
-                                                                    <p className="small text-muted">Cliquez pour importer le compte d'exploitation</p>
                                                                 </label>
                                                             )}
                                                         </div>
@@ -801,13 +826,13 @@ const ProjetAdd = (props) => {
                                                     </>
                                                 }
 
-                                                <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
+                                                {/* <div className="d-flex justify-content-start align-items-start flex-column flex-wrap me-4 mb-4">
                                                     <Chip
                                                         label="Autres"
                                                         color="secondary"
                                                         variant="outlined"
                                                     />
-                                                </div>
+                                                </div> */}
                                             </div>
                                         )}
                                     </FormControl>
@@ -995,7 +1020,7 @@ const ProjetAdd = (props) => {
                                         <h5 className="fw-bolder">Logo du projet</h5>
                                         <label htmlFor="photo-profile">
                                             <Input accept="image/*" id="photo-profile" type="file" onChange={changeProjetLogo} />
-                                            <Button className="btn-default" variant="contained" component="span">
+                                            <Button className="btn-default" variant="contained" component="span" size="small">
                                                 Ajouter
                                             </Button>
                                             <div className="text-muted small">Le logo doit être une image de type <span className="fw-bolder">jpg ou png</span></div>
@@ -1027,7 +1052,7 @@ const ProjetAdd = (props) => {
                                         <h5 className="fw-bolder">Document de présentation du projet</h5>
                                         <label htmlFor="doc-presentation">
                                             <Input accept="image/jpeg,image/gif,image/png,application/pdf" id="doc-presentation" type="file" onChange={changeProjetDoc} />
-                                            <Button className="btn-default" variant="contained" component="span">
+                                            <Button className="btn-default" variant="contained" component="span" size="small">
                                                 Ajouter
                                             </Button>
                                             <div className="text-muted small">Le document doit être un fichier de type <span className="fw-bolder">pdf, doc, pptx, mp4 ou mp3</span></div>
@@ -1061,7 +1086,7 @@ const ProjetAdd = (props) => {
                                         {/* {medias} */}
                                         <label htmlFor="projet-media">
                                             <Input id="projet-media" multiple type="file" onChange={changeProjetMedia} />
-                                            <Button className="btn-default" variant="contained" component="span">
+                                            <Button className="btn-default" variant="contained" component="span" size="small">
                                                 Ajouter
                                             </Button>
                                             <div className="text-muted small">Vous pouvez ajouter tous types de fichier.</div>
@@ -1215,7 +1240,7 @@ const ProjetAdd = (props) => {
                                                             <FormControl sx={{ m: 1, width: "100%" }}>
                                                                 <label htmlFor="photo-profile">
                                                                     <Input accept="image/*" id="photo-profile" type="file" onChange={changeNewMembrePhoto} />
-                                                                    <Button variant="contained" component="span">
+                                                                    <Button variant="contained" component="span" size="small">
                                                                         Ajouter une photo de profil
                                                                     </Button>
                                                                     <div className="text-muted small">La photo doit être de type <span className="fw-bolder">jpg ou png</span></div>

@@ -51,10 +51,16 @@ const Aii = (props) => {
         <div className="service-details-content">
             <ServicesDetails imageLeft={Assii} button={<Button fullWidth variant="contained" className="btn-rounded btn-default container-md" onClick={() => history.push('/contact')}>Parler à un conseiller</Button>} rightMessage={
                 <p>
-                    Le Cameroun est un pays qui regorge d’énormes opportunités d’investissement. Afin de permettre aux différents investisseurs de mieux capitaliser sur cet atout, <span className='marked'>I&P accompagne l’investisseur dans l’une ou plusieurs phases de son parcours d’implantation</span> :  Evaluation ou identification de l’Idée du projet, choix de la localisation du site d’implantation, préparation du plan d’affaire, constitution de l’entreprise, mise en place et lancement de l’activité, extension et développement de l’entreprise. <br /> <br />
-                    Les facteurs d'échec sont nombreux et ne peuvent être minimisés qu’au travers d’une <span className='marked'>méthodologie permettant de quantifier l'activité prévisible, de mesurer les ressources nécessaires</span> et enfin de réunir les moyens à mettre en œuvre. <br /> <br />
+                    Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement.
+                    <br /> <br />
 
-                    Aussi, disposant d’une parfaite connaissance des réalités de l’environnement des entreprises au Cameroun, nous déployons le nécessaire pour <span className='marked'>identifier et cerner les besoins des entreprises</span> et y apportons rapidement une solution efficace orientée « <span className='marked'>efficacité et valeur ajoutée</span> ».
+                    I&P accompagne l'investisseur dans une ou plusieurs phases de son processus d'implantation : évaluation ou identification de l'idée du projet, choix de la localisation du site d'implantation, préparation du business plan, constitution de la société, mise en place et lancement de l'activité, extension et développement de la société etc…
+                    <br /> <br />
+
+                    Prenant en considération les nombreuses incertitudes de notre environnement économique et sociopolitique susceptible d’impacter le succès, I&P s'efforce d’en minimiser les effets au travers d’une méthodologie qui permet de quantifier l'activité prévisible, de mesurer les ressources nécessaires et enfin de rassembler les moyens à mettre en œuvre.
+                    <br /> <br />
+
+                    Aussi, ayant une parfaite connaissance des réalités de l'environnement des affaires au Cameroun, nous déployons les ressources nécessaires pour identifier et définir les besoins des entreprises afin d’y apporter promptement des solutions efficaces orientée " efficacité et valeur ajoutée ".
                 </p>
             } titreService="ASSISTANCE A L'INVESTISSEMENT ET L'IMPLANTATION" />
         </div>
@@ -67,9 +73,13 @@ const Rf = (props) => {
         <div className="service-details-content">
             <ServicesDetails imageLeft={rechFinancement} button={<Button fullWidth variant="contained" className="btn-rounded btn-default container-md" onClick={() => history.push('/dashboard')}>Chercher un financement</Button>} rightMessage={
                 <p>
-                    La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où <span className='marked'>on fait appel à la collaboration de partenaires.</span> Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses. <br /> <br />
-                    L’approche de I&P consiste à <span className='marked'>accompagner les porteurs de projets</span> dans la structuration et la valorisation du projet, l’élaboration d’un plan d'action clair avec tous les contenus que cela implique, dans l’optique que l’entrepreneur puisse l'adresser sous forme de demande à des institutions financières, des bailleurs de fonds ou des investisseurs indépendants.
-                    Cette démarche vise à <span className='marked'>obtenir des fonds</span> pour le développement d'un projet précis.
+                    La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses.
+                    <br /> <br />
+                    Dans son approche, I&P considère, en plus des financements traditionnels (banque, levée de fonds, demandes aux institutions financières, etc.), des financements moins conventionnels ou alternatifs ; comme les tontines.
+                    <br /> <br />
+                    Les tontines ont le potentiel pour devenir l'une des principales sources de financement des projets.  Il suffit de redéfinir certains aspects structurels et organisationnels de ce concept populaire pour l'adapter au monde de l'entreprise.
+                    <br /> <br />
+                    Notre objectif est de permettre aux entrepreneurs de différentes régions, parties du continent et du monde d'être en mesure d'autofinancer leurs projets en se soutenant mutuellement.
                 </p>
             } titreService="RECHERCHE DE FINANCEMENTS" />
         </div>
