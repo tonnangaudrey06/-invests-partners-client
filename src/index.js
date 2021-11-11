@@ -17,6 +17,7 @@ import frLocale from 'date-fns/locale/fr';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import theme from './theme'
+import './core/utils/i18n'
 
 ReactDOM.render(
   <Provider store={store}>

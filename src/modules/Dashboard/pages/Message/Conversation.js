@@ -38,7 +38,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
     const [message, setMessage] = React.useState('');
     const [rs_message, setRsMessage] = React.useState('');
     const [projets, setProjets] = React.useState([]);
-    const [projet, setProjet] = React.useState(null);
+    const [projet, setProjet] = React.useState('');
 
     const loadProjets = () => {
         UserService.getAllUserProjets(user.id).then(
@@ -62,7 +62,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
             body: message
         }
 
-        const receiver = (projets || []).find(el => el?.id === +projet)?.user;
+        const receiver = (projets || []).find(el => el?.id === +projet)?.secteur_data?.user;
 
         setSendLoading(true)
 
@@ -198,10 +198,10 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                                     label="Projet"
                                     placeholder="Projet"
                                     variant="filled"
-                                    value={projet || ''}
+                                    value={projet || null}
                                     onChange={(e) => setProjet(e.target.value)}
                                 >
-                                    <option value={null} hidden disabled>Projet</option>
+                                    <option></option>
                                     {projets.map((item, index) => (
                                         <option key={item.id} value={item.id}>
                                             {item.intitule}
@@ -232,7 +232,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                                 <LoadingButton
                                     className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
                                     loading={sendLoading}
-                                    disabled={!(message && projet)}
+                                    disabled={!message || !projet}
                                     onClick={sendMessage}
                                     variant="contained"
                                 >

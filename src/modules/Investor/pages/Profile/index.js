@@ -97,7 +97,8 @@ const ProfilPorteurProjet = (props) => {
     const payer = async () => {
         setPaiement({ pending: true, failed: false });
         try {
-            const rs = await CampayService.payInscription(numero);
+            const montant = supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay);
+            const rs = await CampayService.payPlage(numero, montant);
             let messageP = 'La transaction ';
 
             if (methodPaiement === 'MOMO') {
@@ -120,6 +121,7 @@ const ProfilPorteurProjet = (props) => {
     const hidePayement = () => {
         setVisible(false);
         setMessage('');
+        setMessagePay('');
         setSupPay(0);
         setSelectedPlage(null)
     }

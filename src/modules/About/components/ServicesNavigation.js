@@ -1,36 +1,36 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const NavigationServices = ({ rootUrl }) => {
+const NavigationServices = ({ rootUrl, t }) => {
 
     return (
         <div className="service-nav border-bottom d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
-            <NavLink exact to={`${rootUrl}/service-1`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                CONSEIL EN INVESTISSEMENT
+            <NavLink exact to={`${rootUrl}/service-1`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._7.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-2`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                ASSISTANCE A L'INVESTISSEMENT ET L'IMPLANTATION
+            <NavLink exact to={`${rootUrl}/service-2`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._2.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-3`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                RECHERCHE DE FINANCEMENTS
+            <NavLink exact to={`${rootUrl}/service-3`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._1.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-4`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                INGENIERIE PATRIMONIALE
+            <NavLink exact to={`${rootUrl}/service-4`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._4.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-5`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                MISE EN RELATION
+            <NavLink exact to={`${rootUrl}/service-5`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._5.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-6`} className="service-nav-item border-end border-bottom" activeClassName="nav-active">
-                STRATEGIE D'INVESTISSEMENT
+            <NavLink exact to={`${rootUrl}/service-6`} className="service-nav-item border-end border-bottom text-uppercase" activeClassName="nav-active">
+                {t('service._3.title')}
             </NavLink>
 
-            <NavLink exact to={`${rootUrl}/service-7`} className="service-nav-item" activeClassName="nav-active">
-                GESTION ET SUIVI DE PROJET
+            <NavLink exact to={`${rootUrl}/service-7`} className="service-nav-item text-uppercase" activeClassName="nav-active">
+                {t('service._6.title')}
             </NavLink>
         </div>
     );

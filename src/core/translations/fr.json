@@ -1,0 +1,101 @@
+{
+    "app": {
+        "free": "Gratuit",
+        "pay": "Payant"
+    },
+    "button": {
+        "conseiller": "Parler à un conseiller",
+        "opportuniter": "Découvrir les opportunités",
+        "look_finance": "Chercher un financement",
+        "savoir": "Savoir plus",
+        "participer": "Participer",
+        "complet": "Complet"
+    },
+    "service": {
+        "title": "Nos services",
+        "_1": {
+            "title": "Recherche de financements",
+            "text": "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses."
+        },
+        "_2": {
+            "title": "Assistance à l'investissement et à la mise en oeuvre",
+            "text": "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement."
+        },
+        "_3": {
+            "title": "Stratégie d'investissement",
+            "text": "Ce service s’adresse principalement aux dirigeants d’entreprise dans la meure ou I&P les accompagne dans l’élaboration de leur business model, avec l’objectif de capitaliser sur les avantages de l’entreprise pour dégager des axes de croissance et de compétitivité."
+        },
+        "_4": {
+            "title": "Ingénierie du patrimoine",
+            "text": "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées, en ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie."
+        },
+        "_5": {
+            "title": "Mise en relation",
+            "text": "Par le biais de sa plateforme, I&P offre une véritable zone de flux entre l’offre des porteurs de projets et la demande des investisseurs potentiels"
+        },
+        "_6": {
+            "title": "Gestion et suivi des projets",
+            "text": "Notre mission consiste à permettre aux porteurs de projets, organisations de la société civile, institutions publiques et privées de pouvoir recourir à tout moment à notre expertise."
+        },
+        "_7": {
+            "title": "Conseil en investissement",
+            "text": "Vous souhaitez  placer des capitaux dans un projet financier, immobilier ou d’entreprise? I&P est le conseiller qu’il vous faut."
+        }
+    },
+    "expert": {
+        "title": "Nos experts"
+    },
+    "partner": {
+        "title": "Nos partenaires",
+        "text": "Invest & Partners s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes."
+    },
+    "projet_ip": {
+        "title": "Nos projets"
+    },
+    "chiffre": {
+        "user": "Utilisateurs",
+        "projet": "Projets",
+        "money": "Investis"
+    },
+    "langue": {
+        "fr": "Francais",
+        "en": "Anglais"
+    },
+    "about": {
+        "header": "La plateforme panafricaine adéquate pour vos investissements et la prise en main de vos projets",
+        "text": "L’Afrique en général et le Cameroun en particulier sont devenus au fil du temps, et plus encore au cours des trois dernières décennies, des espaces propices aux investissements de toute nature. Le cabinet INVEST & PARTNERS (I&P) se positionne désormais au Cameroun comme le conseiller par excellence dans cette démarche de capter les opportunités à capitaliser. Grâce au dynamisme et à l’expertise de nos spécialistes, notre connaissance parfaite de l’environnement économique, et notre réseau de partenaires, notamment en Cote d’Ivoire et au Rwanda, nous ne ménageons aucun effort dans l’optique de répondre à vos différents besoins en termes d’investissement, d’accompagnement, de diagnostic, de suivi, de gestion et d’implémentation."
+    },
+    "event": {
+        "title": "Nos événements",
+        "header": "Creez votre reseau d'affaire en prenant part à nos sessions.",
+        "text": "Saisissez cette opportunité, interagissez avec les conseillers et commencez le parcours vers votre indépendance financière.",
+        "sub": {
+            "_1": "Ce mois",
+            "_2": "Autres événements"
+        },
+        "organise": "Organiser par",
+        "places": {
+            "restant": "Places restantes"
+        }
+    },
+    "header": {
+        "home": "Accueil",
+        "about": "Qui sommes nous?",
+        "projet": "Projets",
+        "event": "Événements",
+        "logout": "Déconnexion",
+        "board": "Tableau de board",
+        "signup": "Créer mon compte",
+        "signin": "Connexion",
+        "contact": "Contacts"
+    },
+    "footer": {
+        
+    },
+    "not_found": {
+        "event": "Aucun événement pour l'instant"
+    },
+    "date": {
+        "time_format": "De {{start}} à {{end}}"
+    }
+}

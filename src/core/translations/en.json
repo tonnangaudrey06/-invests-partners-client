@@ -1,0 +1,101 @@
+{
+    "app": {
+        "free": "Free",
+        "pay": "Not free"
+    },
+    "button": {
+        "conseiller": "Talk to a consultant",
+        "opportuniter": "Discover the opportunities",
+        "look_finance": "Search for financing",
+        "savoir": "Read more",
+        "participer": "Participate",
+        "complet": "Full"
+    },
+    "service": {
+        "title": "Our services",
+        "_1": {
+            "title": "Search for financing",
+            "text": "The search for funding and contributions is an important step in the realization of a project where the collaboration of partners is called for. Their contribution can be financial and take the form of grants, donations or sponsorships. It can also be done through a contribution in goods and services, such as the loan of equipment, the participation of experts, and various analysis services."
+        },
+        "_2": {
+            "title": "Investment and implementation assistance",
+            "text": "Cameroon is a country with enormous investment opportunities. I&P accompanies companies, especially VSEs and SMEs, which are generally disadvantaged in the search for investment opportunities."
+        } ,
+        "_3": {
+            "title": "Investment strategy",
+            "text": "This service is mainly aimed at company managers where I&P assists them in the development of their business model, with the objective of capitalizing on the company's advantages in order to identify areas for growth and competitiveness."
+        },
+        "_4": {
+            "title": "Heritage engineering",
+            "text": "I&P offers this service to individuals and companies to help them make informed decisions regarding all the important choices related to an investment project or a life project."
+        },
+        "_5": {
+            "title": "Linking up",
+            "text": "Through its platform, I&P offers a real flow zone between the offer of project holders and the demand of potential investors"
+        },
+        "_6": {
+            "title": "Project management and follow-up",
+            "text": "Our mission is to enable project leaders, civil society organizations, public and private institutions to have access to our expertise at any time."
+        },
+        "_7": {
+            "title": "Investment Consulting",
+            "text": "You want to invest capital in a financial, real estate or business project? I&P is the right advisor for you."
+        }
+    },
+    "expert": {
+        "title": "Our experts "
+    },
+    "projet_ip": {
+        "title": "Our projects"
+    },
+    "partner": {
+        "title": "Our partners",
+        "text": "Invest & Partners makes sure to offer you the best possible support in your projects, and thus surrounds itself with quality partners who have a mastery of the economic environment. This network of partners is intended to grow in order to best meet your expectations."
+    },
+    "chiffre": {
+        "user": "Users",
+        "projet": "Projects",
+        "money": "Invested"
+    },
+    "langue": {
+        "fr": "French",
+        "en": "English"
+    },
+    "about": {
+        "header": "The right pan-African platform for your investments and the management of your projects",
+        "text": "Africa in general and Cameroon in particular have become over time, and even more so in the last three decades, spaces conducive to investments of all kinds. INVEST & PARTNERS (I&P) is now positioned in Cameroon as the advisor par excellence in this process of capturing opportunities to capitalize. Thanks to the dynamism and expertise of our specialists, our perfect knowledge of the economic environment, and our network of partners, particularly in Cote d'Ivoire and Rwanda, we spare no effort in meeting your various needs in terms of investment, support, diagnosis, monitoring, management and implementation."
+    },
+    "event": {
+        "title": "Our events",
+        "header": "The right pan-African platform for your investments and the management of your projects",
+        "text": "Take this opportunity, interact with advisors and begin the journey to financial independence.",
+        "sub_title": {
+            "_1": "This month",
+            "_2": "Other events"
+        },
+        "organise": "Organize by",
+        "places": {
+            "restant": "Remaining seats"
+        }
+    },
+    "header": {
+        "home": "Home",
+        "about": "About us",
+        "projet": "Projects",
+        "event": "Events",
+        "logout": "Logout",
+        "board": "Dashboard",
+        "signup": "Create my account",
+        "signin": "Signin",
+        "contact": "Contacts"
+    },
+    "footer": {
+
+    },
+    "not_found": {
+        "event": "No event for the moment"
+    },
+    "date": {
+        "time_format": "From {{start}} to {{end}}"
+    }
+}

@@ -12,7 +12,8 @@ import {
   Contact,
   DashboardInvestor,
   Event,
-  ResetPassword
+  ResetPassword,
+  EventDetails
 } from "../modules";
 
 const AppNavigator = (props) => {
@@ -23,6 +24,7 @@ const AppNavigator = (props) => {
       <Route path="/about-us" component={About} />
       <Route exact path="/contact" component={Contact} />
       <Route exact path="/events" component={Event} />
+      <Route exact path="/events/:id" component={EventDetails} />
       <ProtectedRoute exact path="/projets" component={Projet} role={4} />
       <ProtectedRoute exact path="/projets/:section" component={ProjetSecteur} role={4} />
       <ProtectedRoute exact path="/projets/:section/:town" component={ProjetTown} role={4} />

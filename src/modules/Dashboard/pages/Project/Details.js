@@ -109,7 +109,8 @@ const ProjectDetails = (props) => {
     const payer = async () => {
         setPaiement({ pending: true, failed: false });
         try {
-            const rs = await CampayService.payProjet(numero);
+            const montant = user?.status === 'PARTICULIER' ? 15000 : 50000;
+            const rs = await CampayService.payProjet(numero, montant);
             let messageP = 'La transaction ';
 
             if (methodPaiement === 'MOMO') {

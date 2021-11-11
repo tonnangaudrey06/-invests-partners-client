@@ -26,6 +26,16 @@ const PostContent = (props) => { return (<Post {...props} />); };
 
 const RightSide = ({ form, projet }) => {
 
+    const [reports, setReports] = React.useState([]);
+
+    React.useEffect(() => {
+        setReports((projet?.medias || []).filter(getRepots));
+    }, [projet])
+
+    const getRepots = (media) => {
+        return media?.source === 'ADMIN' || media?.source === 'CONSEILLER';
+    }
+
     const downloadFile = (fileurl) => {
         window.open(fileurl, '_blank');
     }
@@ -38,6 +48,44 @@ const RightSide = ({ form, projet }) => {
                         <PostContent key={index} actualite={actualite} logo={projet?.logo} />
                     ))}
                 </div>
+            </div>
+        )
+    }
+
+    const Reports = () => {
+        return (
+            <div className="px-5 py-5">
+                {(reports || []).length > 0 ? (
+                    <div className="d-flex flex-column align-items-center">
+                        {(reports || []).map((file, index) => {
+                            return (
+                                <List key={index} sx={{ width: '100%' }}>
+                                    <ListItem
+                                        key={index}
+                                        disableGutters
+                                        secondaryAction={
+                                            <IconButton color="primary" onClick={() => downloadFile(file?.url)} edge="end">
+                                                <RiDownload2Fill />
+                                            </IconButton>
+                                        }
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar sx={{width: 30, height: 30}}>
+                                                <FilePresent fontSize="15"/>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={file?.nom} />
+                                    </ListItem>
+                                    <Divider />
+                                </List>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="d-flex justify-content-center align-items-center">
+                        <h5>Aucun document pour l'instant</h5>
+                    </div>
+                )}
             </div>
         )
     }
@@ -102,9 +150,9 @@ const RightSide = ({ form, projet }) => {
         return (
             <div className="p-4">
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={3}>
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Logo</p>
-                        {projet?.logo && (
+                    {projet?.logo && (
+                        <Grid item xs={12} md={3}>
+                            <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Logo</p>
                             <a download href={projet?.logo} rel="noreferrer" target="_blank" >
                                 <img className="rounded img-fluid shadow"
                                     width="100"
@@ -114,9 +162,9 @@ const RightSide = ({ form, projet }) => {
                                     loading="lazy"
                                 />
                             </a>
-                        )}
-                    </Grid>
-                    <Grid item xs={12} md={6}>
+                        </Grid>
+                    )}
+                    <Grid item xs={12} md={projet?.logo ? 6 : 12}>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Projet</p>
                         <p className="fs-5">{projet?.intitule}</p>
                     </Grid>
@@ -132,26 +180,7 @@ const RightSide = ({ form, projet }) => {
                         <p className="fs-5">{projet?.avancement_complet}</p>
                         <Divider></Divider>
                     </Grid>
-                    <Grid item xs={12} md={12} className="mt-4">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Besoin d'un financement de</p>
-                        <p className="fs-5">{moneyFormat(projet?.financement)} XAF</p>
-                        <Divider></Divider>
-                    </Grid>
-                    <Grid item xs={12} md={12} className="mt-4">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Site web</p>
-                        <p className="fs-5">{projet?.site}</p>
-                        <Divider></Divider>
-                    </Grid>
-                    <Grid item xs={12} md={6} className="mt-4">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Pays d'activite</p>
-                        <p className="fs-5">{projet?.pays_activite}</p>
-                        <Divider></Divider>
-                    </Grid>
-                    <Grid item xs={12} md={6} className="mt-4">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Ville d'activite</p>
-                        <p className="fs-5">{projet?.ville_activite}</p>
-                        <Divider></Divider>
-                    </Grid>
+
                     <Grid item xs={12} md={12} className="mt-4">
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Description du projet</p>
                         <p className="fs-5">{projet?.description}</p>
@@ -159,10 +188,33 @@ const RightSide = ({ form, projet }) => {
                     </Grid>
 
                     <Grid item xs={12} md={12} className="mt-4">
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Membres de votre equipe</p>
-                        {projet?.membres.length > 0 &&
-                            projet?.membres.map((membre, index) => (
-                                <List sx={{ width: '100%' }}>
+                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Besoin d'un financement de</p>
+                        <p className="fs-5">{moneyFormat(projet?.financement)} XAF</p>
+                        <Divider></Divider>
+                    </Grid>
+                    {projet?.site && (
+                        <Grid item xs={12} md={12} className="mt-4">
+                            <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Site web</p>
+                            <p className="fs-5">{projet?.site}</p>
+                            <Divider></Divider>
+                        </Grid>
+                    )}
+                    <Grid item xs={12} md={6} className="mt-4">
+                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Pays d'activite</p>
+                        <p className="fs-5">{projet?.pays_activite}</p>
+                        {(projet?.membres || []).length > 0 && (<Divider></Divider>)}
+                    </Grid>
+                    <Grid item xs={12} md={6} className="mt-4">
+                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Ville d'activite</p>
+                        <p className="fs-5">{projet?.ville_activite}</p>
+                        {(projet?.membres || []).length > 0 && (<Divider></Divider>)}
+                    </Grid>
+
+                    {(projet?.membres || []).length > 0 && (
+                        <Grid item xs={12} md={12} className="mt-4">
+                            <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Membres de votre equipe</p>
+                            {(projet?.membres || []).map((membre, index) => (
+                                <List key={index} sx={{ width: '100%' }}>
                                     <ListItem disableGutters>
                                         <ListItemAvatar>
                                             <Avatar alt={membre?.nom_complet} src={membre?.photo ? membre?.photo : profil} />
@@ -171,84 +223,8 @@ const RightSide = ({ form, projet }) => {
                                     </ListItem>
                                 </List>
                             ))}
-                    </Grid>
-
-                    <Grid item xs={12} md={12} className="mt-4">
-                        <Divider></Divider>
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Document de presentation</p>
-                        {projet?.doc_presentation && (
-                            <List sx={{ width: '80%' }}>
-                                <ListItem
-                                    disableGutters
-                                    secondaryAction={
-                                        <IconButton color="primary" onClick={() => downloadFile(projet?.doc_presentation)} edge="end">
-                                            <RiDownload2Fill />
-                                        </IconButton>
-                                    }
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <FilePresent />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary="Document presentation" />
-                                </ListItem>
-                            </List>
-                        )}
-                        <Divider />
-                    </Grid>
-
-                    <Grid item xs={12} md={12} className="mt-4">
-                        {/* <Divider></Divider> */}
-                        <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Medias</p>
-                        <List sx={{ width: '100%' }}>
-                            {projet?.medias.map((file, index) => {
-                                if (file?.type !== 'IMAGE' && file?.source === 'PP') {
-                                    return (
-                                        <>
-                                            <ListItem
-                                                key={index}
-                                                disableGutters
-                                                secondaryAction={
-                                                    <IconButton color="primary" onClick={() => downloadFile(file?.url)} edge="end">
-                                                        <RiDownload2Fill />
-                                                    </IconButton>
-                                                }
-                                            >
-                                                <ListItemAvatar>
-                                                    <Avatar>
-                                                        <FilePresent />
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText primary={file?.nom} />
-                                            </ListItem>
-                                            <Divider />
-                                        </>
-                                    )
-                                }
-                                return null;
-                            })}
-                        </List>
-                        <Box className="mt-2" sx={{ width: "100%", maxHeight: 450, overflowY: 'scroll', overflow: "auto" }}>
-                            <ImageList variant="masonry" cols={3} gap={7} children={[]}>
-                                {projet?.medias.map((media) => {
-                                    if (media?.type === 'IMAGE' && media?.source === 'PP') {
-                                        return (
-                                            <ImageListItem key={media?.id} onClick={() => downloadFile(media?.url)}>
-                                                <img className="rounded img-fluid shadow"
-                                                    src={`${media?.url}?w=248&fit=crop&auto=format`}
-                                                    srcSet={`${media?.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                                    alt={media?.nom}
-                                                    loading="lazy"
-                                                />
-                                            </ImageListItem>
-                                        )
-                                    }
-                                    return null;
-                                })}
-                            </ImageList>
-                        </Box>
-                    </Grid>
+                        </Grid>
+                    )}
                 </Grid>
             </div>
         )
@@ -321,6 +297,7 @@ const RightSide = ({ form, projet }) => {
             {form === "/analyse" && <Analyse />}
             {form === "/news" && <News />}
             {form === "/invest" && <Invest />}
+            {form === "/report" && <Reports />}
         </>
     )
 }

@@ -4,7 +4,8 @@ import {
     SET_PAIEMENT_FAILED,
     SET_SECTEUR,
     IS_LOADING,
-    STOP_LOADING
+    STOP_LOADING,
+    SET_LANGUAGE
 } from "../../utils/constants";
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
         pending: false,
         failed: false
     },
-    loading: false
+    loading: false,
+    language: 'fr'
 };
 
 const authReducer = (state = initialState, action) => {
@@ -25,6 +27,11 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 secteurs: payload,
+            };
+        case SET_LANGUAGE:
+            return {
+                ...state,
+                language: payload,
             };
         case SET_PAIEMENT_PENDING:
             return {

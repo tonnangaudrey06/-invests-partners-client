@@ -42,9 +42,10 @@ import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
 import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
-// import { WiDayHail } from "react-icons/wi";
 
 import { AppService, EventService, CampayService } from '../../core/services';
+
+import { withNamespaces } from "react-i18next";
 
 const CustomSlide = ({ projet, ...props }) => {
 
@@ -92,7 +93,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const HomeScreen = () => {
+const HomeScreen = ({ t }) => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
@@ -239,7 +240,7 @@ const HomeScreen = () => {
       async (rs) => {
         setPaiement({ pending: true, failed: false, message: '' });
         try {
-          const rs = await CampayService.payInscription(numero);
+          const rs = await CampayService.payEvent(numero, event?.prix * participation?.places);
           let messageP = 'La transaction ';
 
           if (methodPaiement === 'MOMO') {
@@ -389,20 +390,20 @@ const HomeScreen = () => {
 
   return (
     <div>
-      <BannerSlider slides={sliders} />
+      <BannerSlider slides={sliders} translate={t} />
 
       <Container header footer>
         <div className="section-service container-fluid px-5 pt-3 pb-5">
-          <SectionTitle title="NOS SERVICES" />
-          <div className="row mt-5 d-flex justify-content-center">
+          <SectionTitle title="service.title" />
+          <div className="row mt-5">
             {HomeData?.servicesData.map((item, index) => (
               <div key={index} className="col-sm-12 col-md-6 col-lg-4 service-item">
                 <div className="service-icon">
                   <img src={item.icon} style={{ width: 30 }} alt="Invest & partners service" />
                 </div>
                 <div className="service-content">
-                  <div className="service-content-title">{item.title}</div>
-                  <div className="service-content-text">{item.content}</div>
+                  <div className="service-content-title text-uppercase">{t(item.title)}</div>
+                  <div className="service-content-text">{t(item.content)}</div>
                 </div>
               </div>
             ))}
@@ -437,7 +438,7 @@ const HomeScreen = () => {
         </div>
 
         <div className="section-expert pt-3">
-          <SectionTitle title="NOS EXPERTS" />
+          <SectionTitle title="expert.title" />
           <div className="expert-grid mt-5 row d-flex justify-content-center">
             {HomeData.expertsData.map((item, index) => (
               <div key={index} className="col-md-3 d-flex justify-content-center mb-5">
@@ -486,11 +487,11 @@ const HomeScreen = () => {
         </div>
 
         <div className="section-partner py-3">
-          <SectionTitle title="NOS PARTENAIRES" />
+          <SectionTitle title="partner.title" />
           <div className="partner-text mt-5">
-            <p>Invest & Partners s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes.</p>
+            <p>{t('partner.text')}</p>
             <div className="mt-5 d-flex justify-content-center align-items-center flex-column flex-lg-row">
-              {partenaires.map((item, index) => (
+              {(partenaires || []).map((item, index) => (
                 <div key={index} className="partner-image shadow-lg mx-2">
                   <img className="img-fluid rounded" alt="Partenaires" src={item.image} />
                 </div>
@@ -501,7 +502,7 @@ const HomeScreen = () => {
 
         {projets.length > 0 && (
           <div className="section-projet pt-3 pb-5">
-            <SectionTitle title="Nos projets" />
+            <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mt-5">
               <div className="projet-ip-wrapper">
                 <Slider ref={c => (slider = c)} {...settings}>
@@ -533,7 +534,7 @@ const HomeScreen = () => {
                   <RiTeamLine size={100} fill={'white'} />
                 </div>
                 <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
-                  Utilisateurs
+                  {t('chiffre.user')}
                 </p>
               </div>
             </div>
@@ -544,7 +545,7 @@ const HomeScreen = () => {
                   <RiTeamLine size={100} fill={'white'} />
                 </div>
                 <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
-                  Projets
+                  {t('chiffre.projet')}
                 </p>
               </div>
             </div>
@@ -555,7 +556,7 @@ const HomeScreen = () => {
                   <RiCoinsLine size={100} fill={'white'} />
                 </div>
                 <p className="text-white my-3 text-center" style={{ fontSize: '2rem' }}>
-                  Investis
+                  {t('chiffre.money')}
                 </p>
               </div>
             </div>
@@ -563,21 +564,24 @@ const HomeScreen = () => {
         </div>
 
         {events.length > 0 && (
-          <div className="section-event pt-3 pb-5">
+          <div className="section-event container pt-3 pb-5">
             <SectionTitle title="ÉVÉNEMENTS" />
-            <div className="event-grid mt-5">
-              <div className="event-wrapper">
-                {events.map((item, index) => (
-                  <div className="event-item" key={index}>
-                    <img className="event-image" src={item.image ? item.image : imag22} alt="" />
+            <div className="row mt-5">
+              {/* <div className="event-wrapper"> */}
+              {events.map((item, index) => (
+                <div className="col-md-6" key={index}>
+                  <div className="event-item shadow-lg mx-1 mb-2">
+                    <div className="event-image">
+                      <img src={item.image ? item.image : imag22} alt="" />
+                    </div>
                     <div className="event-hover">
                       <div style={{ margin: 8 }}>
-                        <div className="fw-bolder event-title" style={{ fontSize: '1.2rem' }}>
+                        <div className="fw-bolder event-title" style={{ fontSize: '1.5rem' }}>
                           {item.libelle}
                         </div>
-                        <p className="event-text">{item.description}</p>
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                          <TiCalendar size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD-MM-YYYY")} | <small>De {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm")} à {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm')}</small>
+                        {/* <p className="event-text">{item.description}</p> */}
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
+                          <TiCalendar size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")} | <small> De {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm")} à {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm')}</small>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                           {item.places > item.total_reserve && (
@@ -593,8 +597,9 @@ const HomeScreen = () => {
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+              {/* </div> */}
             </div>
           </div>
         )}
@@ -757,4 +762,4 @@ const HomeScreen = () => {
   );
 }
 
-export default HomeScreen;
+export default withNamespaces()(HomeScreen);

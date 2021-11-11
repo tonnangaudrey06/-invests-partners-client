@@ -1,4 +1,4 @@
-import { Button, Container } from '../../components';
+import { Container } from '../../components';
 
 import eventImg from '../../assets/img/events.png';
 import ene from '../../assets/img/ene.png';
@@ -35,11 +35,13 @@ import useGeoLocation from "react-ipgeolocation";
 
 import { EventService, CampayService } from '../../core/services'
 
+import { withNamespaces } from "react-i18next";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Event = () => {
+const Event = ({ t, history }) => {
 
     const [events, setEvents] = React.useState([]);
     const [months, setMonths] = React.useState([]);
@@ -177,7 +179,7 @@ const Event = () => {
             async (rs) => {
                 setPaiement({ pending: true, failed: false, message: '' });
                 try {
-                    const rs = await CampayService.payInscription(numero);
+                    const rs = await CampayService.payEvent(numero, event?.prix * participation?.places);
                     let messageP = 'La transaction ';
 
                     if (methodPaiement === 'MOMO') {
@@ -229,28 +231,29 @@ const Event = () => {
         }
         return () => { isMounted = false };
     }, [])
+
     return (
         <Container header active="events" footer>
             <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{ backgroundImage: `url(${eventImg})` }}>
-                <h3 className="fw-default-title text-uppercase" style={{ fontSize: '3.5rem' }}>NOS ÉVÉNEMENTS</h3>
+                <h3 className="fw-default-title text-uppercase" style={{ fontSize: '3.5rem' }}>{t('event.title')}</h3>
             </div>
 
             <div className="container my-5">
                 <div className="row">
                     <div className="col-md-12 col-lg-6 mb-4">
-                        <h3 className="fw-default-title event-all-list-title" style={{ fontSize: '3em' }}>
-                            Creez votre reseau d'affaire en prenant part à nos sessions.
+                        <h3 className="fw-default-title event-all-list-title text-uppercase" style={{ fontSize: '3em' }}>
+                            {t('event.header')}
                         </h3>
                         <p className="event-all-list-text">
-                            Saisissez cette opportunité, interagissez avec les conseillers et commencez le parcours vers votre indépendance financière.
+                            {t('event.text')}
                         </p>
                     </div>
                     <div className="col-md-12 col-lg-6 d-flex justify-content-center">
                         <img src={ene} className="img-fluid rounded shadow" alt="" width="600" />
                     </div>
                 </div>
-                <div className="title-events mt-5">
-                    Ce mois
+                <div className="title-events mt-5 text-uppercase">
+                    {t('event.sub._1')}
                 </div>
                 <div className="row">
                     {(months || []).length <= 0 && (
@@ -258,7 +261,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun événement pour l'instant
+                                    {t('not_found.event')}
                                 </h5>
                             )}
                         </div>
@@ -277,39 +280,35 @@ const Event = () => {
                                     </div>
                                 </div>
                                 <small className="text-muted small" style={{ fontSize: ".8em" }}>
-                                    Organiser par INVEST AND PARTNERS
+                                    {t('event.organise')} INVEST AND PARTNERS
                                 </small>
                                 <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
                                     {item.libelle}
                                 </h3>
                                 <div className="d-flex align-items-center w-100 mt-1">
                                     <GoCalendar />
-                                    <p className="lh-sm fs-6 ml-1">{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>De {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm")} à {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm')}</small></p>
-                                    {/* <p className="lh-sm fs-6 ml-4">Au{item.fin} <br /> <small>08H00-14H00</small></p> */}
+                                    <p className="lh-sm fs-6 ml-1">{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small></p>
                                 </div>
                                 <div className="d-flex align-items-center w-100 mt-1">
                                     <GoLocation />
                                     <p className="lh-sm fs-6 ml-1">{item.lieu}</p>
                                 </div>
                                 <Box sx={{ mb: 5 }}>
-                                    {/* <Box sx={{ my: 2, width: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>Nombre de places</div><div>{item.places}</div></div>
-                                        <LinearProgress sx={{ width: '100%' }} variant="determinate" value={(item.places * 100) / item.places} />
-                                    </Box> */}
                                     <Box sx={{ my: 2, width: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>Places restantes</div><div>{item.total_reserve}/{item.places}</div></div>
+                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>{t('event.places.restant')}</div><div>{item.total_reserve}/{item.places}</div></div>
                                         <LinearProgress sx={{ width: '100%' }} variant="determinate" value={(item.total_reserve * 100) / item.places} />
                                     </Box>
                                 </Box>
-                                <div className="d-flex justify-content-center align-items-center w-100">
-                                    <Btn disabled={item.places === item.total_reserve} fullWidth variant="contained" color="primary" className="btn-rounded btn-default" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? 'Complet' : 'Participer'}</Btn>
+                                <div className="d-flex justify-content-between align-items-center w-100">
+                                    <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
+                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="title-events mt-5">
-                    AUTRES ÉVÉNEMENTS
+                <div className="title-events mt-5 text-uppercase">
+                    {t('event.sub._2')}
                 </div>
                 <div className="row">
                     {(events || []).length <= 0 && (
@@ -317,7 +316,7 @@ const Event = () => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun événement pour l'instant
+                                    {t('not_found.event')}
                                 </h5>
                             )}
                         </div>
@@ -331,37 +330,32 @@ const Event = () => {
                                         <div className="event-autre-item-img-cover position-absolute">
                                             <div className="button-price-events-component">{item.prix ? item.prix : 0} XAF</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>
-                                            {/* <div className="button-bookmark-events-component">{item.bookmark ? <BsBookmarkFill fill='#c5473b' size={15} /> : <BsBookmark fill='#c5473b' size={15} />}</div> */}
                                         </div>
                                     </div>
                                 </div>
                                 <small className="text-muted small" style={{ fontSize: ".8em" }}>
-                                    Organiser par INVEST AND PARTNERS
+                                    {t('event.organise')} INVEST AND PARTNERS
                                 </small>
                                 <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
                                     {item.libelle}
                                 </h3>
                                 <div className="d-flex align-items-center w-100 mt-1">
                                     <GoCalendar />
-                                    <p className="lh-sm fs-6 ml-1">{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>De {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm")} à {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm')}</small></p>
-                                    {/* <p className="lh-sm fs-6 ml-4">Au{item.fin} <br /> <small>08H00-14H00</small></p> */}
+                                    <p className="lh-sm fs-6 ml-1">{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small></p>
                                 </div>
                                 <div className="d-flex align-items-center w-100 mt-1">
                                     <GoLocation />
                                     <p className="lh-sm fs-6 ml-1">{item.lieu}</p>
                                 </div>
                                 <Box sx={{ mb: 5 }}>
-                                    {/* <Box sx={{ my: 2, width: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>Nombre de places</div><div>{item.places}</div></div>
-                                        <LinearProgress sx={{ width: '100%' }} variant="determinate" value={(item.places * 100) / item.places} />
-                                    </Box> */}
                                     <Box sx={{ my: 2, width: '100%', display: 'flex', flexDirection: 'column' }}>
-                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>Places restantes</div><div>{item.total_reserve}/{item.places}</div></div>
+                                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>{t('event.places.restant')}</div><div>{item.total_reserve}/{item.places}</div></div>
                                         <LinearProgress sx={{ width: '100%' }} variant="determinate" value={(item.total_reserve * 100) / item.places} />
                                     </Box>
                                 </Box>
-                                <div className="d-flex justify-content-center align-items-center w-100">
-                                    <Btn disabled={item.places === item.total_reserve} fullWidth variant="contained" color="primary" className="btn-rounded btn-default" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? 'Complet' : 'Participer'}</Btn>
+                                <div className="d-flex justify-content-between align-items-center w-100">
+                                    <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
+                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                                 </div>
                             </div>
                         </div>
@@ -525,4 +519,4 @@ const Event = () => {
     );
 }
 
-export default Event;
+export default withNamespaces()(Event);

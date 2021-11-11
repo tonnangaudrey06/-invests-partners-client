@@ -3,12 +3,12 @@ import config from '../utils/config'
 import localstorage from '../utils/localstorage'
 
 class CampayService {
-    payInscription(numero) {
+    payInscription(numero, montant) {
         const data = {
-            amount: 5,
+            amount: montant,
             currency: "XAF",
             from: numero,
-            description: "Creation de votre compte d´investisseur sur la plateforme Invest & Partners",
+            description: "creation de votre compte d´investisseur sur la plateforme Invest & Partners",
             external_reference: "",
             external_user: ""
         };
@@ -25,12 +25,56 @@ class CampayService {
         });
     }
 
-    payProjet(numero) {
+    payEvent(numero, montant) {
         const data = {
-            amount: 5,
+            amount: montant,
             currency: "XAF",
             from: numero,
-            description: "Etude de votre projet sur la plateforme Invest & Partners",
+            description: "participation à un événement organiser par Invest & Partners",
+            external_reference: "",
+            external_user: ""
+        };
+
+        return new Promise((resolve, reject) => {
+            http.post('collect/', data)
+                .then(response => {
+                    resolve(response.data);
+                },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    payProjet(numero, montant) {
+        const data = {
+            amount: montant,
+            currency: "XAF",
+            from: numero,
+            description: "étude de votre projet sur la plateforme Invest & Partners",
+            external_reference: "",
+            external_user: ""
+        };
+
+        return new Promise((resolve, reject) => {
+            http.post('collect/', data)
+                .then(response => {
+                    resolve(response.data);
+                },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    payPlage(numero, montant) {
+        const data = {
+            amount: montant,
+            currency: "XAF",
+            from: numero,
+            description: "frais d'abonement à une plage d'investissement sur la plateforme Invest & Partners",
             external_reference: "",
             external_user: ""
         };

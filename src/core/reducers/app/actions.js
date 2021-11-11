@@ -4,7 +4,8 @@ import {
     SET_PAIEMENT_FAILED,
     SET_SECTEUR,
     IS_LOADING,
-    STOP_LOADING
+    STOP_LOADING,
+    SET_LANGUAGE
 } from '../../utils/constants';
 
 export const setSecteur = (secteurs) => {
@@ -29,4 +30,8 @@ export const setLoadingFalse = () => {
 
 export const setLoadingTrue = () => {
     return { type: IS_LOADING };
+};
+
+export const setLanguage = (language) => {
+    return { type: SET_LANGUAGE, payload: language };
 };

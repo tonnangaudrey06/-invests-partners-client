@@ -4,7 +4,7 @@ import { IoArrowForward, IoArrowBack } from 'react-icons/io5';
 import AOS from 'aos';
 import React from 'react';
 
-const BannerSlider = ({ slides }) => {
+const BannerSlider = ({ slides, translate }) => {
 
   AOS.init({
     isable: false,
@@ -61,8 +61,8 @@ const BannerSlider = ({ slides }) => {
                 <h1 id="title" className="text-uppercase">{slide.title}</h1>
                 <div className="mb-2 textEntete">{slide.description}</div>
                 <div className="d-grid gap-2  bouttonEntete">
-                  <Button title={'Découvrir les opportunités'} color={'transparent'} borderColor={'white'} url={'/projets'} />
-                  <Button title={'Parler à un conseiller'} color={'#585b60'} borderColor={'grey'} url={'/contact'} />
+                  <Button title={translate('button.opportuniter')} color={'transparent'} borderColor={'white'} url={'/projets'} />
+                  <Button title={translate('button.conseiller')} color={'#585b60'} borderColor={'grey'} url={'/contact'} />
                 </div>
               </div>
             </div>

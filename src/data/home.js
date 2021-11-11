@@ -12,38 +12,38 @@ import service7 from '../assets/img/icons/rocket.png';
 
 const servicesData = [
   {
-    title: "Recherche De Financements",
-    content: "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses.",
+    title: 'service._1.title',
+    content: "service._1.text",
     icon: service5
   },
   {
-    title: "Assistance A L'Investissement Et L’Implantation",
-    content: "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement.",
+    title: 'service._2.title',
+    content: "service._2.text",
     icon: service1,
   },
   {
-    title: "Strategie d'investissement",
-    content: "Ce service s’adresse principalement aux dirigeants d’entreprise dans la meure ou I&P les accompagne dans l’élaboration de leur business model, avec l’objectif de capitaliser sur les avantages de l’entreprise pour dégager des axes de croissance et de compétitivité.",
+    title: 'service._3.title',
+    content: "service._3.text",
     icon: service3
   },
   {
-    title: "Ingenierie Patrimoniale",
-    content: "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées, en ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie.",
+    title: 'service._4.title',
+    content: "service._2.text",
     icon: service2
   },
   {
-    title: "Mise En Relation",
-    content: "Par le biais de sa plateforme, I&P offre une véritable zone de flux entre l’offre des porteurs de projets et la demande des investisseurs potentiels",
+    title: 'service._5.title',
+    content: "service._5.text",
     icon: service6
   },
   {
-    title: "Gestion Et Suivi De Projet",
-    content: "Notre mission consiste à permettre aux porteurs de projets, organisations de la société civile, institutions publiques et privées de pouvoir recourir à tout moment à notre expertise.",
+    title: 'service._6.title',
+    content: "service._6.text",
     icon: service7
   },
   {
-    title: "Conseil en Investissement",
-    content: "Vous souhaitez  placer des capitaux dans un projet financier, immobilier ou d’entreprise? I&P est le conseiller qu’il vous faut.",
+    title: 'service._7.title',
+    content: "service._7.text",
     icon: service4
   },
 ]

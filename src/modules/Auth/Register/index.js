@@ -246,7 +246,7 @@ const Register = (props) => {
     const payer = async () => {
         setPaiement({ pending: true, failed: false });
         try {
-            const rs = await CampayService.payInscription(numero);
+            const rs = await CampayService.payInscription(numero, getSelectedPlage()?.frais_abonnement);
             let messageP = 'La transaction ';
 
             if (methodPaiement === 'MOMO') {

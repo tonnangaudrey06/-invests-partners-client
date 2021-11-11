@@ -52,7 +52,7 @@ const ProjectDetails = (props) => {
                         itemId: '/analyse'
                     },
                     {
-                        title: 'Rapports',
+                        title: 'Documents',
                         itemId: '/report'
                     },
                     {

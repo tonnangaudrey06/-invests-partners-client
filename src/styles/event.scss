@@ -23,23 +23,23 @@
     position: relative;
 }
 
-.event-month-item-content{
+.event-month-item-content {
     position: absolute;
-    padding: .8em;
+    padding: 0.8em;
     z-index: 1;
     top: 0;
     width: 100%;
     height: 100%;
     background: #000000bd;
     text-align: center;
-    font-size: .8em;
+    font-size: 0.8em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
     opacity: 0;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .event-month-item:hover .event-month-item-content {
@@ -50,7 +50,7 @@
     position: absolute;
     width: 95%;
     left: 50%;
-    border-radius: .8em;
+    border-radius: 0.8em;
     transform: translateX(-50%);
     top: -15%;
     overflow: hidden;
@@ -60,7 +60,7 @@
 .events-autre-item {
     padding: 9em 1em 1em 1em;
     border: 1px solid #80808059;
-    border-radius: .8em;
+    border-radius: 0.8em;
     position: relative;
     margin: 4em 0 0 0;
 }
@@ -77,7 +77,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    padding: .2em .5em;
+    padding: 0.2em 0.5em;
     color: white;
     border-radius: 5px;
     background-color: rgba(56, 56, 56, 78%);
@@ -87,7 +87,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    padding: .2em .5em;
+    padding: 0.2em 0.5em;
     color: white;
     border-radius: 5px;
     background-color: rgba(56, 56, 56, 78%);
@@ -97,8 +97,65 @@
     position: absolute;
     bottom: 10px;
     left: 10px;
-    padding: .2em .5em;
+    padding: 0.2em 0.5em;
     color: white;
     border-radius: 5px;
     background-color: #c5463bd2;
+}
+
+.event-top-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    z-index: 0;
+}
+
+.event-details-bg-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 30rem;
+    width: 100%;
+    position: relative;
+    z-index: -1;
+
+    @media screen and (max-width: 998px) {
+        height: 25rem;
+    }
+}
+
+.event-details-bg-image .blur {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    height: 100%;
+    width: 100%;
+}
+
+.event-details {
+    margin: -15rem 20rem 5rem 20rem;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    @media screen and (max-width: 998px) {
+        margin: -15rem .5rem 5rem .5rem;
+    }
+}
+
+.event-details-image {
+    // min-height: 20rem;
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+
+    @media screen and (max-width: 998px) {
+        height: 20rem;
+    }
+}
+
+.event-details-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

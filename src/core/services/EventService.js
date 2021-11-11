@@ -14,6 +14,17 @@ class EventService {
         });
     }
 
+    getOne(id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(`${source}/${id}`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     getLatest() {
         return new Promise(async (resolve, reject) => {
             try {
