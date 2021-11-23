@@ -1,7 +1,8 @@
 import { Container } from '../../components';
 
 import eventImg from '../../assets/img/events.png';
-import ene from '../../assets/img/ene.png';
+import ene from '../../assets/img/ip-13.jpg';
+import placeholder from '../../assets/img/ip-13.jpg';
 
 import '../../styles/event.scss';
 
@@ -253,7 +254,7 @@ const Event = ({ t, history }) => {
                     </div>
                 </div>
                 <div className="title-events mt-5 text-uppercase">
-                    {t('event.sub._1')}
+                    {t('event.sub_title._1')}
                 </div>
                 <div className="row">
                     {(months || []).length <= 0 && (
@@ -271,7 +272,7 @@ const Event = ({ t, history }) => {
                             <div className="events-autre-item shadow">
                                 <div className="events-autre-item-img">
                                     <div className="position-relative" style={{ height: 'inherit' }}>
-                                        <img src={item.image ? item.image : ene} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
+                                        <img src={item.image ? item.image : placeholder} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
                                         <div className="event-autre-item-img-cover position-absolute">
                                             <div className="button-price-events-component">{item.prix ? item.prix : 0} XAF</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>
@@ -308,7 +309,7 @@ const Event = ({ t, history }) => {
                     ))}
                 </div>
                 <div className="title-events mt-5 text-uppercase">
-                    {t('event.sub._2')}
+                    {t('event.sub_title._2')}
                 </div>
                 <div className="row">
                     {(events || []).length <= 0 && (
@@ -326,7 +327,7 @@ const Event = ({ t, history }) => {
                             <div className="events-autre-item shadow">
                                 <div className="events-autre-item-img">
                                     <div className="position-relative" style={{ height: 'inherit' }}>
-                                        <img src={item.image ? item.image : ene} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
+                                        <img src={item.image ? item.image : placeholder} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
                                         <div className="event-autre-item-img-cover position-absolute">
                                             <div className="button-price-events-component">{item.prix ? item.prix : 0} XAF</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>

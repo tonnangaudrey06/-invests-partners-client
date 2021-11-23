@@ -3,17 +3,18 @@ import '../../styles/projet.scss'
 import React from 'react';
 import { useHistory } from "react-router-dom";
 
-import { Container, SectionTitle } from '../../components';
+import { Container, SectionTitle, LazyBackgroundImage } from '../../components';
 import CircularProgress from '@mui/material/CircularProgress';
-import secteurImg from '../../assets/img/secteur.jpg';
+// import secteurImg from '../../assets/img/secteur.jpg';
 
 import backgroundTop from '../../assets/img/ban.png';
+import placeholder from '../../assets/img/placeholder.png';
 
 import * as Redux from 'react-redux';
 
 import { SecteurService } from '../../core/services';
 
-import { setSecteur } from '../../core/reducers/app/actions'
+import { setSecteur } from '../../core/reducers/app/actions';
 
 const Projet = (props) => {
 
@@ -67,7 +68,7 @@ const Projet = (props) => {
           {(secteurs || []).map((item, index) => (
             <div className="col-sm-12 col-md-6 col-lg-3">
               <div className="secteur-item shadow-lg" onClick={() => { history.push(`/projets/${item.id}`) }}>
-                <div className="secteur-content" data-content={item.libelle} style={{ backgroundImage: item.photo ? `url(${item.photo})` : `url(${secteurImg})` }}></div>
+                <LazyBackgroundImage className="secteur-content" data-content={item.libelle} src={item.photo} placeholder={placeholder} />
               </div>
             </div>
           ))}

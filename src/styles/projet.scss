@@ -54,8 +54,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    line-height: 1.4;
 }
 
 .projects-cards-bottom {
@@ -75,15 +76,14 @@
 .projects-cards-plus {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.62);
-    /* max-width: 100%; */
     width: 100%;
     transform: translateX(0.5);
     top: 0;
-    height: 170px;
+    height: 15rem;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
     left: 0;
-    opacity: 0;
+    opacity: .5;
     transition: ease-in-out 0.2s;
 }
 
@@ -95,12 +95,17 @@
     padding: 10px 25px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    /* width: 50%; */
     text-decoration: none;
+    display: none;
+    transition: ease-in-out 0.2s;
 }
 
 .projects-cards:hover .projects-cards-plus {
     opacity: 1;
+
+    .projects-cards-plus-button {
+        display: block;
+    }
 }
 
 .projects-top {

@@ -20,13 +20,13 @@ import theme from './theme'
 import './core/utils/i18n'
 
 ReactDOM.render(
-  <Provider store={store}>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
           <App />
         </LocalizationProvider>
       </ThemeProvider>
-  </Provider>,
+    </Provider>,
   document.getElementById('root')
 );
 

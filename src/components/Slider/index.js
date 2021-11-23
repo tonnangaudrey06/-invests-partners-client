@@ -50,13 +50,15 @@ const BannerSlider = ({ slides, translate }) => {
   }
 
   return (
-    <div id="carouselExampleSlidesOnly" className="carousel slide" style={{height: 'auto'}}>
+    <div id="carouselExampleSlidesOnly" className="carousel slide">
       <div className="slide-section carousel-inner" role="listbox">
         <Slider ref={c => (slider = c)} {...settings}>
           {slides.map((slide, index) => (
             <div key={index} className="carousel-item active">
-              <img className="d-block img-fluid" src={slide.image} alt={slide.image} />
-              <div className="filter"></div>
+              <div className="circle-1" style={{ backgroundImage: `url(${slide.image})` }}></div>
+              <div className="circle-2"></div>
+              {/* <img className="d-block img-fluid" src={slide.image} alt={slide.image} /> */}
+              {/* <div className="filter"></div> */}
               <div className="carousel-caption text-white ">
                 <h1 id="title" className="text-uppercase">{slide.title}</h1>
                 <div className="mb-2 textEntete">{slide.description}</div>

@@ -5,9 +5,10 @@ import 'reactjs-popup/dist/index.css'
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 
-import { Container, SectionTitle, BannerSlider } from '../../components';
+import { Container, SectionTitle } from '../../components';
 
 import { HomeData } from '../../data';
+import placeholder from '../../assets/img/ip-13.jpg';
 
 import Slider from "react-slick";
 
@@ -31,7 +32,7 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-import imag22 from "../../assets/img/imag22.png";
+// import imag22 from "../../assets/img/imag22.png";
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -88,6 +89,9 @@ const CustomSlide = ({ projet, ...props }) => {
     </div >
   );
 }
+
+
+const BannerSlider = React.lazy(() => import('../../components/Slider'));
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -390,7 +394,9 @@ const HomeScreen = ({ t }) => {
 
   return (
     <div>
-      <BannerSlider slides={sliders} translate={t} />
+      <div style={{ height: "100vh" }}>
+        <BannerSlider slides={sliders} translate={t} />
+      </div>
 
       <Container header footer>
         <div className="section-service container-fluid px-5 pt-3 pb-5">
@@ -411,7 +417,7 @@ const HomeScreen = ({ t }) => {
         </div>
 
         <div className="section-banner">
-          {/* <img alt="Banner backgound" src={image1} className="banner-image" /> */}
+          <div className="seperator"></div>
           <div className="banner-wrapper">
             <div className="banner-content">
               <h5 className="text-white">Votre meilleur partenaire d'affaire</h5>
@@ -565,14 +571,14 @@ const HomeScreen = ({ t }) => {
 
         {events.length > 0 && (
           <div className="section-event container pt-3 pb-5">
-            <SectionTitle title="ÉVÉNEMENTS" />
+            <SectionTitle title="event.title" />
             <div className="row mt-5">
               {/* <div className="event-wrapper"> */}
               {events.map((item, index) => (
                 <div className="col-md-6" key={index}>
                   <div className="event-item shadow-lg mx-1 mb-2">
                     <div className="event-image">
-                      <img src={item.image ? item.image : imag22} alt="" />
+                      <img src={item.image ? item.image : placeholder} alt="" />
                     </div>
                     <div className="event-hover">
                       <div style={{ margin: 8 }}>
@@ -590,9 +596,9 @@ const HomeScreen = ({ t }) => {
                             </div>
                           )}
 
-                          <div className="event-button">
+                          <a className="event-button">
                             En savoir plus
-                          </div>
+                          </a>
                         </div>
                       </div>
                     </div>

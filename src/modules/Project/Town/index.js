@@ -17,7 +17,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { SecteurService } from '../../../core/services';
 import projetimg from "../../../assets/img/projet.jpg";
 
-import { AiFillLike, AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineHeart } from 'react-icons/ai';
 import { MdPlace } from 'react-icons/md';
 import { GiHistogram } from 'react-icons/gi';
 
@@ -90,10 +90,10 @@ const ProjetTown = ({ match, location, history, user }) => {
     return (
         <Container header headerActive active="projets" className="bg-light" footer>
             <div className="projects-top-all-projet bg-white">
-                <div className="search-bar-container-all-projet" style={{marginTop: '5rem', marginBottom: '2rem'}}>
+                <div className="search-bar-container-all-projet" style={{ marginTop: '5rem', marginBottom: '2rem' }}>
                     <div className="container">
                         <div className="row gy-3">
-                            <div className="col-12 d-flex justify-content-center align-items-center" style={{marginBottom: '2rem'}}>
+                            <div className="col-12 d-flex justify-content-center align-items-center" style={{ marginBottom: '2rem' }}>
                                 <div className="search-bar">
                                     <select className="projects-input-button" type="button" value="OK">
                                         <option>Catégories</option>
@@ -193,40 +193,43 @@ const ProjetTown = ({ match, location, history, user }) => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun projet trouvé
+                                    Aucun projet pour l'instant
                                 </h5>
                             )}
                         </div>
                     )}
                     {projets.map((item, index) => (
                         <div key={index} className="col-sm-12 col-md-6 col-lg-4">
-                            <Card classes={{ root: 'projects-cards' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }} onClick={() => cardOnClick(item)}>
+                            <Card classes={{ root: 'projects-cards shadow-lg' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }} onClick={() => cardOnClick(item)}>
                                 <CardMedia
                                     component="img"
-                                    height="170"
+                                    classes={{ root: 'shadow' }}
+                                    style={{ height: "15rem" }}
                                     image={item?.logo ? item.logo : projetimg}
                                     alt={item?.intitule}
                                 />
                                 <CardContent>
                                     <div className="projects-cards-title-container mb-1">
                                         {checkCanFianance(item) ? (
-                                            <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none text-dark">
-                                                <h5 className="fw-bold">{item.intitule}</h5>
-                                            </Link>
+                                            <>
+                                                <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
+                                                    <h5 className="fw-bold">{item.intitule}</h5>
+                                                </Link>
+                                                <AiOutlineHeart fill={"#c5473b"} size={25} />
+                                            </>
                                         ) : (
                                             <h5 className="fw-bold text-muted">{item.intitule}</h5>
                                         )}
-                                        <AiOutlineHeart fill={"#c5473b"} size={25} />
                                     </div>
                                     <p className={checkCanFianance(item) ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
-                                    <p className={checkCanFianance(item) ? "mb-1 text-primary fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
+                                    <p className={checkCanFianance(item) ? "mb-1 fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
                                     <div className={checkCanFianance(item) ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
                                         <div>{moneyFormat(item.iv_count)} contributions</div>
-                                        <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div>
+                                        {/* <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div> */}
                                     </div>
                                 </CardContent>
                                 {checkCanFianance(item) && (
-                                    <div className="projects-cards-plus">
+                                    <div className="projects-cards-plus cursor-pointer" onClick={() => history.push(`${match.url}/${item.id}/details`)}>
                                         <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
                                             En savoir plus
                                         </Link>

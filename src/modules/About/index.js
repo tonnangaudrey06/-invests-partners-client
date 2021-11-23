@@ -12,7 +12,7 @@ import ceiImg from "../../assets/img/cal.jpg";
 import rechFinancement from "../../assets/img/argent.jpg";
 import relation from "../../assets/img/relation.jpg";
 import strategy from "../../assets/img/strategy.jpg";
-import manage from "../../assets/img/manage.jpg";
+import manage from "../../assets/img/ip-12.jpg";
 
 import { withNamespaces } from "react-i18next";
 

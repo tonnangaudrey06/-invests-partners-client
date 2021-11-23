@@ -23,7 +23,7 @@ import MuiAlert from '@mui/material/Alert';
 import { Modal } from 'react-bootstrap';
 
 import eventImg from '../../assets/img/events.png';
-import ene from '../../assets/img/ene.png';
+import ene from '../../assets/img/ip-13.jpg';
 
 import '../../styles/event.scss';
 
