@@ -97,7 +97,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const HomeScreen = ({ t }) => {
+const HomeScreen = ({ history, t }) => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
@@ -530,8 +530,6 @@ const HomeScreen = ({ t }) => {
         )}
 
         <div className="section-chiffre py-5">
-          {/* <SectionTitle title="Le Cameroun: une terre propice pour l'agriculture" titleCss={{ color: 'white' }} dividerCss={{ borderColor: 'white' }} /> */}
-          {/* <div className="container-fluid mt-5"> */}
           <div className="row">
             <div className="col-md-12 col-lg-4 mb-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
@@ -587,18 +585,17 @@ const HomeScreen = ({ t }) => {
                         </div>
                         {/* <p className="event-text">{item.description}</p> */}
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-                          <TiCalendar size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")} | <small> De {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm")} à {moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm')}</small>
+                          <TiCalendar size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                           {item.places > item.total_reserve && (
                             <div className="event-button" onClick={() => openParticipate(item)}>
-                              Participer
+                              {t('button.participer')}
                             </div>
                           )}
-
-                          <a className="event-button">
-                            En savoir plus
-                          </a>
+                          <button className="event-button" onClick={() => history.push(`events/${item.id}`)}>
+                            {t('button.savoir')}
+                          </button>
                         </div>
                       </div>
                     </div>
