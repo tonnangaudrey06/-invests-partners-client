@@ -394,7 +394,7 @@ const HomeScreen = ({ history, t }) => {
 
   return (
     <div>
-      <div style={{ height: "100vh" }}>
+      <div style={{ maxHeight: "100vh" }}>
         <BannerSlider slides={sliders} translate={t} />
       </div>
 
