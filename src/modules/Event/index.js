@@ -1,6 +1,6 @@
 import { Container } from '../../components';
 
-import eventImg from '../../assets/img/events.png';
+import eventImg from '../../assets/img/events2.jpeg';
 import ene from '../../assets/img/ip-13.jpg';
 import placeholder from '../../assets/img/ip-13.jpg';
 
@@ -219,8 +219,8 @@ const Event = ({ t, history }) => {
         EventService.getAll().then(
             (data) => {
                 setLoading(false);
-                setEvents(data.data.data.all);
-                setMonths(data.data.data.month);
+                setEvents(data?.data?.data?.all);
+                setMonths(data?.data?.data?.month);
             }
         )
     };
@@ -235,7 +235,7 @@ const Event = ({ t, history }) => {
 
     return (
         <Container header active="events" footer>
-            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{ backgroundImage: `url(${eventImg})` }}>
+            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{  background: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(${eventImg})` }}>
                 <h3 className="fw-default-title text-uppercase" style={{ fontSize: '3.5rem' }}>{t('event.title')}</h3>
             </div>
 

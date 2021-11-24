@@ -117,11 +117,12 @@
   position           : absolute;
   width              : 100%;
   height             : 100%;
+  // color: rgba(0, 0, blue, alpha);
   clip-path          : polygon(0 0, 42vw 0%, 32vw 100%, 0 100%);
-  background-image   : url("../assets/img/ip-3.jpeg");
+  background-image   : linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .5)), url("../assets/img/ip-14.jpg");
   background-repeat  : no-repeat;
   background-size    : contain;
-  background-position: -20vw;
+  background-position: -3vw;
 
   @media screen and (max-width: 940px) {
     display: none;
@@ -548,7 +549,7 @@
     width            : 100%;
     height           : 100%;
     background       : #4B4B4B;
-    opacity          : 25%;
+    opacity          : .5;
     -webkit-clip-path: inset(-3.5vw -30vw -10vw 45vw round 50vw);
     clip-path        : inset(-3.5vw -30vw -10vw 45vw round 50vw);
 
