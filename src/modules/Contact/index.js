@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
+import { withNamespaces } from "react-i18next";
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setLoadingTrue: () => dispatch(setLoadingTrue()),
@@ -85,7 +87,7 @@ const Contact = (props) => {
             <div className="contact">
                 <div className="container-md">
                     <div className="d-flex justify-content-center mb-5">
-                        <h1 className="heading-section">Contactez nous</h1>
+                        <h1 className="heading-section">{ props.t('contact_us.title') }</h1>
                     </div>
                     <div className="row gy-4 mb-5">
                         <div className="col-md-12">
@@ -97,7 +99,7 @@ const Contact = (props) => {
                                             {/* <span className="fa fa-map-marker"></span> */}
                                         </div>
                                         <div className="text">
-                                            <p><span>Adresse:</span> BP: 2308 Douala, Cameroun</p>
+                                            <p>BP: 2308 Douala, Cameroun</p>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +110,7 @@ const Contact = (props) => {
                                             <i className="bi bi-telephone-fill"></i>
                                         </div>
                                         <div className="text">
-                                            <p><span>Téléphone:</span> <a href="tel://1234567920">(+237) 6 55 45 90 79</a></p>
+                                            <p><a href="tel://1234567920">(+237) 6 55 45 90 79</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +121,7 @@ const Contact = (props) => {
                                             <i className="bi bi-envelope"></i>
                                         </div>
                                         <div className="text">
-                                            <p><span>Email:</span> <a href="mailto:info@invest--partners.com">info@invest--partners.com</a></p>
+                                            <p><a href="mailto:info@invest--partners.com">info@invest--partners.com</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -129,37 +131,37 @@ const Contact = (props) => {
                             <div className="row g-0 ff">
                                 <div className="col-md-7 kjk">
                                     <div className="contact-wrap w-100 p-md-5 p-4">
-                                        <h3 className="mb-4">Envoyez-nous un message</h3>
+                                        <h3 className="mb-4">{ props.t('contact_us.form.title') }</h3>
                                         {/* <div id="form-message-warning" className="mb-4"></div> */}
                                         <form  className="contactForm" onSubmit={handelOnSubmit}>
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="name">Nom complet</label>
-                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('nom_complet', e.target.value)} placeholder="Nom" />
+                                                        <label className="label" htmlFor="name">{ props.t('contact_us.form.input._1.title') }</label>
+                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('nom_complet', e.target.value)} placeholder={ props.t('contact_us.form.input._1.placeholder') } />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="email">Email</label>
-                                                        <input type="email" className="form-control" onChange={(e) => handelOnChange('email', e.target.value)} placeholder="Email" />
+                                                        <label className="label" htmlFor="email">{ props.t('contact_us.form.input._2.title') }</label>
+                                                        <input type="email" className="form-control" onChange={(e) => handelOnChange('email', e.target.value)} placeholder={ props.t('contact_us.form.input._2.placeholder') } />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="subject">Objet</label>
-                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('object', e.target.value)} placeholder="Objet" />
+                                                        <label className="label" htmlFor="subject">{ props.t('contact_us.form.input._3.title') }</label>
+                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('object', e.target.value)} placeholder={ props.t('contact_us.form.input._3.placeholder') } />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <div className="form-group">
-                                                        <label className="label">Message</label>
-                                                        <textarea name="message" className="form-control" onChange={(e) => handelOnChange('message', e.target.value)} cols="30" rows="4" placeholder="Message"></textarea>
+                                                        <label className="label">{ props.t('contact_us.form.input._4.title') }</label>
+                                                        <textarea name="message" className="form-control" onChange={(e) => handelOnChange('message', e.target.value)} cols="30" rows="4" placeholder={ props.t('contact_us.form.input._4.placeholder') }></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12 mt-4 d-flex justify-content-end">
                                                     <div className="form-group">
-                                                        <button type="submit" className="btn btn-primary">Envoyer</button>
+                                                        <button type="submit" className="btn btn-primary">{ props.t('contact_us.form.btn') }</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,4 +191,4 @@ const Contact = (props) => {
         </Container>
     );
 };
-export default connect(null, mapDispatchToProps)(Contact);
+export default withNamespaces()(connect(null, mapDispatchToProps)(Contact));

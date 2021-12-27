@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { logout } from '../../core/reducers/auth/actions'
+import { setLanguage } from '../../core/reducers/app/actions'
 import { AuthService } from '../../core/services';
 
 import logo from '../../assets/img/logoWhite.png';
@@ -28,21 +29,22 @@ import i18n from '../../core/utils/i18n'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeUser: () => dispatch(logout())
+    removeUser: () => dispatch(logout()),
+    languageChange: (lang) => dispatch(setLanguage(lang)),
   }
 };
 
-const Header = ({ removeUser, auth, headerActive, t }) => {
+const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
 
   const changeLanguage = (lng) => {
     setLanguage(lng);
-    i18n.changeLanguage(lng);
   }
 
   const [color, setColor] = useState(false);
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const [language, setLanguage] = useState('fr');
+
   const css = {
     padding: 8,
     border: "solid",
@@ -81,13 +83,20 @@ const Header = ({ removeUser, auth, headerActive, t }) => {
 
   useEffect(() => {
     changeBackgroundColor()
-    setLanguage(i18n.language)
     window.addEventListener("scroll", changeBackgroundColor)
   })
 
+  useEffect(() => {
+    setLanguage(i18n.language)
+  }, [])
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+    languageChange(language);
+  }, [language])
+
   return (
     <Nav className={color ? "header-active" : "header"}>
-
       <div className="nav-left">
         <div className="brand">
           <img src={logo} className="logo" alt="invests & partners"></img>
@@ -116,7 +125,7 @@ const Header = ({ removeUser, auth, headerActive, t }) => {
             <NavLink to="/contact">{t('header.contact')}</NavLink>
           </div>
           <div className="header-link d-flex align-items-center">
-            {language === "fr" ? <img className="flag-language" src={flag_fr} alt="fr flag" /> : <img className="flag-language" src={flag_uk} alt="uk flag" />}
+            {language.includes("fr") ? <img className="flag-language" src={flag_fr} alt="fr flag" /> : <img className="flag-language" src={flag_uk} alt="uk flag" />}
             <select value={language || 'fr'} onChange={(value) => changeLanguage(value.target.value)} className="header-select">
               <option className="select-items" value="fr">{t('langue.fr')}</option>
               <option className="select-items" value="en">{t('langue.en')}</option>
@@ -174,7 +183,6 @@ const Header = ({ removeUser, auth, headerActive, t }) => {
 
         )}
       </div>
-
     </Nav>
 
 

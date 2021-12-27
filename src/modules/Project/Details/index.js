@@ -25,6 +25,8 @@ import { connect } from "react-redux";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
+import { withNamespaces } from "react-i18next";
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,7 +34,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const News = (props) => { return (<Post {...props} />); };
 
-const ProjetDetails = ({ match, location, history, user }) => {
+const ProjetDetails = ({ match, location, history, user, t }) => {
 
     const { params: { projet } } = match;
     const [details, setProjetDetails] = React.useState(null);
@@ -125,7 +127,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                     {loadingData && (<CircularProgress />)}
                     {!loadingData && (
                         <h5 className="fw-bolder text-muted">
-                            Projet introuvable
+                            {t('projet.not_found_projet_1')}
                         </h5>
                     )}
                 </div>
@@ -135,7 +137,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                         <Row>
                             <Col>
                                 <div className="entete2 d-flex justify-content-center">
-                                    <EnteteProjet projet={details} />
+                                    <EnteteProjet projet={details} t={t} />
                                 </div>
                             </Col>
                         </Row>
@@ -150,16 +152,16 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                 </Col>
                             )}
                             <Col lg={true} >
-                                <div className="card shadow-lg rounded mx-auto" style={{textAlign: checkFileIsVideo(details?.doc_presentation) ? 'start' : 'center'}}>
+                                <div className="card shadow-lg rounded mx-auto" style={{ textAlign: checkFileIsVideo(details?.doc_presentation) ? 'start' : 'center' }}>
                                     <div className="card-body">
                                         <ul className="list-group list-group-flush">
-                                            <li className="list-group-item"><span className="fw-bolder">Catégorie :</span> {details?.secteur_data?.libelle}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">Localisation :</span> {details?.ville_activite}, {details?.pays_activite}</li>
+                                            <li className="list-group-item"><span className="fw-bolder">{t('projet.details.cat')} :</span> {details?.secteur_data?.libelle}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.localize')} :</span> {details?.ville_activite}, {details?.pays_activite}</li>
                                             {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">Taux de rentabilité :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : 'Non defini'}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">Chiffre d'affaires :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : 'Non defini'}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">Durée du projet :</span>{details?.duree ? details?.duree + ' mois' : 'Non defini'}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">Délai de recupération :</span> {details?.rsi ? details?.rsi + ' mois' : 'Non defini'}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.taux')} :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : t('projet.other._2')}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.ca')} :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : t('projet.other._2')}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.duree')} :</span>{details?.duree ? details?.duree + t('projet.other._1') : t('projet.other._2')}</li>
+                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.dead_line')} :</span> {details?.rsi ? details?.rsi + t('projet.other._1') : t('projet.other._2')}</li>
                                         </ul>
                                     </div>
                                     <div className="card-footer d-flex justify-content-center align-items-center py-4">
@@ -168,7 +170,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                             <span>Ajouter au favoris</span>
                                         </div> */}
                                         <div className="w-100 d-flex justify-content-center align-items-center">
-                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-25">Je suis interessé</Button>
+                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-25">{t('projet.details.btn._1')}</Button>
                                         </div>
                                     </div>
                                 </div>
@@ -182,10 +184,10 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                     <div className="card-body">
                                         <div className="nav nav-pills nav-fill profile-nav" role="tablist">
                                             <button className="nav-link active fw-bolder fs-5 mr-1" id="nav-desc-tab" data-bs-toggle="tab" data-bs-target="#nav-desc" type="button" role="tab" aria-controls="nav-desc" aria-selected="true">
-                                                Description
+                                                {t('projet.details.desc')}
                                             </button>
                                             <button className="nav-link fw-bolder fs-5" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">
-                                                Actualités
+                                                {t('projet.details.actu')}
                                             </button>
                                         </div>
                                     </div>
@@ -220,13 +222,13 @@ const ProjetDetails = ({ match, location, history, user }) => {
                 centered
             >
                 <Modal.Header closeButton={!loading}>
-                    <Modal.Title>Vous êtes intéressé par ce projet</Modal.Title>
+                    <Modal.Title>{t('projet.other.modal.title')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl sx={{ m: 1, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre message</h6>
+                                <h6 className="fw-bolder">{t('projet.other.modal.message')}</h6>
                                 <TextField
                                     fullWidth
                                     size="small"
@@ -250,7 +252,7 @@ const ProjetDetails = ({ match, location, history, user }) => {
                                     onClick={sendMessage}
                                     variant="contained"
                                 >
-                                    Envoyer le message
+                                   {t('projet.other.modal.btn')}
                                 </LoadingButton>
                             </div>
                         </Grid>
@@ -276,4 +278,4 @@ function mapStateToProps(state) {
     return ({ user: state.auth.user });
 }
 
-export default connect(mapStateToProps)(ProjetDetails);
+export default withNamespaces()(connect(mapStateToProps)(ProjetDetails));

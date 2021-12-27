@@ -25,9 +25,11 @@ import { Container } from '../../../components';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
+import { withNamespaces } from "react-i18next";
+
 import { moneyFormat } from '../../../core/utils/helpers';
 
-const ProjetTown = ({ match, location, history, user }) => {
+const ProjetTown = ({ match, location, history, user, t }) => {
 
     const { params: { section, town } } = match;
 
@@ -96,7 +98,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                             <div className="col-12 d-flex justify-content-center align-items-center" style={{ marginBottom: '2rem' }}>
                                 <div className="search-bar">
                                     <select className="projects-input-button" type="button" value="OK">
-                                        <option>Catégories</option>
+                                        <option>{t('projet.option.title')}</option>
                                     </select>
                                     <input placeholder="Rechercher" className="projects-text-input" type="text" name="search" id="" />
                                 </div>
@@ -110,7 +112,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                                             size="small"
                                             name="pays"
                                             variant="filled"
-                                            label="Pays"
+                                            label={t('projet.form._1.title')}
                                             value={pays}
                                             onChange={handleChange}
                                             InputProps={{
@@ -135,7 +137,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                                             size="small"
                                             name="ville"
                                             variant="filled"
-                                            label="Ville"
+                                            label={t('projet.form._2.title')}
                                             value={ville}
                                             onChange={handleChange}
                                             InputProps={{
@@ -159,7 +161,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                                             size="small"
                                             name="level"
                                             variant="filled"
-                                            label="Niveau d'evolution"
+                                            label={t('projet.form._3.title')}
                                             value={level}
                                             onChange={handleChange}
                                             InputProps={{
@@ -171,10 +173,10 @@ const ProjetTown = ({ match, location, history, user }) => {
                                                 shrink: true,
                                                 style: { border: '1px solid rgba(0, 0, 0, 0.42)', borderBottom: 'none', background: 'transparent', borderRadius: '4px' }
                                             }} >
-                                            <MenuItem value="">Tous</MenuItem>
-                                            <MenuItem value={'IDEE'}>Idée</MenuItem>
-                                            <MenuItem value={'PROTOTYPE'}>Prototype</MenuItem>
-                                            <MenuItem value={'SUR_MARCHE'}>Sur le marché</MenuItem>
+                                            <MenuItem value="">{t('projet.form._3.value._1')}</MenuItem>
+                                            <MenuItem value={'IDEE'}>{t('projet.form._3.value._2')}</MenuItem>
+                                            <MenuItem value={'PROTOTYPE'}>{t('projet.form._3.value._3')}</MenuItem>
+                                            <MenuItem value={'SUR_MARCHE'}>{t('projet.form._3.value._4')}</MenuItem>
                                         </TextField>
                                     </FormControl>
                                 </div>
@@ -193,7 +195,7 @@ const ProjetTown = ({ match, location, history, user }) => {
                             {loading && (<CircularProgress />)}
                             {!loading && (
                                 <h5 className="fw-bolder text-muted">
-                                    Aucun projet pour l'instant
+                                    {t('projet.not_found_projet')}
                                 </h5>
                             )}
                         </div>
@@ -222,16 +224,16 @@ const ProjetTown = ({ match, location, history, user }) => {
                                         )}
                                     </div>
                                     <p className={checkCanFianance(item) ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
-                                    <p className={checkCanFianance(item) ? "mb-1 fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} XAF déjà investi</p>
+                                    <p className={checkCanFianance(item) ? "mb-1 fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} {t('projet.details.invest')}</p>
                                     <div className={checkCanFianance(item) ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
-                                        <div>{moneyFormat(item.iv_count)} contributions</div>
+                                        <div>{moneyFormat(item.iv_count)} {t('projet.details.investor')}</div>
                                         {/* <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div> */}
                                     </div>
                                 </CardContent>
                                 {checkCanFianance(item) && (
                                     <div className="projects-cards-plus cursor-pointer" onClick={() => history.push(`${match.url}/${item.id}/details`)}>
                                         <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
-                                            En savoir plus
+                                            {t('projet.details.more')}
                                         </Link>
                                     </div>
                                 )}
@@ -251,14 +253,14 @@ const ProjetTown = ({ match, location, history, user }) => {
                 onClose={() => setModalOpen(false)}
             >
                 <div className="container d-flex flex-column align-items-center text-center m-2">
-                    <p className="mt-1">Votre plage d'investissement ne vous permet pas de consulter les informations de ce projet.</p>
-                    <p className="mt-1">Aller dans votre profil et modifier votre plage d'investissement afin d'être éligible à consulter ce projet</p>
+                    <p className="mt-1">{t('projet.details.warn._1')}</p>
+                    <p className="mt-1">{t('projet.details.warn._2')}</p>
                     <div className="mt-3 d-flex justify-content-center">
                         <button className="btn btn-sm btn-outline-primary mr-2" onClick={() => setModalOpen(false)}>
-                            Ok, compris !
+                            {t('projet.details.warn.btn._1')}
                         </button>
                         <Link to={`/investor/profil`} className="btn btn-sm btn-primary">
-                            Aller sur mon profil
+                            {t('projet.details.warn.btn._2')}
                         </Link>
                     </div>
                 </div>
@@ -270,4 +272,4 @@ const ProjetTown = ({ match, location, history, user }) => {
 
 const mapStateToProps = (state) => ({ user: state.auth.user });
 
-export default connect(mapStateToProps)(ProjetTown);
+export default withNamespaces()(connect(mapStateToProps)(ProjetTown));

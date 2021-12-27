@@ -108,6 +108,7 @@ class ForgotPassword extends React.Component {
   }
 
   render() {
+    const { translate: t } = this.props;
     return (
       <form className="login-form px-0 px-md-5" onSubmit={this.handleForgot}>
         <div className="d-lg-none d-flex justify-content-xl-center align-items-center">
@@ -118,15 +119,15 @@ class ForgotPassword extends React.Component {
             <Grid item xs={12} md={12}>
               <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                 <div className="d-flex flex-column align-items-center">
-                  <h6 className="fw-bolder">Qui êtes-vous ?</h6>
+                  <h6 className="fw-bolder"> {t('auth.forgot_password.form._1.title')} </h6>
                   <RadioGroup
-                   className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
+                    className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                     row
                     value={this.state.role || 3}
                     onChange={(e, value) => this.setState({ role: value })}
                   >
-                    <FormControlLabel value={3} control={<Radio />} label="Un porteur de projet" />
-                    <FormControlLabel value={4} control={<Radio />} label="Un investisseur" />
+                    <FormControlLabel value={3} control={<Radio />} label={t('auth.forgot_password.form._1.value._1')} />
+                    <FormControlLabel value={4} control={<Radio />} label={t('auth.forgot_password.form._1.value._1')} />
                   </RadioGroup>
                 </div>
               </FormControl>
@@ -140,7 +141,7 @@ class ForgotPassword extends React.Component {
                   error={this.state.error}
                   type="email"
                   variant="filled"
-                  label="Email"
+                  label={t('auth.forgot_password.form._2.title')}
                   placeholder="example@domaine.com"
                   value={this.state.email}
                   onChange={(e) => this.onChangeForm('email', e.target.value)}
@@ -155,7 +156,9 @@ class ForgotPassword extends React.Component {
             </Grid>
           </Grid>
           <div className="form-end d-flex justify-content-center w-100">
-            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("login")}>Je me souviens de mon mot de passe</div>
+            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("login")}>
+              {t('auth.forgot_password.text')}
+            </div>
           </div>
           <LoadingButton
             className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
@@ -164,7 +167,7 @@ class ForgotPassword extends React.Component {
             type={'submit'}
             variant="contained"
           >
-            Récupérer mon mot de passe
+            {t('auth.forgot_password.btn')}
           </LoadingButton>
         </div>
 

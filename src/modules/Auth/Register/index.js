@@ -56,6 +56,8 @@ const mapStateToProps = (state) => ({ paiement: state.app.paiement });
 
 const Register = (props) => {
 
+    const { translate: t } = props;
+
     const {
         register,
         handleSubmit,
@@ -98,15 +100,6 @@ const Register = (props) => {
         pending: false,
         failed: false
     })
-
-    // const subscribe = () => {
-    //     // setVisible(true);
-    //     if (+state.role === 4) {
-    //         handleCheckRegister()
-    //         return;
-    //     }
-    //     handleRegister();
-    // }
 
     const hidePayement = () => {
         setVisible(false);
@@ -287,15 +280,15 @@ const Register = (props) => {
                 <Grid item xs={12} md={12}>
                     <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                         <div className="d-flex flex-column align-items-center">
-                            <h6 className="fw-bolder">Qui êtes-vous ?</h6>
+                            <h6 className="fw-bolder">{t('auth.inscription.form._1.title')}</h6>
                             <RadioGroup
                                 row
                                 className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                                 value={state.role || 3}
                                 onChange={(e, value) => handelRoleChange(value)}
                             >
-                                <FormControlLabel value={3} control={<Radio />} label="Un porteur de projet" />
-                                <FormControlLabel value={4} control={<Radio />} label="Un investisseur" />
+                                <FormControlLabel value={3} control={<Radio />} label={t('auth.inscription.form._1.value._1')} />
+                                <FormControlLabel value={4} control={<Radio />} label={t('auth.inscription.form._1.value._2')} />
                             </RadioGroup>
                         </div>
                     </FormControl>
@@ -303,15 +296,15 @@ const Register = (props) => {
                 <Grid item xs={12} md={12}>
                     <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                         <div className="d-flex flex-column align-items-center">
-                            <h6 className="fw-bolder">Quelle est votre personnalité juridique ?</h6>
+                            <h6 className="fw-bolder">{t('auth.inscription.form._2.title')}</h6>
                             <RadioGroup
                                 row
                                 className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                                 value={state.status || "PARTICULIER"}
                                 onChange={(e, value) => setState({ ...state, status: value })}
                             >
-                                <FormControlLabel value="PARTICULIER" control={<Radio />} label="Personne physique (Individu)" />
-                                <FormControlLabel value="ENTREPRISE" control={<Radio />} label="Personne morale (Entreprise)" />
+                                <FormControlLabel value="PARTICULIER" control={<Radio />} label={t('auth.inscription.form._2.value._1')} />
+                                <FormControlLabel value="ENTREPRISE" control={<Radio />} label={t('auth.inscription.form._2.value._2')} />
                             </RadioGroup>
                         </div>
                     </FormControl>
@@ -327,8 +320,8 @@ const Register = (props) => {
                             {...register('nom', { required: "Le nom est obligatoire" })}
                             helperText={errors.nom && errors.nom?.message}
                             variant="filled"
-                            label={state.status === 'PARTICULIER' ? "Nom" : "Nom de l'entité"}
-                            placeholder={state.status === 'PARTICULIER' ? "Nom" : "Nom de l'entité"}
+                            label={state.status === 'PARTICULIER' ? t('auth.inscription.form._3.title_1') : t('auth.inscription.form._3.title_2')}
+                            placeholder={state.status === 'PARTICULIER' ? t('auth.inscription.form._3.title_1') : t('auth.inscription.form._3.title_2')}
                             value={state.nom || ''}
                             onChange={(e) => { setValue('nom', e.target.value, { shouldTouch: true }); setState({ ...state, nom: e.target.value }) }}
                             InputProps={{
@@ -351,10 +344,10 @@ const Register = (props) => {
                                 helperText={errors.prenom && errors.prenom?.message}
                                 size="small"
                                 variant="filled"
-                                label="Prenom"
-                                placeholder="Prenom"
+                                label={t('auth.inscription.form._4.title')}
+                                placeholder={t('auth.inscription.form._4.title')}
                                 value={state.prenom || ''}
-                                onChange={(e) =>{ setValue('prenom', e.target.value, { shouldTouch: true }); setState({ ...state, prenom: e.target.value }) }}
+                                onChange={(e) => { setValue('prenom', e.target.value, { shouldTouch: true }); setState({ ...state, prenom: e.target.value }) }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -376,7 +369,7 @@ const Register = (props) => {
                             {...register('email', { required: "L'email est obligatoire" })}
                             helperText={errors.email && errors.email?.message}
                             variant="filled"
-                            label="Email"
+                            label={t('auth.inscription.form._5.title')}
                             placeholder="example@domaine.com"
                             value={state.email || ''}
                             onChange={(e) => { setValue('email', e.target.value, { shouldTouch: true }); setState({ ...state, email: e.target.value }) }}
@@ -400,8 +393,8 @@ const Register = (props) => {
                             {...register('telephone', { required: "Le numéro de téléphone est obligatoire" })}
                             helperText={errors.telephone && errors.telephone?.message}
                             variant="filled"
-                            label="Numéro de téléphone"
-                            placeholder="Numéro de téléphone"
+                            label={t('auth.inscription.form._6.title')}
+                            placeholder={t('auth.inscription.form._6.title')}
                             value={state.telephone || ''}
                             onChange={(e) => { setValue('telephone', e.target.value, { shouldTouch: true }); setState({ ...state, telephone: e.target.value }) }}
                             InputProps={{
@@ -429,7 +422,7 @@ const Register = (props) => {
                             })}
                             helperText={errors.password && errors.password?.message}
                             variant="filled"
-                            label="Mot de passe"
+                            label={t('auth.inscription.form._7.title')}
                             placeholder="*******"
                             type={etat.showPassword ? 'text' : 'password'}
                             value={state.password || ''}
@@ -472,8 +465,8 @@ const Register = (props) => {
                                 }}
                                 InputLabelProps={{ shrink: true }}
                                 variant="filled"
-                                label="Plage d'investissement"
-                                placeholder="Plage d'investissement"
+                                label={t('auth.inscription.form._8.title')}
+                                placeholder={t('auth.inscription.form._8.title')}
                                 value={state.profil || getFirstPlage()}
                                 onChange={(e) => { setValue('profil', e.target.value, { shouldTouch: true }); setState({ ...state, profil: e.target.value }) }}
                             >
@@ -482,17 +475,32 @@ const Register = (props) => {
                                 ))}
                             </TextField>
                             <p className="text-muted">
-                                 <strong>{getSelectedPlage()?.type}</strong> =&gt; Investissement dans des projets dont la valeur du financement est comprise entre <strong>{(!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min) + ' XAF'}</strong> et <strong>{(!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max) + ' XAF'}</strong><br />
-                                Frais d'abonnement annuel: <strong>{moneyFormat(getSelectedPlage()?.frais_abonnement)} XAF</strong></p>
+                                <strong>
+                                    {t('auth.inscription.text._1',
+                                        {
+                                            plage: getSelectedPlage()?.type,
+                                            min: (!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min),
+                                            max: (!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max)
+                                        })
+                                    }
+                                </strong>
+                                <br />
+                                {t('auth.inscription.text._2',
+                                    {
+                                        prix: moneyFormat(getSelectedPlage()?.frais_abonnement)
+                                    })
+                                }
+                            </p>
                         </FormControl>
                     </Grid>
                 }
             </Grid>
             <div className="mt-2 d-flex justify-content-center">
-                <small className="fw-bolder">NB: Les champs avec (*) sont obligatoires</small>
+                <small className="fw-bolder">{t('auth.inscription.text._3')}</small>
             </div>
             <div className="form-end-register">
-                <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label=""/> <label>J'accepte les <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">Conditions générales d'utilisation</a> et <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">Politique de confidentialité</a>.</label>
+                <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label="" />
+                <label>{t('auth.inscription.text._4')} <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._5')}</a> {t('auth.inscription.text._6')} <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._7')}</a>.</label>
             </div>
 
             <LoadingButton
@@ -502,8 +510,9 @@ const Register = (props) => {
                 type={'submit'}
                 variant="contained"
             >
-                Inscription
+                {t('auth.inscription.btn')}
             </LoadingButton>
+
             <Modal
                 show={visible}
                 onHide={hidePayement}
@@ -512,16 +521,28 @@ const Register = (props) => {
                 centered
             >
                 <Modal.Header closeButton={!paiement.pending}>
-                    <Modal.Title>Paiement des frais d'abonnement</Modal.Title>
+                    <Modal.Title>{t('auth.pay.title')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="mb-1 small lh-base">Vous avez choisi le profil <strong>{getSelectedPlage()?.type}</strong> qui à une plage d'investissement entre <strong>{(!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min) + ' XAF'}</strong> à <strong>{(!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max) + ' XAF'}</strong></p>
-                    <p className="mb-1 small text-muted">Pour ce profil d'investissement, vous allez payer <strong>{moneyFormat(getSelectedPlage()?.frais_abonnement)} XAF</strong> comme frais d'abonnement</p>
+                    <p className="mb-1 small lh-base">
+                        {t('auth.pay.text._1', {
+                            plage: getSelectedPlage()?.type,
+                            min: (!getSelectedPlage()?.montant_min || getSelectedPlage()?.montant_min === 0) ? getSelectedPlage()?.min : moneyFormat(getSelectedPlage()?.montant_min),
+                            max: (!getSelectedPlage()?.montant_max || getSelectedPlage()?.montant_max === 0) ? getSelectedPlage()?.max : moneyFormat(getSelectedPlage()?.montant_max)
+
+                        })}
+                    </p>
+                    <p className="mb-1 small text-muted">
+                        {t('auth.pay.text._2',
+                            {
+                                prix: moneyFormat(getSelectedPlage()?.frais_abonnement)
+                            })
+                        }</p>
                     <hr />
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
+                                <h6 className="fw-bolder">{t('auth.pay.form._1.title')}</h6>
                                 <RadioGroup
                                     row
                                     value={methodPaiement || 'OM'}
@@ -533,10 +554,10 @@ const Register = (props) => {
                                 </RadioGroup>
                             </FormControl>
                             <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre numéro de téléphone</h6>
+                                <h6 className="fw-bolder">{t('auth.pay.form._2.title')}</h6>
                                 <PhoneInput
                                     defaultCountry={loc.country}
-                                    placeholder="Numéro de téléphone"
+                                    placeholder={t('auth.pay.form._2.placeholder')}
                                     value={numero || ''}
                                     onChange={setNumero}
                                 />
@@ -557,7 +578,7 @@ const Register = (props) => {
                                     onClick={payer}
                                     variant="contained"
                                 >
-                                    Payer
+                                    {t('auth.pay.btn')}
                                 </LoadingButton>
                             </div>
                         </Grid>

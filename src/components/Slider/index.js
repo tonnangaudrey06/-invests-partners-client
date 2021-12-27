@@ -4,7 +4,7 @@ import { IoArrowForward, IoArrowBack } from 'react-icons/io5';
 import AOS from 'aos';
 import React from 'react';
 
-const BannerSlider = ({ slides, translate }) => {
+const BannerSlider = ({ slides, translate, lang }) => {
 
   AOS.init({
     isable: false,
@@ -60,8 +60,8 @@ const BannerSlider = ({ slides, translate }) => {
               {/* <img className="d-block img-fluid" src={slide.image} alt={slide.image} /> */}
               {/* <div className="filter"></div> */}
               <div className="carousel-caption text-white ">
-                <h1 id="title" className="text-uppercase">{slide.title}</h1>
-                <div className="mb-2 textEntete">{slide.description}</div>
+                <h1 id="title" className="text-uppercase">{lang.includes('fr') ? slide.title : slide.title_en}</h1>
+                <div className="mb-2 textEntete">{lang.includes('fr') ? slide.description : slide.description_en}</div>
                 <div className="d-grid gap-2  bouttonEntete">
                   <Button title={translate('button.opportuniter')} color={'transparent'} borderColor={'white'} url={'/projets'} />
                   <Button title={translate('button.conseiller')} color={'#585b60'} borderColor={'grey'} url={'/contact'} />

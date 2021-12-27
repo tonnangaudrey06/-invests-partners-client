@@ -15,31 +15,94 @@
         "title": "Nos services",
         "_1": {
             "title": "Recherche de financements",
-            "text": "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses."
+            "text": "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses.",
+            "des": {
+                "_1": "La recherche de financements et de contributions est une étape importante de la réalisation d'un projet où on fait appel à la collaboration de partenaires. Leur contribution peut être financière et prendre la forme de subventions, de dons ou de commandites. Elle peut aussi se faire par une contribution en biens et services, tels que le prêt d'équipements, la participation d'experts, les services divers d'analyses.",
+                "_2": "Dans son approche, I&P considère, en plus des financements traditionnels (banque, levée de fonds, demandes aux institutions financières, etc.), des financements moins conventionnels ou alternatifs ; comme les tontines.",
+                "_3": "Les tontines ont le potentiel pour devenir l'une des principales sources de financement des projets. Il suffit de redéfinir certains aspects structurels et organisationnels de ce concept populaire pour l'adapter au monde de l'entreprise.",
+                "_4": "Notre objectif est de permettre aux entrepreneurs de différentes régions, parties du continent et du monde d'être en mesure d'autofinancer leurs projets en se soutenant mutuellement."
+            }
         },
         "_2": {
             "title": "Assistance à l'investissement et à la mise en oeuvre",
-            "text": "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement."
+            "text": "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement.",
+            "des": {
+                "_1": "Le Cameroun est un pays offrant d'énormes possibilités d'investissement. I&P accompagne les entreprises, en particulier les TPE et les SME, qui sont généralement lésées dans la recherche d'opportunités d'investissement.",
+                "_2": "I&P accompagne l'investisseur dans une ou plusieurs phases de son processus d'implantation : évaluation ou identification de l'idée du projet, choix de la localisation du site d'implantation, préparation du business plan, constitution de la société, mise en place et lancement de l'activité, extension et développement de la société etc…",
+                "_3": "Prenant en considération les nombreuses incertitudes de notre environnement économique et sociopolitique susceptible d’impacter le succès, I&P s'efforce d’en minimiser les effets au travers d’une méthodologie qui permet de quantifier l'activité prévisible, de mesurer les ressources nécessaires et enfin de rassembler les moyens à mettre en œuvre.",
+                "_4": "Aussi, ayant une parfaite connaissance des réalités de l'environnement des affaires au Cameroun, nous déployons les ressources nécessaires pour identifier et définir les besoins des entreprises afin d’y apporter promptement des solutions efficaces orientée \"efficacité et valeur ajoutée\"."
+            }
         },
         "_3": {
             "title": "Stratégie d'investissement",
-            "text": "Ce service s’adresse principalement aux dirigeants d’entreprise dans la meure ou I&P les accompagne dans l’élaboration de leur business model, avec l’objectif de capitaliser sur les avantages de l’entreprise pour dégager des axes de croissance et de compétitivité."
+            "text": "Ce service s’adresse principalement aux dirigeants d’entreprise dans la meure ou I&P les accompagne dans l’élaboration de leur business model, avec l’objectif de capitaliser sur les avantages de l’entreprise pour dégager des axes de croissance et de compétitivité.",
+            "des": {
+                "_1": "Ce service s’adresse principalement aux dirigeants d’entreprise dans la meure ou I&P les accompagne dans l’élaboration de leur business model, avec l’objectif de capitaliser sur les avantages de l’entreprise pour dégager des axes de croissance et de compétitivité. Nous intervenons ainsi dans le cadre de nombreuses missions : mise en place d’une stratégie de croissance, repositionnement de l’entreprise sur son marché, diversification, développement de nouveaux produits ou services, transformation digitale, optimisation de la relation client, entre autres.",
+                "_2": "Au-delà de cette fonction de conseil, nous déployons également un volet opérationnel à travers la réalisation des audits et benchmarks, l’analyse des marchés, I ’appropriation de l’environnement interne et externe, l’identification des problématiques et la mise en place des scénarios qui vont y répondre."
+            }
         },
         "_4": {
             "title": "Ingénierie du patrimoine",
-            "text": "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées, en ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie."
+            "text": "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées, en ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie.",
+            "des": {
+                "_1": "I&P offre ce service aux particuliers et aux entreprises pour leur faciliter la prise de décisions éclairées. En ce qui concerne tous les choix importants liés à un projet d’investissement ou à un projet de vie. Nous fournissons ainsi des bilans précis et détaillés de la situation patrimoniale, proposons des ajustements en fonction de la mutation des besoins du client.",
+                "_2": "A cet effet, nous effectuons au préalable un diagnostic patrimonial indispensable pour définir les attentes, les besoins, les contraintes et les freins du commanditaire. Ce diagnostic permet de hiérarchiser ses priorités et de définir avec lui la stratégie la plus adaptée à une gestion optimale de son patrimoine.",
+                "_3": "Aussi nous intervenons dans les domaines de :",
+                "list": {
+                    "_1": "Gestion financière (épargne, capital) ;",
+                    "_2": "Gestion immobilière: achat, vente, location ;",
+                    "_3": "Accompagnement lors du rachat ou lors de la vente d’une entreprise ;",
+                    "_4": "Accompagnement juridique: préparation du contrat de mariage, divorce ;",
+                    "_5": "Conseil fiscal."
+                }
+            }
         },
         "_5": {
             "title": "Mise en relation",
-            "text": "Par le biais de sa plateforme, I&P offre une véritable zone de flux entre l’offre des porteurs de projets et la demande des investisseurs potentiels"
+            "text": "Par le biais de sa plateforme, I&P offre une véritable zone de flux entre l’offre des porteurs de projets et la demande des investisseurs potentiels",
+            "des": {
+                "_1": "Par le biais de sa plateforme, I&P offre une véritable zone de flux entre l’offre des porteurs de projets et la demande des investisseurs potentiels.",
+                "_2": "L’objectif ici est de mettre en relation des entreprises avec des entreprises, des entreprises avec des particuliers ou des particuliers avec des particuliers afin qu’ils puissent trouver et/ou rentabiliser le produit ou le service dont ils ont besoin.",
+                "_3": "Cette dématérialisation de l’offre et de la demande va inciter la rencontre entre des personnes physiques et morales qui n’avaient, jusque-là, rien en commun.",
+                "_4": "Le principe est simple : lorsque vous avez une offre à proposer, vous la publiez sur la plateforme I&P afin qu’elle soit visible de vos éventuels futurs partenaires d’affaires; et dans le cas où vous êtes à la recherche d’une offre, vous avez la possibilité de consulter celles présentes et les comparer entre elles afin d’opérer le choix qui correspond le mieux à vos attentes."
+            }
         },
         "_6": {
             "title": "Gestion et suivi des projets",
-            "text": "Notre mission consiste à permettre aux porteurs de projets, organisations de la société civile, institutions publiques et privées de pouvoir recourir à tout moment à notre expertise."
+            "text": "Notre mission consiste à permettre aux porteurs de projets, organisations de la société civile, institutions publiques et privées de pouvoir recourir à tout moment à notre expertise.",
+            "des": {
+                "_1": "Notre mission consiste à permettre aux porteurs de projets, organisations de la société civile, institutions publiques et privées (mairies, bailleurs de fonds tant bilatéraux que multilatéraux, projets internationaux basés en Afrique, aux organisations non gouvernementales) de pouvoir recourir à tout moment à notre expertise.",
+                "_2": "Pour ce faire, nous réalisons un accompagnement dans le cadre non exhaustif de :",
+                "list": {
+                    "_1": "La conception, et la mise en œuvre, le suivi-évaluation et l’analyse financière des projets ;",
+                    "_2": "Le développement économique ;",
+                    "_3": "le renforcement des capacités ;",
+                    "_4": "L’élaboration du plan d’action et de développement ;",
+                    "_5": "La négociation des partenariats ;",
+                    "_6": "Le conseil en stratégie et organisation ;",
+                    "_7": "La coordination de projet ;",
+                    "_8": "L’assistance à la maitrise d’ouvrage."
+                }
+            }
         },
         "_7": {
             "title": "Conseil en investissement",
-            "text": "Vous souhaitez  placer des capitaux dans un projet financier, immobilier ou d’entreprise? I&P est le conseiller qu’il vous faut."
+            "text": "Vous souhaitez  placer des capitaux dans un projet financier, immobilier ou d’entreprise? I&P est le conseiller qu’il vous faut.",
+            "des": {
+                "title": "Vous souhaitez placer des capitaux dans un projet financier, immobilier ou d’entreprise? I&P est le conseiller qu’il vous faut :",
+                "_1": {
+                    "title": "Conseil en investissement financier",
+                    "text": "Notre défi ici est de vous recommander l'investissement financier le mieux adapté à vos projets et objectifs. Ainsi, nous sélectionnons pour vous les fonds réalisant les meilleurs profits."
+                },
+                "_2": {
+                    "title": "Conseil en investissement immobilier",
+                    "text": "Grâce à un réseau fort de promoteurs immobiliers, notre offre s’adapte parfaitement à vos attentes, vous assurant ainsi un minimum de rentabilité."
+                },
+                "_3": {
+                    "title": "Conseil en investissement dans les projets d’entreprises",
+                    "text": "Notre rôle consiste à préconiser l’investissement dans les projets d’entreprise à fort potentiel mieux adaptés et donc plus rentables."
+                }
+            }
         }
     },
     "expert": {
@@ -76,6 +139,44 @@
         "organise": "Organiser par",
         "places": {
             "restant": "Places restantes"
+        },
+        "form": {
+            "title": "Participation à l'évenement",
+            "text": {
+                "_1": "Vous voulez participer à l'évenement",
+                "_2": "La participation à cette évenement coûtera",
+                "_3": "La participation à cette évenement est gratuit"
+            },
+            "sub_title_1": "Informations personnelles",
+            "input": {
+                "_1": {
+                    "title": "Nom complet",
+                    "placeholder": "Nom & prenom"
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": ""
+                },
+                "_3": {
+                    "title": "Téléphone",
+                    "placeholder": "Téléphone"
+                },
+                "_4": {
+                    "title": "Nombre places",
+                    "placeholder": "Places"
+                }
+            },
+            "sub_title_2": "Choisir le moyen de paiement",
+            "pay": {
+                "_1": {
+                    "title": "Votre numéro de téléphone",
+                    "placeholder": "Numéro de téléphone"
+                }
+            },
+            "btn": {
+                "_1": "Payer",
+                "_2": "Participer"
+            }
         }
     },
     "header": {
@@ -90,12 +191,252 @@
         "contact": "Contacts"
     },
     "footer": {
-        
+        "_1": "Navigations",
+        "_2": {
+            "title": "Ressources",
+            "nav": {
+                "_1": "Conditions générales d'utilisation",
+                "_2": "Politique de confidentialité"
+            }
+        },
+        "_3": {
+            "title": "Souscrire",
+            "input": {
+                "placeholder": "Entrez l'adresse e-mail",
+                "btn": "Souscrire"
+            },
+            "help": "Recevez les mises à jour sur les investissements et les partenaires dans votre boîte aux lettres électronique."
+        },
+        "copyright": "Copyright 2021 Tous droits réservés à Invest & Partners"
     },
     "not_found": {
         "event": "Aucun événement pour l'instant"
     },
     "date": {
         "time_format": "De {{start}} à {{end}}"
+    },
+    "banner": {
+        "title": "Votre meilleur partenaire d'affaire",
+        "sub_title": "Faire le choix de cheminer avec Invest & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :",
+        "des_1": {
+            "_1": "Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;",
+            "_2": "Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc."
+        },
+        "des_2": {
+            "_1": "Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons d’une plateforme Web et d’une application mobile (Apple et PlayStore) pour faciliter les échanges en temps réel entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;",
+            "_2": "Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets."
+        }
+    },
+    "bio": "Biographie",
+    "contact_us": {
+        "title": "Contactez nous",
+        "form": {
+            "title": "Envoyez-nous un mail",
+            "input": {
+                "_1": {
+                    "title": "Nom complet",
+                    "placeholder": "Nom & prenom"
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_3": {
+                    "title": "Objet",
+                    "placeholder": "Objet"
+                },
+                "_4": {
+                    "title": "Message",
+                    "placeholder": "Message"
+                }
+            },
+            "btn": "Envoyer"
+        }
+    },
+    "auth": {
+        "des": {
+            "title": "Votre meilleur partenaire",
+            "text": "INVEST & PARTNERS, l'assurance d'un placement profitable",
+            "btn": "Aller à l'accueil"
+        },
+        "connexion": {
+            "title": "Connexion",
+            "form": {
+                "_1": {
+                    "title": "Qui êtes-vous ?",
+                    "value": {
+                        "_1": "Un porteur de projet",
+                        "_2": "Un investisseur"
+                    }
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_3": {
+                    "title": "Mot de passe",
+                    "placeholder": "Mot de passe"
+                }
+            },
+            "text": "Mot de passe oublié ?",
+            "remenber": "Se souvenir de moi",
+            "btn": "Connexion"
+        },
+        "forgot_password": {
+            "text": "Je me souviens de mon mot de passe",
+            "form": {
+                "_1": {
+                    "title": "Qui êtes-vous ?",
+                    "value": {
+                        "_1": "Un porteur de projet",
+                        "_2": "Un investisseur"
+                    }
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                }
+            },
+            "btn": "Récupérer mon mot de passe"
+        },
+        "inscription": {
+            "title": "Inscription",
+            "form": {
+                "_1": {
+                    "title": "Qui êtes-vous ?",
+                    "value": {
+                        "_1": "Un porteur de projet",
+                        "_2": "Un investisseur"
+                    }
+                },
+                "_2": {
+                    "title": "Quelle est votre personnalité juridique ?",
+                    "value": {
+                        "_1": "Personne physique (Individu)",
+                        "_2": "Personne morale (Entreprise)"
+                    }
+                },
+                "_3": {
+                    "title_1": "Nom",
+                    "title_2": "Nom de l'entité",
+                    "placeholder": "Nom"
+                },
+                "_4": {
+                    "title": "Prenom",
+                    "placeholder": "Prenom"
+                },
+                "_5": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_6": {
+                    "title": "Numéro de téléphone",
+                    "placeholder": "Numéro de téléphone"
+                },
+                "_7": {
+                    "title": "Mot de passe",
+                    "placeholder": "Mot de passe"
+                },
+                "_8": {
+                    "title": "Plage d'investissement",
+                    "placeholder": "Plage d'investissement"
+                }
+            },
+            "text": {
+                "_1": "{{ plage }} => Investissement dans des projets dont la valeur du financement est comprise entre {{ min }} XAF et {{ max }} XAF",
+                "_2": "Frais d'abonnement annuel: {{ prix }} XAF",
+                "_3": "Les champs avec (*) sont obligatoires",
+                "_4": "J'accepte",
+                "_5": "les Conditions générales d'utilisation ",
+                "_6": "et",
+                "_7": "Politique de confidentialité."
+            },
+            "btn": "Inscription"
+        },
+        "pay": {
+            "title": "Paiement des frais d'abonnement",
+            "form": {
+                "_1": {
+                    "title": "Choisir le moyen de paiement"
+                },
+                "_2": {
+                    "title": "Votre numéro de téléphone",
+                    "placeholder": "Numéro de téléphone"
+                }
+            },
+            "text": {
+                "_1": "Vous avez choisi le profil {{ plage }} qui à une plage d'investissement entre {{ min }} XAF et {{ max }} XAF",
+                "_2": "Pour ce profil d'investissement, vous allez payer {{ prix }} XAF comme frais d'abonnement"
+            },
+            "btn": "Payer"
+        }
+    },
+    "projet": {
+        "title": "LA MEILLEURE AFFAIRE S'OFFRE A VOUS",
+        "sub_title": "NOS SECTEURS D'ACTIVITÉES",
+        "not_found_secteur": "Aucun secteur pour l'instant",
+        "not_found_pays": "Aucun pays pour l'instant",
+        "not_found_ville": "Aucune ville pour l'instant",
+        "not_found_projet": "Aucun projet pour l'instant",
+        "not_found_projet_1": "Projet introuvable",
+        "option": {
+            "title": "Catégories"
+        },
+        "pays": {
+            "title": "Vous pouvez investir dans ces villes"
+        },
+        "form": {
+            "_1": {
+                "title": "Pays",
+                "placeholder": "Pays"
+            },
+            "_2": {
+                "title": "Ville",
+                "placeholder": "Ville"
+            },
+            "_3": {
+                "title": "Niveau d'evolution",
+                "placeholder": "Niveau d'evolution",
+                "value": {
+                    "_1": "Tous",
+                    "_2": "Idée",
+                    "_3": "Prototype",
+                    "_4": "Sur le marché"
+                }
+            }
+        },
+        "details": {
+            "invest": "XAF déjà investi",
+            "investor": "contributions",
+            "more": "En savoir plus",
+            "cat": "Catégorie",
+            "localize": "Localisation",
+            "taux": "Taux de rentabilité",
+            "ca": "Chiffre d'affaires",
+            "duree": "Durée du projet",
+            "dead_line": "Délai de recupération",
+            "desc": "Description",
+            "actu": "Actualités",
+            "warn": {
+                "_1": "Votre plage d'investissement ne vous permet pas de consulter les informations de ce projet.",
+                "_2": "Aller dans votre profil et modifier votre plage d'investissement afin d'être éligible à consulter ce projet",
+                "btn": {
+                    "_1": "Ok, compris !",
+                    "_2": "Modifier ma plage"
+                }
+            },
+            "btn": {
+                "_1": "Je suis interessé"
+            }
+        },
+        "other": {
+            "_1": "mois",
+            "_2": "Non defini",
+            "modal": {
+                "title": "Vous êtes intéressé par ce projet",
+                "message": "Votre message",
+                "btn": "Envoyer le message"
+            }
+        }
     }
 }

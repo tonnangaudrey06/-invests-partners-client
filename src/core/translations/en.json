@@ -15,31 +15,94 @@
         "title": "Our services",
         "_1": {
             "title": "Search for financing",
-            "text": "The search for funding and contributions is an important step in the realization of a project where the collaboration of partners is called for. Their contribution can be financial and take the form of grants, donations or sponsorships. It can also be done through a contribution in goods and services, such as the loan of equipment, the participation of experts, and various analysis services."
+            "text": "The search for funding and contributions is an important step in the realization of a project where the collaboration of partners is called for. Their contribution can be financial and take the form of grants, donations or sponsorships. It can also be done through a contribution in goods and services, such as the loan of equipment, the participation of experts, and various analysis services.",
+            "des": {
+                "_1": "The search for funding and contributions is an important step in the realization of a project where the collaboration of partners is called upon. Their contribution can be financial and take the form of grants, donations or sponsorships. It can also be done through a contribution in goods and services, such as the loan of equipment, the participation of experts, various analysis services.",
+                "_2": "In its approach, I&P considers, in addition to traditional financing (banking, fundraising, requests to financial institutions, etc.), less conventional or alternative financing; like tontines.",
+                "_3": "Tontines have the potential to become one of the main sources of funding for projects. It suffices to redefine certain structural and organizational aspects of this popular concept to adapt it to the business world.",
+                "_4": "Our goal is to enable entrepreneurs from different regions, parts of the continent and the world to be able to self-finance their projects by supporting each other."
+            }
         },
         "_2": {
             "title": "Investment and implementation assistance",
-            "text": "Cameroon is a country with enormous investment opportunities. I&P accompanies companies, especially VSEs and SMEs, which are generally disadvantaged in the search for investment opportunities."
-        } ,
+            "text": "Cameroon is a country with enormous investment opportunities. I&P accompanies companies, especially VSEs and SMEs, which are generally disadvantaged in the search for investment opportunities.",
+            "des": {
+                "_1": "Cameroon is a country offering enormous investment opportunities. I&P supports companies, in particular very small businesses and SMEs, which are generally disadvantaged in the search for investment opportunities.",
+                "_2": "I&P supports the investor in one or more phases of his establishment process: evaluation or identification of the project idea, choice of the location of the establishment site, preparation of the business plan, constitution of the company, establishment and launch of the activity, extension and development of the company etc ... ",
+                "_3": "Taking into account the many uncertainties of our economic and socio-political environment likely to impact success, I&P strives to minimize the effects through a methodology that allows to quantify the foreseeable activity, to measure the necessary resources and finally bring together the means to be implemented. ",
+                "_4": "Also, having a perfect knowledge of the realities of the business environment in Cameroon, we deploy the necessary resources to identify and define the needs of companies in order to promptly provide effective solutions oriented \"efficiency and value added \"."
+            }
+        },
         "_3": {
             "title": "Investment strategy",
-            "text": "This service is mainly aimed at company managers where I&P assists them in the development of their business model, with the objective of capitalizing on the company's advantages in order to identify areas for growth and competitiveness."
+            "text": "This service is mainly aimed at company managers where I&P assists them in the development of their business model, with the objective of capitalizing on the company's advantages in order to identify areas for growth and competitiveness.",
+            "des": {
+                "_1": "This service is mainly intended for business leaders where I&P supports them in the development of their business model, with the objective of capitalizing on the advantages of the company to identify areas of growth and competitiveness. client, among others. ",
+                "_2": "Beyond this advisory function, we also deploy an operational component through the performance of audits and benchmarks, market analysis, ownership of the internal and external environment, identification of issues and the implementation of scenarios that will respond to them. "
+            }
         },
         "_4": {
             "title": "Heritage engineering",
-            "text": "I&P offers this service to individuals and companies to help them make informed decisions regarding all the important choices related to an investment project or a life project."
+            "text": "I&P offers this service to individuals and companies to help them make informed decisions regarding all the important choices related to an investment project or a life project.",
+            "des": {
+                "_1": "I&P offers this service to individuals and companies to facilitate them in making informed decisions. Regarding all the important choices related to an investment project or a life project. We thus provide balance sheets precise and detailed financial situation, propose adjustments according to the changing needs of the customer. ",
+                "_2": "To this end, we first carry out a patrimonial diagnosis essential to define the expectations, needs, constraints and brakes of the commissioning entity. This diagnosis makes it possible to prioritize and define with him the most suitable strategy to an optimal management of its assets.",
+                "_3": "We also intervene in the fields of:",
+                "list": {
+                    "_1": "Financial management (savings, capital);",
+                    "_2": "Property management: purchase, sale, rental;",
+                    "_3": "Support during the buyout or sale of a business;",
+                    "_4": "Legal support: preparation of the marriage contract, divorce;",
+                    "_5": "Tax advice."
+                }
+            }
         },
         "_5": {
             "title": "Linking up",
-            "text": "Through its platform, I&P offers a real flow zone between the offer of project holders and the demand of potential investors"
+            "text": "Through its platform, I&P offers a real flow zone between the offer of project holders and the demand of potential investors",
+            "des": {
+                "_1": "Through its platform, I&P offers a real zone of flow between the supply of project promoters and the demand of potential investors.",
+                "_2": "The objective here is to connect companies with companies, companies with individuals or individuals with individuals so that they can find and / or make profitable the product or the service which they need . ",
+                "_3": "This dematerialization of supply and demand will encourage the meeting between natural and legal persons who had, until then, nothing in common.",
+                "_4": "The principle is simple: when you have an offer to propose, you publish it on the I&P platform so that it is visible to your potential future business partners; and if you are looking for of an offer, you have the possibility of consulting those present and comparing them with each other in order to make the choice that best meets your expectations. "
+            }
         },
         "_6": {
             "title": "Project management and follow-up",
-            "text": "Our mission is to enable project leaders, civil society organizations, public and private institutions to have access to our expertise at any time."
+            "text": "Our mission is to enable project leaders, civil society organizations, public and private institutions to have access to our expertise at any time.",
+            "des": {
+                "_1": "Our mission is to enable project leaders, civil society organizations, public and private institutions (town halls, bilateral and multilateral donors, international projects based in Africa, non-governmental organizations) to be able to use at any time to our expertise. ",
+                "_2": "To do this, we provide support within the non-exhaustive framework of:",
+                "list": {
+                    "_1": "The design, and implementation, monitoring-evaluation and financial analysis of projects;",
+                    "_2": "Economic development;",
+                    "_3": "capacity building;",
+                    "_4": "The preparation of the action and development plan;",
+                    "_5": "The negotiation of partnerships;",
+                    "_6": "Strategy and organization consulting;",
+                    "_7": "Project coordination;",
+                    "_8": "Assistance to the project owner."
+                }
+            }
         },
         "_7": {
             "title": "Investment Consulting",
-            "text": "You want to invest capital in a financial, real estate or business project? I&P is the right advisor for you."
+            "text": "You want to invest capital in a financial, real estate or business project? I&P is the right advisor for you.",
+            "des": {
+                "title": "Do you want to invest capital in a financial, real estate or business project? I&P is the advisor you need:",
+                "_1": {
+                    "title": "Financial investment advice",
+                    "text": "Our challenge here is to recommend the financial investment best suited to your projects and objectives. Thus, we select for you the funds making the best profits."
+                },
+                "_2": {
+                    "title": "Real estate investment advice",
+                    "text": "Thanks to a strong network of real estate developers, our offer is perfectly suited to your expectations, thus ensuring a minimum of profitability."
+                },
+                "_3": {
+                    "title": "Investment advice in business projects",
+                    "text": "Our role is to advocate for investment in high potential business projects that are better suited and therefore more profitable."
+                }
+            }
         }
     },
     "expert": {
@@ -76,6 +139,44 @@
         "organise": "Organize by",
         "places": {
             "restant": "Remaining seats"
+        },
+        "form": {
+            "title": "Participation in the event",
+            "text": {
+                "_1": "You want to participate in the event",
+                "_2": "Participation in this event will cost",
+                "_3": "Participation in this event is free"
+            },
+            "sub_title_1": "Personal informations",
+            "input": {
+                "_1": {
+                    "title": "Full name",
+                    "placeholder": "Last name & first Name"
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": ""
+                },
+                "_3": {
+                    "title": "Phone",
+                    "placeholder": "Phone"
+                },
+                "_4": {
+                    "title": "Number of places",
+                    "placeholder": "Places"
+                }
+            },
+            "sub_title_2": "Choose the payment method",
+            "pay": {
+                "_1": {
+                    "title": "Your phone number",
+                    "placeholder": "Phone number"
+                }
+            },
+            "btn": {
+                "_1": "Pay",
+                "_2": "Participate"
+            }
         }
     },
     "header": {
@@ -90,12 +191,256 @@
         "contact": "Contacts"
     },
     "footer": {
-
+        "_1": "Navigations",
+        "_2": {
+            "title": "Resources",
+            "nav": {
+                "_1": "Terms of Service",
+                "_2": "Privacy Policy"
+            }
+        },
+        "_3": {
+            "title": "Subscribe",
+            "input": {
+                "placeholder": "Enter e-mail address",
+                "btn": "Subscribe"
+            },
+            "help": "Receive investment and partner updates delivered to your email inbox."
+        },
+        "copyright": "Copyright 2021 All rights reserved to Invest & Partners"
     },
     "not_found": {
         "event": "No event for the moment"
     },
     "date": {
         "time_format": "From {{start}} to {{end}}"
+    },
+    "banner": {
+        "title": "Your best business partner",
+        "sub_title": "Choosing to work with Invest & Partners means opting for effective and efficient collaboration, because:",
+        "des_1": {
+            "_1": "We have access through our various partners to a regularly updated database of potential project leaders as well as the realities and opportunities available in Cameroon, Rwanda and Cote d'Ivoire;",
+            "_2": "Presence in the 10 regions through its network and its partnerships with professional organizations, SMEs, etc."
+        },
+        "des_2": {
+            "_1": "In an increasingly urgent concern for the dematerialization of services, we have a Web platform and a mobile application (Apple and PlayStore) to facilitate real-time exchanges between investors, project leaders, partners and consultants of I&P;",
+            "_2": "Finally, we guarantee you 360 ° support for the realization of your various projects."
+        }
+    },
+    "bio": "Biography",
+    "contact_us": {
+        "title": "Contact us",
+        "form": {
+            "title": "Send us an email",
+            "input": {
+                "_1": {
+                    "title": "Full name",
+                    "placeholder": "Last name & first name"
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_3": {
+                    "title": "Object",
+                    "placeholder": "Object"
+                },
+                "_4": {
+                    "title": "Message",
+                    "placeholder": "Message"
+                }
+            },
+            "btn": "Send"
+        }
+    },
+    "auth": {
+        "des": {
+            "title": "Your best partner",
+            "text": "INVEST & PARTNERS, the assurance of a profitable investment",
+            "btn": "Go to home"
+        },
+        "connexion": {
+            "title": "Connection",
+            "form": {
+                "_1": {
+                    "title": "Who are you?",
+                    "value": {
+                        "_1": "A project leader",
+                        "_2": "An investor"
+                    }
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_3": {
+                    "title": "Password",
+                    "placeholder": "Password"
+                },
+                "_4": {
+                    "remenber": "Password",
+                    "placeholder": "Password"
+                }
+            },
+            "text": "Forgot your password?",
+            "remenber": "Remember me",
+            "btn": "Connection"
+        },
+        "forgot_password": {
+            "text": "I remember my password",
+            "form": {
+                "_1": {
+                    "title": "Who are you?",
+                    "value": {
+                        "_1": "A project leader",
+                        "_2": "An investor"
+                    }
+                },
+                "_2": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                }
+            },
+            "btn": "Recover my password"
+        },
+        "inscription": {
+            "title": "Registration",
+            "form": {
+                "_1": {
+                    "title": "Who are you?",
+                    "value": {
+                        "_1": "A project leader",
+                        "_2": "An investor"
+                    }
+                },
+                "_2": {
+                    "title": "What is your legal personality?",
+                    "value": {
+                        "_1": "Natural person (Individual)",
+                        "_2": "Legal person (Company)"
+                    }
+                },
+                "_3": {
+                    "title_1": "Name",
+                    "title_2": "Name of entity",
+                    "placeholder": "Name"
+                },
+                "_4": {
+                    "title": "First name",
+                    "placeholder": "First name"
+                },
+                "_5": {
+                    "title": "Email",
+                    "placeholder": "Email"
+                },
+                "_6": {
+                    "title": "Phone number",
+                    "placeholder": "Phone number"
+                },
+                "_7": {
+                    "title": "Password",
+                    "placeholder": "Password"
+                },
+                "_8": {
+                    "title": "Investment range",
+                    "placeholder": "Investment range"
+                }
+            },
+            "text": {
+                "_1": "{{ plage }} => Investment in projects whose financing value is between {{ min }} XAF and {{ max }} XAF",
+                "_2": "Annual subscription fee: {{ prix }} XAF",
+                "_3": "Fields with (*) are mandatory",
+                "_4": "I accept",
+                "_5": "the General Conditions of Use",
+                "_6": "and",
+                "_7": "Privacy Policy."
+            },
+            "btn": "Registration"
+        },
+        "pay": {
+            "title": "Payment of subscription fees",
+            "form": {
+                "_1": {
+                    "title": "Choose the payment method"
+                },
+                "_2": {
+                    "title": "Your phone number",
+                    "placeholder": "Phone number"
+                }
+            },
+            "text": {
+                "_1": "You have chosen the {{ plage }} profile which has an investment range between {{min}} XAF and {{max}} XAF",
+                "_2": "For this investment profile, you will pay {{ prix }} XAF as a subscription fee"
+            },
+            "btn": "Pay"
+        }
+    },
+    "projet": {
+        "title": "THE BEST DEAL IS AVAILABLE TO YOU",
+        "sub_title": "OUR SECTORS OF ACTIVITY",
+        "not_found_secteur": "No sector for the moment",
+        "not_found_pays": "No country for the moment",
+        "not_found_ville": "No city for the moment",
+        "not_found_projet": "No project for the moment",
+        "not_found_projet_1": "Project not found",
+        "option": {
+            "title": "Categories"
+        },
+        "pays": {
+            "title": "You can invest in these cities"
+        },
+        "form": {
+            "_1": {
+                "title": "Country",
+                "placeholder": "Country"
+            },
+            "_2": {
+                "title": "City",
+                "placeholder": "City"
+            },
+            "_3": {
+                "title": "Evolution level",
+                "placeholder": "Evolution level",
+                "value": {
+                    "_1": "All",
+                    "_2": "Idea",
+                    "_3": "Prototype",
+                    "_4": "In the market"
+                }
+            }
+        },
+        "details": {
+            "invest": "XAF already invested",
+            "investor": "contributions",
+            "more": "Find out more",
+            "cat": "Category",
+            "localize": "Location",
+            "taux": "Rate of return",
+            "ca": "Turnover",
+            "duree": "Duration of the project",
+            "dead_line": "Recovery time",
+            "desc": "Description",
+            "actu": "News",
+            "warn": {
+                "_1": "Your investment range does not allow you to view the information for this project.",
+                "_2": "Go to your profile and modify your investment range in order to be eligible to view this project",
+                "btn": {
+                    "_1": "Ok, get it!",
+                    "_2": "Modify my range"
+                }
+            },
+            "btn": {
+                "_1": "I am interested"
+            }
+        },
+        "other": {
+            "_1": "month",
+            "_2": "Not defined",
+            "modal": {
+                "title": "You are interested in this project",
+                "message": "Your message",
+                "btn": "Send message"
+            }
+        }
     }
 }

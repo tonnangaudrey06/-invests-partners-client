@@ -12,9 +12,11 @@ import { SecteurService } from '../../../core/services';
 
 import countryImg from '../../../assets/img/country.jpg';
 
+import { withNamespaces } from "react-i18next";
+
 const ProjetSecteur = (props) => {
 
-    const { match } = props;
+    const { match, t } = props;
     const { params: { section } } = match;
 
     const [secteur, setSecteur] = React.useState(null);
@@ -52,7 +54,7 @@ const ProjetSecteur = (props) => {
                                     {loading && (<CircularProgress />)}
                                     {!loading && (
                                         <h5 className="fw-bolder text-muted">
-                                            Aucun pays trouvé
+                                            {t('projet.not_found_pays')}
                                         </h5>
                                     )}
                                 </div>
@@ -74,14 +76,14 @@ const ProjetSecteur = (props) => {
                         <div className="p-3 pt-0">
                             <h2 className="text-uppercase fw-bold" style={{ fontSize: '3em', marginTop: 0, fontFamily: 'Building' }} >{country?.libelle}</h2>
                             {/* <p className="lh-base">{country?.libelle}</p> */}
-                            <h4 className="fw-bolder mt-2">Vous pouvez investir dans ces villes</h4>
+                            <h4 className="fw-bolder mt-2">{t('projet.pays.title')}</h4>
                             <div className="mt-1 d-flex justify-content-start align-items-center flex-wrap">
                                 {(country?.viles || []).length <= 0 && (
                                     <div className="py-3 d-flex justify-content-center align-items-center w-100">
                                         {loading && (<CircularProgress />)}
                                         {!loading && (
                                             <h5 className="fw-bolder text-muted">
-                                                Aucune ville trouvé
+                                                {t('projet.not_found_ville')}
                                             </h5>
                                         )}
                                     </div>
@@ -102,4 +104,4 @@ const ProjetSecteur = (props) => {
     );
 }
 
-export default ProjetSecteur;
+export default withNamespaces()(ProjetSecteur);

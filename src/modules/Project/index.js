@@ -16,9 +16,13 @@ import { SecteurService } from '../../core/services';
 
 import { setSecteur } from '../../core/reducers/app/actions';
 
+import { withNamespaces } from "react-i18next";
+
 const Projet = (props) => {
 
   const history = useHistory();
+
+  const { t } = props;
 
   const [secteurs, setSecteurs] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -42,10 +46,10 @@ const Projet = (props) => {
       <div className="projects-top" style={{ backgroundImage: `url(${backgroundTop})` }}>
         <div className="search-bar-container-home">
           <div className="container">
-            <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>LA MEILLEURE AFFAIRE S'OFFRE A VOUS</h1>
+            <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>{t('projet.title')}</h1>
             <div className="search-bar">
               <select className="projects-input-button" type="button" value="OK">
-                <option>Catégories</option>
+                <option>{t('projet.option.title')}</option>
               </select>
               <input placeholder="Rechercher" className="projects-text-input" type="text" />
             </div>
@@ -53,14 +57,14 @@ const Projet = (props) => {
         </div>
       </div>
       <section className="container mb-5">
-        <SectionTitle title="NOS SECTEURS D'ACTIVITÉES" />
+        <SectionTitle title={t('projet.sub_title')} />
         <div className="secteur-listing row g-3 d-flex justify-content-center mt-3">
           {(secteurs || []).length <= 0 && (
             <div className="col-12 py-5 d-flex justify-content-center align-items-center">
               {loading && (<CircularProgress />)}
               {!loading && (
                 <h5 className="fw-bolder text-muted">
-                  Aucun secteur trouvé
+                  {t('projet.not_found_secteur')}
                 </h5>
               )}
             </div>
@@ -86,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({ app: state.app })
 
-export default Redux.connect(mapStateToProps, mapDispatchToProps)(Projet);
+export default withNamespaces()(Redux.connect(mapStateToProps, mapDispatchToProps)(Projet));

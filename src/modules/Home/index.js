@@ -32,7 +32,6 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-// import imag22 from "../../assets/img/imag22.png";
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -47,6 +46,8 @@ import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import { AppService, EventService, CampayService } from '../../core/services';
 
 import { withNamespaces } from "react-i18next";
+
+import { connect } from "react-redux";
 
 const CustomSlide = ({ projet, ...props }) => {
 
@@ -90,14 +91,13 @@ const CustomSlide = ({ projet, ...props }) => {
   );
 }
 
-
 const BannerSlider = React.lazy(() => import('../../components/Slider'));
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const HomeScreen = ({ history, t }) => {
+const HomeScreen = ({ history, t, language }) => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
@@ -110,6 +110,8 @@ const HomeScreen = ({ history, t }) => {
   const [events, setEvents] = React.useState([])
 
   const [chiffre, setChiffres] = React.useState([])
+
+  const [lang, setLang] = React.useState(language)
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
@@ -278,17 +280,6 @@ const HomeScreen = ({ history, t }) => {
     )
   }
 
-  // var settings = {
-  //   className: "center",
-  //   centerMode: true,
-  //   infinite: true,
-  //   centerPadding: "100px",
-  //   slidesToShow: 2,
-  //   slidesToScroll: 1,
-  //   speed: 500,
-  //   arrows: false,
-  // };
-
   const settings = {
     dots: true,
     infinite: true,
@@ -384,6 +375,10 @@ const HomeScreen = ({ history, t }) => {
     fetchChiffre();
   }, [])
 
+  React.useEffect(() => {
+    setLang(language);
+  }, [language])
+
   const next = () => {
     slider.slickNext();
   }
@@ -395,7 +390,7 @@ const HomeScreen = ({ history, t }) => {
   return (
     <div>
       <div style={{ maxHeight: "100vh" }}>
-        <BannerSlider slides={sliders} translate={t} />
+        <BannerSlider slides={sliders} translate={t} lang={lang} />
       </div>
 
       <Container header footer>
@@ -420,19 +415,19 @@ const HomeScreen = ({ history, t }) => {
           <div className="seperator"></div>
           <div className="banner-wrapper">
             <div className="banner-content">
-              <h5 className="text-white">Votre meilleur partenaire d'affaire</h5>
-              <p className="text-white text-justify" style={{ margin: '1.2vw 0' }}>Faire le choix de cheminer avec Invest & Partners, c’est opter pour une collaboration efficace et efficiente, parce que :</p>
+              <h5 className="text-white">{t('banner.title')}</h5>
+              <p className="text-white text-justify" style={{ margin: '1.2vw 0' }}>{t('banner.sub_title')}</p>
               {navigateBanner &&
                 <ul className="list-unstyled lh-base">
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Nous avons accès par le canal de nos différents partenaires, à une base de données, régulièrement actualisée, des potentiels porteurs de projet ainsi que les réalités et opportunités disponibles au Cameroun, au Rwanda et en Cote d’Ivoire ;</li>
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Présence dans les 10 régions à travers son réseau et ses partenariats avec des organisations professionnelles, des PME, etc.</li>
+                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._1')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._2')}</li>
                 </ul>
               }
               {!navigateBanner &&
 
                 <ul className="list-unstyled lh-base">
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Dans un souci de plus en plus urgent de dématérialisation des services, nous disposons  d’une plateforme Web et d’une application mobile (Apple et PlayStore)  pour faciliter les échanges en temps réel  entre investisseurs, porteurs de projet, partenaires et consultants d’I&P;</li>
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />Nous vous garantissions enfin un accompagnement à 360° pour la réalisation de vos différents projets.</li>
+                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._1')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._2')}</li>
                 </ul>
               }
             </div>
@@ -453,7 +448,7 @@ const HomeScreen = ({ history, t }) => {
                     <img className="expert-image" alt="Expert I&P" src={item.image} />
                   </div>
                   <div className="expert-name">{item.name}</div>
-                  <div className="expert-bibio fw-bolder"><p>{item.role}</p></div>
+                  <div className="expert-bibio fw-bolder"><p>{lang.includes('fr') ? item.role : item.role_en}</p></div>
                   <div className="expert-button">
                     <Popup
                       trigger={<RiEyeFill className="expert-button-view" fill="#c5473b" size={30} />}
@@ -471,9 +466,9 @@ const HomeScreen = ({ history, t }) => {
                             <img className="modal-experts-image" alt="Expert I&P" src={item.image} />
                             <div className="modal-experts-present">
                               <p className="name">{item.name}</p>
-                              <div className="poste" style={{ marginBottom: 20 }}>{item.role}</div>
-                              <div className="bibio">Biographie</div>
-                              <p className="lh-base text-justify">{item.bio}</p>
+                              <div className="poste" style={{ marginBottom: 20 }}>{lang.includes('fr') ? item.role : item.role_en}</div>
+                              <div className="bibio">{t('bio')}</div>
+                              <p className="lh-base text-justify">{lang.includes('fr') ? item.bio : item.bio_en}</p>
                               <p className="modal-experts-contact">
                                 <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
                                 {item.tel}
@@ -615,17 +610,17 @@ const HomeScreen = ({ history, t }) => {
           centered
         >
           <Modal.Header closeButton={!paiement.pending}>
-            <Modal.Title>Participation à l'évenement</Modal.Title>
+            <Modal.Title>{t('event.form.title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p className="mb-1 lh-base text-center">Vous voulez participer à l'évenement <strong>{event?.libelle}</strong></p>
+            <p className="mb-1 lh-base text-center">{t('event.form.text._1')} <strong>{event?.libelle}</strong></p>
             {event?.prix ? (
-              <p className="mb-1 text-muted text-center">La participation à cette évenement coûtera <strong>{moneyFormat(event?.prix * participation?.places)} XAF</strong></p>
+              <p className="mb-1 text-muted text-center">{t('event.form.text._2')} <strong>{moneyFormat(event?.prix * participation?.places)} XAF</strong></p>
             ) : (
-              <p className="mb-1 text-muted text-center">La participation à cette évenement est gratuit</p>
+              <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
             )}
             <hr />
-            <h5 className="fw-bolder my-1">Informations personnelles</h5>
+            <h5 className="fw-bolder my-1">{t('event.form.sub_title_1')}</h5>
             <Grid>
               <Grid item xs={12} md={12}>
                 <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
@@ -635,8 +630,8 @@ const HomeScreen = ({ history, t }) => {
                     size="small"
                     type="text"
                     variant="filled"
-                    label="Nom complet"
-                    placeholder="Nom & prenom"
+                    label={t('event.form.input._1.title')}
+                    placeholder={t('event.form.input._1.placeholder')}
                     value={participation.nom_complet}
                     onChange={(e) => onChangeForm('nom_complet', e.target.value)}
                   />
@@ -650,7 +645,7 @@ const HomeScreen = ({ history, t }) => {
                     size="small"
                     type="email"
                     variant="filled"
-                    label="Email"
+                    label={t('event.form.input._2.title')}
                     placeholder="example@domaine.com"
                     value={participation.email}
                     onChange={(e) => onChangeForm('email', e.target.value)}
@@ -664,8 +659,8 @@ const HomeScreen = ({ history, t }) => {
                     size="small"
                     required
                     variant="filled"
-                    label="Téléphone"
-                    placeholder="Téléphone"
+                    label={t('event.form.input._3.title')}
+                    placeholder={t('event.form.input._3.placeholder')}
                     type="tel"
                     value={participation.telephone}
                     onChange={(e) => onChangeForm('telephone', e.target.value)}
@@ -679,8 +674,8 @@ const HomeScreen = ({ history, t }) => {
                     size="small"
                     required
                     variant="filled"
-                    label="Nombre places"
-                    placeholder="Places"
+                    label={t('event.form.input._4.title')}
+                    placeholder={t('event.form.input._4.placeholder')}
                     type="number"
                     InputProps={{ inputProps: { min: 0, max: event?.places - event?.total_reserve } }}
                     value={participation.places || ''}
@@ -694,7 +689,7 @@ const HomeScreen = ({ history, t }) => {
               {event?.prix && (
                 <Grid item xs={12} md={12}>
                   <FormControl component="fieldset" sx={{ my: .5, width: "100%" }} className="d-flex flex-column align-items-center">
-                    <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
+                    <h6 className="fw-bolder">{t('event.form.sub_title_2')}</h6>
                     <RadioGroup
                       row
                       value={methodPaiement || 'OM'}
@@ -706,10 +701,10 @@ const HomeScreen = ({ history, t }) => {
                     </RadioGroup>
                   </FormControl>
                   <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                    <h6 className="fw-bolder mt-2 text-center">Votre numéro de téléphone</h6>
+                    <h6 className="fw-bolder mt-2 text-center">{t('event.form.pay._1.title')}</h6>
                     <PhoneInput
                       defaultCountry={loc.country}
-                      placeholder="Numéro de téléphone"
+                      placeholder={t('event.form.pay._1.placeholder')}
                       value={numero || ''}
                       onChange={setNumero}
                     />
@@ -733,7 +728,7 @@ const HomeScreen = ({ history, t }) => {
                       onClick={payer}
                       variant="contained"
                     >
-                      Payer
+                      {t('event.form.btn._1')}
                     </LoadingButton>
                   ) : (
                     <LoadingButton
@@ -741,7 +736,7 @@ const HomeScreen = ({ history, t }) => {
                       onClick={checkSeat}
                       variant="contained"
                     >
-                      Participer
+                      {t('event.form.btn._2')}
                     </LoadingButton>
                   )}
                 </div>
@@ -750,6 +745,7 @@ const HomeScreen = ({ history, t }) => {
             {/*  */}
           </Modal.Body>
         </Modal>
+        
         <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
           <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
             {etat.message}
@@ -765,4 +761,6 @@ const HomeScreen = ({ history, t }) => {
   );
 }
 
-export default withNamespaces()(HomeScreen);
+const mapStateToProps = (state) => ({ language: state.app.language })
+
+export default withNamespaces()(connect(mapStateToProps)(HomeScreen));

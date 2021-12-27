@@ -8,7 +8,7 @@ import { moneyFormat } from '../../../../core/utils/helpers';
 
 const EnteteProjet = (props) => {
 
-    const { projet } = props
+    const { projet, t } = props
 
     const [nbLike] = useState("4");
 
@@ -23,9 +23,9 @@ const EnteteProjet = (props) => {
                 <div className="titre"> <h3>{projet?.intitule}</h3></div>
                 {/* <div className="desc"> <h4>{description}</h4></div> */}
                 <div className="info">
-                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_total)} XAF déjà investi</h5></span>
-                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_count)} Contributions</h5></span>
-                    <span className="donnee"> <h5><AiFillLike className="me-1" /> {nbLike}</h5></span>
+                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_total)} {t('projet.details.invest')}</h5></span>
+                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_count)}  {t('projet.details.investor')}</h5></span>
+                    {/* <span className="donnee"> <h5><AiFillLike className="me-1" /> {nbLike}</h5></span> */}
                 </div>
             </div>
             <div className="line"></div>

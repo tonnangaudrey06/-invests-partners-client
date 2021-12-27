@@ -153,6 +153,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { translate: t } = this.props;
     return (
       <form className="login-form px-0 px-md-5" onSubmit={this.handleLogin}>
         <div className="d-lg-none d-flex justify-content-xl-center align-items-center">
@@ -163,15 +164,15 @@ class Login extends React.Component {
             <Grid item xs={12} md={12}>
               <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                 <div className="d-flex flex-column align-items-center">
-                  <h6 className="fw-bolder">Qui êtes-vous ?</h6>
+                  <h6 className="fw-bolder">{t('auth.connexion.form._1.title')}</h6>
                   <RadioGroup
                    className="d-flex justify-content-center flex-column flex-lg-row align-items-center"
                     row
                     value={this.state.role || 3}
                     onChange={(e, value) => this.setState({ role: value })}
                   >
-                    <FormControlLabel value={3} control={<Radio />} label="Un porteur de projet" />
-                    <FormControlLabel value={4} control={<Radio />} label="Un investisseur" />
+                    <FormControlLabel value={3} control={<Radio />} label={t('auth.connexion.form._1.value._1')} />
+                    <FormControlLabel value={4} control={<Radio />} label={t('auth.connexion.form._1.value._2')} />
                   </RadioGroup>
                 </div>
               </FormControl>
@@ -185,7 +186,7 @@ class Login extends React.Component {
                   error={this.state.error}
                   type="email"
                   variant="filled"
-                  label="Email"
+                  label={t('auth.connexion.form._2.title')}
                   placeholder="example@domaine.com"
                   value={this.state.email}
                   onChange={this.onChangeUsername}
@@ -206,7 +207,7 @@ class Login extends React.Component {
                   error={this.state.error}
                   required
                   variant="filled"
-                  label="Mot de passe"
+                  label={t('auth.connexion.form._3.title')}
                   placeholder="*******"
                   type={this.state.showPassword ? 'text' : 'password'}
                   value={this.state.password}
@@ -234,9 +235,9 @@ class Login extends React.Component {
           </Grid>
           <div className="form-end d-flex justify-content-center justify-content-lg-between flex-column flex-lg-row w-100">
             <div className="d-flex justify-content-start align-items-center">
-              <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label="Se souvenir de moi" />
+              <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label={t('auth.connexion.remenber')} />
             </div>
-            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("forgot")}>Mot de Passe oublié ?</div>
+            <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("forgot")}>{t('auth.connexion.text')}</div>
           </div>
           <LoadingButton
             className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
@@ -245,7 +246,7 @@ class Login extends React.Component {
             type={'submit'}
             variant="contained"
           >
-            Connexion
+            {t('auth.connexion.btn')}
           </LoadingButton>
         </div>
 
