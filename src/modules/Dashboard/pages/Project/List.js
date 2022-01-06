@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 
+import { withNamespaces } from "react-i18next";
+
 import { TablePaginationActions, CustomTableHead } from '../../../../components';
 
 import { UserService } from '../../../../core/services';
@@ -263,4 +265,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjetList);
+export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ProjetList));

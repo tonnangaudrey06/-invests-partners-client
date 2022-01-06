@@ -187,7 +187,7 @@
         "logout": "Logout",
         "board": "Dashboard",
         "signup": "Create my account",
-        "signin": "Signin",
+        "signin": "Sign in",
         "contact": "Contacts"
     },
     "footer": {
@@ -230,6 +230,7 @@
     "bio": "Biography",
     "contact_us": {
         "title": "Contact us",
+        "text": "P.O Box:",
         "form": {
             "title": "Send us an email",
             "input": {
@@ -242,7 +243,7 @@
                     "placeholder": "Email"
                 },
                 "_3": {
-                    "title": "Object",
+                    "title": "Subject",
                     "placeholder": "Object"
                 },
                 "_4": {
@@ -263,7 +264,7 @@
             "title": "Connection",
             "form": {
                 "_1": {
-                    "title": "Who are you?",
+                    "title": "Select your profile",
                     "value": {
                         "_1": "A project leader",
                         "_2": "An investor"
@@ -290,7 +291,7 @@
             "text": "I remember my password",
             "form": {
                 "_1": {
-                    "title": "Who are you?",
+                    "title": "Select your profile",
                     "value": {
                         "_1": "A project leader",
                         "_2": "An investor"
@@ -307,7 +308,7 @@
             "title": "Registration",
             "form": {
                 "_1": {
-                    "title": "Who are you?",
+                    "title": "Select your profile",
                     "value": {
                         "_1": "A project leader",
                         "_2": "An investor"
