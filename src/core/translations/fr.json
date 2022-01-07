@@ -231,6 +231,7 @@
     "bio": "Biographie",
     "contact_us": {
         "title": "Contactez nous",
+        "text": "BP:",
         "form": {
             "title": "Envoyez-nous un mail",
             "input": {
