@@ -9,7 +9,8 @@
         "look_finance": "Chercher un financement",
         "savoir": "Savoir plus",
         "participer": "Participer",
-        "complet": "Complet"
+        "complet": "Complet",
+        "back": "Retour"
     },
     "service": {
         "title": "Nos services",
@@ -436,6 +437,167 @@
                 "title": "Vous êtes intéressé par ce projet",
                 "message": "Votre message",
                 "btn": "Envoyer le message"
+            }
+        }
+    },
+    "dashboard": {
+        "nav": {
+            "_1": "Accueil",
+            "_2": "Mes projets",
+            "_3": "Messages",
+            "_4": "Profil"
+        },
+        "projet": {
+            "title": "Liste de vos projets",
+            "click_title": "Cliquez pour voir plus de détails",
+            "btn": {
+                "_1": "Actualiser",
+                "_2": "Nouveau projet"
+            },
+            "table": {
+                "_1": "Projet",
+                "_2": "Secteur d'activité",
+                "_3": "État",
+                "_4": "Besoin en financement",
+                "_5": "Investissement en cours",
+                "_6": "Écart"
+            },
+            "state": {
+                "_1": "publié"
+            },
+            "details": {
+                "nav": {
+                    "_1": "Informations sur le projet",
+                    "_2": "Analyses effectuées",
+                    "_3": "Actualités",
+                    "_4": "Investissements"
+                },
+                "tab_1": {
+                    "_1": "Logo",
+                    "_2": "Projet",
+                    "_3": "Secteur d'activite",
+                    "_4": "Niveau d'avancement",
+                    "_5": "Besoin d'un financement de",
+                    "_6": "Site web",
+                    "_7": "Pays d'activite",
+                    "_8": "Ville d'activite",
+                    "_9": "Description du projet",
+                    "_10": "Membres de votre equipe",
+                    "_11": "Document de presentation",
+                    "_12": "Medias"
+                },
+                "tab_2": {
+                    "_1": "Etat du projet",
+                    "_2": "Chiffre d'affaires previsionnel",
+                    "_3": "Duree du projet",
+                    "_4": "Retour sur investissement",
+                    "_5": "Taux de rentabilite",
+                    "_6": "Conseiller en investissement"
+                },
+                "tab_3": {
+                    "_1": "Montant cible",
+                    "_2": "Montant investi",
+                    "_3": "Nombre d'investisseurs",
+                    "details": {
+                        "_1": "investisseurs"
+                    }
+                }
+            },
+            "new_project": {
+                "head": {
+                    "_1": "Porteur de projet",
+                    "_2": "Projet",
+                    "_3": "Équipe",
+                    "_4": "Resumé"
+                },
+                "tab_1": {
+                    "title": "Informations personnelles",
+                    "sub_title": "Vérifier vos informations personnelles avant de procédé à la creation de votre projet.",
+                    "note": "NB: Les chapms avec (*) sont obligatoires",
+                    "_1": "Nom complet",
+                    "_2": "Email",
+                    "_3": "Numéro de téléphone",
+                    "_4": "Pays de résidence",
+                    "_5": "Ville de résidence"
+                },
+                "tab_2": {
+                    "title": "Informations générales du projet",
+                    "sub_title": "Rempliser les champs suivant avant de soumettre votre projet.",
+                    "note": "NB: Les chapms avec (*) sont obligatoires",
+                    "_1": "Nom du projet",
+                    "_2": "Secteur d'activité",
+                    "_3": {
+                        "title": "Quel est le niveau d'évolution du projet ?",
+                        "value": {
+                            "_1": "Tous",
+                            "_2": "Idée",
+                            "_3": "Prototype",
+                            "_4": "Sur le marché"
+                        }
+                    },
+                    "_4": "Besoin d'un financement de",
+                    "_5": "Site web",
+                    "_6": "Pays d'activite",
+                    "_7": "Ville d'activite",
+                    "_8": {
+                        "title": "Brève description du projet",
+                        "sub_title": "Décrivez votre projet en quelques mots"
+                    },
+                    "_9": {
+                        "title": "Logo ",
+                        "sub_title": "Le logo doit être une image de type jpg ou png"
+                    },
+                    "_10": {
+                        "title": "Document de présentation",
+                        "sub_title": "Le document doit être un fichier de type pdf, doc, pptx, mp4 ou mp3"
+                    },
+                    "_11": {
+                        "title": "Autres fichiers",
+                        "sub_title": "Vous pouvez ajouter tous types de fichier."
+                    }
+                },
+                "tab_3": {
+                    "title": "Informations sur votre équipe",
+                    "sub_title": "Cliquez sur l'icon \"+\" pour ajouter un membre de votre équipe.",
+                    "form": {
+                        "title": {
+                            "_1": "Nouveau",
+                            "_2": "Existant"
+                        },
+                        "new": {
+                            "_1": "Nom complet",
+                            "_2": "Email",
+                            "_3": "Téléphone",
+                            "_4": "Role dans le projet",
+                            "btn": {
+                                "text": "Ajouter une photo du membre",
+                                "note": "La photo doit être de type jpg ou png"
+                            }
+                        },
+                        "exist": {
+                            "_1": "Membres",
+                            "_4": "Role dans le projet"
+                        },
+                        "btn": {
+                           "_1": "Fermer",
+                           "_2": "Enregistrer" 
+                        }
+                    }
+                },
+                "tab_4": {
+                    "_1": "Logo",
+                    "_2": "Projet",
+                    "_3": "Secteur d'activite",
+                    "_4": "Niveau d'avancement",
+                    "_5": "Besoin d'un financement de",
+                    "_6": "Site web",
+                    "_7": "Pays d'activite",
+                    "_8": "Ville d'activite",
+                    "_9": "Description du projet",
+                    "_10": "Membres de votre equipe",
+                    "_11": "Document de presentation",
+                    "_12": "Medias"
+                }
             }
         }
     }
