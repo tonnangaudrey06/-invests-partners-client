@@ -119,7 +119,7 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
       role: this.state.role,
-      remember: this.state.remenber
+      remember: this.state.remenber,
     }
 
     authService.login(user).then(

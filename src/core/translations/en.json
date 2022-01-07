@@ -306,6 +306,7 @@
         },
         "inscription": {
             "title": "Registration",
+            "newsletter": "Receive newsletters",
             "form": {
                 "_1": {
                     "title": "Select your profile",

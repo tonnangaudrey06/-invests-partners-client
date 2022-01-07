@@ -25,6 +25,28 @@ class UserService {
         });
     }
 
+    subscribeNewsletter(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.post('api/subscribe/newsletter', {email});
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    changeNewsletter(data) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(source + '/subscribe/newsletter', data);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     getAllUserProjets(user) {
         return new Promise(async (resolve, reject) => {
             try {

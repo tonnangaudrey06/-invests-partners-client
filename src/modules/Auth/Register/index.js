@@ -73,7 +73,8 @@ const Register = (props) => {
         email: '',
         telephone: '',
         profil: '',
-        password: ''
+        password: '',
+        newsletter: true
     })
 
     const [message, setMessage] = React.useState('')
@@ -501,6 +502,10 @@ const Register = (props) => {
             <div className="form-end-register">
                 <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label="" />
                 <label>{t('auth.inscription.text._4')} <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._5')}</a> {t('auth.inscription.text._6')} <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._7')}</a>.</label>
+            </div>
+            <div className="form-end-register" style={{ marginBottom: "1.5em" }}>
+                <FormControlLabel control={<Checkbox checked={state.newsletter} value={state.newsletter} onChange={() => setState({ ...state, newsletter: !state.newsletter })} />} label="" />
+                <label>{t('auth.inscription.newsletter')}</label>
             </div>
 
             <LoadingButton

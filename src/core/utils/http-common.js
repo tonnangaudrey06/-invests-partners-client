@@ -6,7 +6,7 @@ import { logout } from '../reducers/auth/actions'
 import store from '../reducers'
 
 const instance = axios.create({
-    baseURL: config.URL,
+    baseURL: config.HOSTURL,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json'

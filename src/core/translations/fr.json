@@ -303,6 +303,7 @@
         },
         "inscription": {
             "title": "Inscription",
+            "newsletter": "Recevoir les newsletters",
             "form": {
                 "_1": {
                     "title": "Qui êtes-vous ?",

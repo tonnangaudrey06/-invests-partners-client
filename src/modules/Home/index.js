@@ -36,9 +36,8 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 import { GrMail } from 'react-icons/gr';
-import { TiCalendar } from 'react-icons/ti';
 import { AiOutlineHeart } from 'react-icons/ai';
-import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaCheck, FaClock, FaCalendarCheck } from 'react-icons/fa';
 import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
@@ -580,7 +579,10 @@ const HomeScreen = ({ history, t, language }) => {
                         </div>
                         {/* <p className="event-text">{item.description}</p> */}
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-                          <TiCalendar size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small>
+                          <FaCalendarCheck size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
+                          <FaClock size={20} fill="#c5473b" className="me-1" />{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                           {item.places > item.total_reserve && (
@@ -745,7 +747,7 @@ const HomeScreen = ({ history, t, language }) => {
             {/*  */}
           </Modal.Body>
         </Modal>
-        
+
         <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
           <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
             {etat.message}
