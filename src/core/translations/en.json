@@ -200,10 +200,10 @@
             }
         },
         "_3": {
-            "title": "Subscribe",
+            "title": "Join our newsletter",
             "input": {
                 "placeholder": "Enter e-mail address",
-                "btn": "Subscribe"
+                "btn": "Join"
             },
             "help": "Receive investment and partner updates delivered to your email inbox."
         },
@@ -224,13 +224,14 @@
         },
         "des_2": {
             "_1": "In an increasingly urgent concern for the dematerialization of services, we have a Web platform and a mobile application (Apple and PlayStore) to facilitate real-time exchanges between investors, project leaders, partners and consultants of I&P;",
-            "_2": "Finally, we guarantee you 360 ° support for the realization of your various projects."
+            "_2": "Finally, we guarantee you 360° support for the realization of your various projects."
         }
     },
     "bio": "Biography",
     "contact_us": {
         "title": "Contact us",
         "text": "P.O Box:",
+        "pays": "Cameroon",
         "form": {
             "title": "Send us an email",
             "input": {
@@ -244,7 +245,7 @@
                 },
                 "_3": {
                     "title": "Subject",
-                    "placeholder": "Object"
+                    "placeholder": "Subject"
                 },
                 "_4": {
                     "title": "Message",

@@ -101,7 +101,7 @@ const Footer = ({ t }) => {
                     <span className="bi bi-pin"></span>
                   </div>
                   <div className="text">
-                    <span>BP: 2308 Douala, Cameroun</span>
+                    <span>{t('contact_us.text')} 2308 Douala, {t('contact_us.pays')}</span>
                   </div>
                 </div>
               </div>

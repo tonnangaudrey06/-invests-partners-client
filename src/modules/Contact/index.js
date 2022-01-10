@@ -99,7 +99,7 @@ const Contact = (props) => {
                                             {/* <span className="fa fa-map-marker"></span> */}
                                         </div>
                                         <div className="text">
-                                            <p>{ props.t('contact_us.text') } 2308 Douala, Cameroun</p>
+                                            <p>{ props.t('contact_us.text') } 2308 Douala, {props.t('contact_us.pays')}</p>
                                         </div>
                                     </div>
                                 </div>

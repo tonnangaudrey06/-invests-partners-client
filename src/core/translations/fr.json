@@ -201,10 +201,10 @@
             }
         },
         "_3": {
-            "title": "Souscrire",
+            "title": "Rejoignez notre newsletter",
             "input": {
                 "placeholder": "Entrez l'adresse e-mail",
-                "btn": "Souscrire"
+                "btn": "Rejoindre"
             },
             "help": "Recevez les mises à jour sur les investissements et les partenaires dans votre boîte aux lettres électronique."
         },
@@ -232,6 +232,7 @@
     "contact_us": {
         "title": "Contactez nous",
         "text": "BP:",
+        "pays": "Cameroun",
         "form": {
             "title": "Envoyez-nous un mail",
             "input": {
