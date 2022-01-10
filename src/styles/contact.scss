@@ -135,20 +135,7 @@ $black: black;
         background: $white;
     }
 
-    .info-wrap {
-        // @include media-breakpoint-down(sm){
-        //     height: 400px;
-        // }
-    }
-
     .dbox {
-        // width: 100%;
-        // margin-bottom: 25px;
-        // margin-top: 25px;
-        // @include media-breakpoint-down(sm){
-        //     margin-bottom: 25px !important;
-        //     padding: 0 20px;
-        // }
         p {
             margin-bottom: 0;
             span {
@@ -176,37 +163,7 @@ $black: black;
             width: 100%;
         }
     }
-
-    // .btn {
-    //     padding: 12px 16px;
-    //     cursor: pointer;
-    //     border-width: 1px;
-    //     border-radius: 5px;
-    //     font-size: 14px;
-    //     font-weight: 400;
-    //     -webkit-box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.12);
-    //     -moz-box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.12);
-    //     box-shadow: 0px 10px 20px -6px rgba(0, 0, 0, 0.12);
-    //     position: relative;
-    //     margin-bottom: 20px;
-    //     // @include transition(.3s);
-    //     &:hover,
-    //     &:active,
-    //     &:focus {
-    //         outline: none !important;
-    //     }
-    //     &.btn-primary {
-    //         background: $primary !important;
-    //         border-color: $primary !important;
-    //         color: $white;
-    //         &:hover,
-    //         &:focus {
-    //             border-color: darken($primary, 10%) !important;
-    //             background: darken($primary, 10%) !important;
-    //         }
-    //     }
-    // }
-
+    
     .contactForm {
         .label {
             color: $black;
