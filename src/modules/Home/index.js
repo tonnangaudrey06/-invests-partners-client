@@ -2,7 +2,7 @@
 import '../../styles/home.scss';
 import 'reactjs-popup/dist/index.css'
 
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import { Container, SectionTitle } from '../../components';
@@ -25,6 +25,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+import BannerSlider from "../../components/Slider";
+
 import { moneyFormat, millionFormat } from '../../core/utils/helpers'
 
 import 'react-phone-number-input/style.css'
@@ -42,47 +44,122 @@ import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 
-import { AppService, EventService, CampayService } from '../../core/services';
+import { AppService, EventService, CampayService, MessageService } from '../../core/services';
 
 import { withNamespaces } from "react-i18next";
 
 import { connect } from "react-redux";
 
-const CustomSlide = ({ projet, ...props }) => {
+const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, setSuccess = (value) => { return }, setError = (value) => { return } }) => {
+  const [message, setMessage] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [openPopup, setOpenPopup] = React.useState(false);
 
+  const openMessage = () => {
+    setMessage("Bonjour, je m'appelle " + user?.nom_complet + ". Je suis un investisseur sur votre plateforme \"Invest & Partners\". Je suis intéressé par le projet \"" + projet?.intitule + "\" et je souhaite avoir plus de détails sur celui-ci.")
+  }
+
+  const sendMessage = (e) => {
+    const data = {
+      body: message,
+      projet: projet?.id
+    }
+
+    setLoading(true)
+
+    MessageService.interesse(user?.id, projet?.secteur_data?.conseiller_data?.id, data).then(
+      (rs) => {
+        setOpenPopup(false);
+        setSuccess(true);
+        errorMessage('Votre message a été envoyé avec succès')
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        errorMessage(resMessage);
+        setError(true)
+      }
+    )
+
+    setLoading(false)
+  }
   return (
-    <div className="p-3" {...props}>
-      <div className="projet-ip-item d-flex justify-content-start">
+    <div className="p-3">
+      <div className="projet-ip-item shadow">
         <div className="projet-ip-image">
-          <img src={projet.logo} alt="" style={{ borderRadius: "10px 0 0 10px" }} />
+          <img src={projet.logo} alt={projet.intitule} />
         </div>
-        <div className="projet-ip-content justify-content-center" >
-          <h3>{projet.intitule}</h3>
-          <p>{projet.description}</p>
-          <Popup
-            trigger={<button className="btn btn-primary btn-sm">
-              Je suis intéressé
-            </button>}
-            modal
-            nested
-          >
-            {close => (
+        <div className='projet-ip-box'>
+          <div className="projet-ip-content" >
+            <h3>{projet.intitule}</h3>
+            <p>{projet.description}</p>
+            {user &&
+              <button className="btn btn-primary btn-sm" onClick={() => setOpenPopup(true)}>
+                Je suis intéressé
+              </button>
+            }
+            <Popup
+              modal
+              nested
+              onClose={() => setMessage('')}
+              onOpen={() => openMessage()}
+              open={openPopup}
+            >
               <div className="modal-experts">
-                <button className="modal-experts-close" onClick={close}>
+                <button className="modal-experts-close" onClick={() => setOpenPopup(false)}>
                   &times;
                 </button>
-                <div className="modal-experts-content">
-
+                <div className="modal-experts-content p-3">
+                  <div className='row w-100 gy-3'>
+                    <div className='col-md-12'>
+                      <FormControl sx={{ m: 1, width: "100%" }}>
+                        <h6 className="fw-bolder">{t('projet.other.modal.message')}</h6>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          InputLabelProps={{ shrink: true }}
+                          label="Message"
+                          placeholder="Message"
+                          variant="filled"
+                          multiline
+                          rows={5}
+                          value={message || ''}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className='col-md-12'>
+                      <div className="d-flex justify-content-center align-items-center w-100">
+                        <LoadingButton
+                          className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                          loading={loading}
+                          disabled={!message}
+                          onClick={sendMessage}
+                          variant="contained"
+                        >
+                          {t('projet.other.modal.btn')}
+                        </LoadingButton>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            )}
-          </Popup>
-
-          <div className="projet-ip-details-invest">
-            {projet.iv_total} XAF déjà investis
+            </Popup>
           </div>
-          <div className="projet-ip-details-fav">
-            <AiOutlineHeart fill={"#c5473b"} size={25} />
+          <div className='projet-ip-bottom'>
+            <div className="projet-ip-details-invest">
+              {projet.iv_total ? `${projet.iv_total} XAF déjà investis` : `Aucun investissement pour l'instant`}
+            </div>
+            {user &&
+              <div className="projet-ip-details-fav">
+                <AiOutlineHeart fill={"#c5473b"} size={25} />
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -90,13 +167,13 @@ const CustomSlide = ({ projet, ...props }) => {
   );
 }
 
-const BannerSlider = React.lazy(() => import('../../components/Slider'));
+// const BannerSlider = React.lazy(() => import('../../components/Slider'));
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const HomeScreen = ({ history, t, language }) => {
+const HomeScreen = ({ history, t, user, language }) => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
@@ -133,6 +210,53 @@ const HomeScreen = ({ history, t, language }) => {
     message: ''
   })
   const loc = useGeoLocation();
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    adaptiveHeight: true,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          lazyLoad: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          button: false,
+          initialSlide: 0,
+          lazyLoad: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          lazyLoad: true,
+          dots: true
+        }
+      }
+    ]
+  }
+
+  let slider = new Slider(settings);
 
   const openParticipate = (event) => {
     setEvent(event);
@@ -279,53 +403,6 @@ const HomeScreen = ({ history, t, language }) => {
     )
   }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    adaptiveHeight: true,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          lazyLoad: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          button: false,
-          initialSlide: 0,
-          lazyLoad: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          lazyLoad: true,
-          dots: true
-        }
-      }
-    ]
-  }
-
-  let slider = new Slider(settings);
-
   const fetchSlide = () => {
     AppService.slider().then(
       rs => {
@@ -387,8 +464,8 @@ const HomeScreen = ({ history, t, language }) => {
   }
 
   return (
-    <div>
-      <div style={{ maxHeight: "100vh" }}>
+    <Fragment>
+      <div className="carousel">
         <BannerSlider slides={sliders} translate={t} lang={lang} />
       </div>
 
@@ -415,18 +492,18 @@ const HomeScreen = ({ history, t, language }) => {
           <div className="banner-wrapper">
             <div className="banner-content">
               <h5 className="text-white">{t('banner.title')}</h5>
-              <p className="text-white text-justify" style={{ margin: '1.2vw 0' }}>{t('banner.sub_title')}</p>
+              <p className="text-white text-justify" style={{ margin: '1.2rem 0' }}>{t('banner.sub_title')}</p>
               {navigateBanner &&
                 <ul className="list-unstyled lh-base">
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._1')}</li>
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._2')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1rem' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._1')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1rem' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_1._2')}</li>
                 </ul>
               }
               {!navigateBanner &&
 
                 <ul className="list-unstyled lh-base">
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._1')}</li>
-                  <li className="text-white" style={{ marginTop: '1.1vw' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._2')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1rem' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._1')}</li>
+                  <li className="text-white" style={{ marginTop: '1.1rem' }}><FaCheck style={{ fill: 'white', marginRight: '.5em' }} size={13} />{t('banner.des_2._2')}</li>
                 </ul>
               }
             </div>
@@ -439,9 +516,9 @@ const HomeScreen = ({ history, t, language }) => {
 
         <div className="section-expert pt-3">
           <SectionTitle title="expert.title" />
-          <div className="expert-grid mt-5 row d-flex justify-content-center">
+          <div className="expert-grid mt-5">
             {HomeData.expertsData.map((item, index) => (
-              <div key={index} className="col-md-3 d-flex justify-content-center mb-5">
+              <div key={index} className="d-flex justify-content-center">
                 <div className="expert-item" style={{ width: '16rem' }}>
                   <div className="expert-image-home shadow" style={{ width: '100%' }}>
                     <img className="expert-image" alt="Expert I&P" src={item.image} />
@@ -490,9 +567,9 @@ const HomeScreen = ({ history, t, language }) => {
           <SectionTitle title="partner.title" />
           <div className="partner-text mt-5">
             <p>{t('partner.text')}</p>
-            <div className="mt-5 d-flex justify-content-center align-items-center flex-column flex-lg-row">
+            <div className="partner-box mt-5">
               {(partenaires || []).map((item, index) => (
-                <div key={index} className="partner-image shadow-lg mx-2">
+                <div key={index} className="partner-image shadow">
                   <img className="img-fluid rounded" alt="Partenaires" src={item.image} />
                 </div>
               ))}
@@ -507,7 +584,7 @@ const HomeScreen = ({ history, t, language }) => {
               <div className="projet-ip-wrapper">
                 <Slider ref={c => (slider = c)} {...settings}>
                   {projets.map((item, index) => (
-                    <CustomSlide projet={item} key={index} />
+                    <CustomSlide projet={item} t={t} user={user} key={index} />
                   ))}
                 </Slider>
               </div>
@@ -759,10 +836,10 @@ const HomeScreen = ({ history, t, language }) => {
           </Alert>
         </Snackbar>
       </Container>
-    </div>
+    </Fragment>
   );
 }
 
-const mapStateToProps = (state) => ({ language: state.app.language })
+const mapStateToProps = (state) => ({ language: state.app.language, user: state.auth.user })
 
 export default withNamespaces()(connect(mapStateToProps)(HomeScreen));
