@@ -49,7 +49,7 @@ import { AppService, EventService, CampayService, MessageService, PaiementServic
 import { withNamespaces } from "react-i18next";
 
 import { connect } from "react-redux";
-import PageLoader from '../../components/PageLoader';
+// import PageLoader from '../../components/PageLoader';
 import { Button } from '@mui/material';
 
 const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, setSuccess = (value) => { return }, setError = (value) => { return } }) => {
@@ -503,7 +503,7 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   return (
     <Fragment>
-      <PageLoader loading={pageLoading} />
+      {/* <PageLoader loading={pageLoading} /> */}
 
       <div className="carousel mb-5">
         <BannerSlider slides={sliders || []} translate={t} lang={lang} />
