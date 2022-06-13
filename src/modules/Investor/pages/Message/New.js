@@ -68,7 +68,7 @@ const NouveauMessagesPorteurProjet = (props) => {
                         <label htmlFor="media-files">
                             <Input multiple id="media-files" type="file" onChange={changeMedia} />
                             <Button className="btn-default" variant="contained" component="span">
-                                Ajouter
+                                Importer
                             </Button>
                         </label>
                         {medias.length > 0 && (

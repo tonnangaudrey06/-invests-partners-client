@@ -36,3 +36,7 @@ export function millionFormat(x) {
     
     return 0;
 }
+
+export const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

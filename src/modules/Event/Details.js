@@ -2,7 +2,7 @@ import { Container } from '../../components';
 
 import * as React from 'react';
 
-import { GoCalendar, GoLocation } from 'react-icons/go';
+import { GoCalendar, GoClock, GoLocation } from 'react-icons/go';
 import { BiMoney } from 'react-icons/bi';
 
 import {
@@ -27,7 +27,7 @@ import ene from '../../assets/img/ip-13.jpg';
 
 import '../../styles/event.scss';
 
-import { moneyFormat } from '../../core/utils/helpers'
+import { moneyFormat, sleep } from '../../core/utils/helpers'
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -37,7 +37,9 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-import { EventService, CampayService } from '../../core/services';
+import { connect } from "react-redux";
+
+import { EventService, CampayService, PaiementService } from '../../core/services';
 
 import { withNamespaces } from "react-i18next";
 
@@ -45,7 +47,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const EventDetails = ({ t, match }) => {
+const EventDetails = ({ t, match, user }) => {
   const { params: { id } } = match;
 
   const [event, setEvent] = React.useState(null);
@@ -132,22 +134,39 @@ const EventDetails = ({ t, match }) => {
     setMethodPaiement('OM')
   }
 
-  const countdown = (refrence) => {
-    let x = setInterval(async () => {
+  const countdown = async (refrence) => {
+    let status = "PENDING";
+    setPaiement({ ...paiement, pending: true, failed: false });
+
+    while (status === "PENDING" || status === "ERROR") {
       try {
         const rs = await CampayService.checkPayment(refrence);
-        if (rs.status === "FAILED") {
-          clearInterval(x);
-          setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
-        } else if (rs.status === "SUCCESSFUL") {
-          clearInterval(x);
-          payementDone()
-          handleParticipe();
+        status = rs.status;
+        if (rs.status !== "PENDING") {
+          break;
         }
+        await sleep(5000);
       } catch (error) {
-        console.log(error);
+        status = "ERROR";
+        console.error(error);
+        break;
       }
-    }, 5000);
+    }
+
+    switch (status) {
+      case "SUCCESSFUL":
+        payementDone()
+        handleParticipe(refrence);
+        break;
+      case "FAILED":
+        setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
+        break;
+      default:
+        // setPaiement({ pending: false, failed: true });
+        // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+        await countdown(refrence)
+        break;
+    }
   }
 
   const payer = () => {
@@ -173,7 +192,7 @@ const EventDetails = ({ t, match }) => {
           countdown(rs.reference);
         } catch (error) {
           setPaiement({ pending: false, failed: true, message: '' });
-          console.log(error);
+          console.error(error);
         }
       },
       (error) => {
@@ -189,11 +208,22 @@ const EventDetails = ({ t, match }) => {
     )
   }
 
-  const handleParticipe = () => {
+  const handleParticipe = (trans = "") => {
     EventService.participate(event?.id, participation).then(
-      (rs) => {
+      async (rs) => {
         fetchData();
         hideParticipate();
+        if (user) {
+          await PaiementService.save(user?.id, {
+            trans_id: trans,
+            methode: methodPaiement,
+            telephone: numero,
+            montant: event?.prix * participation?.places,
+            type: "EVENT",
+            etat: "REUSSI",
+            event: event?.id
+          });
+        }
         setEtat({ error: false, success: true, message: 'Votre réservation a été effectuée' });
         setParticipation({
           nom_complet: '',
@@ -216,22 +246,28 @@ const EventDetails = ({ t, match }) => {
   }
 
   const fetchData = () => {
-    // setLoading(true);
     EventService.getOne(id).then(
       (data) => {
-        // setLoading(false);
         setEvent(data.data.data);
       }
     )
   };
 
   React.useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
-      fetchData();
-    }
-    return () => { isMounted = false };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  React.useEffect(() => {
+    if (user) {
+      setParticipation({
+        nom_complet: user?.nom_complet,
+        email: user?.email,
+        telephone: user?.telephone,
+        places: 0
+      })
+    }
+  }, [user])
 
   return (
     <Container header headerActive active="Events" footer>
@@ -240,36 +276,10 @@ const EventDetails = ({ t, match }) => {
       </div>
 
       <div className="event-details shadow row g-2 bg-white">
-        <section className="col-md-6 mt-0 p-0">
+        <section className="col-md-4 m-0 p-4">
           <section className="event-details-image shadow">
             <img src={event?.image ? event?.image : ene} alt="" />
           </section>
-          {event?.description && (
-            <section className="py-4 px-2 d-none d-lg-block">
-              <p className="lh-base fs-6 ml-1">{event?.description}</p>
-            </section>
-          )}
-        </section>
-        <section className="col-md-6 mt-0 p-4">
-          <small className="text-muted small" style={{ fontSize: ".8em" }}>
-            {t('event.organise')} INVEST AND PARTNERS
-          </small>
-          <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
-            {event?.libelle}
-          </h3>
-          <div className="d-flex align-items-center w-100 mt-1">
-            <GoCalendar />
-            <p className="lh-sm fs-6 ml-1">{moment(event?.date_evenement).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).add(+event?.duree, 'hours').format('HH[H]mm') })}</small></p>
-            {/* <p className="lh-sm fs-6 ml-4">Au{item.fin} <br /> <small>08H00-14H00</small></p> */}
-          </div>
-          <div className="d-flex align-items-center w-100 mt-1">
-            <GoLocation />
-            <p className="lh-sm fs-6 ml-1">{event?.lieu}</p>
-          </div>
-          <div className="d-flex align-items-center w-100 mt-1">
-            <BiMoney />
-            <p className="lh-sm fs-6 ml-1">{event?.prix ? moneyFormat(event?.prix) + ' XAF' : t('app.free')}</p>
-          </div>
           <Box sx={{ mb: 5 }}>
             <Box sx={{ my: 2, width: '100%', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', color: 'grey' }}><div>{t('event.places.restant')}</div><div>{event?.total_reserve}/{event?.places}</div></div>
@@ -279,6 +289,53 @@ const EventDetails = ({ t, match }) => {
           <div className="d-flex justify-content-between align-items-center w-100">
             <Button fullWidth size="small" disabled={event?.places === event?.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
           </div>
+        </section>
+
+        <section className="col-md-8 m-0 p-4">
+          <small className="text-muted small" style={{ fontSize: ".8em" }}>
+            {t('event.organise')} INVEST AND PARTNERS
+          </small>
+
+          <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
+            {event?.libelle}
+          </h3>
+
+          <div className="d-flex justify-content-between align-items-center">
+            {event?.date_evenement &&
+              <div className="d-flex align-items-center">
+                <GoCalendar />
+                <span style={{ marginLeft: 10, fontSize: 14 }}>
+                  {moment(event?.date_evenement).format("DD MMMM YYYY")}
+                </span>
+              </div>
+            }
+            {event?.heure_debut &&
+              <div className="d-flex align-items-center">
+                <GoClock />
+                <span style={{ marginLeft: 10, fontSize: 14 }}>
+                  {t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).add(+event?.duree, 'hours').format('HH[H]mm') })}
+                </span>
+              </div>
+            }
+            {event?.lieu &&
+              <div className="d-flex align-items-center">
+                <GoLocation />
+                <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.lieu}</span>
+              </div>
+            }
+            {event?.prix &&
+              <div className="d-flex align-items-center">
+                <BiMoney />
+                <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.prix ? moneyFormat(event?.prix) + ' XAF' : t('app.free')}</span>
+              </div>
+            }
+          </div>
+
+          {event?.description && (
+            <section className="py-4 d-none d-lg-block">
+              <p className="lh-base fs-6">{event?.description}</p>
+            </section>
+          )}
         </section>
         {event?.description && (
           <section className="col-md-12 p-4 d-block d-lg-none">
@@ -295,17 +352,21 @@ const EventDetails = ({ t, match }) => {
         centered
       >
         <Modal.Header closeButton={!paiement.pending}>
-          <Modal.Title>Participation à l'évenement</Modal.Title>
+          <Modal.Title>{t('event.form.title')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="mb-1 lh-base text-center">Vous voulez participer à l'évenement <strong>{event?.libelle}</strong></p>
+          <p className="mb-1 lh-base text-center">{t('event.form.text._1')} <strong>{event?.libelle}</strong></p>
           {event?.prix ? (
-            <p className="mb-1 text-muted text-center">La participation à cette évenement coûtera <strong>{moneyFormat(event?.prix * participation?.places)} XAF</strong></p>
+            <p className="mb-1 text-muted text-center">
+              {t('event.form.text._2', {
+                prix: moneyFormat(event?.prix)
+              })}
+            </p>
           ) : (
-            <p className="mb-1 text-muted text-center">La participation à cette évenement est gratuit</p>
+            <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
           )}
           <hr />
-          <h5 className="fw-bolder my-1">Informations personnelles</h5>
+          <h5 className="fw-bolder my-1">{t('event.form.sub_title_1')}</h5>
           <Grid>
             <Grid item xs={12} md={12}>
               <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
@@ -315,8 +376,8 @@ const EventDetails = ({ t, match }) => {
                   size="small"
                   type="text"
                   variant="filled"
-                  label="Nom complet"
-                  placeholder="Nom & prenom"
+                  label={t('event.form.input._1.title')}
+                  placeholder={t('event.form.input._1.placeholder')}
                   value={participation.nom_complet}
                   onChange={(e) => onChangeForm('nom_complet', e.target.value)}
                 />
@@ -330,7 +391,7 @@ const EventDetails = ({ t, match }) => {
                   size="small"
                   type="email"
                   variant="filled"
-                  label="Email"
+                  label={t('event.form.input._2.title')}
                   placeholder="example@domaine.com"
                   value={participation.email}
                   onChange={(e) => onChangeForm('email', e.target.value)}
@@ -344,8 +405,8 @@ const EventDetails = ({ t, match }) => {
                   size="small"
                   required
                   variant="filled"
-                  label="Téléphone"
-                  placeholder="Téléphone"
+                  label={t('event.form.input._3.title')}
+                  placeholder={t('event.form.input._3.placeholder')}
                   type="tel"
                   value={participation.telephone}
                   onChange={(e) => onChangeForm('telephone', e.target.value)}
@@ -359,8 +420,8 @@ const EventDetails = ({ t, match }) => {
                   size="small"
                   required
                   variant="filled"
-                  label="Nombre places"
-                  placeholder="Places"
+                  label={t('event.form.input._4.title')}
+                  placeholder={t('event.form.input._4.placeholder')}
                   type="number"
                   InputProps={{ inputProps: { min: 0, max: event?.places - event?.total_reserve } }}
                   value={participation.places || ''}
@@ -374,7 +435,7 @@ const EventDetails = ({ t, match }) => {
             {event?.prix && (
               <Grid item xs={12} md={12}>
                 <FormControl component="fieldset" sx={{ my: .5, width: "100%" }} className="d-flex flex-column align-items-center">
-                  <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
+                  <h6 className="fw-bolder">{t('event.form.sub_title_2')}</h6>
                   <RadioGroup
                     row
                     value={methodPaiement || 'OM'}
@@ -386,10 +447,10 @@ const EventDetails = ({ t, match }) => {
                   </RadioGroup>
                 </FormControl>
                 <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                  <h6 className="fw-bolder mt-2 text-center">Votre numéro de téléphone</h6>
+                  <h6 className="fw-bolder mt-2 text-center">{t('event.form.pay._1.title')}</h6>
                   <PhoneInput
                     defaultCountry={loc.country}
-                    placeholder="Numéro de téléphone"
+                    placeholder={t('event.form.pay._1.placeholder')}
                     value={numero || ''}
                     onChange={setNumero}
                   />
@@ -413,7 +474,7 @@ const EventDetails = ({ t, match }) => {
                     onClick={payer}
                     variant="contained"
                   >
-                    Payer
+                    {t('event.form.btn._1')}
                   </LoadingButton>
                 ) : (
                   <LoadingButton
@@ -421,15 +482,15 @@ const EventDetails = ({ t, match }) => {
                     onClick={checkSeat}
                     variant="contained"
                   >
-                    Participer
+                    {t('event.form.btn._2')}
                   </LoadingButton>
                 )}
               </div>
             </Grid>
           </Grid>
-          {/*  */}
         </Modal.Body>
       </Modal>
+
       <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
         <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
           {etat.message}
@@ -444,4 +505,6 @@ const EventDetails = ({ t, match }) => {
   );
 }
 
-export default withNamespaces()(EventDetails);
+const mapStateToProps = (state) => ({ user: state.auth.user })
+
+export default withNamespaces()(connect(mapStateToProps)(EventDetails));

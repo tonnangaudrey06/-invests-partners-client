@@ -46,22 +46,22 @@ const ProjetSecteur = (props) => {
                 </div>
             </div>
             <div>
-                <div className="section-grid-container row">
-                    <div className="col-sm-12 col-md-6">
-                        <div className="row mt-3 px-3">
-                            {(secteur?.pays || []).length <= 0 && (
-                                <div className="col-12 py-5 d-flex justify-content-center align-items-center">
-                                    {loading && (<CircularProgress />)}
-                                    {!loading && (
-                                        <h5 className="fw-bolder text-muted">
-                                            {t('projet.not_found_pays')}
-                                        </h5>
-                                    )}
-                                </div>
-                            )}
+                <div className="section-grid-container row g-0">
+                    <div className="col-md-6 p-3">
+                        {(secteur?.pays || []).length <= 0 && (
+                            <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+                                {loading && (<CircularProgress />)}
+                                {!loading && (
+                                    <h5 className="fw-bolder text-muted">
+                                        {t('projet.not_found_pays')}
+                                    </h5>
+                                )}
+                            </div>
+                        )}
+                        <div className="row gx-3 g-0">
                             {secteur?.pays.map((item, index) => (
-                                <div className="col-sm-12 col-md-6 col-lg-4">
-                                    <div className="project-item rounded shadow" key={index} onClick={() => setCountry(item)}>
+                                <div className="col-md-6 col-lg-4" key={index}>
+                                    <div className="project-item rounded shadow" onClick={() => setCountry(item)}>
                                         <div className={country?.libelle === item?.libelle ? "project-title active" : "project-title"}>
                                             {item.libelle}
                                         </div>
@@ -71,32 +71,37 @@ const ProjetSecteur = (props) => {
                             ))}
                         </div>
                     </div>
-                    <div className="d-flex col-sm-12 col-md-6">
+                    <div className="d-flex col-md">
                         <div className="vr"></div>
-                        <div className="p-3 pt-0">
-                            <h2 className="text-uppercase fw-bold" style={{ fontSize: '3em', marginTop: 0, fontFamily: 'Building' }} >{country?.libelle}</h2>
-                            {/* <p className="lh-base">{country?.libelle}</p> */}
-                            <h4 className="fw-bolder mt-2">{t('projet.pays.title')}</h4>
-                            <div className="mt-1 d-flex justify-content-start align-items-center flex-wrap">
-                                {(country?.viles || []).length <= 0 && (
-                                    <div className="py-3 d-flex justify-content-center align-items-center w-100">
-                                        {loading && (<CircularProgress />)}
-                                        {!loading && (
-                                            <h5 className="fw-bolder text-muted">
-                                                {t('projet.not_found_ville')}
-                                            </h5>
-                                        )}
-                                    </div>
+
+                        {!country ?
+                            <div className="py-3 d-flex justify-content-center align-items-center w-100">
+                                {loading && (<CircularProgress />)}
+                                {!loading && (
+                                    <h5 className="fw-bolder text-muted">
+                                        {t('projet.not_found_ville')}
+                                    </h5>
                                 )}
-                                {country?.viles.map((item, index) => (
-                                    <Link key={index} to={`${match.url}/${item?.libelle}`} className="mb-2 mr-2">
-                                        <span className="badge rounded-pill bg-primary p-2 fs-6 text-uppercase" style={{ minWidth: '9em' }}>
-                                            {item?.libelle}
-                                        </span>
-                                    </Link>
-                                ))}
                             </div>
-                        </div>
+                            :
+                            <div className="p-3">
+                                {country?.libelle &&
+                                    <h2 className="text-uppercase fw-bold" style={{ fontSize: '3em', marginTop: 0, fontFamily: 'Building' }} >{country?.libelle}</h2>
+                                }
+
+                                {(country?.viles || []).length > 0 && <p className="fw-bolder fs-5">{t('projet.pays.title')}</p>}
+
+                                <div className="mt-1 d-flex align-items-center flex-wrap gap-2">
+                                    {country?.viles.map((item, index) => (
+                                        <Link key={index} to={`${match.url}/${item?.libelle}`}>
+                                            <span className="badge rounded-pill bg-primary p-2 fs-6 text-uppercase" style={{ minWidth: '9em' }}>
+                                                {item?.libelle}
+                                            </span>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

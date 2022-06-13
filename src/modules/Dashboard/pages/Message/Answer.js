@@ -83,7 +83,7 @@ const RepondMessagePorteurProjet = (props) => {
                                     <label htmlFor="photo-profile">
                                         <Input accept="image/*" id="photo-profile" type="file" onChange={changeMedia} />
                                         <Button className="btn-default" variant="contained" component="span">
-                                            Ajouter
+                                            Importer
                                         </Button>
                                     </label>
                                     {medias.length > 0 && (
@@ -122,7 +122,7 @@ const RepondMessagePorteurProjet = (props) => {
                             </div>
                         ) : (
                             <div className="d-flex justify-content-end align-items-center border-top py-2" style={{ width: "100%" }}>
-                                <Button color="primary" className="btn-default" variant="contained" onClick={() => AnswerBox()}>Repondre</Button>
+                                <Button color="primary" className="btn-default" variant="contained" onClick={() => AnswerBox()}>Répondre</Button>
                             </div>
                         )}
                     </div>

@@ -415,39 +415,41 @@ const ProfilPorteurProjet = (props) => {
                                 <p className="text-black-50">{user.email}</p>
                             </div>
 
-
-
                             {user?.status === 'PARTICULIER' && (
                                 <div className="mt-2 w-100">
                                     <Divider />
-                                    <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <label className="me-2" htmlFor="cni-passport">
-                                                <Input id="cni-passport" type="file" onChange={changeCni} />
-                                                <Button className="btn-default" variant="contained" component="span">
-                                                    {user?.cni ? "Changer" : "Ajouter"} votre CNI/Passport
-                                                </Button>
-                                            </label>
+                                    <div className="mt-2 w-100 text-center">
+                                        <Divider />
+                                        <div className="d-flex justify-content-center align-items-center my-1">
+                                            <span className="me-3">CNI/Passport</span>
                                             {!user?.cni && (
                                                 <HighlightOffIcon color="primary" />
                                             )}
                                         </div>
 
+                                        <label className="me-2" htmlFor="cni-passport">
+                                            <input className="d-none" id="cni-passport" type="file" onChange={changeCni} />
+                                            <Button component="span" variant="contained" size="small">
+                                                {user?.cni ? "Mettre à jour" : "Importer"}
+                                            </Button>
+                                        </label>
+
                                         {user?.cni && (
-                                            <img src={user?.cni} alt={`${user.nom_complet} CNI`} width="250" className="rounded shadow mt-2" />
+                                            <img src={user?.cni} alt={`${user?.nom_complet} CNI`} width="250" className="rounded shadow mt-2" />
                                         )}
-                                    </FormControl>
+                                    </div>
                                 </div>
                             )}
                         </div>
                     </div>
                     <div className="col-md-9 border-start">
                         <div className="tab-content h-100">
+
                             <div className="tab-pane fade show active" id="nav-basic" role="tabpanel" aria-labelledby="basic-tab">
                                 <form onSubmit={changeUser}>
                                     <div className="p-3 py-5">
                                         <h3 className="fw-bolder">Informations de base</h3>
-                                        <p className="text-muted mb-5">Modifier vos informations personnelles.</p>
+                                        <p className="text-muted mb-3">Modifier vos informations personnelles.</p>
                                         <Grid container spacing={2} sx={{ pb: 2 }}>
                                             <Grid item xs={12} md={user?.status === 'PARTICULIER' ? 6 : 12}>
                                                 <FormControl sx={{ m: 1, width: "100%" }}>
@@ -638,17 +640,14 @@ const ProfilPorteurProjet = (props) => {
                             <div className="tab-pane fade" id="nav-fiscaux" role="tabpanel" aria-labelledby="fiscaux-tab">
                                 <div className="p-3 py-5">
                                     <h3 className="fw-bolder">Documents fiscaux</h3>
-                                    <p className="text-muted mb-5">Importer vos documents fiscaux.</p>
+                                    <p className="text-muted mb-3">Importer vos documents fiscaux.</p>
+
                                     <Grid container spacing={2} sx={{ pb: 2 }}>
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-adb">
-                                                        <Input id="fiscal-adb" type="file" onChange={changeADB} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('ATTESTATION_DOMICILIATION_BANCAIRE') ? "Changer" : "Ajouter"} votre attestation domiciliation bancaire
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">Attestation domiciliation bancaire</span>
                                                     {!checkFiscal('ATTESTATION_DOMICILIATION_BANCAIRE') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -657,17 +656,21 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+
+                                                <label className="me-2" htmlFor="fiscal-adb">
+                                                    <input className="d-none" id="fiscal-adb" type="file" onChange={changeADB} />
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('ATTESTATION_DOMICILIATION_BANCAIRE') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
+
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-compte-exploitation">
-                                                        <Input id="fiscal-compte-exploitation" type="file" onChange={changeCompteExploitation} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('COMPTE_EXPLOITATION') ? "Changer" : "Ajouter"} votre compte d'exploitation
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">Compte d'exploitation</span>
                                                     {!checkFiscal('COMPTE_EXPLOITATION') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -676,17 +679,21 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+
+                                                <label className="me-2" htmlFor="fiscal-compte-exploitation">
+                                                    <input className="d-none" id="fiscal-compte-exploitation" type="file" onChange={changeCompteExploitation} />
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('COMPTE_EXPLOITATION') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
+
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-carte-contribuable">
-                                                        <Input id="fiscal-carte-contribuable" type="file" onChange={changeCarteContribuable} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('CARTE_CONTRIBUABLE') ? "Changer" : "Ajouter"} votre carte contribuable
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">Carte contribuable</span>
                                                     {!checkFiscal('CARTE_CONTRIBUABLE') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -695,17 +702,21 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+
+                                                <label className="me-2" htmlFor="fiscal-carte-contribuable">
+                                                    <input className="d-none" id="fiscal-carte-contribuable" type="file" onChange={changeCarteContribuable} />
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('CARTE_CONTRIBUABLE') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
+
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-rccm">
-                                                        <Input id="fiscal-rccm" type="file" onChange={changeRCCM} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('RCCM') ? "Changer" : "Ajouter"} votre RCCM
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">RCCM</span>
                                                     {!checkFiscal('RCCM') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -714,17 +725,21 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+
+                                                <label className="me-2" htmlFor="fiscal-rccm">
+                                                    <input className="d-none" id="fiscal-rccm" type="file" onChange={changeRCCM} />
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('RCCM') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
+
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-anr">
-                                                        <Input id="fiscal-anr" type="file" onChange={changeANR} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('ANR') ? "Changer" : "Ajouter"} votre ANR
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">ANR</span>
                                                     {!checkFiscal('ANR') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -733,17 +748,21 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+
+                                                <label className="me-2" htmlFor="fiscal-anr">
+                                                    <input className="d-none" id="fiscal-anr" type="file" onChange={changeANR} />
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('ANR') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
+
                                         <Grid item xs={12} md={6}>
-                                            <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                                <div className="d-flex justify-content-start align-items-center">
-                                                    <label className="me-2" htmlFor="fiscal-dsf">
-                                                        <Input id="fiscal-dsf" type="file" onChange={changeDSF} />
-                                                        <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                            {checkFiscal('DSF') ? "Changer" : "Ajouter"} votre DSF
-                                                        </LoadingButton>
-                                                    </label>
+                                            <div className="mt-2 w-100 text-center">
+                                                <Divider />
+                                                <div className="d-flex justify-content-center align-items-center my-1">
+                                                    <span className="me-3">DSF</span>
                                                     {!checkFiscal('DSF') && (
                                                         <HighlightOffIcon color="error" />
                                                     )}
@@ -752,7 +771,14 @@ const ProfilPorteurProjet = (props) => {
                                                         <CheckCircleIcon color="success" />
                                                     )}
                                                 </div>
-                                            </FormControl>
+                                                <input className="d-none" id="fiscal-dsf" type="file" onChange={changeDSF} />
+
+                                                <label className="me-2" htmlFor="fiscal-dsf">
+                                                    <LoadingButton component="span" loading={loading} variant="contained" size="small">
+                                                        {checkFiscal('DSF') ? "Mettre à jour" : "Importer"}
+                                                    </LoadingButton>
+                                                </label>
+                                            </div>
                                         </Grid>
                                     </Grid>
                                 </div>
@@ -762,7 +788,7 @@ const ProfilPorteurProjet = (props) => {
                                 <form onSubmit={changePassword}>
                                     <div className="p-3 py-5">
                                         <h3 className="fw-bolder">Mot de passe</h3>
-                                        <p className="text-muted mb-5">Modifier votre mot de passe.</p>
+                                        <p className="text-muted mb-3">Modifier votre mot de passe.</p>
                                         <Grid container spacing={2} sx={{ pb: 2 }}>
                                             <Grid item xs={12} md={6}>
                                                 <FormControl sx={{ m: 1, width: "100%" }}>

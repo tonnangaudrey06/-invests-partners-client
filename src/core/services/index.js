@@ -9,6 +9,7 @@ import MessageService from "./MessageService";
 import AppService from './AppService'
 import ContactService from "./ContactService";
 import EventService from './EventService';
+import PaiementService from './PaiementService';
 
 export {
     AppService,
@@ -21,5 +22,6 @@ export {
     PlageInvestissementService,
     MessageService,
     ContactService,
-    EventService
+    EventService,
+    PaiementService
 }

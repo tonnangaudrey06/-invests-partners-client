@@ -7,19 +7,19 @@ import Popup from 'reactjs-popup';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Divider from '@mui/material/Divider';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Divider from '@mui/material/Divider';
+// import InputAdornment from '@mui/material/InputAdornment';
+// import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { SecteurService } from '../../../core/services';
 import projetimg from "../../../assets/img/projet.jpg";
 
-import { AiOutlineHeart } from 'react-icons/ai';
-import { MdPlace } from 'react-icons/md';
-import { GiHistogram } from 'react-icons/gi';
+// import { AiOutlineHeart } from 'react-icons/ai';
+// import { MdPlace } from 'react-icons/md';
+// import { GiHistogram } from 'react-icons/gi';
 
 import { Container } from '../../../components';
 import { Link } from 'react-router-dom';
@@ -28,28 +28,30 @@ import { connect } from "react-redux";
 import { withNamespaces } from "react-i18next";
 
 import { moneyFormat } from '../../../core/utils/helpers';
+import backgroundTop from '../../../assets/img/ban.png';
+import { Button } from '@mui/material';
 
 const ProjetTown = ({ match, location, history, user, t }) => {
 
     const { params: { section, town } } = match;
 
-    const [ville, setVille] = React.useState('');
-    const [pays, setPays] = React.useState('');
-    const [level, setLevel] = React.useState('');
+    // const [ville, setVille] = React.useState('');
+    // const [pays, setPays] = React.useState('');
+    // const [level, setLevel] = React.useState('');
     const [projets, setProjets] = React.useState([]);
     const [modalOpen, setModalOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
 
-    const handleChange = (event) => {
-        if (event.target.name === "ville") {
-            setVille(event.target.value);
-        } else if (event.target.name === "pays") {
-            setPays(event.target.value);
-        } else if (event.target.name === "level") {
-            setLevel(event.target.value);
-        }
-    };
+    // const handleChange = (event) => {
+    //     if (event.target.name === "ville") {
+    //         setVille(event.target.value);
+    //     } else if (event.target.name === "pays") {
+    //         setPays(event.target.value);
+    //     } else if (event.target.name === "level") {
+    //         setLevel(event.target.value);
+    //     }
+    // };
 
     const cardOnClick = (item) => {
         if (!checkCanFianance(item)) {
@@ -89,9 +91,13 @@ const ProjetTown = ({ match, location, history, user, t }) => {
         fetchData();
     }, [section, town]);
 
+    const goToProfile = () => {
+        history.push('/investor/profil');
+    }
+
     return (
         <Container header headerActive active="projets" className="bg-light" footer>
-            <div className="projects-top-all-projet bg-white">
+            {/* <div className="projects-top-all-projet bg-white">
                 <div className="search-bar-container-all-projet" style={{ marginTop: '5rem', marginBottom: '2rem' }}>
                     <div className="container">
                         <div className="row gy-3">
@@ -184,12 +190,30 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                         </div>
                     </div>
                 </div>
+            </div> */}
+
+            {/* <Divider /> */}
+
+            <div className="projects-top shadow" style={{ backgroundImage: `url(${backgroundTop})` }}>
+                <div className="search-bar-container-home">
+                    <div className="container" style={{
+                        minWidth: "35rem"
+                    }}>
+                        <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>
+                            {town}
+                        </h1>
+                        <div className="search-bar">
+                            <select className="projects-input-button" type="button" value="OK">
+                                <option>{t('projet.option.title')}</option>
+                            </select>
+                            <input placeholder="Rechercher" className="projects-text-input" type="text" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <Divider />
-
             <div className="container-md py-5">
-                <div className="row g-5">
+                <div className="row g-4">
                     {(projets || []).length <= 0 && (
                         <div className="col-12 py-5 d-flex justify-content-center align-items-center">
                             {loading && (<CircularProgress />)}
@@ -201,8 +225,11 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                         </div>
                     )}
                     {projets.map((item, index) => (
-                        <div key={index} className="col-sm-12 col-md-6 col-lg-4">
-                            <Card classes={{ root: 'projects-cards shadow-lg' }} sx={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em', position: 'relative' }} onClick={() => cardOnClick(item)}>
+                        <div key={index} className="col-md-6 col-lg-4">
+                            <Card classes={{ root: 'projects-cards shadow' }} sx={{
+                                borderRadius: '1rem',
+                                position: 'relative'
+                            }} onClick={() => cardOnClick(item)}>
                                 <CardMedia
                                     component="img"
                                     classes={{ root: 'shadow' }}
@@ -213,12 +240,9 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                                 <CardContent>
                                     <div className="projects-cards-title-container mb-1">
                                         {checkCanFianance(item) ? (
-                                            <>
-                                                <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
-                                                    <h5 className="fw-bold">{item.intitule}</h5>
-                                                </Link>
-                                                <AiOutlineHeart fill={"#c5473b"} size={25} />
-                                            </>
+                                            <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
+                                                <h5 className="fw-bold">{item.intitule}</h5>
+                                            </Link>
                                         ) : (
                                             <h5 className="fw-bold text-muted">{item.intitule}</h5>
                                         )}
@@ -237,13 +261,11 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                                         </Link>
                                     </div>
                                 )}
-
                             </Card>
                         </div>
                     ))}
                 </div>
             </div>
-
 
             <Popup
                 position="top center"
@@ -256,12 +278,12 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                     <p className="mt-1">{t('projet.details.warn._1')}</p>
                     <p className="mt-1">{t('projet.details.warn._2')}</p>
                     <div className="mt-3 d-flex justify-content-center">
-                        <button className="btn btn-sm btn-outline-primary mr-2" onClick={() => setModalOpen(false)}>
+                        <Button variant="outlined" className="me-2" onClick={() => setModalOpen(false)}>
                             {t('projet.details.warn.btn._1')}
-                        </button>
-                        <Link to={`/investor/profil`} className="btn btn-sm btn-primary">
+                        </Button>
+                        <Button variant="contained" className="me-2" onClick={() => goToProfile()}>
                             {t('projet.details.warn.btn._2')}
-                        </Link>
+                        </Button>
                     </div>
                 </div>
             </Popup>

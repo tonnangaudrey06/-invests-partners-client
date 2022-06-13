@@ -1,15 +1,14 @@
+const campay = {
+    URL: 'https://demo.campay.net/api/',
+    USERNAME: 'qTY7cW3OTfLB3y43GMhO_M7eXGqd-xkYGhLky8ZVfgZgC31IOf384F7qgjrxuFeMlK2yBWZwVgASqAgZCGMv3w',
+    PASSWORD: 'EsDOgM5_CxyLAzLrPcXM3hSAF3W2rhLlUctyaZQRWNGrS0xaQ93-LjKllZ4B6Mdr3XJqEA2Z891zpGeVpRYM7Q',
+}
+
 const config = {
-    URL: 'http://localhost:8000/',
-    HOSTURL: 'https://admin.invest--partners.com/',
-    CAMPAY: 'https://www.campay.net/api/',
-    CAMPAY_USERNAME: 'uKzgELhQ5rR2yjiICDIC7p7_mv_kZAWStGK-NBHr8yzTToPfnF_MqgOreOvBWnKJnOxyA4plRYGuK17zRB7hgg',
-    CAMPAY_PASSWORD: 'gMe0BvEenBzYHGL46m1ZnzIEdPm-nTxpO779Ukcru2NKzlY8c-8xkrjIBLGG4xjwEHEBGb_4jHyyYehq8_KggQ',
-    PUSHER: {
-        APP_ID: 1283047,
-        APP_KEY: 'a5d2e5024fb3ed7a141b',
-        APP_SECRET: 'a5acc2912ca072fe9da4',
-        APP_CLUSTER: 'eu'
-    }
+    URL: process.env.REACT_APP_API_HOST || 'http://localhost:8000/',
+    CAMPAY: process.env.REACT_APP_CAMPAY_HOST || campay.URL,
+    CAMPAY_USERNAME: process.env.REACT_APP_CAMPAY_USERNAME || campay.USERNAME,
+    CAMPAY_PASSWORD: process.env.REACT_APP_CAMPAY_PASSWORD || campay.PASSWORD
 }
 
 export default config

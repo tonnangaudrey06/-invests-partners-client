@@ -253,30 +253,25 @@ p.invest-text::before {
 
 .message-line {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
-    padding: 1rem;
     cursor: pointer;
+    padding: 0 1rem;
 }
 
 .message-line .message-status {
-    margin-right: 1rem;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
+    flex: 0 1 0.5rem;
+    padding: 0.753rem;
 }
 
 .message-line .message-title {
-    flex: 1 1 0%;
-    // font-family: "building";
-    font-size: 1rem;
-    font-size: 600;
+    flex: 0 1 15rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    padding: 0 1rem;
+    padding: 0.753rem;
 }
 
 .message-line:last-child {
@@ -288,20 +283,20 @@ p.invest-text::before {
 }
 
 .message-line .message-content {
-    flex: 3 1 0%;
+    flex: 1 1 auto;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    padding: 0 1rem;
+    & > span {
+        padding: 1rem;
+    }
 }
 
 .message-line .message-time {
-    flex: 1 1 0%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    flex: 0 1 10rem;
+    padding: 0.753rem;
 }
 
 .message-read .message-head .message-profil {

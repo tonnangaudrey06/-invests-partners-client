@@ -22,6 +22,7 @@ const Footer = ({ t }) => {
   const [email, setEmail] = React.useState('');
 
   const emailValidation = () => {
+    // eslint-disable-next-line no-useless-escape
     const validRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return email.match(validRegex) ? true : false;
   }

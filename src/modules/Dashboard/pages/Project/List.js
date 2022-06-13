@@ -142,29 +142,25 @@ const ProjetList = (props) => {
     }, [setProjetsData, user])
 
     return (
-        <Box className="shadow rounded" sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-                <Toolbar
-                    sx={{
-                        pl: { sm: 2 },
-                        pr: { xs: 1, sm: 1 }
-                    }}
-                >
-                    <div className="d-flex justify-content-between align-items-center flex-wrap w-100 py-3">
-                        <h4 className="fw-bolder">
-                            Liste de vos projets
-                        </h4>
-                        <div className="d-flex align-items-cente">
-                            <Button className="me-2" onClick={refreshProjets} variant="contained" startIcon={<RefreshIcon />}>
-                                Actualiser
-                            </Button>
-                            <Button onClick={() => { props.history.push(`${props.match.url}/add`) }} variant="contained" startIcon={<MdAddCircle />}>
-                                Nouveau projet
-                            </Button>
-                        </div>
+        <Box sx={{ width: '100%' }}>
+            <Toolbar className="p-0">
+                <div className="d-flex justify-content-between align-items-center flex-wrap w-100 py-3">
+                    <h4 className="fw-bolder">
+                        Projets d'investissement
+                    </h4>
+                    <div className="d-flex align-items-cente">
+                        <Button className="me-2" onClick={refreshProjets} variant="contained" startIcon={<RefreshIcon />}>
+                            Actualiser
+                        </Button>
+                        <Button onClick={() => { props.history.push(`${props.match.url}/add`) }} variant="contained" startIcon={<MdAddCircle />}>
+                            Nouveau projet
+                        </Button>
                     </div>
+                </div>
 
-                </Toolbar>
+            </Toolbar>
+
+            <Paper className="shadow rounded" sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
                     <Table sx={{ minWidth: '100%' }} aria-label="custom pagination table">
                         <CustomTableHead headers={headCells} />
@@ -237,6 +233,7 @@ const ProjetList = (props) => {
                     </Table>
                 </TableContainer>
                 <TablePagination
+                    labelRowsPerPage={<span>Projet par page</span>}
                     rowsPerPageOptions={[5, 10, 25, { label: 'Tous', value: -1 }]}
                     component="div"
                     count={projets.length}

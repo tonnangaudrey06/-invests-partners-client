@@ -10,6 +10,11 @@ import {
 
 const initialState = {
     secteurs: [],
+    projets: [],
+    stats: [],
+    sliders: [],
+    patners: [],
+    events: [],
     paiement: {
         pending: false,
         failed: false
@@ -27,6 +32,31 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 secteurs: payload,
+            };
+        case "SET_PROJET":
+            return {
+                ...state,
+                projets: payload,
+            };
+        case "SET_STATS":
+            return {
+                ...state,
+                stats: payload,
+            };
+        case "SET_SLIDER":
+            return {
+                ...state,
+                sliders: payload,
+            };
+        case "SET_PATNER":
+            return {
+                ...state,
+                patners: payload,
+            };
+        case "SET_EVENT":
+            return {
+                ...state,
+                events: payload,
             };
         case SET_LANGUAGE:
             return {

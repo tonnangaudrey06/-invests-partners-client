@@ -1,11 +1,13 @@
 import '../../styles/header.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, forwardRef, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { logout } from '../../core/reducers/auth/actions'
 import { setLanguage } from '../../core/reducers/app/actions'
 import { AuthService } from '../../core/services';
+
+import { Dropdown } from 'react-bootstrap';
 
 import logo from '../../assets/img/logoWhite.png';
 import flag_uk from '../../assets/img/Flag_uk.png'
@@ -33,6 +35,38 @@ const mapDispatchToProps = (dispatch) => {
     languageChange: (lang) => dispatch(setLanguage(lang)),
   }
 };
+
+const CustomDropdown = forwardRef(({ children, onClick }, ref) => (
+  <span
+    className="d-flex align-items-center"
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  >
+    {children}
+    <span className="ms-1" style={{ fontSize: 10 }}>
+      &#x25bc;
+    </span>
+  </span>
+));
+
+const CustomDropdownMenu = forwardRef(
+  ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={style}
+        className={className}
+        aria-labelledby={labeledBy}
+      >
+        <ul className="list-unstyled m-0">
+          {children}
+        </ul>
+      </div>
+    );
+  },
+);
 
 const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
 
@@ -93,6 +127,7 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
   useEffect(() => {
     i18n.changeLanguage(language);
     languageChange(language);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language])
 
   return (
@@ -125,11 +160,31 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
             <NavLink to="/contact">{t('header.contact')}</NavLink>
           </div>
           <div className="header-link d-flex align-items-center">
-            {language.includes("fr") ? <img className="flag-language" src={flag_fr} alt="fr flag" /> : <img className="flag-language" src={flag_uk} alt="uk flag" />}
-            <select value={language || 'fr'} onChange={(value) => changeLanguage(value.target.value)} className="header-select">
-              <option className="select-items" value="fr">{t('langue.fr')}</option>
-              <option className="select-items" value="en">{t('langue.en')}</option>
-            </select>
+            <Dropdown onSelect={(value) => changeLanguage(value)}>
+              <Dropdown.Toggle as={CustomDropdown}>
+                {language.includes("fr") ?
+                  <Fragment>
+                    <img className="flag-language me-1" src={flag_fr} alt="fr flag" /> {t('langue.fr')}
+                  </Fragment>
+                  :
+                  <Fragment>
+                    <img className="flag-language me-1" src={flag_uk} alt="uk flag" /> {t('langue.en')}
+                  </Fragment>
+                }
+
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu as={CustomDropdownMenu} className="bg-primary text-white p-0 overflow-hidden">
+                <Dropdown.Item eventKey="fr" active={language === 'fr'}>
+                  <img className="flag-language me-1" src={flag_fr} alt="fr flag" />
+                  {t('langue.fr')}
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="en" active={language === 'en'}>
+                  <img className="flag-language me-1" src={flag_uk} alt="uk flag" />
+                  {t('langue.en')}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
           <div className="navMenuCache">
             {auth.isLoggedIn && (

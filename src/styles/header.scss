@@ -49,7 +49,10 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    //margin-left: 1em;
+
+    @media screen and (min-width: 1085px) {
+        margin-left: 3rem;
+    }
 }
 
 .header-link {
@@ -62,8 +65,7 @@
 
     @media screen and (max-width: 1085px) {
         margin: 0.4rem 0.5rem;
-      }
-     
+    }
 }
 
 .header-link a {

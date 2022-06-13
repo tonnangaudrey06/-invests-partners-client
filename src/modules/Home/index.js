@@ -27,7 +27,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import BannerSlider from "../../components/Slider";
 
-import { moneyFormat, millionFormat } from '../../core/utils/helpers'
+import { moneyFormat, millionFormat, sleep } from '../../core/utils/helpers'
 
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
@@ -44,11 +44,13 @@ import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 
-import { AppService, EventService, CampayService, MessageService } from '../../core/services';
+import { AppService, EventService, CampayService, MessageService, PaiementService } from '../../core/services';
 
 import { withNamespaces } from "react-i18next";
 
 import { connect } from "react-redux";
+import PageLoader from '../../components/PageLoader';
+import { Button } from '@mui/material';
 
 const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, setSuccess = (value) => { return }, setError = (value) => { return } }) => {
   const [message, setMessage] = React.useState('');
@@ -99,9 +101,13 @@ const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, se
             <h3>{projet.intitule}</h3>
             <p>{projet.description}</p>
             {user &&
-              <button className="btn btn-primary btn-sm" onClick={() => setOpenPopup(true)}>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={() => setOpenPopup(true)}
+              >
                 Je suis intéressé
-              </button>
+              </Button>
             }
             <Popup
               modal
@@ -167,10 +173,12 @@ const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, se
   );
 }
 
-// const BannerSlider = React.lazy(() => import('../../components/Slider'));
-
-const Alert = React.forwardRef(function Alert(props, ref) {
+const Alert = React.forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const RiEyeFillIcon = React.forwardRef((props) => {
+  return <RiEyeFill {...props} />;
 });
 
 const HomeScreen = ({ history, t, user, language }) => {
@@ -191,6 +199,7 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
+  const [pageLoading, setPageLoading] = React.useState(true);
   const [etat, setEtat] = React.useState({
     message: '',
     error: false,
@@ -291,11 +300,22 @@ const HomeScreen = ({ history, t, user, language }) => {
     setVisible(false);
   }
 
-  const handleParticipe = () => {
+  const handleParticipe = (trans = "") => {
     EventService.participate(event?.id, participation).then(
-      (rs) => {
+      async (rs) => {
         fetchEvents();
         hideParticipate();
+        if (user) {
+          await PaiementService.save(user?.id, {
+              trans_id: trans,
+              methode: methodPaiement,
+              telephone: numero,
+              montant: event?.prix * participation?.places,
+              type: "EVENT",
+              etat: "REUSSI",
+              event: event?.id
+          });
+      }
         setEtat({ error: false, success: true, message: 'Votre réservation a été effectuée' });
         setParticipation({
           nom_complet: '',
@@ -346,22 +366,39 @@ const HomeScreen = ({ history, t, user, language }) => {
     setMethodPaiement('OM')
   }
 
-  const countdown = (refrence) => {
-    let x = setInterval(async () => {
+  const countdown = async (refrence) => {
+    let status = "PENDING";
+    setPaiement({ ...paiement, pending: true, failed: false });
+
+    while (status === "PENDING" || status === "ERROR") {
       try {
         const rs = await CampayService.checkPayment(refrence);
-        if (rs.status === "FAILED") {
-          clearInterval(x);
-          setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
-        } else if (rs.status === "SUCCESSFUL") {
-          clearInterval(x);
-          payementDone()
-          handleParticipe();
+        status = rs.status;
+        if (rs.status !== "PENDING") {
+          break;
         }
+        await sleep(5000);
       } catch (error) {
-        console.log(error);
+        status = "ERROR";
+        console.error(error);
+        break;
       }
-    }, 5000);
+    }
+
+    switch (status) {
+      case "SUCCESSFUL":
+        payementDone()
+        handleParticipe(refrence);
+        break;
+      case "FAILED":
+        setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
+        break;
+      default:
+        // setPaiement({ pending: false, failed: true });
+        // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+        await countdown(refrence)
+        break;
+    }
   }
 
   const payer = () => {
@@ -387,7 +424,7 @@ const HomeScreen = ({ history, t, user, language }) => {
           countdown(rs.reference);
         } catch (error) {
           setPaiement({ pending: false, failed: true, message: '' });
-          console.log(error);
+          console.error(error);
         }
       },
       (error) => {
@@ -403,28 +440,31 @@ const HomeScreen = ({ history, t, user, language }) => {
     )
   }
 
-  const fetchSlide = () => {
-    AppService.slider().then(
-      rs => {
-        setSliders(rs?.data?.data);
+  const loadDatas = async () => {
+    Promise.all([
+      AppService.slider(),
+      AppService.chiffre(),
+      AppService.partenaire(),
+      AppService.projet(),
+      EventService.getLatest()
+    ]).then(
+      values => {
+        const [
+          slidesData,
+          statsData,
+          partnersDatas,
+          projectsData,
+          eventsData
+        ] = values;
+        setSliders(slidesData?.data?.data);
+        setPartenaires(partnersDatas?.data?.data);
+        setProjets(projectsData?.data?.data);
+        setEvents(eventsData?.data?.data);
+        setChiffres(statsData?.data?.data);
       }
-    )
-  }
-
-  const fetchPartenaire = () => {
-    AppService.partenaire().then(
-      rs => {
-        setPartenaires(rs?.data?.data);
-      }
-    )
-  }
-
-  const fetchProjet = () => {
-    AppService.projet().then(
-      rs => {
-        setProjets(rs?.data?.data);
-      }
-    )
+    ).finally(
+      () => setPageLoading(false)
+    );
   }
 
   const fetchEvents = () => {
@@ -434,26 +474,24 @@ const HomeScreen = ({ history, t, user, language }) => {
       }
     )
   }
-
-  const fetchChiffre = () => {
-    AppService.chiffre().then(
-      rs => {
-        setChiffres(rs?.data?.data);
-      }
-    )
-  }
-
   React.useEffect(() => {
-    fetchSlide();
-    fetchPartenaire();
-    fetchProjet();
-    fetchEvents();
-    fetchChiffre();
+    loadDatas();
   }, [])
 
   React.useEffect(() => {
     setLang(language);
   }, [language])
+
+  React.useEffect(() => {
+      if (user) {
+          setParticipation({
+              nom_complet: user?.nom_complet,
+              email: user?.email,
+              telephone: user?.telephone,
+              places: 0
+          })
+      }
+  }, [user])
 
   const next = () => {
     slider.slickNext();
@@ -465,15 +503,17 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   return (
     <Fragment>
-      <div className="carousel">
-        <BannerSlider slides={sliders} translate={t} lang={lang} />
+      <PageLoader loading={pageLoading} />
+
+      <div className="carousel mb-5">
+        <BannerSlider slides={sliders || []} translate={t} lang={lang} />
       </div>
 
       <Container header footer>
-        <div className="section-service container-fluid px-5 pt-3 pb-5">
+        <div className="section-service container-fluid px-5 mb-5">
           <SectionTitle title="service.title" />
-          <div className="row mt-5">
-            {HomeData?.servicesData.map((item, index) => (
+          <div className="row">
+            {(HomeData?.servicesData || []).map((item, index) => (
               <div key={index} className="col-sm-12 col-md-6 col-lg-4 service-item">
                 <div className="service-icon">
                   <img src={item.icon} style={{ width: 30 }} alt="Invest & partners service" />
@@ -487,7 +527,7 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        <div className="section-banner">
+        <div className="section-banner mb-5">
           <div className="seperator"></div>
           <div className="banner-wrapper">
             <div className="banner-content">
@@ -514,10 +554,10 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        <div className="section-expert pt-3">
+        <div className="section-expert mb-5">
           <SectionTitle title="expert.title" />
-          <div className="expert-grid mt-5">
-            {HomeData.expertsData.map((item, index) => (
+          <div className="expert-grid">
+            {(HomeData?.expertsData || []).map((item, index) => (
               <div key={index} className="d-flex justify-content-center">
                 <div className="expert-item" style={{ width: '16rem' }}>
                   <div className="expert-image-home shadow" style={{ width: '100%' }}>
@@ -527,7 +567,7 @@ const HomeScreen = ({ history, t, user, language }) => {
                   <div className="expert-bibio fw-bolder"><p>{lang.includes('fr') ? item.role : item.role_en}</p></div>
                   <div className="expert-button">
                     <Popup
-                      trigger={<RiEyeFill className="expert-button-view" fill="#c5473b" size={30} />}
+                      trigger={<RiEyeFillIcon className="expert-button-view" fill="#c5473b" size={30} />}
                       modal
                       nested
                       className="expert-modal"
@@ -563,9 +603,9 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        <div className="section-partner py-3">
-          <SectionTitle title="partner.title" />
-          <div className="partner-text mt-5">
+        <div className="section-partner mb-5">
+          <SectionTitle title={"partner.title"} />
+          <div className="partner-text">
             <p>{t('partner.text')}</p>
             <div className="partner-box mt-5">
               {(partenaires || []).map((item, index) => (
@@ -577,13 +617,13 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        {projets.length > 0 && (
-          <div className="section-projet pt-3 pb-5">
+        {(projets || []).length > 0 && (
+          <div className="section-projet mb-5">
             <SectionTitle title="projet_ip.title" />
-            <div className="projet-ip-container mt-5">
+            <div className="projet-ip-container">
               <div className="projet-ip-wrapper">
                 <Slider ref={c => (slider = c)} {...settings}>
-                  {projets.map((item, index) => (
+                  {(projets || []).map((item, index) => (
                     <CustomSlide projet={item} t={t} user={user} key={index} />
                   ))}
                 </Slider>
@@ -600,11 +640,11 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         )}
 
-        <div className="section-chiffre py-5">
+        <div className="section-chiffre mb-5">
           <div className="row">
-            <div className="col-md-12 col-lg-4 mb-4">
+            <div className="col-md-12 col-lg-4 my-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.users}</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre?.users || 0}</h3>
                 <div>
                   <RiTeamLine size={100} fill={'white'} />
                 </div>
@@ -613,9 +653,9 @@ const HomeScreen = ({ history, t, user, language }) => {
                 </p>
               </div>
             </div>
-            <div className="col-md-12 col-lg-4 mb-4">
+            <div className="col-md-12 col-lg-4 my-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre.projets}</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{chiffre?.projets || 0}</h3>
                 <div>
                   <RiTeamLine size={100} fill={'white'} />
                 </div>
@@ -624,9 +664,9 @@ const HomeScreen = ({ history, t, user, language }) => {
                 </p>
               </div>
             </div>
-            <div className="col-md-12 col-lg-4 mb-4">
+            <div className="col-md-12 col-lg-4 my-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{millionFormat(chiffre.total)} XAF</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{`${millionFormat(chiffre?.total || 0)} XAF`}</h3>
                 <div>
                   <RiCoinsLine size={100} fill={'white'} />
                 </div>
@@ -638,45 +678,55 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        {events.length > 0 && (
-          <div className="section-event container pt-3 pb-5">
+        {(events || []).length > 0 && (
+          <div className="section-event container mb-5">
             <SectionTitle title="event.title" />
-            <div className="row mt-5">
-              {/* <div className="event-wrapper"> */}
-              {events.map((item, index) => (
-                <div className="col-md-6" key={index}>
-                  <div className="event-item shadow-lg mx-1 mb-2">
+            <div className="row g-2">
+              {(events || []).map((item, index) => (
+                <div className="col-md-4" key={index}>
+                  <div className="event-item shadow-lg">
                     <div className="event-image">
                       <img src={item.image ? item.image : placeholder} alt="" />
                     </div>
-                    <div className="event-hover">
-                      <div style={{ margin: 8 }}>
-                        <div className="fw-bolder event-title" style={{ fontSize: '1.5rem' }}>
+                    <div className="event-hover p-3">
+                      <div className="w-100">
+                        <div className="fw-bolder event-title" style={{ fontSize: '2rem' }}>
                           {item.libelle}
                         </div>
-                        {/* <p className="event-text">{item.description}</p> */}
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-                          <FaCalendarCheck size={20} fill="#c5473b" className="me-1" />{moment(item.date_evenement).format("DD MMMM YYYY")}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-                          <FaClock size={20} fill="#c5473b" className="me-1" />{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}
+                        <div className="d-flex justify-content-center gap-4">
+                          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+                            <FaCalendarCheck size={15} fill="#c5473b" className="me-1" />
+                            {moment(item.date_evenement).format("DD MMMM YYYY")}
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+                            <FaClock size={15} fill="#c5473b" className="me-1" />
+                            {t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}
+                          </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
                           {item.places > item.total_reserve && (
-                            <div className="event-button" onClick={() => openParticipate(item)}>
+                            <Button
+                              className="mr-2"
+                              type="submit"
+                              variant="contained"
+                              onClick={() => openParticipate(item)}
+                            >
                               {t('button.participer')}
-                            </div>
+                            </Button>
                           )}
-                          <button className="event-button" onClick={() => history.push(`events/${item.id}`)}>
+                          <Button
+                            type="submit"
+                            variant="outlined"
+                            onClick={() => history.push(`events/${item.id}`)}
+                          >
                             {t('button.savoir')}
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-              {/* </div> */}
             </div>
           </div>
         )}
@@ -694,7 +744,11 @@ const HomeScreen = ({ history, t, user, language }) => {
           <Modal.Body>
             <p className="mb-1 lh-base text-center">{t('event.form.text._1')} <strong>{event?.libelle}</strong></p>
             {event?.prix ? (
-              <p className="mb-1 text-muted text-center">{t('event.form.text._2')} <strong>{moneyFormat(event?.prix * participation?.places)} XAF</strong></p>
+              <p className="mb-1 text-muted text-center">
+                {t('event.form.text._2', {
+                  prix: moneyFormat(event?.prix)
+                })}
+              </p>
             ) : (
               <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
             )}
@@ -821,7 +875,6 @@ const HomeScreen = ({ history, t, user, language }) => {
                 </div>
               </Grid>
             </Grid>
-            {/*  */}
           </Modal.Body>
         </Modal>
 

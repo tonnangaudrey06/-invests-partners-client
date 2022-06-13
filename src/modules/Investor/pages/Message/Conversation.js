@@ -121,7 +121,7 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
     return (
         <>
             <div className="w-100 d-flex justify-content-between align-items-center mb-4">
-                <h3 className="fw-bolder">Vos conversations</h3>
+                <h3 className="fw-bolder">Conversations</h3>
                 <div className="message-actions d-flex align-items-center">
                     <Button
                         onClick={fetchData}
@@ -136,12 +136,12 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                     >Nouveau message</Button>
                 </div>
             </div>
+            {loading && (
+                <div className="d-flex align-items-center justify-content-center my-2">
+                    <CircularProgress />
+                </div>
+            )}
             <div className="dash-container-right bg-white border overflow-hidden">
-                {loading && (
-                    <div className="d-flex align-items-center justify-content-center my-2">
-                        <CircularProgress />
-                    </div>
-                )}
                 {contacts?.length <= 0 && (
                     <div className="d-flex align-items-center justify-content-center my-2">
                         <h5 className="fw-bolder text-muted">
@@ -151,25 +151,31 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                 )}
                 {(contacts || []).map((item, index) => (
                     <div onClick={() => history.push(match.url + '/' + item.recepteur.id + '/' + item.conversation + (item.projet ? '/' + item.projet.id : '') + '/chat')} key={index} className="message-line border-bottom">
-                        <div className="d-flex align-items-center">
+                        <div className="message-status d-flex align-items-center">
                             {item.vu === 1 ? (
                                 <BiEnvelopeOpen className="text-success" />
                             ) : (
                                 <BiEnvelope className="text-primary" />
                             )}
                         </div>
-                        <div className="message-title border-end d-flex align-items-center">
-                            <h5 className="fw-bolder m-0">{item.recepteur?.nom} | {item.projet?.intitule ? item.projet?.intitule : 'Renseignements'}</h5>
+
+                        <div className="message-title border-end d-flex flex-column">
+                            <span className="fw-bolder lh-sm">{item.projet?.intitule ? item.projet?.intitule : 'Renseignements'}</span>
+                            <small className="lh-sm">{item.sender_data?.nom_complet} </small>
                         </div>
-                        <div className="message-content border-end">
-                            {item.message}
+                        <div className="message-content border-end d-flex">
+                            <span>
+                                {item.message}
+                            </span>
                         </div>
-                        <div className="message-time text-capitalize text-muted">
-                            {moment(item.created_at).format("DD MMMM YYYY [à] HH:mm:ss")}
+                        <div className="message-time text-muted d-flex flex-column">
+                            <span className="fw-bolder lh-sm">{moment(item.created_at).format("DD MMMM YYYY")}</span>
+                            <small className="lh-sm">{moment(item.created_at).format("HH:mm:ss")}</small>
                         </div>
                     </div>
                 ))}
             </div>
+
             <Modal
                 show={visible}
                 onHide={hidePayement}
@@ -234,13 +240,14 @@ const ConversationMessagesPorteurProjet = ({ match, history, user }) => {
                                     onClick={sendMessage}
                                     variant="contained"
                                 >
-                                    Envoyer le message
+                                    Envoyer
                                 </LoadingButton>
                             </div>
                         </Grid>
                     </Grid>
                 </Modal.Body>
             </Modal>
+
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {rs_message}

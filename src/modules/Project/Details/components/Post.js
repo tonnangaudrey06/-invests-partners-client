@@ -28,36 +28,28 @@ const Post = (props) => {
   }, [props])
 
   return (
-    <>
-      <div className="mb-2"></div>
-      <Card sx={{ width: '100%' }} classes={{ root: 'shadow-lg rounded' }}>
-        <CardHeader
-          avatar={
-            <Avatar src={logo ? logo : projetimg}></Avatar>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={actualite?.libelle}
-          subheader={moment(actualite?.created_at).format(" DD MMMM YYYY [à] HH:mm:ss")}
+    <Card sx={{ width: '100%', borderRadius: ".8rem" }} classes={{ root: 'shadow' }}>
+      <CardHeader
+        avatar={
+          <Avatar src={logo ? logo : projetimg}></Avatar>
+        }
+        title={actualite?.libelle}
+        subheader={moment(actualite?.created_at).format(" DD MMMM YYYY [à] HH:mm:ss")}
+      />
+      {actualite?.image && (
+        <CardMedia
+          className="cursor-pointer"
+          onClick={() => downloadFile(actualite?.image)}
+          component="img"
+          height="200"
+          image={actualite?.image}
+          alt="Paella dish"
         />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">{actualite?.description}</Typography>
-        </CardContent>
-        {actualite?.image && (
-          <CardMedia
-            className="cursor-pointer"
-            onClick={() => downloadFile(actualite?.image)}
-            component="img"
-            height="200"
-            image={actualite?.image}
-            alt="Paella dish"
-          />
-        )}
-      </Card>
-    </>
+      )}
+      <CardContent>
+        <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: actualite?.description }} />
+      </CardContent>
+    </Card>
   )
 }
 

@@ -23,7 +23,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { UserService, PlageInvestissementService, CampayService } from '../../../../core/services';
+import { UserService, PlageInvestissementService, CampayService, PaiementService } from '../../../../core/services';
 import { setLoadingFalse, setLoadingTrue } from '../../../../core/reducers/app/actions'
 
 import 'react-phone-number-input/style.css'
@@ -31,7 +31,7 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-import { moneyFormat } from '../../../../core/utils/helpers'
+import { moneyFormat, sleep } from '../../../../core/utils/helpers'
 import { user } from '../../../../core/reducers/auth/actions'
 
 import profile from '../../../../assets/img/profil.jpg';
@@ -72,26 +72,41 @@ const ProfilPorteurProjet = (props) => {
 
     const loc = useGeoLocation();
 
-    const countdown = (refrence) => {
-        let x = setInterval(async () => {
+    const countdown = async (refrence) => {
+        let status = "PENDING";
+        setPaiement({ ...paiement, pending: true, failed: false });
+
+        while (status === "PENDING" || status === "ERROR") {
             try {
                 const rs = await CampayService.checkPayment(refrence);
-                if (rs.status === "FAILED") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: true });
-                    setMessagePay(`La transaction a échoué. Essayez à nouveau`);
-                } else if (rs.status === "SUCCESSFUL") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: false });
-                    hidePayement();
-                    changeUserPlage();
-                } else if (rs.status === "PENDING") {
-                    setPaiement({ pending: true, failed: false });
+                status = rs.status;
+                if (rs.status !== "PENDING") {
+                    break;
                 }
+                await sleep(5000);
             } catch (error) {
-                console.log(error);
+                status = "ERROR";
+                console.error(error);
+                break;
             }
-        }, 5000);
+        }
+
+        switch (status) {
+            case "SUCCESSFUL":
+                setPaiement({ pending: false, failed: false });
+                hidePayement();
+                changeUserPlage(refrence);
+                break;
+            case "FAILED":
+                setPaiement({ pending: false, failed: true });
+                setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                break;
+            default:
+                // setPaiement({ pending: false, failed: true });
+                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                await countdown(refrence)
+                break;
+        }
     }
 
     const payer = async () => {
@@ -114,7 +129,7 @@ const ProfilPorteurProjet = (props) => {
             countdown(rs.reference);
         } catch (error) {
             setPaiement({ pending: false, failed: true });
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -179,12 +194,21 @@ const ProfilPorteurProjet = (props) => {
         )
     };
 
-    const changeUserPlage = () => {
+    const changeUserPlage = (trans = "") => {
         setLoading(true);
         props.setLoadingTrue();
         UserService.updateProfil(user.id, { profil: selectedPlage?.id }).then(
-            (rs) => {
+            async (rs) => {
                 setUser(rs.data.data);
+                const montant = supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay);
+                await PaiementService.save(user?.id, {
+                    trans_id: trans,
+                    methode: methodPaiement,
+                    telephone: numero,
+                    montant,
+                    type: "PROFIL",
+                    etat: "REUSSI"
+                });
                 props.setUserData(rs.data.data);
                 setLoading(false);
                 props.setLoadingFalse();
@@ -206,7 +230,6 @@ const ProfilPorteurProjet = (props) => {
             }
         );
     };
-
 
     const changeUser = (e) => {
         e.preventDefault();
@@ -377,6 +400,7 @@ const ProfilPorteurProjet = (props) => {
     };
 
     React.useEffect(() => {
+        console.log(props.auth.user);
         setUser(props.auth.user)
         function loadPlage() {
             PlageInvestissementService.getAll().then(
@@ -424,23 +448,23 @@ const ProfilPorteurProjet = (props) => {
                             {user?.status === 'PARTICULIER' && (
                                 <div className="mt-2 w-100 text-center">
                                     <Divider />
-                                    <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <label className="me-2" htmlFor="cni-passport">
-                                                <Input id="cni-passport" type="file" onChange={changeCni} />
-                                                <Button className="btn-default" variant="contained" component="span">
-                                                    {user?.cni ? "Changer" : "Ajouter"} votre CNI/Passport
-                                                </Button>
-                                            </label>
-                                            {!user?.cni && (
-                                                <HighlightOffIcon color="primary" />
-                                            )}
-                                        </div>
-
-                                        {user?.cni && (
-                                            <img src={user?.cni} alt={`${user?.nom_complet} CNI`} width="250" className="rounded shadow mt-2" />
+                                    <div className="d-flex justify-content-center align-items-center my-1">
+                                        <span className="me-3">CNI/Passport</span>
+                                        {!user?.cni && (
+                                            <HighlightOffIcon color="primary" />
                                         )}
-                                    </FormControl>
+                                    </div>
+
+                                    <label className="me-2" htmlFor="cni-passport">
+                                        <input className="d-none" id="cni-passport" type="file" onChange={changeCni} />
+                                        <Button component="span" variant="contained" size="small">
+                                            {user?.cni ? "Mettre à jour" : "Importer"}
+                                        </Button>
+                                    </label>
+
+                                    {user?.cni && (
+                                        <img src={user?.cni} alt={`${user?.nom_complet} CNI`} width="250" className="rounded shadow mt-2" />
+                                    )}
                                 </div>
                             )}
 
@@ -448,43 +472,55 @@ const ProfilPorteurProjet = (props) => {
                                 <>
                                     <div className="mt-2 w-100 text-center">
                                         <Divider />
-                                        <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                            <div className="d-flex justify-content-center align-items-center">
-                                                <label className="me-2" htmlFor="fiscal-rccm">
-                                                    <Input id="fiscal-rccm" type="file" onChange={changeRCCM} />
-                                                    <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                        {checkFiscal('RCCM') ? "Changer" : "Ajouter"} votre RCCM
-                                                    </LoadingButton>
-                                                </label>
-                                                {!checkFiscal('RCCM') && (
-                                                    <HighlightOffIcon color="error" />
-                                                )}
+                                        <div className="d-flex justify-content-center align-items-center my-1">
+                                            <span className="me-3">RCCM</span>
+                                            {!checkFiscal('RCCM') && (
+                                                <HighlightOffIcon color="primary" />
+                                            )}
+                                            {checkFiscal('RCCM') && (
+                                                <CheckCircleIcon color="success" />
+                                            )}
+                                        </div>
 
-                                                {checkFiscal('RCCM') && (
-                                                    <CheckCircleIcon color="success" />
-                                                )}
-                                            </div>
-                                        </FormControl>
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <label className="me-2" htmlFor="fiscal-rccm">
+                                                <input className="d-none" id="fiscal-rccm" type="file" onChange={changeRCCM} />
+                                                <LoadingButton
+                                                    loading={loading}
+                                                    variant="contained"
+                                                    component="span"
+                                                    size="small"
+                                                >
+                                                    {checkFiscal('RCCM') ? "Mettre à jour" : "Importer"}
+                                                </LoadingButton>
+                                            </label>
+                                        </div>
                                     </div>
                                     <div className="mt-2 w-100 text-center">
                                         <Divider />
-                                        <FormControl sx={{ m: 1, width: "100%" }} className="mt-2">
-                                            <div className="d-flex justify-content-center align-items-center">
-                                                <label className="me-2" htmlFor="fiscal-carte-contribuable">
-                                                    <Input id="fiscal-carte-contribuable" type="file" onChange={changeCarteContribuable} />
-                                                    <LoadingButton loading={loading} className="btn-default" variant="contained" component="span">
-                                                        {checkFiscal('CARTE_CONTRIBUABLE') ? "Changer" : "Ajouter"} votre Carte contribuable
-                                                    </LoadingButton>
-                                                </label>
-                                                {!checkFiscal('CARTE_CONTRIBUABLE') && (
-                                                    <HighlightOffIcon color="error" />
-                                                )}
+                                        <div className="d-flex justify-content-center align-items-center my-1">
+                                            <span className="me-3">Carte contribuable</span>
+                                            {!checkFiscal('CARTE_CONTRIBUABLE') && (
+                                                <HighlightOffIcon color="primary" />
+                                            )}
+                                            {checkFiscal('CARTE_CONTRIBUABLE') && (
+                                                <CheckCircleIcon color="success" />
+                                            )}
+                                        </div>
 
-                                                {checkFiscal('CARTE_CONTRIBUABLE') && (
-                                                    <CheckCircleIcon color="success" />
-                                                )}
-                                            </div>
-                                        </FormControl>
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <label className="me-2" htmlFor="fiscal-carte-contribuable">
+                                                <input className="d-none" id="fiscal-carte-contribuable" type="file" onChange={changeCarteContribuable} />
+                                                <LoadingButton
+                                                    loading={loading}
+                                                    variant="contained"
+                                                    component="span"
+                                                    size="small"
+                                                >
+                                                    {checkFiscal('CARTE_CONTRIBUABLE') ? "Mettre à jour" : "Importer"}
+                                                </LoadingButton>
+                                            </label>
+                                        </div>
                                     </div>
                                 </>
                             )}
@@ -724,20 +760,22 @@ const ProfilPorteurProjet = (props) => {
                                 <div className="container my-5">
                                     <h3 className="fw-bolder">Plage d'investissement</h3>
                                     <p className="text-muted mb-5">Modifier votre plage d'investissement.</p>
-                                    <div class="row card-deck mb-3 text-center">
+                                    <div className="row mb-3 g-4 text-center">
                                         {(plage || []).map((item, index) => (
-                                            <div className="col-sm-12 col-md-6 col-lg-4">
-                                                <div class={item.id === user?.profil ? "card mb-4 box-shadow border-success" : "card mb-4 box-shadow"}>
-                                                    <div class="card-header">
-                                                        <h4 class="my-0 fw-bolder">{item.type}</h4>
+                                            <div className="col-md-6 col-lg-4" key={index}>
+                                                <div className={item.id === user?.profil ? "card shadow border-success" : "card mb-4 shadow"}>
+                                                    <div className={`card-header text-white ${item.id === user?.profil ? "bg-success" : "bg-primary"}`}>
+                                                        <h4 className="my-0 fw-bolder">{item.type}</h4>
                                                     </div>
-                                                    <div class="card-body">
-                                                        <h1 class="card-title pricing-card-title">{moneyFormat(item.frais_abonnement)} XAF</h1>
-                                                        <p class="mt-3">
-                                                            Peut investir sur des projets de <br /> <strong>{(!item.montant_min || item.montant_min === 0) ? item.min : moneyFormat(item.montant_min) + ' XAF'}</strong> <br />à<br /> <strong>{(!item.montant_max || item.montant_max === 0) ? item.max : moneyFormat(item.montant_max) + ' XAF'}</strong>
+                                                    <div className="card-body">
+                                                        <h1 className="card-title pricing-card-title">{moneyFormat(item.frais_abonnement)} XAF</h1>
+                                                        <p className="mt-2">
+                                                            Possibilité d'investir sur des projets avec un besoin chiffre d'affaire prévissionnel compris entreprise&nbsp;
+                                                            <strong>{(!item.montant_min || item.montant_min === 0) ? item.min : moneyFormat(item.montant_min) + ' XAF'}</strong> et&nbsp;
+                                                            <strong>{(!item.montant_max || item.montant_max === 0) ? item.max : moneyFormat(item.montant_max) + ' XAF'}</strong>
                                                         </p>
-                                                        {item.id === user?.profil && (<span class="badge bg-success p-2 mt-3">Votre abonnement actuel</span>)}
-                                                        {item.id !== user?.profil && (<button type="button" class="mt-3 btn btn-sm btn-block btn-primary" onClick={() => openChangePlage(item)}>Souscrire</button>)}
+                                                        {item.id === user?.profil && (<Button color="success" variant="contained" className="mt-2">Votre abonnement actuel</Button>)}
+                                                        {item.id !== user?.profil && (<Button variant="contained" disabled={item.montant_max < user?.profil_invest?.montant_min} className="mt-2" onClick={() => openChangePlage(item)}>Souscrire</Button>)}
                                                     </div>
                                                 </div>
                                             </div>
@@ -748,7 +786,7 @@ const ProfilPorteurProjet = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             <Modal
                 show={visible}
@@ -762,7 +800,7 @@ const ProfilPorteurProjet = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <p>Vous paierez un supplément de <strong>{supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay)} XAF</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
-                    <hr/>
+                    <hr />
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>
@@ -819,7 +857,7 @@ const ProfilPorteurProjet = (props) => {
                     {message}
                 </Alert>
             </Snackbar>
-        </div>
+        </div >
     );
 }
 

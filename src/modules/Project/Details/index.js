@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Row, Col, Modal } from 'react-bootstrap';
+import { Badge, Modal } from 'react-bootstrap';
 
 import Videoplay from './components/Videoplay';
 import Description from "./components/Description";
@@ -100,31 +100,38 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
         setError(false);
     };
 
-    React.useEffect(() => {
-        async function fetchData() {
-            setLoadingData(true);
-            try {
-                const rs = await ProjetService.getOneProjet(projet);
-                setProjetDetails(rs.data.data);
-                setLoadingData(false);
-            } catch (error) {
-                setLoadingData(false);
-            }
-
+    const fetchData = async () => {
+        setLoadingData(true);
+        try {
+            const rs = await ProjetService.getOneProjet(projet);
+            setProjetDetails(rs.data.data);
+            setLoadingData(false);
+        } catch (error) {
+            setLoadingData(false);
         }
+
+    }
+
+    React.useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projet]);
 
+    React.useEffect(() => {
+        console.log(details);
+    }, [details]);
+
     const checkFileIsVideo = (file) => {
-        const format = ['mp4', 'avi', 'mkv', 'm4v', 'mpg', 'mpeg', 'mov', '3gp'];
+        const format = ['mp4', 'avi', 'mkv', 'm4v', 'mpg', 'mpeg', 'mov', '3gp', 'webm'];
         return format.includes(file?.split('.')?.pop())
     }
 
     return (
         <Container header footer headerActive active="projets">
             {!details ? (
-                <div className="col-12 py-5 d-flex justify-content-center align-items-center">
+                <div className="col-12 d-flex justify-content-center align-items-center" style={{ minHeight: "40rem" }}>
                     {loadingData && (<CircularProgress />)}
+
                     {!loadingData && (
                         <h5 className="fw-bolder text-muted">
                             {t('projet.not_found_projet_1')}
@@ -133,54 +140,62 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                 </div>
             ) : (
                 <div className="container mt-5 py-5">
-                    <div className="corpsDetail">
-                        <Row>
-                            <Col>
-                                <div className="entete2 d-flex justify-content-center">
-                                    <EnteteProjet projet={details} t={t} />
-                                </div>
-                            </Col>
-                        </Row>
-                    </div>
                     <div className="my-5">
-                        <Row>
-                            {checkFileIsVideo(details?.doc_presentation) && (
-                                <Col lg={true} >
-                                    <div className="shadow embed-responsive embed-responsive-1by1 h-100">
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={checkFileIsVideo(details?.doc_presentation) ? 12 : 6} className="d-flex justify-content-center">
+                                <div className="entete2">
+                                    <EnteteProjet projet={details} t={t} />
+                                    <div className="w-100 d-flex justify-content-center align-items-center mt-1">
+                                        <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-50">{t('projet.details.btn._1')}</Button>
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            {checkFileIsVideo(details?.doc_presentation) &&
+                                <Grid item xs={12} md={6} >
+                                    <div className="embed-responsive embed-responsive-1by1 h-100">
                                         <Videoplay video={details?.doc_presentation} />
                                     </div>
-                                </Col>
-                            )}
-                            <Col lg={true} >
-                                <div className="card shadow-lg rounded mx-auto" style={{ textAlign: checkFileIsVideo(details?.doc_presentation) ? 'start' : 'center' }}>
+                                </Grid>
+                            }
+
+                            <Grid item xs={12} md="6">
+                                <div className="card shadow rounded border-0 h-100">
                                     <div className="card-body">
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item"><span className="fw-bolder">{t('projet.details.cat')} :</span> {details?.secteur_data?.libelle}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.localize')} :</span> {details?.ville_activite}, {details?.pays_activite}</li>
-                                            {/* <li className="list-group-item mt-1"><span className="fw-bolder">Montant minimum d'investissement :</span> {details?.ville_activite} XAF</li> */}
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.taux')} :</span> {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : t('projet.other._2')}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.ca')} :</span> {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : t('projet.other._2')}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.duree')} :</span>{details?.duree ? details?.duree + t('projet.other._1') : t('projet.other._2')}</li>
-                                            <li className="list-group-item mt-1"><span className="fw-bolder">{t('projet.details.dead_line')} :</span> {details?.rsi ? details?.rsi + t('projet.other._1') : t('projet.other._2')}</li>
-                                        </ul>
-                                    </div>
-                                    <div className="card-footer d-flex justify-content-center align-items-center py-4">
-                                        {/* <div className="d-flex align-items-center fw-bolder">
-                                            <span className="me-2"><i className="bi bi-heart"></i></span>
-                                            <span>Ajouter au favoris</span>
-                                        </div> */}
-                                        <div className="w-100 d-flex justify-content-center align-items-center">
-                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-25">{t('projet.details.btn._1')}</Button>
+
+                                        <div style={{ marginBottom: 10 }}>
+                                            {/* <span className="fw-bolder">{t('projet.details.cat')} :</span>
+                                            {details?.secteur_data?.libelle} */}
+                                            <Badge pill bg="primary" className="fs-6">
+                                                {details?.secteur_data?.libelle}
+                                            </Badge>
                                         </div>
+                                        <p className="fs-6" style={{ marginBottom: 10 }}>
+                                            <span className="fw-bolder">{t('projet.details.localize')} :</span>
+                                            {details?.ville_activite}, {details?.pays_activite}
+                                        </p>
+                                        <p className="fs-6" style={{ marginBottom: 10 }}>
+                                            <span className="fw-bolder">{t('projet.details.taux')} :</span>
+                                            {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : t('projet.other._2')}
+                                        </p>
+                                        <p className="fs-6" style={{ marginBottom: 10 }}>
+                                            <span className="fw-bolder">{t('projet.details.ca')} :</span>
+                                            {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : t('projet.other._2')}
+                                        </p>
+                                        <p className="fs-6" style={{ marginBottom: 10 }}>
+                                            <span className="fw-bolder">{t('projet.details.duree')} :</span>
+                                            {details?.duree ? details?.duree + t('projet.other._1') : t('projet.other._2')}
+                                        </p>
+                                        <p className="fs-6" style={{ marginBottom: 10 }}>
+                                            <span className="fw-bolder">{t('projet.details.dead_line')} :</span>
+                                            {details?.rsi ? details?.rsi + t('projet.other._1') : t('projet.other._2')}
+                                        </p>
                                     </div>
                                 </div>
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className="navigation mt-2">
-                        <Row>
-                            <Col lg={true} >
-                                <div className="card">
+                            </Grid>
+
+                            <Grid item md="12">
+                                <div className="card border-0 shadow rounded">
                                     <div className="card-body">
                                         <div className="nav nav-pills nav-fill profile-nav" role="tablist">
                                             <button className="nav-link active fw-bolder fs-5 mr-1" id="nav-desc-tab" data-bs-toggle="tab" data-bs-target="#nav-desc" type="button" role="tab" aria-controls="nav-desc" aria-selected="true">
@@ -191,16 +206,17 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                             </button>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="container-md rounded border shadow bg-white my-5" >
+
                                     <div className="tab-content mh-100">
-                                        <div className="tab-pane fade show active" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
+                                        <div className="tab-pane fade show active p-3" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
                                             <Description desc={details?.description || ''} />
                                         </div>
-                                        <div className="tab-pane fade" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
-                                            <div className="container-md d-flex flex-column align-items-center mb-5">
+                                        <div className="tab-pane fade p-3" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
+                                            <div className="row g-4">
                                                 {(details?.actualites || []).map((actualite, index) => (
-                                                    <News key={index} actualite={actualite} logo={details?.logo} />
+                                                    <div className="col-md-4" key={index}>
+                                                        <News actualite={actualite} logo={details?.logo} />
+                                                    </div>
                                                 ))}
                                             </div>
                                         </div>
@@ -208,8 +224,8 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                         </div>
                                     </div>
                                 </div>
-                            </Col>
-                        </Row>
+                            </Grid>
+                        </Grid>
                     </div>
                 </div>
             )}
@@ -252,7 +268,7 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                     onClick={sendMessage}
                                     variant="contained"
                                 >
-                                   {t('projet.other.modal.btn')}
+                                    {t('projet.other.modal.btn')}
                                 </LoadingButton>
                             </div>
                         </Grid>
@@ -265,6 +281,7 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                     {rs_message}
                 </Alert>
             </Snackbar>
+
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright2" open={success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
                 <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
                     {rs_message}

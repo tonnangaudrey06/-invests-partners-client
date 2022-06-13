@@ -25,9 +25,9 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-import { PlageInvestissementService, AuthService, CampayService } from '../../../core/services'
+import { PlageInvestissementService, AuthService, CampayService, PaiementService } from '../../../core/services'
 
-import { moneyFormat } from '../../../core/utils/helpers'
+import { moneyFormat, sleep } from '../../../core/utils/helpers'
 
 import terms from '../../../assets/Terms-and-Conditions.pdf'
 import conditions from '../../../assets/CONFIDENTIALITY POLICY I&P.pdf'
@@ -136,13 +136,23 @@ const Register = (props) => {
         setEtat({ ...etat, error: false });
     };
 
-    const handleRegister = () => {
+    const handleRegister = (trans = '') => {
         setEtat({ ...etat, loading: true });
         props.setLoadingTrue();
 
         AuthService.register(state).then(
-            () => {
+            async (rs) => {
                 setEtat({ ...etat, loading: false });
+                if (+rs.data.role === 4) {
+                    await PaiementService.save(rs.data.id, {
+                        trans_id: trans,
+                        methode: methodPaiement,
+                        telephone: numero,
+                        montant: getSelectedPlage()?.frais_abonnement,
+                        type: "INSCRIPTION",
+                        etat: "REUSSI",
+                    });
+                }
                 props.setLoadingFalse();
                 props.switchPage("login");
                 props.sendMessage("Votre compte a été créé avec succès. Vous pouvez à présent vous connecter avec vos d'identifiants");
@@ -170,9 +180,9 @@ const Register = (props) => {
             () => {
                 if (+state.role === 4) {
                     setVisible(true);
-                    return;
+                } else {
+                    handleRegister();
                 }
-                handleRegister();
             },
             error => {
                 const rsMessage =
@@ -216,27 +226,44 @@ const Register = (props) => {
         return ''
     }
 
-    const countdown = (refrence) => {
-        let x = setInterval(async () => {
+    // PAYEMENT
+    const countdown = async (refrence) => {
+        let status = "PENDING";
+        setPaiement({ pending: true, failed: false });
+
+        while (status === "PENDING" || status === "ERROR") {
             try {
                 const rs = await CampayService.checkPayment(refrence);
-                if (rs.status === "FAILED") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: true });
-                    setMessagePay(`La transaction a échoué. Essayez à nouveau`);
-                } else if (rs.status === "SUCCESSFUL") {
-                    clearInterval(x);
-                    payementDone()
-                    handleRegister();
-                } else if (rs.status === "PENDING") {
-                    setPaiement({ pending: true, failed: false });
+                status = rs.status;
+                if (rs.status !== "PENDING") {
+                    break;
                 }
+                await sleep(5000);
             } catch (error) {
-                console.log(error);
+                status = "ERROR";
+                console.error(error);
+                break;
             }
-        }, 5000);
+        }
+
+        switch (status) {
+            case "SUCCESSFUL":
+                payementDone()
+                handleRegister(refrence);
+                break;
+            case "FAILED":
+                setPaiement({ pending: false, failed: true });
+                setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                break;
+            default:
+                // setPaiement({ pending: false, failed: true });
+                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                await countdown(refrence)
+                break;
+        }
     }
 
+    // PAYEMENT INIT
     const payer = async () => {
         setPaiement({ pending: true, failed: false });
         try {
@@ -256,7 +283,7 @@ const Register = (props) => {
             countdown(rs.reference);
         } catch (error) {
             setPaiement({ pending: false, failed: true });
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -271,7 +298,6 @@ const Register = (props) => {
 
         loadPlage();
     }, [])
-
 
     const loc = useGeoLocation();
 
@@ -294,6 +320,7 @@ const Register = (props) => {
                         </div>
                     </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={12}>
                     <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                         <div className="d-flex flex-column align-items-center">
@@ -310,6 +337,7 @@ const Register = (props) => {
                         </div>
                     </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={state.status === 'PARTICULIER' ? 6 : 12}>
                     <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
@@ -334,6 +362,7 @@ const Register = (props) => {
                             }} />
                     </FormControl>
                 </Grid>
+
                 {state.status === 'PARTICULIER' &&
                     <Grid item xs={12} md={6}>
                         <FormControl sx={{ my: .5, width: "100%" }}>
@@ -359,6 +388,7 @@ const Register = (props) => {
                         </FormControl>
                     </Grid>
                 }
+
                 <Grid item xs={12} md={6}>
                     <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
@@ -383,6 +413,7 @@ const Register = (props) => {
                             }} />
                     </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={6}>
                     <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
@@ -407,6 +438,7 @@ const Register = (props) => {
                             }} />
                     </FormControl>
                 </Grid>
+
                 <Grid item xs={12}>
                     <FormControl sx={{ my: .5, width: "100%" }}>
                         <TextField
@@ -448,6 +480,7 @@ const Register = (props) => {
                             }} />
                     </FormControl>
                 </Grid>
+
                 {state.role === 4 &&
                     <Grid item xs={12} md={12}>
                         <FormControl sx={{ my: .5, width: "100%" }}>
@@ -496,16 +529,39 @@ const Register = (props) => {
                     </Grid>
                 }
             </Grid>
+
             <div className="mt-2 d-flex justify-content-center">
                 <small className="fw-bolder">{t('auth.inscription.text._3')}</small>
             </div>
+
             <div className="form-end-register">
-                <FormControlLabel control={<Checkbox value={etat.condition || false} onChange={() => setEtat({ ...etat, condition: !etat.condition })} />} label="" />
-                <label>{t('auth.inscription.text._4')} <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._5')}</a> {t('auth.inscription.text._6')} <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._7')}</a>.</label>
+                <FormControlLabel control={
+                    <Checkbox
+                        value={etat.condition || false}
+                        onChange={() => setEtat({ ...etat, condition: !etat.condition })}
+                    />}
+                    label={
+                        <label>
+                            {t('auth.inscription.text._4')}
+                            <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._5')}</a>
+                            {t('auth.inscription.text._6')}
+                            <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._7')}</a>.
+                        </label>
+                    }
+                />
+
             </div>
+
             <div className="form-end-register" style={{ marginBottom: "1.5em" }}>
-                <FormControlLabel control={<Checkbox checked={state.newsletter} value={state.newsletter} onChange={() => setState({ ...state, newsletter: !state.newsletter })} />} label="" />
-                <label>{t('auth.inscription.newsletter')}</label>
+                <FormControlLabel control={
+                    <Checkbox
+                        checked={state.newsletter}
+                        value={state.newsletter}
+                        onChange={() => setState({ ...state, newsletter: !state.newsletter })}
+                    />}
+                    label={<label>{t('auth.inscription.newsletter')}</label>}
+                />
+
             </div>
 
             <LoadingButton
@@ -590,6 +646,7 @@ const Register = (props) => {
                     </Grid>
                 </Modal.Body>
             </Modal>
+
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {message}

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-
-import { AiFillLike } from 'react-icons/ai';
+import React from "react";
 
 import projetimg from "../../../../assets/img/projet.jpg";
 
@@ -8,9 +6,7 @@ import { moneyFormat } from '../../../../core/utils/helpers';
 
 const EnteteProjet = (props) => {
 
-    const { projet, t } = props
-
-    const [nbLike] = useState("4");
+    const { projet, t } = props;
 
     return (
         <div className="entete">

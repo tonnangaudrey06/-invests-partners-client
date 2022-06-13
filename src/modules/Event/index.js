@@ -24,7 +24,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { moneyFormat } from '../../core/utils/helpers'
+import { moneyFormat, sleep } from '../../core/utils/helpers'
 
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -34,15 +34,16 @@ import PhoneInput from 'react-phone-number-input'
 
 import useGeoLocation from "react-ipgeolocation";
 
-import { EventService, CampayService } from '../../core/services'
+import { EventService, CampayService, PaiementService } from '../../core/services'
 
 import { withNamespaces } from "react-i18next";
+import { connect } from 'react-redux';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Event = ({ t, history }) => {
+const Event = ({ t, history, user }) => {
 
     const [events, setEvents] = React.useState([]);
     const [months, setMonths] = React.useState([]);
@@ -102,11 +103,23 @@ const Event = ({ t, history }) => {
         setVisible(false);
     }
 
-    const handleParticipe = () => {
+    const handleParticipe = (trans = "") => {
         EventService.participate(event?.id, participation).then(
-            (rs) => {
+            async (rs) => {
                 fetchData();
                 hideParticipate();
+
+                if (user) {
+                    await PaiementService.save(user?.id, {
+                        trans_id: trans,
+                        methode: methodPaiement,
+                        telephone: numero,
+                        montant: event?.prix * participation?.places,
+                        type: "EVENT",
+                        etat: "REUSSI",
+                        event: event?.id
+                    });
+                }
                 setEtat({ error: false, success: true, message: 'Votre réservation a été effectuée' });
                 setParticipation({
                     nom_complet: '',
@@ -157,22 +170,39 @@ const Event = ({ t, history }) => {
         setMethodPaiement('OM')
     }
 
-    const countdown = (refrence) => {
-        let x = setInterval(async () => {
+    const countdown = async (refrence) => {
+        let status = "PENDING";
+        setPaiement({ ...paiement, pending: true, failed: false });
+
+        while (status === "PENDING" || status === "ERROR") {
             try {
                 const rs = await CampayService.checkPayment(refrence);
-                if (rs.status === "FAILED") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
-                } else if (rs.status === "SUCCESSFUL") {
-                    clearInterval(x);
-                    payementDone()
-                    handleParticipe();
+                status = rs.status;
+                if (rs.status !== "PENDING") {
+                    break;
                 }
+                await sleep(5000);
             } catch (error) {
-                console.log(error);
+                status = "ERROR";
+                console.error(error);
+                break;
             }
-        }, 5000);
+        }
+
+        switch (status) {
+            case "SUCCESSFUL":
+                payementDone()
+                handleParticipe(refrence);
+                break;
+            case "FAILED":
+                setPaiement({ pending: false, failed: true, message: `La transaction a échoué. Essayez à nouveau` });
+                break;
+            default:
+                // setPaiement({ pending: false, failed: true });
+                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                await countdown(refrence)
+                break;
+        }
     }
 
     const payer = () => {
@@ -198,7 +228,7 @@ const Event = ({ t, history }) => {
                     countdown(rs.reference);
                 } catch (error) {
                     setPaiement({ pending: false, failed: true, message: '' });
-                    console.log(error);
+                    console.error(error);
                 }
             },
             (error) => {
@@ -233,9 +263,20 @@ const Event = ({ t, history }) => {
         return () => { isMounted = false };
     }, [])
 
+    React.useEffect(() => {
+        if (user) {
+            setParticipation({
+                nom_complet: user?.nom_complet,
+                email: user?.email,
+                telephone: user?.telephone,
+                places: 0
+            })
+        }
+    }, [user])
+
     return (
         <Container header active="events" footer>
-            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{  background: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(${eventImg})` }}>
+            <div className="d-flex flex-column align-items-center justify-content-center event-header text-white text-center" style={{ background: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(${eventImg})` }}>
                 <h3 className="fw-default-title text-uppercase" style={{ fontSize: '3.5rem' }}>{t('event.title')}</h3>
             </div>
 
@@ -363,6 +404,7 @@ const Event = ({ t, history }) => {
                     ))}
                 </div>
             </div>
+
             <Modal
                 show={visible}
                 onHide={hideParticipate}
@@ -371,17 +413,21 @@ const Event = ({ t, history }) => {
                 centered
             >
                 <Modal.Header closeButton={!paiement.pending}>
-                    <Modal.Title>Participation à l'évenement</Modal.Title>
+                    <Modal.Title>{t('event.form.title')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="mb-1 lh-base text-center">Vous voulez participer à l'évenement <strong>{event?.libelle}</strong></p>
+                    <p className="mb-1 lh-base text-center">{t('event.form.text._1')} <strong>{event?.libelle}</strong></p>
                     {event?.prix ? (
-                        <p className="mb-1 text-muted text-center">La participation à cette évenement coûtera <strong>{moneyFormat(event?.prix * participation?.places)} XAF</strong></p>
+                        <p className="mb-1 text-muted text-center">
+                            {t('event.form.text._2', {
+                                prix: moneyFormat(event?.prix)
+                            })}
+                        </p>
                     ) : (
-                        <p className="mb-1 text-muted text-center">La participation à cette évenement est gratuit</p>
+                        <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
                     )}
                     <hr />
-                    <h5 className="fw-bolder my-1">Informations personnelles</h5>
+                    <h5 className="fw-bolder my-1">{t('event.form.sub_title_1')}</h5>
                     <Grid>
                         <Grid item xs={12} md={12}>
                             <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
@@ -391,8 +437,8 @@ const Event = ({ t, history }) => {
                                     size="small"
                                     type="text"
                                     variant="filled"
-                                    label="Nom complet"
-                                    placeholder="Nom & prenom"
+                                    label={t('event.form.input._1.title')}
+                                    placeholder={t('event.form.input._1.placeholder')}
                                     value={participation.nom_complet}
                                     onChange={(e) => onChangeForm('nom_complet', e.target.value)}
                                 />
@@ -406,7 +452,7 @@ const Event = ({ t, history }) => {
                                     size="small"
                                     type="email"
                                     variant="filled"
-                                    label="Email"
+                                    label={t('event.form.input._2.title')}
                                     placeholder="example@domaine.com"
                                     value={participation.email}
                                     onChange={(e) => onChangeForm('email', e.target.value)}
@@ -420,8 +466,8 @@ const Event = ({ t, history }) => {
                                     size="small"
                                     required
                                     variant="filled"
-                                    label="Téléphone"
-                                    placeholder="Téléphone"
+                                    label={t('event.form.input._3.title')}
+                                    placeholder={t('event.form.input._3.placeholder')}
                                     type="tel"
                                     value={participation.telephone}
                                     onChange={(e) => onChangeForm('telephone', e.target.value)}
@@ -435,8 +481,8 @@ const Event = ({ t, history }) => {
                                     size="small"
                                     required
                                     variant="filled"
-                                    label="Nombre places"
-                                    placeholder="Places"
+                                    label={t('event.form.input._4.title')}
+                                    placeholder={t('event.form.input._4.placeholder')}
                                     type="number"
                                     InputProps={{ inputProps: { min: 0, max: event?.places - event?.total_reserve } }}
                                     value={participation.places || ''}
@@ -450,7 +496,7 @@ const Event = ({ t, history }) => {
                         {event?.prix && (
                             <Grid item xs={12} md={12}>
                                 <FormControl component="fieldset" sx={{ my: .5, width: "100%" }} className="d-flex flex-column align-items-center">
-                                    <h6 className="fw-bolder">Choisir le moyen de paiement</h6>
+                                    <h6 className="fw-bolder">{t('event.form.sub_title_2')}</h6>
                                     <RadioGroup
                                         row
                                         value={methodPaiement || 'OM'}
@@ -462,10 +508,10 @@ const Event = ({ t, history }) => {
                                     </RadioGroup>
                                 </FormControl>
                                 <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                    <h6 className="fw-bolder mt-2 text-center">Votre numéro de téléphone</h6>
+                                    <h6 className="fw-bolder mt-2 text-center">{t('event.form.pay._1.title')}</h6>
                                     <PhoneInput
                                         defaultCountry={loc.country}
-                                        placeholder="Numéro de téléphone"
+                                        placeholder={t('event.form.pay._1.placeholder')}
                                         value={numero || ''}
                                         onChange={setNumero}
                                     />
@@ -489,7 +535,7 @@ const Event = ({ t, history }) => {
                                         onClick={payer}
                                         variant="contained"
                                     >
-                                        Payer
+                                        {t('event.form.btn._1')}
                                     </LoadingButton>
                                 ) : (
                                     <LoadingButton
@@ -497,15 +543,15 @@ const Event = ({ t, history }) => {
                                         onClick={checkSeat}
                                         variant="contained"
                                     >
-                                        Participer
+                                        {t('event.form.btn._2')}
                                     </LoadingButton>
                                 )}
                             </div>
                         </Grid>
                     </Grid>
-                    {/*  */}
                 </Modal.Body>
             </Modal>
+
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrighterror" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {etat.message}
@@ -520,4 +566,6 @@ const Event = ({ t, history }) => {
     );
 }
 
-export default withNamespaces()(Event);
+const mapStateToProps = (state) => ({ user: state.auth.user })
+
+export default withNamespaces()(connect(mapStateToProps)(Event));

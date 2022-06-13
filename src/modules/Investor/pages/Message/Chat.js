@@ -158,7 +158,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                 {(messages || []).map((item, index) => (
                     <div key={index} className="message-item border mb-3">
                         {/* <div className="message-seen" style={{ backgroundColor: item.vu === 1 ? "green" : "#c5473b" }}></div> */}
-                        <div className="d-flex align-items-center justify-content-between mb-1">
+                        <div className="d-flex align-items-center justify-content-between lh-sm">
                             <div className="d-flex align-items-center">
                                 <div className="message-sender me-3">
                                     {item.envoyeur === user?.id ? 'Vous' : item.sender?.nom + ' ' + item.sender?.prenom}
@@ -194,7 +194,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl sx={{ m: 1, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre message</h6>
+                                <h6 className="fw-bolder">Message</h6>
                                 <TextField
                                     fullWidth
                                     size="small"
@@ -218,13 +218,14 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                                     onClick={sendMessage}
                                     variant="contained"
                                 >
-                                    Envoyer le message
+                                    Envoyer
                                 </LoadingButton>
                             </div>
                         </Grid>
                     </Grid>
                 </Modal.Body>
             </Modal>
+            
             <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
                 <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
                     {rs_message}

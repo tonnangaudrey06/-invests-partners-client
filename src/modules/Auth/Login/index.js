@@ -177,6 +177,7 @@ class Login extends React.Component {
                 </div>
               </FormControl>
             </Grid>
+
             <Grid item xs={12} md={12}>
               <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                 <TextField
@@ -199,6 +200,7 @@ class Login extends React.Component {
                   }} />
               </FormControl>
             </Grid>
+
             <Grid item xs={12} md={12}>
               <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
                 <TextField
@@ -233,12 +235,14 @@ class Login extends React.Component {
               </FormControl>
             </Grid>
           </Grid>
+
           <div className="form-end d-flex justify-content-center justify-content-lg-between flex-column flex-lg-row w-100">
             <div className="d-flex justify-content-start align-items-center">
               <FormControlLabel control={<Checkbox checked={this.state.remenber} value={this.state.remenber} onChange={() => this.setState({ remenber: !this.state.remenber })} />} label={t('auth.connexion.remenber')} />
             </div>
             <div className="text-primary cursor-pointer fs-6" onClick={() => this.props.switchPage("forgot")}>{t('auth.connexion.text')}</div>
           </div>
+          
           <LoadingButton
             className="btn-default btn-rounded flex flex-align-center flex-justify-center w-75"
             loading={this.state.loading}

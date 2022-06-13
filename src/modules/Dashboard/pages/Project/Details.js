@@ -23,7 +23,7 @@ import useGeoLocation from "react-ipgeolocation";
 import DashContainer from '../../components/DashContainer';
 import RightSide from '../../components/RightSide';
 
-import { ProjetService, CampayService } from '../../../../core/services';
+import { ProjetService, CampayService, PaiementService } from '../../../../core/services';
 
 import projetimg from "../../../../assets/img/projet.jpg";
 import banner from "../../../../assets/img/manage.jpg";
@@ -34,6 +34,7 @@ import MuiAlert from '@mui/material/Alert';
 import { connect } from "react-redux";
 
 import { setLoadingFalse, setLoadingTrue } from '../../../../core/reducers/app/actions'
+import { sleep } from '../../../../core/utils/helpers';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -84,26 +85,42 @@ const ProjectDetails = (props) => {
         setEtat({ ...etat, error: false });
     };
 
-    const countdown = (refrence) => {
-        let x = setInterval(async () => {
+    
+    const countdown = async (refrence) => {
+        let status = "PENDING";
+        setPaiement({ pending: true, failed: false });
+
+        while (status === "PENDING" || status === "ERROR") {
             try {
                 const rs = await CampayService.checkPayment(refrence);
-                if (rs.status === "FAILED") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: true });
-                    setMessagePay(`La transaction a échoué. Essayez à nouveau`);
-                } else if (rs.status === "SUCCESSFUL") {
-                    clearInterval(x);
-                    setPaiement({ pending: false, failed: false });
-                    setVisible(false);
-                    handelValidation();
-                } else if (rs.status === "PENDING") {
-                    setPaiement({ pending: true, failed: false });
+                status = rs.status;
+                if (rs.status !== "PENDING") {
+                    break;
                 }
+                await sleep(5000);
             } catch (error) {
-                console.log(error);
+                status = "ERROR";
+                console.error(error);
+                break;
             }
-        }, 5000);
+        }
+
+        switch (status) {
+            case "SUCCESSFUL":
+                setPaiement({ pending: false, failed: false });
+                setVisible(false);
+                handelValidation(refrence);
+                break;
+            case "FAILED":
+                setPaiement({ pending: false, failed: true });
+                setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                break;
+            default:
+                // setPaiement({ pending: false, failed: true });
+                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
+                await countdown(refrence)
+                break;
+        }
     }
 
     const payer = async () => {
@@ -126,15 +143,24 @@ const ProjectDetails = (props) => {
             countdown(rs.reference);
         } catch (error) {
             setPaiement({ pending: false, failed: true });
-            console.log(error);
+            console.error(error);
         }
     }
 
-    const handelValidation = () => {
+    const handelValidation = (trans = "") => {
         props.setLoadingTrue();
         ProjetService.valideProjet(projet?.id).then(
-            (rs) => {
+            async (rs) => {
                 props.setLoadingFalse();
+                await PaiementService.save(user?.id, {
+                    trans_id: trans,
+                    methode: methodPaiement,
+                    telephone: numero,
+                    montant: user?.status === 'PARTICULIER' ? 15000 : 50000,
+                    type: "PROJET",
+                    etat: "REUSSI",
+                    projet: projet?.id
+                });
                 setEtat(prevEtat => { return { ...prevEtat, success: true } });
                 setEtat(prevEtat => { return { ...prevEtat, message: 'Paiement effectué' } });
                 loadProjet();

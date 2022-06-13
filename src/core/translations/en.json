@@ -144,7 +144,7 @@
             "title": "Participation in the event",
             "text": {
                 "_1": "You want to participate in the event",
-                "_2": "Participation in this event will cost",
+                "_2": "Participation in this event will you cost {{ prix }} XAF per seat",
                 "_3": "Participation in this event is free"
             },
             "sub_title_1": "Personal informations",

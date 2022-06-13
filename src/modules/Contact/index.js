@@ -14,6 +14,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 import { withNamespaces } from "react-i18next";
+import { Button } from '@mui/material';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -54,7 +55,7 @@ const Contact = (props) => {
 
     const handelOnChange = (key, value) => {
         setState(prevState => {
-            return {...prevState, [key]: value}
+            return { ...prevState, [key]: value }
         })
     }
 
@@ -87,7 +88,7 @@ const Contact = (props) => {
             <div className="contact">
                 <div className="container-md">
                     <div className="d-flex justify-content-center mb-5">
-                        <h1 className="heading-section">{ props.t('contact_us.title') }</h1>
+                        <h1 className="heading-section">{props.t('contact_us.title')}</h1>
                     </div>
                     <div className="row gy-4 mb-5">
                         <div className="col-md-12">
@@ -99,7 +100,7 @@ const Contact = (props) => {
                                             {/* <span className="fa fa-map-marker"></span> */}
                                         </div>
                                         <div className="text">
-                                            <p>{ props.t('contact_us.text') } 2308 Douala, {props.t('contact_us.pays')}</p>
+                                            <p>{props.t('contact_us.text')} 2308 Douala, {props.t('contact_us.pays')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -131,37 +132,42 @@ const Contact = (props) => {
                             <div className="row g-0 ff">
                                 <div className="col-md-7 kjk">
                                     <div className="contact-wrap w-100 p-md-5 p-4">
-                                        <h3 className="mb-4">{ props.t('contact_us.form.title') }</h3>
+                                        <h3 className="mb-4">{props.t('contact_us.form.title')}</h3>
                                         {/* <div id="form-message-warning" className="mb-4"></div> */}
-                                        <form  className="contactForm" onSubmit={handelOnSubmit}>
+                                        <form className="contactForm" onSubmit={handelOnSubmit}>
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="name">{ props.t('contact_us.form.input._1.title') }</label>
-                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('nom_complet', e.target.value)} placeholder={ props.t('contact_us.form.input._1.placeholder') } />
+                                                        <label className="label" htmlFor="name">{props.t('contact_us.form.input._1.title')}</label>
+                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('nom_complet', e.target.value)} placeholder={props.t('contact_us.form.input._1.placeholder')} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="email">{ props.t('contact_us.form.input._2.title') }</label>
-                                                        <input type="email" className="form-control" onChange={(e) => handelOnChange('email', e.target.value)} placeholder={ props.t('contact_us.form.input._2.placeholder') } />
+                                                        <label className="label" htmlFor="email">{props.t('contact_us.form.input._2.title')}</label>
+                                                        <input type="email" className="form-control" onChange={(e) => handelOnChange('email', e.target.value)} placeholder={props.t('contact_us.form.input._2.placeholder')} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <div className="form-group">
-                                                        <label className="label" htmlFor="subject">{ props.t('contact_us.form.input._3.title') }</label>
-                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('object', e.target.value)} placeholder={ props.t('contact_us.form.input._3.placeholder') } />
+                                                        <label className="label" htmlFor="subject">{props.t('contact_us.form.input._3.title')}</label>
+                                                        <input type="text" className="form-control" onChange={(e) => handelOnChange('object', e.target.value)} placeholder={props.t('contact_us.form.input._3.placeholder')} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12">
                                                     <div className="form-group">
-                                                        <label className="label">{ props.t('contact_us.form.input._4.title') }</label>
-                                                        <textarea name="message" className="form-control" onChange={(e) => handelOnChange('message', e.target.value)} cols="30" rows="4" placeholder={ props.t('contact_us.form.input._4.placeholder') }></textarea>
+                                                        <label className="label">{props.t('contact_us.form.input._4.title')}</label>
+                                                        <textarea name="message" className="form-control" onChange={(e) => handelOnChange('message', e.target.value)} cols="30" rows="4" placeholder={props.t('contact_us.form.input._4.placeholder')}></textarea>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-12 mt-4 d-flex justify-content-end">
                                                     <div className="form-group">
-                                                        <button type="submit" className="btn btn-primary">{ props.t('contact_us.form.btn') }</button>
+                                                        <Button
+                                                            type="submit"
+                                                            variant="contained"
+                                                        >
+                                                            {props.t('contact_us.form.btn')}
+                                                        </Button>
                                                     </div>
                                                 </div>
                                             </div>
