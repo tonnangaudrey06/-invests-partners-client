@@ -109,17 +109,16 @@ const Event = ({ t, history, user }) => {
                 fetchData();
                 hideParticipate();
 
-                if (user) {
-                    await PaiementService.save(user?.id, {
-                        trans_id: trans,
-                        methode: methodPaiement,
-                        telephone: numero,
-                        montant: event?.prix * participation?.places,
-                        type: "EVENT",
-                        etat: "REUSSI",
-                        event: event?.id
-                    });
-                }
+                await PaiementService.save(rs?.id, {
+                    trans_id: trans,
+                    methode: methodPaiement,
+                    telephone: numero,
+                    montant: event?.prix * participation?.places,
+                    type: "EVENT",
+                    etat: "REUSSI",
+                    event: event?.id,
+                    participant: true
+                });
                 setEtat({ error: false, success: true, message: 'Votre réservation a été effectuée' });
                 setParticipation({
                     nom_complet: '',

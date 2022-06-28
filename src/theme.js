@@ -22,6 +22,12 @@ const theme = createTheme({
             dark: "#d32f2f",
             contrastText: "#fff"
         },
+        white: {
+            light: "#fff",
+            main: "#fff",
+            dark: "#d6d5d5",
+            contrastText: "rgba(142, 16, 20, 1)"
+        },
         text: {
             primary: "rgba(0, 0, 0, 0.87)",
             secondary: "rgba(0, 0, 0, 0.54)",

@@ -44,7 +44,7 @@ export const Bars = styled(FaBars)`
   display: none;
   color: #fff;
 
-  @media screen and (max-width: 998px) {
+  @media screen and (max-width: 1084.99px) {
     display: block;
     position: absolute;
     top: 0;
@@ -58,7 +58,7 @@ export const FTime = styled(FaTimes)`
   display: none;
   color: #fff;
 
-  @media screen and (max-width: 998px) {
+  @media screen and (max-width: 1084.99px) {
     display: block;
     position: absolute;
     top: 0;
@@ -150,7 +150,7 @@ export const Logocontainer = styled.span`
 
 export const MobileIcone= styled.div`
   display: none;
-  @media screen and (max-width: 998px){
+  @media screen and (max-width: 1084.99px){
     display: block;
     position absolute;
     top:0;

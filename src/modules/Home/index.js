@@ -305,17 +305,16 @@ const HomeScreen = ({ history, t, user, language }) => {
       async (rs) => {
         fetchEvents();
         hideParticipate();
-        if (user) {
-          await PaiementService.save(user?.id, {
-              trans_id: trans,
-              methode: methodPaiement,
-              telephone: numero,
-              montant: event?.prix * participation?.places,
-              type: "EVENT",
-              etat: "REUSSI",
-              event: event?.id
-          });
-      }
+        await PaiementService.save(rs?.id, {
+          trans_id: trans,
+          methode: methodPaiement,
+          telephone: numero,
+          montant: event?.prix * participation?.places,
+          type: "EVENT",
+          etat: "REUSSI",
+          event: event?.id,
+          participant: true
+        });
         setEtat({ error: false, success: true, message: 'Votre réservation a été effectuée' });
         setParticipation({
           nom_complet: '',
@@ -474,6 +473,15 @@ const HomeScreen = ({ history, t, user, language }) => {
       }
     )
   }
+
+  const next = () => {
+    slider.slickNext();
+  }
+
+  const previous = () => {
+    slider.slickPrev();
+  }
+
   React.useEffect(() => {
     loadDatas();
   }, [])
@@ -483,23 +491,15 @@ const HomeScreen = ({ history, t, user, language }) => {
   }, [language])
 
   React.useEffect(() => {
-      if (user) {
-          setParticipation({
-              nom_complet: user?.nom_complet,
-              email: user?.email,
-              telephone: user?.telephone,
-              places: 0
-          })
-      }
+    if (user) {
+      setParticipation({
+        nom_complet: user?.nom_complet,
+        email: user?.email,
+        telephone: user?.telephone,
+        places: 0
+      })
+    }
   }, [user])
-
-  const next = () => {
-    slider.slickNext();
-  }
-
-  const previous = () => {
-    slider.slickPrev();
-  }
 
   return (
     <Fragment>
@@ -683,27 +683,27 @@ const HomeScreen = ({ history, t, user, language }) => {
             <SectionTitle title="event.title" />
             <div className="row g-2">
               {(events || []).map((item, index) => (
-                <div className="col-md-4" key={index}>
+                <div className="col-md-6 col-lg-4" key={index}>
                   <div className="event-item shadow-lg">
                     <div className="event-image">
                       <img src={item.image ? item.image : placeholder} alt="" />
                     </div>
                     <div className="event-hover p-3">
                       <div className="w-100">
-                        <div className="fw-bolder event-title" style={{ fontSize: '2rem' }}>
+                        <div className="fw-bolder event-title">
                           {item.libelle}
                         </div>
-                        <div className="d-flex justify-content-center gap-4">
-                          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+                        <div className="row gx-3 gy-2 mb-2">
+                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
                             <FaCalendarCheck size={15} fill="#c5473b" className="me-1" />
                             {moment(item.date_evenement).format("DD MMMM YYYY")}
                           </div>
-                          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
                             <FaClock size={15} fill="#c5473b" className="me-1" />
                             {t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}
                           </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+                        <div className="d-flex align-items-center justify-content-center">
                           {item.places > item.total_reserve && (
                             <Button
                               className="mr-2"
@@ -716,7 +716,8 @@ const HomeScreen = ({ history, t, user, language }) => {
                           )}
                           <Button
                             type="submit"
-                            variant="outlined"
+                            variant="contained"
+                            color="white"
                             onClick={() => history.push(`events/${item.id}`)}
                           >
                             {t('button.savoir')}
@@ -883,11 +884,13 @@ const HomeScreen = ({ history, t, user, language }) => {
             {etat.message}
           </Alert>
         </Snackbar>
+
         <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomrightsuccess" open={etat.success} autoHideDuration={10000} onClose={handleSuccessAlertClose}>
           <Alert onClose={handleSuccessAlertClose} severity="success" sx={{ width: '100%', textAlign: 'center' }}>
             {etat.message}
           </Alert>
         </Snackbar>
+        
       </Container>
     </Fragment>
   );

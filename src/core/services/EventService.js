@@ -40,7 +40,7 @@ class EventService {
         return new Promise(async (resolve, reject) => {
             try {
                 const rs = await http.post(`${source}/${id}/participer`, data);
-                resolve(rs);
+                resolve(rs.data.data);
             } catch (error) {
                 reject(error);
             }
