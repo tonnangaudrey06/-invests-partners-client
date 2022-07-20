@@ -299,9 +299,9 @@ const EventDetails = ({ t, match, user }) => {
             {event?.libelle}
           </h3>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex flex-wrap align-items-center">
             {event?.date_evenement &&
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center pt-2 pe-4">
                 <GoCalendar />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>
                   {moment(event?.date_evenement).format("DD MMMM YYYY")}
@@ -309,7 +309,7 @@ const EventDetails = ({ t, match, user }) => {
               </div>
             }
             {event?.heure_debut &&
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center pt-2 pe-4">
                 <GoClock />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>
                   {t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).add(+event?.duree, 'hours').format('HH[H]mm') })}
@@ -317,13 +317,13 @@ const EventDetails = ({ t, match, user }) => {
               </div>
             }
             {event?.lieu &&
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center pt-2 pe-4">
                 <GoLocation />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.lieu}</span>
               </div>
             }
             {event?.prix &&
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center pt-2 pe-4">
                 <BiMoney />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.prix ? moneyFormat(event?.prix) + ' XAF' : t('app.free')}</span>
               </div>

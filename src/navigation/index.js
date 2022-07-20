@@ -27,6 +27,7 @@ const AppNavigator = (props) => {
       <Route exact path="/events/:id" component={EventDetails} />
       <ProtectedRoute exact path="/projets" component={Projet} role={4} />
       <ProtectedRoute exact path="/projets/:section" component={ProjetSecteur} role={4} />
+      <ProtectedRoute exact path="/projets/:projet/details" role={4} component={ProjetDetails} />
       <ProtectedRoute exact path="/projets/:section/:town" component={ProjetTown} role={4} />
       <ProtectedRoute exact path="/projets/:section/:town/:projet/details" role={4} component={ProjetDetails} />
       <ProtectedRoute path="/dashboard" component={Dashboard} role={3} />

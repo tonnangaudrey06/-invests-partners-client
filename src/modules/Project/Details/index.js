@@ -171,23 +171,23 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                             </Badge>
                                         </div>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
-                                            <span className="fw-bolder">{t('projet.details.localize')} :</span>
+                                            <span className="fw-bolder">{t('projet.details.localize')} : {" "} </span>
                                             {details?.ville_activite}, {details?.pays_activite}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
-                                            <span className="fw-bolder">{t('projet.details.taux')} :</span>
+                                            <span className="fw-bolder">{t('projet.details.taux')} :{" "} </span>
                                             {details?.taux_rentabilite ? details?.taux_rentabilite + '%' : t('projet.other._2')}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
-                                            <span className="fw-bolder">{t('projet.details.ca')} :</span>
+                                            <span className="fw-bolder">{t('projet.details.ca')} : {" "}</span>
                                             {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : t('projet.other._2')}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
-                                            <span className="fw-bolder">{t('projet.details.duree')} :</span>
+                                            <span className="fw-bolder">{t('projet.details.duree')} :{" "}</span>
                                             {details?.duree ? details?.duree + t('projet.other._1') : t('projet.other._2')}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
-                                            <span className="fw-bolder">{t('projet.details.dead_line')} :</span>
+                                            <span className="fw-bolder">{t('projet.details.dead_line')} :{" "}</span>
                                             {details?.rsi ? details?.rsi + t('projet.other._1') : t('projet.other._2')}
                                         </p>
                                     </div>

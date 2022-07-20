@@ -25,13 +25,22 @@ const Projet = (props) => {
   const { t } = props;
 
   const [secteurs, setSecteurs] = React.useState([]);
+  const [allSecteurs, setAllSecteurs] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+
+  const searchFilterSecteur = (value) => {
+    const result = allSecteurs.filter((secteur) =>
+      (secteur.libelle || "").toLowerCase().includes(value.toLowerCase())
+    );
+    setSecteurs(result);
+  };
 
   React.useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
         const rs = await SecteurService.getAll();
+        setAllSecteurs(rs.data.data);
         setSecteurs(rs.data.data);
         setLoading(false);
       } catch (error) {
@@ -48,10 +57,7 @@ const Projet = (props) => {
           <div className="container">
             <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>{t('projet.title')}</h1>
             <div className="search-bar">
-              <select className="projects-input-button" type="button" value="OK">
-                <option>{t('projet.option.title')}</option>
-              </select>
-              <input placeholder="Rechercher" className="projects-text-input" type="text" />
+              <input onKeyUp={(e) => searchFilterSecteur(e.target.value)} placeholder="Secteur d'activité" className="projects-text-input" type="text" />
             </div>
           </div>
         </div>

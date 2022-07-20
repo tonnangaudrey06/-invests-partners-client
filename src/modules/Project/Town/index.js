@@ -32,26 +32,20 @@ import backgroundTop from '../../../assets/img/ban.png';
 import { Button } from '@mui/material';
 
 const ProjetTown = ({ match, location, history, user, t }) => {
-
     const { params: { section, town } } = match;
 
-    // const [ville, setVille] = React.useState('');
-    // const [pays, setPays] = React.useState('');
-    // const [level, setLevel] = React.useState('');
     const [projets, setProjets] = React.useState([]);
+    const [allProjets, setAllProjets] = React.useState([]);
     const [modalOpen, setModalOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
 
-    // const handleChange = (event) => {
-    //     if (event.target.name === "ville") {
-    //         setVille(event.target.value);
-    //     } else if (event.target.name === "pays") {
-    //         setPays(event.target.value);
-    //     } else if (event.target.name === "level") {
-    //         setLevel(event.target.value);
-    //     }
-    // };
+    const searchFilterProjet = (value) => {
+        const result = allProjets.filter((projet) =>
+            (projet.intitule || "").toLowerCase().includes(value.toLowerCase())
+        );
+        setProjets(result);
+    };
 
     const cardOnClick = (item) => {
         if (!checkCanFianance(item)) {
@@ -82,6 +76,7 @@ const ProjetTown = ({ match, location, history, user, t }) => {
             setLoading(true);
             try {
                 const rs = await SecteurService.getSecteurProjet(section, town);
+                setAllProjets(rs.data.data);
                 setProjets(rs.data.data);
                 setLoading(false);
             } catch (error) {
@@ -97,103 +92,6 @@ const ProjetTown = ({ match, location, history, user, t }) => {
 
     return (
         <Container header headerActive active="projets" className="bg-light" footer>
-            {/* <div className="projects-top-all-projet bg-white">
-                <div className="search-bar-container-all-projet" style={{ marginTop: '5rem', marginBottom: '2rem' }}>
-                    <div className="container">
-                        <div className="row gy-3">
-                            <div className="col-12 d-flex justify-content-center align-items-center" style={{ marginBottom: '2rem' }}>
-                                <div className="search-bar">
-                                    <select className="projects-input-button" type="button" value="OK">
-                                        <option>{t('projet.option.title')}</option>
-                                    </select>
-                                    <input placeholder="Rechercher" className="projects-text-input" type="text" name="search" id="" />
-                                </div>
-                            </div>
-                            <div className="col-12 row">
-                                <div className="col-sm-12 col-md-4">
-                                    <FormControl sx={{ m: 1, minWidth: "100%" }}>
-                                        <TextField
-                                            fullWidth
-                                            select
-                                            size="small"
-                                            name="pays"
-                                            variant="filled"
-                                            label={t('projet.form._1.title')}
-                                            value={pays}
-                                            onChange={handleChange}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <MdPlace />
-                                                    </InputAdornment>
-                                                ),
-                                                shrink: true,
-                                                style: { border: '1px solid rgba(0, 0, 0, 0.42)', borderBottom: 'none', background: 'transparent', borderRadius: '4px' }
-                                            }}
-                                        >
-                                            <MenuItem value=""></MenuItem>
-                                        </TextField>
-                                    </FormControl>
-                                </div>
-                                <div className="col-sm-12 col-md-4">
-                                    <FormControl sx={{ m: 1, minWidth: "100%" }}>
-                                        <TextField
-                                            fullWidth
-                                            select
-                                            size="small"
-                                            name="ville"
-                                            variant="filled"
-                                            label={t('projet.form._2.title')}
-                                            value={ville}
-                                            onChange={handleChange}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <MdPlace />
-                                                    </InputAdornment>
-                                                ),
-                                                shrink: true,
-                                                style: { border: '1px solid rgba(0, 0, 0, 0.42)', borderBottom: 'none', background: 'transparent', borderRadius: '4px' }
-                                            }} >
-                                            <MenuItem value=""></MenuItem>
-                                        </TextField>
-                                    </FormControl>
-                                </div>
-                                <div className="col-sm-12 col-md-4">
-                                    <FormControl sx={{ m: 1, minWidth: "100%" }}>
-                                        <TextField
-                                            fullWidth
-                                            select
-                                            size="small"
-                                            name="level"
-                                            variant="filled"
-                                            label={t('projet.form._3.title')}
-                                            value={level}
-                                            onChange={handleChange}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <GiHistogram />
-                                                    </InputAdornment>
-                                                ),
-                                                shrink: true,
-                                                style: { border: '1px solid rgba(0, 0, 0, 0.42)', borderBottom: 'none', background: 'transparent', borderRadius: '4px' }
-                                            }} >
-                                            <MenuItem value="">{t('projet.form._3.value._1')}</MenuItem>
-                                            <MenuItem value={'IDEE'}>{t('projet.form._3.value._2')}</MenuItem>
-                                            <MenuItem value={'PROTOTYPE'}>{t('projet.form._3.value._3')}</MenuItem>
-                                            <MenuItem value={'SUR_MARCHE'}>{t('projet.form._3.value._4')}</MenuItem>
-                                        </TextField>
-                                    </FormControl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-            {/* <Divider /> */}
-
             <div className="projects-top shadow" style={{ backgroundImage: `url(${backgroundTop})` }}>
                 <div className="search-bar-container-home">
                     <div className="container" style={{
@@ -203,10 +101,7 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                             {town}
                         </h1>
                         <div className="search-bar">
-                            <select className="projects-input-button" type="button" value="OK">
-                                <option>{t('projet.option.title')}</option>
-                            </select>
-                            <input placeholder="Rechercher" className="projects-text-input" type="text" />
+                            <input onKeyUp={(e) => searchFilterProjet(e.target.value)} placeholder="Nom du projet" className="projects-text-input" type="text" />
                         </div>
                     </div>
                 </div>

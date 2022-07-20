@@ -51,8 +51,18 @@ import { withNamespaces } from "react-i18next";
 import { connect } from "react-redux";
 // import PageLoader from '../../components/PageLoader';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, setSuccess = (value) => { return }, setError = (value) => { return } }) => {
+const CustomSlide = ({
+  history,
+  projet,
+  t,
+  user,
+  errorMessage = (value) => { return },
+  setSuccess = (value) => { return },
+  setError = (value) => { return },
+  onOpenModal = (value) => { }
+}) => {
   const [message, setMessage] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [openPopup, setOpenPopup] = React.useState(false);
@@ -90,6 +100,39 @@ const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, se
 
     setLoading(false)
   }
+
+  const checkCanFianance = () => {
+    if (!user?.profil_invest) {
+      return false;
+    }
+
+    if (!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
+      return true;
+    }
+
+    if (+user?.profil_invest?.montant_max >= +projet?.financement) {
+      return true;
+    }
+
+    return false;
+  }
+
+  const handleOpenInvest = () => {
+    if (checkCanFianance()) {
+      setOpenPopup(true)
+    } else {
+      onOpenModal(true);
+    }
+  }
+
+  const goToDetails = () => {
+    if (checkCanFianance()) {
+      history.push(`projets/${projet.id}/details`);
+    } else {
+      onOpenModal(true);
+    }
+  }
+
   return (
     <div className="p-3">
       <div className="projet-ip-item shadow">
@@ -100,15 +143,31 @@ const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, se
           <div className="projet-ip-content" >
             <h3>{projet.intitule}</h3>
             <p>{projet.description}</p>
+
+            {/* <Link to={`projets/${projet.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
+              {t('projet.details.more')}
+            </Link> */}
+
             {user &&
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => setOpenPopup(true)}
-              >
-                Je suis intéressé
-              </Button>
+              <Fragment>
+                <Button
+                  type="button"
+                  variant="contained"
+                  onClick={() => handleOpenInvest()}
+                >
+                  {t('projet.details.btn._1')}
+                </Button>
+
+                <Button
+                  type="button"
+                  className="ms-3"
+                  onClick={() => goToDetails()}
+                >
+                  {t('projet.details.more')}
+                </Button>
+              </Fragment>
             }
+
             <Popup
               modal
               nested
@@ -159,13 +218,13 @@ const CustomSlide = ({ projet, t, user, errorMessage = (value) => { return }, se
           </div>
           <div className='projet-ip-bottom'>
             <div className="projet-ip-details-invest">
-              {projet.iv_total ? `${projet.iv_total} XAF déjà investis` : `Aucun investissement pour l'instant`}
+              {projet.iv_total ? `${moneyFormat(projet.iv_total)} XAF déjà investis` : `Aucun investissement pour l'instant`}
             </div>
-            {user &&
+            {/* {user &&
               <div className="projet-ip-details-fav">
                 <AiOutlineHeart fill={"#c5473b"} size={25} />
               </div>
-            }
+            } */}
           </div>
         </div>
       </div>
@@ -189,13 +248,17 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   const [partenaires, setPartenaires] = React.useState([])
 
+  const [experts, setExperts] = React.useState([])
+
   const [projets, setProjets] = React.useState([])
 
   const [events, setEvents] = React.useState([])
 
   const [chiffre, setChiffres] = React.useState([])
 
-  const [lang, setLang] = React.useState(language)
+  const [lang, setLang] = React.useState(language);
+
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
@@ -445,7 +508,8 @@ const HomeScreen = ({ history, t, user, language }) => {
       AppService.chiffre(),
       AppService.partenaire(),
       AppService.projet(),
-      EventService.getLatest()
+      EventService.getLatest(),
+      AppService.experts()
     ]).then(
       values => {
         const [
@@ -453,13 +517,15 @@ const HomeScreen = ({ history, t, user, language }) => {
           statsData,
           partnersDatas,
           projectsData,
-          eventsData
+          eventsData,
+          expertData
         ] = values;
         setSliders(slidesData?.data?.data);
         setPartenaires(partnersDatas?.data?.data);
         setProjets(projectsData?.data?.data);
         setEvents(eventsData?.data?.data);
         setChiffres(statsData?.data?.data);
+        setExperts(expertData?.data?.data);
       }
     ).finally(
       () => setPageLoading(false)
@@ -500,6 +566,10 @@ const HomeScreen = ({ history, t, user, language }) => {
       })
     }
   }, [user])
+
+  const goToProfile = () => {
+    history.push('/investor/profil');
+  }
 
   return (
     <Fragment>
@@ -557,14 +627,14 @@ const HomeScreen = ({ history, t, user, language }) => {
         <div className="section-expert mb-5">
           <SectionTitle title="expert.title" />
           <div className="expert-grid">
-            {(HomeData?.expertsData || []).map((item, index) => (
+            {(experts || []).map((item, index) => (
               <div key={index} className="d-flex justify-content-center">
-                <div className="expert-item" style={{ width: '16rem' }}>
+                <div className="expert-item" style={{ width: '17rem' }}>
                   <div className="expert-image-home shadow" style={{ width: '100%' }}>
-                    <img className="expert-image" alt="Expert I&P" src={item.image} />
+                    <img className="expert-image" alt="Expert I&P" src={item.photo_url} />
                   </div>
-                  <div className="expert-name">{item.name}</div>
-                  <div className="expert-bibio fw-bolder"><p>{lang.includes('fr') ? item.role : item.role_en}</p></div>
+                  <div className="expert-name">{item.nom_complet}</div>
+                  <div className="expert-bibio fw-bolder"><p>{item.fonction}</p></div>
                   <div className="expert-button">
                     <Popup
                       trigger={<RiEyeFillIcon className="expert-button-view" fill="#c5473b" size={30} />}
@@ -579,17 +649,26 @@ const HomeScreen = ({ history, t, user, language }) => {
                             &times;
                           </button>
                           <div className="modal-experts-content">
-                            <img className="modal-experts-image" alt="Expert I&P" src={item.image} />
+                            <img className="modal-experts-image" alt="Expert I&P" src={item.photo_url} />
                             <div className="modal-experts-present">
-                              <p className="name">{item.name}</p>
-                              <div className="poste" style={{ marginBottom: 20 }}>{lang.includes('fr') ? item.role : item.role_en}</div>
+                              <p className="name">{item.nom_complet}</p>
+                              <div className="poste" style={{ marginBottom: 20 }}>{item.fonction}</div>
                               <div className="bibio">{t('bio')}</div>
-                              <p className="lh-base text-justify">{lang.includes('fr') ? item.bio : item.bio_en}</p>
+                              <p className="lh-base text-justify">{item.description}</p>
                               <p className="modal-experts-contact">
-                                <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
-                                {item.tel}
-                                <GrMail fill="#c5473b" size={20} style={{ marginLeft: 20, marginRight: 5 }} />
-                                {item.email}
+                                {item.telephone &&
+                                  <Fragment>
+                                    <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
+                                    {item.tel}
+                                    <span style={{ marginLeft: 20 }}></span>
+                                  </Fragment>
+                                }
+                                {item.email &&
+                                  <Fragment>
+                                    <GrMail fill="#c5473b" size={20} style={{ marginRight: 5 }} />
+                                    {item.email}
+                                  </Fragment>
+                                }
                               </p>
                             </div>
                           </div>
@@ -624,7 +703,7 @@ const HomeScreen = ({ history, t, user, language }) => {
               <div className="projet-ip-wrapper">
                 <Slider ref={c => (slider = c)} {...settings}>
                   {(projets || []).map((item, index) => (
-                    <CustomSlide projet={item} t={t} user={user} key={index} />
+                    <CustomSlide history={history} onOpenModal={(value) => setModalOpen(value)} projet={item} t={t} user={user} key={index} />
                   ))}
                 </Slider>
               </div>
@@ -879,6 +958,27 @@ const HomeScreen = ({ history, t, user, language }) => {
           </Modal.Body>
         </Modal>
 
+        <Popup
+          position="top center"
+          open={modalOpen}
+          closeOnDocumentClick={false}
+          closeOnEscape={false}
+          onClose={() => setModalOpen(false)}
+        >
+          <div className="container d-flex flex-column align-items-center text-center m-2">
+            <p className="mt-1">{t('projet.details.warn._1')}</p>
+            <p className="mt-1">{t('projet.details.warn._2')}</p>
+            <div className="mt-3 d-flex justify-content-center">
+              <Button variant="outlined" className="me-2" onClick={() => setModalOpen(false)}>
+                {t('projet.details.warn.btn._1')}
+              </Button>
+              <Button variant="contained" className="me-2" onClick={() => goToProfile()}>
+                {t('projet.details.warn.btn._2')}
+              </Button>
+            </div>
+          </div>
+        </Popup>
+
         <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={etat.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
           <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
             {etat.message}
@@ -890,7 +990,7 @@ const HomeScreen = ({ history, t, user, language }) => {
             {etat.message}
           </Alert>
         </Snackbar>
-        
+
       </Container>
     </Fragment>
   );

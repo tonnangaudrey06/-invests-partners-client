@@ -3,6 +3,17 @@ import http from '../utils/http-common';
 const source = "api/app";
 
 class AppService {
+    experts() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(`${source}/expert`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     slider() {
         return new Promise(async (resolve, reject) => {
             try {

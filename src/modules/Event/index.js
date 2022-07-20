@@ -342,7 +342,7 @@ const Event = ({ t, history, user }) => {
                                 </Box>
                                 <div className="d-flex justify-content-between align-items-center w-100">
                                     <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
-                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
+                                    <Btn color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                                 </div>
                             </div>
                         </div>
@@ -396,7 +396,7 @@ const Event = ({ t, history, user }) => {
                                 </Box>
                                 <div className="d-flex justify-content-between align-items-center w-100">
                                     <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
-                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
+                                    <Btn color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                                 </div>
                             </div>
                         </div>
