@@ -285,14 +285,16 @@ const EventDetails = ({ t, match, user }) => {
               <LinearProgress sx={{ width: '100%' }} variant="determinate" value={(event?.total_reserve * 100) / event?.places} />
             </Box>
           </Box>
-          <div className="d-flex justify-content-between align-items-center w-100">
-            <Button fullWidth size="small" disabled={event?.places === event?.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
-          </div>
+          {!event?.isPast && event?.places > event?.total_reserve &&
+            <div className="d-flex justify-content-between align-items-center w-100">
+              <Button fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
+            </div>
+          }
         </section>
 
         <section className="col-md-8 m-0 p-4">
           <small className="text-muted small" style={{ fontSize: ".8em" }}>
-            {t('event.organise')} INVEST AND PARTNERS
+            {t('event.organise')} Invest & Partners
           </small>
 
           <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>

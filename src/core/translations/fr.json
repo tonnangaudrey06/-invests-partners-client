@@ -7,7 +7,7 @@
         "conseiller": "Parler à un conseiller",
         "opportuniter": "Découvrir les opportunités",
         "look_finance": "Chercher un financement",
-        "savoir": "Savoir plus",
+        "savoir": "En savoir plus",
         "participer": "Participer",
         "complet": "Complet",
         "back": "Retour"
@@ -130,12 +130,12 @@
         "text": "L’Afrique en général et le Cameroun en particulier sont devenus au fil du temps, et plus encore au cours des trois dernières décennies, des espaces propices aux investissements de toute nature. Le cabinet INVEST & PARTNERS (I&P) se positionne désormais au Cameroun comme le conseiller par excellence dans cette démarche de capter les opportunités à capitaliser. Grâce au dynamisme et à l’expertise de nos spécialistes, notre connaissance parfaite de l’environnement économique, et notre réseau de partenaires, notamment en Cote d’Ivoire et au Rwanda, nous ne ménageons aucun effort dans l’optique de répondre à vos différents besoins en termes d’investissement, d’accompagnement, de diagnostic, de suivi, de gestion et d’implémentation."
     },
     "event": {
-        "title": "Nos événements",
+        "title": "Nos évènements",
         "header": "Creez votre reseau d'affaire en prenant part à nos sessions.",
         "text": "Saisissez cette opportunité, interagissez avec les conseillers et commencez le parcours vers votre indépendance financière.",
         "sub_title": {
             "_1": "Ce mois",
-            "_2": "Autres événements"
+            "_2": "Autres évènements"
         },
         "organise": "Organiser par",
         "places": {
@@ -184,7 +184,7 @@
         "home": "Accueil",
         "about": "Qui sommes nous?",
         "projet": "Projets",
-        "event": "Événements",
+        "event": "Évènements",
         "logout": "Déconnexion",
         "board": "Tableau de board",
         "signup": "Créer mon compte",
@@ -211,7 +211,7 @@
         "copyright": "Copyright 2021 Tous droits réservés à Invest & Partners"
     },
     "not_found": {
-        "event": "Aucun événement pour l'instant"
+        "event": "Aucun évènement pour l'instant"
     },
     "date": {
         "time_format": "De {{start}} à {{end}}"

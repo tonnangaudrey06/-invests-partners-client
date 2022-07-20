@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import '../../styles/home.scss';
 import 'reactjs-popup/dist/index.css'
@@ -38,7 +39,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 import { GrMail } from 'react-icons/gr';
-import { AiOutlineHeart } from 'react-icons/ai';
+// import { AiOutlineHeart } from 'react-icons/ai';
 import { FaArrowLeft, FaArrowRight, FaCheck, FaClock, FaCalendarCheck } from 'react-icons/fa';
 import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
@@ -51,7 +52,7 @@ import { withNamespaces } from "react-i18next";
 import { connect } from "react-redux";
 // import PageLoader from '../../components/PageLoader';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const CustomSlide = ({
   history,
@@ -262,7 +263,7 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
-  const [pageLoading, setPageLoading] = React.useState(true);
+  // const [setPageLoading] = React.useState(true);
   const [etat, setEtat] = React.useState({
     message: '',
     error: false,
@@ -527,8 +528,6 @@ const HomeScreen = ({ history, t, user, language }) => {
         setChiffres(statsData?.data?.data);
         setExperts(expertData?.data?.data);
       }
-    ).finally(
-      () => setPageLoading(false)
     );
   }
 
@@ -783,7 +782,7 @@ const HomeScreen = ({ history, t, user, language }) => {
                           </div>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
-                          {item.places > item.total_reserve && (
+                          {!item.isPast && item.places > item.total_reserve && (
                             <Button
                               className="mr-2"
                               type="submit"
