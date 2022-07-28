@@ -623,77 +623,81 @@ const HomeScreen = ({ history, t, user, language }) => {
           </div>
         </div>
 
-        <div className="section-expert mb-5">
-          <SectionTitle title="expert.title" />
-          <div className="expert-grid">
-            {(experts || []).map((item, index) => (
-              <div key={index} className="d-flex justify-content-center">
-                <div className="expert-item" style={{ width: '17rem' }}>
-                  <div className="expert-image-home shadow" style={{ width: '100%' }}>
-                    <img className="expert-image" alt="Expert I&P" src={item.photo_url} />
-                  </div>
-                  <div className="expert-name">{item.nom_complet}</div>
-                  <div className="expert-bibio fw-bolder"><p>{item.fonction}</p></div>
-                  <div className="expert-button">
-                    <Popup
-                      trigger={<RiEyeFillIcon className="expert-button-view" fill="#c5473b" size={30} />}
-                      modal
-                      nested
-                      className="expert-modal"
-                      style={{ zIndex: 1000 }}
-                    >
-                      {close => (
-                        <div className="modal-experts p-3">
-                          <button className="modal-experts-close" onClick={close}>
-                            &times;
-                          </button>
-                          <div className="modal-experts-content">
-                            <img className="modal-experts-image" alt="Expert I&P" src={item.photo_url} />
-                            <div className="modal-experts-present">
-                              <p className="name">{item.nom_complet}</p>
-                              <div className="poste" style={{ marginBottom: 20 }}>{item.fonction}</div>
-                              <div className="bibio">{t('bio')}</div>
-                              <p className="lh-base text-justify">{item.description}</p>
-                              <p className="modal-experts-contact">
-                                {item.telephone &&
-                                  <Fragment>
-                                    <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
-                                    {item.tel}
-                                    <span style={{ marginLeft: 20 }}></span>
-                                  </Fragment>
-                                }
-                                {item.email &&
-                                  <Fragment>
-                                    <GrMail fill="#c5473b" size={20} style={{ marginRight: 5 }} />
-                                    {item.email}
-                                  </Fragment>
-                                }
-                              </p>
+        {(experts || []).length > 0 &&
+          <div className="section-expert mb-5">
+            <SectionTitle title="expert.title" />
+            <div className="expert-grid">
+              {(experts || []).map((item, index) => (
+                <div key={index} className="d-flex justify-content-center">
+                  <div className="expert-item" style={{ width: '17rem' }}>
+                    <div className="expert-image-home shadow" style={{ width: '100%' }}>
+                      <img className="expert-image" alt="Expert I&P" src={item.photo_url} />
+                    </div>
+                    <div className="expert-name">{item.nom_complet}</div>
+                    <div className="expert-bibio fw-bolder"><p>{item.fonction}</p></div>
+                    <div className="expert-button">
+                      <Popup
+                        trigger={<RiEyeFillIcon className="expert-button-view" fill="#c5473b" size={30} />}
+                        modal
+                        nested
+                        className="expert-modal"
+                        style={{ zIndex: 1000 }}
+                      >
+                        {close => (
+                          <div className="modal-experts p-3">
+                            <button className="modal-experts-close" onClick={close}>
+                              &times;
+                            </button>
+                            <div className="modal-experts-content">
+                              <img className="modal-experts-image" alt="Expert I&P" src={item.photo_url} />
+                              <div className="modal-experts-present">
+                                <p className="name">{item.nom_complet}</p>
+                                <div className="poste" style={{ marginBottom: 20 }}>{item.fonction}</div>
+                                <div className="bibio">{t('bio')}</div>
+                                <p className="lh-base text-justify">{item.description}</p>
+                                <p className="modal-experts-contact">
+                                  {item.telephone &&
+                                    <Fragment>
+                                      <MdPhoneInTalk fill="#c5473b" size={20} style={{ marginRight: 5 }} />
+                                      {item.telephone}
+                                      <span style={{ marginLeft: 20 }}></span>
+                                    </Fragment>
+                                  }
+                                  {item.email &&
+                                    <Fragment>
+                                      <GrMail fill="#c5473b" size={20} style={{ marginRight: 5 }} />
+                                      {item.email}
+                                    </Fragment>
+                                  }
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </Popup>
+                        )}
+                      </Popup>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="section-partner mb-5">
-          <SectionTitle title={"partner.title"} />
-          <div className="partner-text">
-            <p>{t('partner.text')}</p>
-            <div className="partner-box mt-5">
-              {(partenaires || []).map((item, index) => (
-                <div key={index} className="partner-image shadow">
-                  <img className="img-fluid rounded" alt="Partenaires" src={item.image} />
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        }
+
+        {(partenaires || []).length > 0 &&
+          <div className="section-partner mb-5">
+            <SectionTitle title={"partner.title"} />
+            <div className="partner-text">
+              <p>{t('partner.text')}</p>
+              <div className="partner-box mt-5">
+                {(partenaires || []).map((item, index) => (
+                  <div key={index} className="partner-image shadow">
+                    <img className="img-fluid rounded" alt="Partenaires" src={item.image} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        }
 
         {(projets || []).length > 0 && (
           <div className="section-projet mb-5">
