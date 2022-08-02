@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import MenuItem from "./MenuItem";
 import logo from '../../../assets/img/logoWhite.png';
 

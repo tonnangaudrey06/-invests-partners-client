@@ -5,7 +5,9 @@ import {
     SET_SECTEUR,
     IS_LOADING,
     STOP_LOADING,
-    SET_LANGUAGE
+    SET_LANGUAGE,
+    STOP_APP_LOADING,
+    SET_APP_LOADING
 } from "../../utils/constants";
 
 const initialState = {
@@ -20,6 +22,7 @@ const initialState = {
         failed: false
     },
     loading: false,
+    appLoading: true,
     language: 'fr'
 };
 
@@ -90,6 +93,16 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false
+            };
+        case STOP_APP_LOADING:
+            return {
+                ...state,
+                appLoading: false
+            };
+        case SET_APP_LOADING:
+            return {
+                ...state,
+                appLoading: true
             };
         default:
             return state;

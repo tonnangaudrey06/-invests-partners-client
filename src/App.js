@@ -18,13 +18,16 @@ import localStorage from './core/utils/localstorage';
 import LoadingOverlay from 'react-loading-overlay';
 
 import history from './core/utils/history'
+import { setStopAppLoading } from './core/reducers/app/actions';
+import PageLoader from './components/PageLoader';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-
 const App = (props) => {
+
+  const { appLoading, setStopAppLoading } = props;
 
   const dispatch = useDispatch()
 
@@ -49,48 +52,59 @@ const App = (props) => {
       authService.profile().then(
         (rs) => {
           dispatch(login(rs.data));
+          setStopAppLoading();
         },
         error => {
           dispatch(logout());
           handleErrorAlertOpen();
+          setStopAppLoading();
           setState(prevState => {
             return { ...prevState, message: 'Votre session a expiré. Veuillez vous connecter pour continuer ' }
           });
         }
       );
+    } else {
+      setTimeout(() => {
+        setStopAppLoading();
+      }, 1500);
     }
   }
 
   React.useEffect(() => {
     loadProfile();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <LoadingOverlay
       active={props?.loading}
       spinner
-      text='Veuillez être patient...'
+      text='Veuillez patienter...'
     >
-      <React.StrictMode>
-        <BrowserRouter>
-          <ScrollToTop />
-          <AppNavigator history={history} />
-          <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={state.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
-            <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
-              {state.message}
-            </Alert>
-          </Snackbar>
-        </BrowserRouter>
-      </React.StrictMode>
+      <BrowserRouter>
+        <PageLoader loading={appLoading} />
+        <ScrollToTop />
+        <AppNavigator history={history} />
+        <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} key="bottomright" open={state.error} autoHideDuration={10000} onClose={handleErrorAlertClose}>
+          <Alert onClose={handleErrorAlertClose} severity="error" sx={{ width: '100%', textAlign: 'center' }}>
+            {state.message}
+          </Alert>
+        </Snackbar>
+      </BrowserRouter>
     </LoadingOverlay>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    loading: state.app.loading
+    loading: state.app.loading,
+    appLoading: state.app.appLoading
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setStopAppLoading: () => dispatch(setStopAppLoading())
+  }
+};
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

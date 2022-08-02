@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../../styles/dashboard.scss';
 import { BsArrowLeft } from 'react-icons/bs';
 import { HomeData } from '../../../../data';

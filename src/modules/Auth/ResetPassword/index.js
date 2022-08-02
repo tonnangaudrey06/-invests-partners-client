@@ -35,9 +35,11 @@ export default class ResetPassword extends React.Component {
 
         this.state = {
             password: '',
+            confirm: '',
             message: '',
             loading: false,
             showPassword: false,
+            showConfirmPassword: false,
             success: false,
             error: false
         };
@@ -76,6 +78,10 @@ export default class ResetPassword extends React.Component {
 
     validation() {
         if (this.state.password.length === 0) {
+            return false;
+        }
+
+        if (this.state.password === this.state.confirm) {
             return false;
         }
 
@@ -173,6 +179,39 @@ export default class ResetPassword extends React.Component {
                                                             <IconButton
                                                                 onClick={(e) => this.setState({ showPassword: !this.state.showPassword })}
                                                                 onMouseDown={(e) => this.setState({ showPassword: !this.state.showPassword })}
+                                                                edge="end"
+                                                            >
+                                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }} />
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
+                                            <TextField
+                                                fullWidth
+                                                size="small"
+                                                error={this.state.error}
+                                                required
+                                                variant="filled"
+                                                label="Confirmer le mot de passe"
+                                                placeholder="*******"
+                                                type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                                value={this.state.confirm}
+                                                onChange={(e) => this.onChangeForm('confirm', e.target.value)}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <RiLock2Line />
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                onClick={(e) => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
+                                                                onMouseDown={(e) => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
                                                                 edge="end"
                                                             >
                                                                 {this.state.showPassword ? <VisibilityOff /> : <Visibility />}

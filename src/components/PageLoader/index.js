@@ -2,11 +2,9 @@ import "./index.scss";
 
 const PageLoader = ({ loading }) => {
     return (
-        <div id="loader-wrapper" className={!loading ? "close-loader" : ""}>
-            <div id="loader"></div>
-
-            <div className="loader-section section-left"></div>
-            <div className="loader-section section-right"></div>
+        <div id="loader-wrapper" style={{ display: loading ? "flex" : "none" }}>
+            <div className="lds-dual-ring"></div>
+            <div>Veuillez patienter...</div>
         </div>
     );
 }

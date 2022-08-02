@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 
 import Avatar from '@mui/material/Avatar';
 import FilePresent from '@mui/icons-material/FilePresent';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import profil from '../../../assets/img/profil.jpg'
 
@@ -22,7 +22,7 @@ import { RiDownload2Fill } from 'react-icons/ri';
 
 import Post from "./Post";
 
-const PostContent = (props) => { return (<Post {...props}/>); };
+const PostContent = (props) => { return (<Post {...props} />); };
 
 const RightSide = ({ form, projet }) => {
 
@@ -94,7 +94,7 @@ const RightSide = ({ form, projet }) => {
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Membres de votre equipe</p>
                         {projet?.membres.length > 0 &&
                             projet?.membres.map((membre, index) => (
-                                <List sx={{ width: '100%' }}>
+                                <List key={index} sx={{ width: '100%' }}>
                                     <ListItem disableGutters>
                                         <ListItemAvatar>
                                             <Avatar alt={membre?.nom_complet} src={membre?.photo ? membre?.photo : profil} />
@@ -109,7 +109,7 @@ const RightSide = ({ form, projet }) => {
                         <Divider></Divider>
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Document de presentation</p>
                         {projet?.doc_presentation && (
-                            <List sx={{ width: '80%' }}>
+                            <List sx={{ width: '100%' }}>
                                 <ListItem
                                     disableGutters
                                     secondaryAction={
@@ -137,9 +137,8 @@ const RightSide = ({ form, projet }) => {
                             {projet?.medias.map((file, index) => {
                                 if (file?.type !== 'IMAGE' && file?.source === 'PP') {
                                     return (
-                                        <>
+                                        <Fragment key={index}>
                                             <ListItem
-                                                key={index}
                                                 disableGutters
                                                 secondaryAction={
                                                     <IconButton color="primary" onClick={() => downloadFile(file?.url)} edge="end">
@@ -155,30 +154,32 @@ const RightSide = ({ form, projet }) => {
                                                 <ListItemText primary={file?.nom} />
                                             </ListItem>
                                             <Divider />
-                                        </>
+                                        </Fragment>
                                     )
                                 }
                                 return null;
                             })}
                         </List>
                         <Box className="mt-2" sx={{ width: "100%", maxHeight: 450, overflowY: 'scroll', overflow: "auto" }}>
-                            <ImageList variant="masonry" cols={3} gap={7} children={[]}>
-                                {projet?.medias.map((media) => {
-                                    if (media?.type === 'IMAGE' && media?.source === 'PP') {
-                                        return (
-                                            <ImageListItem key={media?.id} onClick={() => downloadFile(media?.url)}>
-                                                <img className="rounded img-fluid shadow"
-                                                    src={`${media?.url}?w=248&fit=crop&auto=format`}
-                                                    srcSet={`${media?.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                                    alt={media?.nom}
-                                                    loading="lazy"
-                                                />
-                                            </ImageListItem>
-                                        )
-                                    }
-                                    return null;
-                                })}
-                            </ImageList>
+                            {projet?.medias.length > 0 &&
+                                <ImageList variant="masonry" cols={3} gap={7}>
+                                    {projet?.medias.map((media) => {
+                                        if (media?.type === 'IMAGE' && media?.source === 'PP') {
+                                            return (
+                                                <ImageListItem key={media?.id} onClick={() => downloadFile(media?.url)}>
+                                                    <img className="rounded img-fluid shadow"
+                                                        src={`${media?.url}?w=248&fit=crop&auto=format`}
+                                                        srcSet={`${media?.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                                                        alt={media?.nom}
+                                                        loading="lazy"
+                                                    />
+                                                </ImageListItem>
+                                            )
+                                        }
+                                        return null;
+                                    })}
+                                </ImageList>
+                            }
                         </Box>
                     </Grid>
                 </Grid>
@@ -205,7 +206,7 @@ const RightSide = ({ form, projet }) => {
                     <div style={{ width: 200, height: 200 }}>
                         <CircularProgressbar
                             value={projet?.iv_pourcent}
-                            text={projet?.iv_pourcent + '%'}
+                            text={ Number(projet?.iv_pourcent || 0).toFixed(2) + '%'}
                             styles={{
                                 root: {},
                                 path: {

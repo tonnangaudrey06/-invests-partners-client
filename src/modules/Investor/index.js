@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Sidebar from './components/SideBar';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
@@ -42,8 +42,9 @@ const DashboardInvestor = (props) => {
 
     const logoutUser = async () => {
         try {
-            await AuthService.logout()
-            removeUser()
+            await AuthService.logout();
+            history.push(`/`);
+            removeUser();
         } catch (error) {
             console.error(error);
         }

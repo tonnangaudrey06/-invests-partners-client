@@ -76,7 +76,7 @@ const Projet = (props) => {
             </div>
           )}
           {(secteurs || []).map((item, index) => (
-            <div className="col-sm-12 col-md-6 col-lg-3">
+            <div className="col-sm-12 col-md-6 col-lg-3" key={`projet-${index}`}>
               <div className="secteur-item shadow-lg" onClick={() => { history.push(`/projets/${item.id}`) }}>
                 <LazyBackgroundImage className="secteur-content" data-content={item.libelle} src={item.photo} placeholder={placeholder} />
               </div>

@@ -1,7 +1,7 @@
 import '../../styles/header.scss';
 
-import { useEffect, useState, forwardRef, Fragment } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, forwardRef, Fragment } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import { logout } from '../../core/reducers/auth/actions';
 import { setLanguage } from '../../core/reducers/app/actions';
@@ -71,6 +71,8 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
     setLanguage(lng);
   }
 
+  const history = useHistory();
+
   const [color, setColor] = useState(false);
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
@@ -88,8 +90,9 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
 
   const logoutUser = async () => {
     try {
-      await AuthService.logout()
-      removeUser()
+      await AuthService.logout();
+      history.push(`/`);
+      removeUser();
     } catch (error) {
       console.error(error);
     }
@@ -123,7 +126,7 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
           {click ? <FTime /> : <Bars />}
         </MobileIcone>
 
-        <div onClick={handleClick} click={handleClick} className="nav-left-link" style={{ left: click ? 0 : '-100%' }}>
+        <div onClick={handleClick} className="nav-left-link" style={{ left: click ? 0 : '-100%' }}>
           <div className={location.pathname === '/' ? "header-link active" : "header-link"}>
             <Link to="/accueil">{t('header.home')}</Link>
           </div>

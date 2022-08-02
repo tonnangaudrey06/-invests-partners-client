@@ -126,7 +126,7 @@ const ProjectDetails = (props) => {
     const payer = async () => {
         setPaiement({ pending: true, failed: false });
         try {
-            const montant = user?.status === 'PARTICULIER' ? 15000 : 50000;
+            const montant = projet?.user_data?.profil_porteur?.montant;
             const rs = await CampayService.payProjet(numero, montant);
             let messageP = 'La transaction ';
 
@@ -179,7 +179,6 @@ const ProjectDetails = (props) => {
             }
         )
     }
-
 
     const loadProjet = () => {
         ProjetService.getOneProjet(id).then(
@@ -253,7 +252,7 @@ const ProjectDetails = (props) => {
                     <Modal.Title>Paiement des frais d'abonnement</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="mb-1 small lh-base text-center">Vous allez payer <strong> {user?.status === 'PARTICULIER' ? '15 000' : '50 000'} XAF</strong> pour les frais études de votre projet</p>
+                    <p className="mb-1 small lh-base text-center">Vous allez payer <strong> {projet?.user_data?.profil_porteur?.montant} XAF</strong> pour les frais études de votre projet</p>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl className="d-flex flex-column align-items-center mt-2" component="fieldset" sx={{ m: 1, width: "100%" }}>
@@ -277,7 +276,6 @@ const ProjectDetails = (props) => {
                                     value={numero || ''}
                                     onChange={setNumero}
                                 />
-
                             </FormControl>
                             <p className="my-2 text-center fw-bolder">{messagePay}</p>
                             {/* <FormControl component="fieldset" sx={{ m: 1, width: "100%" }}>

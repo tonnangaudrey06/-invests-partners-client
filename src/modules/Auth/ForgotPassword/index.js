@@ -127,7 +127,7 @@ class ForgotPassword extends React.Component {
                     onChange={(e, value) => this.setState({ role: value })}
                   >
                     <FormControlLabel value={3} control={<Radio />} label={t('auth.forgot_password.form._1.value._1')} />
-                    <FormControlLabel value={4} control={<Radio />} label={t('auth.forgot_password.form._1.value._1')} />
+                    <FormControlLabel value={4} control={<Radio />} label={t('auth.forgot_password.form._1.value._2')} />
                   </RadioGroup>
                 </div>
               </FormControl>

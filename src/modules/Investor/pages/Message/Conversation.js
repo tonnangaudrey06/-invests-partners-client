@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../../styles/dashboard.scss';
 
 import { BiPlusMedical, BiEnvelope, BiEnvelopeOpen } from 'react-icons/bi';

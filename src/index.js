@@ -5,7 +5,7 @@ import './styles/style.scss';
 
 import App from './App';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux'
@@ -20,15 +20,13 @@ import theme from './theme'
 import './core/utils/i18n'
 
 ReactDOM.render(
-  <Suspense fallback={<div>Loading... </div>}>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
-          <App />
-        </LocalizationProvider>
-      </ThemeProvider>
-    </Provider>
-  </Suspense>,
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+        <App />
+      </LocalizationProvider>
+    </ThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import '../../../../styles/dashboard.scss';
 import { BiPlusMedical } from 'react-icons/bi';
 import { Button } from '@mui/material';

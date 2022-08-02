@@ -1,6 +1,6 @@
 import '../../../../styles/projet.scss'
 
-import * as React from 'react';
+import React from 'react';
 
 import { MdAddCircle } from 'react-icons/md';
 // import act1 from '../../../../assets/img/projet.jpg'

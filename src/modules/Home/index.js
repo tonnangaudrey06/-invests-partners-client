@@ -39,7 +39,6 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 import { GrMail } from 'react-icons/gr';
-// import { AiOutlineHeart } from 'react-icons/ai';
 import { FaArrowLeft, FaArrowRight, FaCheck, FaClock, FaCalendarCheck } from 'react-icons/fa';
 import { RiEyeFill, RiTeamLine, RiCoinsLine } from 'react-icons/ri';
 import { MdPhoneInTalk } from 'react-icons/md';
@@ -50,9 +49,7 @@ import { AppService, EventService, CampayService, MessageService, PaiementServic
 import { withNamespaces } from "react-i18next";
 
 import { connect } from "react-redux";
-// import PageLoader from '../../components/PageLoader';
-import { Button } from '@mui/material';
-// import { Link } from 'react-router-dom';
+import { Button, CircularProgress } from '@mui/material';
 
 const CustomSlide = ({
   history,
@@ -241,7 +238,7 @@ const RiEyeFillIcon = React.forwardRef((props) => {
   return <RiEyeFill {...props} />;
 });
 
-const HomeScreen = ({ history, t, user, language }) => {
+const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading }) => {
 
   const [navigateBanner, setNavigateBanner] = useState(false)
 
@@ -263,7 +260,7 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
-  // const [setPageLoading] = React.useState(true);
+  const [pageLoading, setPageLoading] = React.useState(true);
   const [etat, setEtat] = React.useState({
     message: '',
     error: false,
@@ -504,6 +501,7 @@ const HomeScreen = ({ history, t, user, language }) => {
   }
 
   const loadDatas = async () => {
+    setPageLoading(true)
     Promise.all([
       AppService.slider(),
       AppService.chiffre(),
@@ -527,6 +525,7 @@ const HomeScreen = ({ history, t, user, language }) => {
         setEvents(eventsData?.data?.data);
         setChiffres(statsData?.data?.data);
         setExperts(expertData?.data?.data);
+        setPageLoading(false);
       }
     );
   }
@@ -572,9 +571,13 @@ const HomeScreen = ({ history, t, user, language }) => {
 
   return (
     <Fragment>
-      {/* <PageLoader loading={pageLoading} /> */}
 
       <div className="carousel mb-5">
+        {pageLoading && (
+          <div style={{ minHeight: 680 }} className="py-5 d-flex justify-content-center align-items-center">
+            <CircularProgress color="white" />
+          </div>
+        )}
         <BannerSlider slides={sliders || []} translate={t} lang={lang} />
       </div>
 
@@ -622,6 +625,12 @@ const HomeScreen = ({ history, t, user, language }) => {
             </div>
           </div>
         </div>
+
+        {pageLoading && (
+          <div className="my-5 d-flex justify-content-center align-items-center">
+            <CircularProgress />
+          </div>
+        )}
 
         {(experts || []).length > 0 &&
           <div className="section-expert mb-5">
@@ -759,6 +768,12 @@ const HomeScreen = ({ history, t, user, language }) => {
             </div>
           </div>
         </div>
+
+        {pageLoading && (
+          <div className="my-5 d-flex justify-content-center align-items-center">
+            <CircularProgress />
+          </div>
+        )}
 
         {(events || []).length > 0 && (
           <div className="section-event container mb-5">

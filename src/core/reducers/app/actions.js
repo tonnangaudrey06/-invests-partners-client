@@ -5,7 +5,9 @@ import {
     SET_SECTEUR,
     IS_LOADING,
     STOP_LOADING,
-    SET_LANGUAGE
+    SET_LANGUAGE,
+    STOP_APP_LOADING,
+    SET_APP_LOADING
 } from '../../utils/constants';
 
 export const setSecteur = (secteurs) => {
@@ -30,6 +32,14 @@ export const setLoadingFalse = () => {
 
 export const setLoadingTrue = () => {
     return { type: IS_LOADING };
+};
+
+export const setStartAppLoading = () => {
+    return { type: SET_APP_LOADING };
+};
+
+export const setStopAppLoading = () => {
+    return { type: STOP_APP_LOADING };
 };
 
 export const setLanguage = (language) => {

@@ -14,3 +14,5 @@ export const SET_SECTEUR = "SET_SECTEUR";
 export const IS_LOADING = "IS_LOADING";
 export const STOP_LOADING = "STOP_LOADING";
 export const SET_LANGUAGE = "SET_LANGUAGE";
+export const STOP_APP_LOADING = "STOP_APP_LOADING";
+export const SET_APP_LOADING = "SET_APP_LOADING";
