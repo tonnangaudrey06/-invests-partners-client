@@ -127,6 +127,7 @@ const ProjectDetails = (props) => {
         setPaiement({ pending: true, failed: false });
         try {
             const montant = projet?.user_data?.profil_porteur?.montant;
+            // const montant = 3;
             const rs = await CampayService.payProjet(numero, montant);
             let messageP = 'La transaction ';
 
@@ -315,7 +316,7 @@ const ProjectDetails = (props) => {
     )
 }
 
-const mapStateToProps = (state) => ({ user: state.auth })
+const mapStateToProps = (state) => ({ user: state.auth.user })
 
 const mapDispatchToProps = (dispatch) => {
     return {
