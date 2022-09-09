@@ -116,8 +116,6 @@ const ProjectDetails = (props) => {
                 setMessagePay(`La transaction a échoué. Essayez à nouveau`);
                 break;
             default:
-                // setPaiement({ pending: false, failed: true });
-                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
                 await countdown(refrence)
                 break;
         }
@@ -127,7 +125,6 @@ const ProjectDetails = (props) => {
         setPaiement({ pending: true, failed: false });
         try {
             const montant = projet?.user_data?.profil_porteur?.montant;
-            // const montant = 3;
             const rs = await CampayService.payProjet(numero, montant);
             let messageP = 'La transaction ';
 

@@ -135,11 +135,9 @@ const Header = ({ removeUser, languageChange, auth, headerActive, t }) => {
             <Link to="/about-us">{t('header.about')}</Link>
           </div>
 
-          {auth.user?.role === 4 && (
-            <div className={location.pathname.includes('/projets') ? "header-link active" : "header-link"}>
-              <Link to="/projets">{t('header.projet')}</Link>
-            </div>
-          )}
+          <div className={location.pathname.includes('/projets') ? "header-link active" : "header-link"}>
+            <Link to="/projets">{t('header.projet')}</Link>
+          </div>
 
           <div className={location.pathname.includes('/events') ? "header-link active" : "header-link"}>
             <Link to="/events">{t('header.event')}</Link>

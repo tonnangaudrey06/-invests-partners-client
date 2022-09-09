@@ -25,11 +25,11 @@ const AppNavigator = (props) => {
       <Route exact path="/contact" component={Contact} />
       <Route exact path="/events" component={Event} />
       <Route exact path="/events/:id" component={EventDetails} />
-      <ProtectedRoute exact path="/projets" component={Projet} role={4} />
-      <ProtectedRoute exact path="/projets/:section" component={ProjetSecteur} role={4} />
-      <ProtectedRoute exact path="/projets/:projet/details" role={4} component={ProjetDetails} />
-      <ProtectedRoute exact path="/projets/:section/:town" component={ProjetTown} role={4} />
-      <ProtectedRoute exact path="/projets/:section/:town/:projet/details" role={4} component={ProjetDetails} />
+      <Route exact path="/projets" component={Projet} />
+      <Route exact path="/projets/:section" component={ProjetSecteur} />
+      <Route exact path="/projets/:projet/details" role={4} component={ProjetDetails} />
+      <Route exact path="/projets/:section/:town" component={ProjetTown} />
+      <Route exact path="/projets/:section/:town/:projet/details" component={ProjetDetails} />
       <ProtectedRoute path="/dashboard" component={Dashboard} role={3} />
       <ProtectedRoute path="/investor" component={DashboardInvestor} role={4} />
       <Route exact path="/auth" component={Auth} />

@@ -7,19 +7,10 @@ import Popup from 'reactjs-popup';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Divider from '@mui/material/Divider';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { SecteurService } from '../../../core/services';
 import projetimg from "../../../assets/img/projet.jpg";
-
-// import { AiOutlineHeart } from 'react-icons/ai';
-// import { MdPlace } from 'react-icons/md';
-// import { GiHistogram } from 'react-icons/gi';
 
 import { Container } from '../../../components';
 import { Link } from 'react-router-dom';
@@ -31,10 +22,11 @@ import { moneyFormat } from '../../../core/utils/helpers';
 import backgroundTop from '../../../assets/img/ban.png';
 import { Button } from '@mui/material';
 
-const ProjetTown = ({ match, location, history, user, t }) => {
+const ProjetTown = ({ match, history, user, t }) => {
     const { params: { section, town } } = match;
 
     const [projets, setProjets] = React.useState([]);
+    const [secteur, setSecteur] = React.useState(null);
     const [allProjets, setAllProjets] = React.useState([]);
     const [modalOpen, setModalOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
@@ -74,14 +66,14 @@ const ProjetTown = ({ match, location, history, user, t }) => {
     React.useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            try {
-                const rs = await SecteurService.getSecteurProjet(section, town);
-                setAllProjets(rs.data.data);
-                setProjets(rs.data.data);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-            }
+            Promise.all([SecteurService.getSecteurProjet(section, town), SecteurService.getOne(section)])
+                .then(
+                    ([projets, secteur]) => {
+                        setSecteur(secteur.data.data);
+                        setAllProjets(projets.data.data);
+                        setProjets(projets.data.data);
+                    }
+                ).finally(() => setLoading(false))
         }
         fetchData();
     }, [section, town]);
@@ -92,13 +84,13 @@ const ProjetTown = ({ match, location, history, user, t }) => {
 
     return (
         <Container header headerActive active="projets" className="bg-light" footer>
-            <div className="projects-top shadow" style={{ backgroundImage: `url(${backgroundTop})` }}>
+            <div className="projects-top shadow" style={{ backgroundImage: `url(${secteur?.photo || backgroundTop})` }}>
                 <div className="search-bar-container-home">
                     <div className="container" style={{
                         minWidth: "35rem"
                     }}>
                         <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>
-                            {town}
+                            {`${secteur?.libelle || 'Secteur'} - ${town}`}
                         </h1>
                         <div className="search-bar">
                             <input onKeyUp={(e) => searchFilterProjet(e.target.value)} placeholder="Nom du projet" className="projects-text-input" type="text" />
@@ -134,28 +126,19 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                                 />
                                 <CardContent>
                                     <div className="projects-cards-title-container mb-1">
-                                        {checkCanFianance(item) ? (
-                                            <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
-                                                <h5 className="fw-bold">{item.intitule}</h5>
-                                            </Link>
-                                        ) : (
-                                            <h5 className="fw-bold text-muted">{item.intitule}</h5>
-                                        )}
-                                    </div>
-                                    <p className={checkCanFianance(item) ? "projects-cards-content mb-1" : "projects-cards-content mb-1 text-muted"}>{item.description}</p>
-                                    <p className={checkCanFianance(item) ? "mb-1 fw-bold" : "mb-1 text-muted fw-bold"}>{moneyFormat(item.iv_total)} {t('projet.details.invest')}</p>
-                                    <div className={checkCanFianance(item) ? "projects-cards-bottom" : "projects-cards-bottom text-muted"}>
-                                        <div>{moneyFormat(item.iv_count)} {t('projet.details.investor')}</div>
-                                        {/* <div className="d-flex align-items-center"><AiFillLike className="me-1" />4</div> */}
-                                    </div>
-                                </CardContent>
-                                {checkCanFianance(item) && (
-                                    <div className="projects-cards-plus cursor-pointer" onClick={() => history.push(`${match.url}/${item.id}/details`)}>
-                                        <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
-                                            {t('projet.details.more')}
+                                        <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
+                                            <h5 className="fw-bold">{item.intitule}</h5>
                                         </Link>
                                     </div>
-                                )}
+                                    <p className="projects-cards-content mb-1">{item.description}</p>
+                                    <p className="mb-1 fw-bold">{moneyFormat(item.iv_total)} {t('projet.details.invest')}</p>
+                                    <div className="projects-cards-bottom text-muted">{moneyFormat(item.iv_count)} {t('projet.details.investor')}</div>
+                                </CardContent>
+                                <div className="projects-cards-plus cursor-pointer" onClick={() => history.push(`${match.url}/${item.id}/details`)}>
+                                    <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
+                                        {t('projet.details.more')}
+                                    </Link>
+                                </div>
                             </Card>
                         </div>
                     ))}
@@ -182,7 +165,6 @@ const ProjetTown = ({ match, location, history, user, t }) => {
                     </div>
                 </div>
             </Popup>
-
         </Container>
     );
 }

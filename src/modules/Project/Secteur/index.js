@@ -23,6 +23,8 @@ const ProjetSecteur = (props) => {
     const [country, setCountry] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
 
+    
+
     React.useEffect(() => {
         async function fetchData() {
             setLoading(true);
@@ -36,11 +38,11 @@ const ProjetSecteur = (props) => {
             }
         }
         fetchData();
-    }, [section, props]);
+    }, [section]);
 
     return (
         <Container header footer headerActive active="projets">
-            <div className="projects-top" style={{ backgroundImage: `url(${backgroundTop})` }}>
+            <div className="projects-top" style={{ backgroundImage: `url(${secteur?.photo || backgroundTop})` }}>
                 <div className="container m-auto" style={{ zIndex: 1 }}>
                     <h1 className="text-center text-white text-uppercase" style={{ marginBottom: '2rem', fontFamily: "building", fontSize: '4rem' }}>{secteur?.libelle}</h1>
                 </div>

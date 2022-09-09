@@ -91,6 +91,30 @@ class CampayService {
         });
     }
 
+    payVisa(amount, description, user = null) {
+        const data = {
+            amount,
+            currency: "XAF",
+            description,
+            redirect_url: "",
+            payment_options: "CARD",
+            first_name: user?.firstName || "",
+            last_name: user?.lastName || "",
+            email: user?.email || ""
+        };
+
+        return new Promise((resolve, reject) => {
+            http.post('get_payment_link/', data)
+                .then(response => {
+                    resolve(response.data);
+                },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
     checkPayment(reference) {
         return new Promise((resolve, reject) => {
             http.get('transaction/' + reference + '/').then(

@@ -13,7 +13,7 @@ import placeholder from '../../assets/img/ip-13.jpg';
 
 import Slider from "react-slick";
 
-import { Modal } from 'react-bootstrap';
+import { Badge, Modal } from 'react-bootstrap';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -124,47 +124,48 @@ const CustomSlide = ({
   }
 
   const goToDetails = () => {
-    if (checkCanFianance()) {
-      history.push(`projets/${projet.id}/details`);
-    } else {
-      onOpenModal(true);
-    }
+    history.push(`projets/${projet.id}/details`);
   }
 
   return (
-    <div className="p-3">
-      <div className="projet-ip-item shadow">
+    <>
+      <div className="mx-4 my-2 projet-ip-item shadow-sm">
         <div className="projet-ip-image">
           <img src={projet.logo} alt={projet.intitule} />
         </div>
         <div className='projet-ip-box'>
           <div className="projet-ip-content" >
+            <div className="mb-1">
+              <Badge pill bg="primary">
+                {projet?.secteur_data?.libelle}
+              </Badge>
+            </div>
             <h3>{projet.intitule}</h3>
-            <p>{projet.description}</p>
+            <p className="text-truncate">{projet.description}</p>
 
             {/* <Link to={`projets/${projet.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
               {t('projet.details.more')}
             </Link> */}
 
             {user &&
-              <Fragment>
-                <Button
-                  type="button"
-                  variant="contained"
-                  onClick={() => handleOpenInvest()}
-                >
-                  {t('projet.details.btn._1')}
-                </Button>
-
-                <Button
-                  type="button"
-                  className="ms-3"
-                  onClick={() => goToDetails()}
-                >
-                  {t('projet.details.more')}
-                </Button>
-              </Fragment>
+              <Button
+                type="button"
+                variant="contained"
+                className="me-3"
+                onClick={() => handleOpenInvest()}
+              >
+                {t('projet.details.btn._1')}
+              </Button>
             }
+
+            <Button
+              type="button"
+              variant="contained"
+              color="white"
+              onClick={() => goToDetails()}
+            >
+              {t('projet.details.more')}
+            </Button>
 
             <Popup
               modal
@@ -215,8 +216,8 @@ const CustomSlide = ({
             </Popup>
           </div>
           <div className='projet-ip-bottom'>
-            <div className="projet-ip-details-invest">
-              {projet.iv_total ? `${moneyFormat(projet.iv_total)} XAF déjà investis` : `Aucun investissement pour l'instant`}
+            <div className="projet-ip-details-invest text-white">
+              {projet.iv_total ? `${moneyFormat(projet.iv_total)} XAF déjà investis` : `Aucun investissement`}
             </div>
             {/* {user &&
               <div className="projet-ip-details-fav">
@@ -226,7 +227,7 @@ const CustomSlide = ({
           </div>
         </div>
       </div>
-    </div >
+    </>
   );
 }
 
@@ -282,25 +283,31 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
   const loc = useGeoLocation();
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
+
     speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
+
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 8000,
     pauseOnHover: true,
-    adaptiveHeight: true,
-    initialSlide: 0,
+
+    centerMode: true,
+    centerPadding: '60px',
+    slidesToShow: 3,
+    slidesToScroll: 1,
+
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          lazyLoad: true,
-          dots: true
+          slidesToShow: 3,
+          slidesToScroll: 1,
+
+          centerMode: true,
+          centerPadding: '60px',
+
+          dots: false
         }
       },
       {
@@ -308,10 +315,12 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+
+          centerMode: true,
+          centerPadding: '40px',
+
+          dots: true,
           button: false,
-          initialSlide: 0,
-          lazyLoad: true,
-          dots: true
         }
       },
       {
@@ -319,8 +328,12 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          lazyLoad: true,
-          dots: true
+
+          centerMode: true,
+          centerPadding: '20px',
+
+          dots: true,
+          button: false,
         }
       }
     ]
@@ -581,7 +594,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         <BannerSlider slides={sliders || []} translate={t} lang={lang} />
       </div>
 
-      <Container header footer>
+      <Container className="overflow-hidden" header footer>
         <div className="section-service container-fluid px-5 mb-5">
           <SectionTitle title="service.title" />
           <div className="row">
@@ -693,7 +706,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         }
 
         {(partenaires || []).length > 0 &&
-          <div className="section-partner mb-5">
+          <div className="section-partner bg-light pt-5 pb-1">
             <SectionTitle title={"partner.title"} />
             <div className="partner-text">
               <p>{t('partner.text')}</p>
@@ -709,11 +722,17 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         }
 
         {(projets || []).length > 0 && (
-          <div className="section-projet mb-5">
+          <div className="section-projet py-5">
             <SectionTitle title="projet_ip.title" />
-            <div className="projet-ip-container">
+            <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
                 <Slider ref={c => (slider = c)} {...settings}>
+                  {(projets || []).map((item, index) => (
+                    <CustomSlide history={history} onOpenModal={(value) => setModalOpen(value)} projet={item} t={t} user={user} key={index} />
+                  ))}
+                  {(projets || []).map((item, index) => (
+                    <CustomSlide history={history} onOpenModal={(value) => setModalOpen(value)} projet={item} t={t} user={user} key={index} />
+                  ))}
                   {(projets || []).map((item, index) => (
                     <CustomSlide history={history} onOpenModal={(value) => setModalOpen(value)} projet={item} t={t} user={user} key={index} />
                   ))}
@@ -776,12 +795,12 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
         )}
 
         {(events || []).length > 0 && (
-          <div className="section-event container mb-5">
+          <div className="section-event container pb-5">
             <SectionTitle title="event.title" />
             <div className="row g-2">
               {(events || []).map((item, index) => (
                 <div className="col-md-6 col-lg-4" key={index}>
-                  <div className="event-item shadow-lg">
+                  <div className="event-item shadow">
                     <div className="event-image">
                       <img src={item.image ? item.image : placeholder} alt="" />
                     </div>
@@ -812,7 +831,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
                             </Button>
                           )}
                           <Button
-                            type="submit"
+                            type="button"
                             variant="contained"
                             color="white"
                             onClick={() => history.push(`events/${item.id}`)}

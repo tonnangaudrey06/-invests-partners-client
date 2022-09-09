@@ -3,7 +3,7 @@ import { FaRegUser } from "react-icons/fa";
 import { RiLock2Line } from "react-icons/ri";
 import { BiPhoneCall } from "react-icons/bi";
 
-import React from "react";
+import React, { Fragment } from "react";
 
 import { Modal } from 'react-bootstrap';
 
@@ -87,7 +87,9 @@ const Register = (props) => {
 
     const [plage, setPlage] = React.useState([])
 
-    const [visible, setVisible] = React.useState(false)
+    const [visible, setVisible] = React.useState(false);
+
+    const [isGeneratingPaymentLink, setIsGeneratingPaymentLink] = React.useState(false);
 
     const [etat, setEtat] = React.useState({
         loading: false,
@@ -256,8 +258,6 @@ const Register = (props) => {
                 setMessagePay(`La transaction a échoué. Essayez à nouveau`);
                 break;
             default:
-                // setPaiement({ pending: false, failed: true });
-                // setMessagePay(`La transaction a échoué. Essayez à nouveau`);
                 await countdown(refrence)
                 break;
         }
@@ -284,6 +284,21 @@ const Register = (props) => {
         } catch (error) {
             setPaiement({ pending: false, failed: true });
             console.error(error);
+        }
+    }
+
+    const payerVisa = async () => {
+        setIsGeneratingPaymentLink(true);
+
+        try {
+            const rs = await CampayService.payVisa(
+                getSelectedPlage()?.frais_abonnement, 
+                "creation de votre compte d´investisseur sur la plateforme Invest & Partners"
+            );
+            console.log(rs.data);
+            setIsGeneratingPaymentLink(false);
+        } catch (error) {
+            setIsGeneratingPaymentLink(false);
         }
     }
 
@@ -611,36 +626,49 @@ const Register = (props) => {
                                 >
                                     <FormControlLabel value="OM" control={<Radio />} label="Orange Money" />
                                     <FormControlLabel value="MOMO" control={<Radio />} label="MTN Mobile Money" />
+                                    <FormControlLabel value="CARD" control={<Radio />} label="Carte visa" />
                                     {/* <FormControlLabel value="MASTER_CARD" control={<Radio />} label="Master card" /> */}
                                 </RadioGroup>
                             </FormControl>
-                            <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">{t('auth.pay.form._2.title')}</h6>
-                                <PhoneInput
-                                    defaultCountry={loc.country}
-                                    placeholder={t('auth.pay.form._2.placeholder')}
-                                    value={numero || ''}
-                                    onChange={setNumero}
-                                />
 
-                            </FormControl>
-                            <p className="my-2 text-center fw-bolder">{messagePay}</p>
-                            {/* <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre carte bancaire</h6>
-                                <input type="text" />
-                            </FormControl> */}
+                            {methodPaiement !== "CARD" && (
+                                <Fragment>
+                                    <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
+                                        <h6 className="fw-bolder">{t('auth.pay.form._2.title')}</h6>
+                                        <PhoneInput
+                                            defaultCountry={loc.country}
+                                            placeholder={t('auth.pay.form._2.placeholder')}
+                                            value={numero || ''}
+                                            onChange={setNumero}
+                                        />
+                                    </FormControl>
+                                    <p className="my-2 text-center fw-bolder">{messagePay}</p>
+                                </Fragment>
+                            )}
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <div className="d-flex justify-content-center align-items-center w-100">
-                                <LoadingButton
-                                    className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
-                                    loading={paiement.pending}
-                                    disabled={!numero}
-                                    onClick={payer}
-                                    variant="contained"
-                                >
-                                    {t('auth.pay.btn')}
-                                </LoadingButton>
+                                {methodPaiement !== "CARD" ? (
+                                    <LoadingButton
+                                        className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                                        loading={paiement.pending}
+                                        disabled={!numero}
+                                        onClick={payer}
+                                        variant="contained"
+                                    >
+                                        {t('auth.pay.btn')}
+                                    </LoadingButton>
+                                ) : (
+                                    <LoadingButton
+                                        className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                                        loading={isGeneratingPaymentLink}
+                                        onClick={payerVisa}
+                                        variant="contained"
+                                    >
+                                        {t('auth.pay.btn2')}
+                                    </LoadingButton>
+                                )}
+
                             </div>
                         </Grid>
                     </Grid>

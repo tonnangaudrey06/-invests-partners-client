@@ -34,7 +34,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const News = (props) => { return (<Post {...props} />); };
 
-const ProjetDetails = ({ match, location, history, user, t }) => {
+const ProjetDetails = ({ match, user, t }) => {
 
     const { params: { projet } } = match;
     const [details, setProjetDetails] = React.useState(null);
@@ -100,30 +100,41 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
         setError(false);
     };
 
-    const fetchData = async () => {
-        setLoadingData(true);
-        try {
-            const rs = await ProjetService.getOneProjet(projet);
-            setProjetDetails(rs.data.data);
-            setLoadingData(false);
-        } catch (error) {
-            setLoadingData(false);
+    React.useEffect(() => {
+        const fetchData = async () => {
+            setLoadingData(true);
+            try {
+                const rs = await ProjetService.getOneProjet(projet);
+                setProjetDetails(rs.data.data);
+                setLoadingData(false);
+            } catch (error) {
+                setLoadingData(false);
+            }
+
         }
 
-    }
-
-    React.useEffect(() => {
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projet]);
 
-    React.useEffect(() => {
-        console.log(details);
-    }, [details]);
+    const checkCanFianance = () => {
+        if (!user?.profil_invest) {
+            return false;
+        }
 
-    const checkFileIsVideo = (file) => {
+        if (!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
+            return true;
+        }
+
+        if (+user?.profil_invest?.montant_max >= +details?.financement) {
+            return true;
+        }
+
+        return false;
+    }
+
+    const checkFileIsVideo = () => {
         const format = ['mp4', 'avi', 'mkv', 'm4v', 'mpg', 'mpeg', 'mov', '3gp', 'webm'];
-        return format.includes(file?.split('.')?.pop())
+        return format.includes(details?.doc_presentation?.split('.')?.pop())
     }
 
     return (
@@ -141,31 +152,21 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
             ) : (
                 <div className="container mt-5 py-5">
                     <div className="my-5">
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={checkFileIsVideo(details?.doc_presentation) ? 12 : 6} className="d-flex justify-content-center">
-                                <div className="entete2">
+                        <Grid container columnSpacing={6} rowSpacing={3}>
+                            <Grid item md={4} sm={12}>
+                                <div className="d-flex flex-column align-items-center gap-2">
                                     <EnteteProjet projet={details} t={t} />
-                                    <div className="w-100 d-flex justify-content-center align-items-center mt-1">
-                                        <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-50">{t('projet.details.btn._1')}</Button>
-                                    </div>
+
+                                    {checkCanFianance() && (
+                                        <div className="w-100 d-flex justify-content-center align-items-center">
+                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-50">{t('projet.details.btn._1')}</Button>
+                                        </div>
+                                    )}
                                 </div>
-                            </Grid>
 
-                            {checkFileIsVideo(details?.doc_presentation) &&
-                                <Grid item xs={12} md={6} >
-                                    <div className="embed-responsive embed-responsive-1by1 h-100">
-                                        <Videoplay video={details?.doc_presentation} />
-                                    </div>
-                                </Grid>
-                            }
-
-                            <Grid item xs={12} md="6">
-                                <div className="card shadow rounded border-0 h-100">
+                                <div className="card border-0 shadow-sm rounded-lg mt-4">
                                     <div className="card-body">
-
                                         <div style={{ marginBottom: 10 }}>
-                                            {/* <span className="fw-bolder">{t('projet.details.cat')} :</span>
-                                            {details?.secteur_data?.libelle} */}
                                             <Badge pill bg="primary" className="fs-6">
                                                 {details?.secteur_data?.libelle}
                                             </Badge>
@@ -194,25 +195,25 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                 </div>
                             </Grid>
 
-                            <Grid item md="12">
-                                <div className="card border-0 shadow rounded">
-                                    <div className="card-body">
-                                        <div className="nav nav-pills nav-fill profile-nav" role="tablist">
-                                            <button className="nav-link active fw-bolder fs-5 mr-1" id="nav-desc-tab" data-bs-toggle="tab" data-bs-target="#nav-desc" type="button" role="tab" aria-controls="nav-desc" aria-selected="true">
-                                                {t('projet.details.desc')}
-                                            </button>
-                                            <button className="nav-link fw-bolder fs-5" id="nav-news-tab" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="false">
-                                                {t('projet.details.actu')}
-                                            </button>
-                                        </div>
+                            <Grid item md={8} sm={12}>
+                                {checkFileIsVideo() &&
+                                    <div className="embed-responsive embed-responsive-1by1 mb-5">
+                                        <Videoplay video={details?.doc_presentation} />
                                     </div>
+                                }
 
-                                    <div className="tab-content mh-100">
-                                        <div className="tab-pane fade show active p-3" id="nav-desc" role="tabpanel" aria-labelledby="desc-tab">
-                                            <Description desc={details?.description || ''} />
-                                        </div>
-                                        <div className="tab-pane fade p-3" id="nav-news" role="tabpanel" aria-labelledby="news-tab">
-                                            <div className="row g-4">
+                                <div className="card border-0 rounded mt-5">
+                                    <div className="card-body">
+                                        <h3 className="fw-bolder">{t('projet.details.desc')}</h3>
+                                        <p className="mt-1 text-muted">{details?.description}</p>
+                                    </div>
+                                </div>
+
+                                {(details?.actualites || []).lenght > 0 && (
+                                    <div className="card border-0 rounded">
+                                        <div className="card-body">
+                                            <h3 className="fw-bolder">{t('projet.details.actu')}</h3>
+                                            <div className="row g-4 mt-2">
                                                 {(details?.actualites || []).map((actualite, index) => (
                                                     <div className="col-md-4" key={index}>
                                                         <News actualite={actualite} logo={details?.logo} />
@@ -220,10 +221,8 @@ const ProjetDetails = ({ match, location, history, user, t }) => {
                                                 ))}
                                             </div>
                                         </div>
-                                        <div className="tab-pane fade" id="nav-question" role="tabpanel" aria-labelledby="question-tab">
-                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </Grid>
                         </Grid>
                     </div>

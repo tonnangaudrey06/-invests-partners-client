@@ -176,7 +176,8 @@
             },
             "btn": {
                 "_1": "Payer",
-                "_2": "Participer"
+                "_2": "Participer",
+                "_3": "Procédez au paiement"
             }
         }
     },
@@ -372,7 +373,8 @@
                 "_1": "Vous avez choisi le profil {{ plage }} qui à une plage d'investissement entre {{ min }} XAF et {{ max }} XAF",
                 "_2": "Pour ce profil d'investissement, vous allez payer {{ prix }} XAF comme frais d'abonnement"
             },
-            "btn": "Payer"
+            "btn": "Payer",
+            "btn2": "Procédez au paiement"
         }
     },
     "projet": {
@@ -582,8 +584,8 @@
                             "_4": "Role dans le projet"
                         },
                         "btn": {
-                           "_1": "Fermer",
-                           "_2": "Enregistrer" 
+                            "_1": "Fermer",
+                            "_2": "Enregistrer"
                         }
                     }
                 },

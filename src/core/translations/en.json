@@ -175,7 +175,8 @@
             },
             "btn": {
                 "_1": "Pay",
-                "_2": "Participate"
+                "_2": "Participate",
+                "_3": "Procédez au paiement"
             }
         }
     },
@@ -375,7 +376,8 @@
                 "_1": "You have chosen the {{ plage }} profile which has an investment range between {{min}} XAF and {{max}} XAF",
                 "_2": "For this investment profile, you will pay {{ prix }} XAF as a subscription fee"
             },
-            "btn": "Pay"
+            "btn": "Pay",
+            "btnCard": "Procédez au paiement"
         }
     },
     "projet": {

@@ -24,7 +24,7 @@ const EnteteProjet = (props) => {
                     {/* <span className="donnee"> <h5><AiFillLike className="me-1" /> {nbLike}</h5></span> */}
                 </div>
             </div>
-            <div className="line"></div>
+            {/* <div className="line"></div> */}
         </div>
     );
 };
