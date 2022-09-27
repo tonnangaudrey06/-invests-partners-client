@@ -46,6 +46,17 @@ class ProjetService {
             }
         });
     }
+
+    likeProjet(projet, user) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.post(`${source}/${projet}/like/${user}`);
+                resolve(rs);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
 }
 
 export default new ProjetService();

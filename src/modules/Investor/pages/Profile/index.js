@@ -768,11 +768,11 @@ const ProfilPorteurProjet = (props) => {
                                                         <h4 className="my-0 fw-bolder">{item.type}</h4>
                                                     </div>
                                                     <div className="card-body">
-                                                        <h1 className="card-title pricing-card-title">{moneyFormat(item.frais_abonnement)} XAF</h1>
+                                                        <h1 className="card-title pricing-card-title">{moneyFormat(item.frais_abonnement)} FCFA</h1>
                                                         <p className="mt-2">
                                                             Possibilité d'investir sur des projets avec un besoin chiffre d'affaire prévissionnel compris entreprise&nbsp;
-                                                            <strong>{(!item.montant_min || item.montant_min === 0) ? item.min : moneyFormat(item.montant_min) + ' XAF'}</strong> et&nbsp;
-                                                            <strong>{(!item.montant_max || item.montant_max === 0) ? item.max : moneyFormat(item.montant_max) + ' XAF'}</strong>
+                                                            <strong>{(!item.montant_min || item.montant_min === 0) ? item.min : moneyFormat(item.montant_min) + ' FCFA'}</strong> et&nbsp;
+                                                            <strong>{(!item.montant_max || item.montant_max === 0) ? item.max : moneyFormat(item.montant_max) + ' FCFA'}</strong>
                                                         </p>
                                                         {item.id === user?.profil && (<Button color="success" variant="contained" className="mt-2">Votre abonnement actuel</Button>)}
                                                         {item.id !== user?.profil && (<Button variant="contained" disabled={item.montant_max < user?.profil_invest?.montant_min} className="mt-2" onClick={() => openChangePlage(item)}>Souscrire</Button>)}
@@ -799,7 +799,7 @@ const ProfilPorteurProjet = (props) => {
                     <Modal.Title>Changement votre plage</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Vous paierez un supplément de <strong>{supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay)} XAF</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
+                    <p>Vous paierez un supplément de <strong>{supPay <= 0 ? moneyFormat(selectedPlage?.frais_abonnement) : moneyFormat(supPay)} FCFA</strong> pour changer votre profil en <strong>{selectedPlage?.type}</strong>. </p>
                     <hr />
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>

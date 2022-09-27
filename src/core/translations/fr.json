@@ -145,7 +145,7 @@
             "title": "Participation à l'évenement",
             "text": {
                 "_1": "Vous voulez participer à l'évenement",
-                "_2": "La participation à cette évenement vous coûtera {{ prix }} XAF par place",
+                "_2": "La participation à cette évenement vous coûtera {{ prix }} FCFA par place",
                 "_3": "La participation à cette évenement est gratuit"
             },
             "sub_title_1": "Informations personnelles",
@@ -348,8 +348,8 @@
                 }
             },
             "text": {
-                "_1": "{{ plage }} => Investissement dans des projets dont la valeur du financement est comprise entre {{ min }} XAF et {{ max }} XAF",
-                "_2": "Frais d'abonnement annuel: {{ prix }} XAF",
+                "_1": "{{ plage }} => Investissement dans des projets dont la valeur du financement est comprise entre {{ min }} FCFA et {{ max }} FCFA",
+                "_2": "Frais d'abonnement annuel: {{ prix }} FCFA",
                 "_3": "Les champs avec (*) sont obligatoires",
                 "_4": "J'accepte",
                 "_5": "les Conditions générales d'utilisation ",
@@ -370,14 +370,22 @@
                 }
             },
             "text": {
-                "_1": "Vous avez choisi le profil {{ plage }} qui à une plage d'investissement entre {{ min }} XAF et {{ max }} XAF",
-                "_2": "Pour ce profil d'investissement, vous allez payer {{ prix }} XAF comme frais d'abonnement"
+                "_1": "Vous avez choisi le profil {{ plage }} qui à une plage d'investissement entre {{ min }} FCFA et {{ max }} FCFA",
+                "_2": "Pour ce profil d'investissement, vous allez payer {{ prix }} FCFA comme frais d'abonnement"
             },
             "btn": "Payer",
             "btn2": "Procédez au paiement"
         }
     },
     "projet": {
+        "etat": {
+            "ongoing": "En cours",
+            "done": "Terminé"
+        },
+        "invest": {
+            "none": "Aucun investissement",
+            "done": "{{ prix }} FCFA investis"
+        },
         "title": "LA MEILLEURE AFFAIRE S'OFFRE A VOUS",
         "sub_title": "NOS SECTEURS D'ACTIVITÉES",
         "not_found_secteur": "Aucun secteur pour l'instant",
@@ -412,8 +420,25 @@
             }
         },
         "details": {
-            "invest": "XAF déjà investi",
-            "investor": "contributions",
+            "text": {
+                "plage": {
+                    "_1": "Votre plage d'investissement ne vous permet pas d'effectuer un investissement sur ce projet.",
+                    "_2": "Modifier votre plage d'investissement."
+                },
+                "done": {
+                    "_1": "Ce projet a atteint son objectif d'investissement.",
+                    "_2": "Consultez les autres projets",
+                    "_3": "et voyez s'il y en a qui vous intéressent."
+                },
+                "auth": {
+                    "_1": "Voulez-vous investir sur ce projet ?",
+                    "_2": "Connectez-vous en tant qu'investisseur",
+                    "_3": "ou bien",
+                    "_4": "Crée un compte investisseur."
+                }
+            },
+            "invest": "FCFA investis",
+            "investor": "investisseur(s)",
             "more": "En savoir plus",
             "cat": "Catégorie",
             "localize": "Localisation",
@@ -437,7 +462,7 @@
         },
         "other": {
             "_1": "mois",
-            "_2": "Non defini",
+            "_2": "...",
             "modal": {
                 "title": "Vous êtes intéressé par ce projet",
                 "message": "Votre message",

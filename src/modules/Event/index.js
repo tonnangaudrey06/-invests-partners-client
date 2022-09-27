@@ -314,7 +314,7 @@ const Event = ({ t, history, user }) => {
                                     <div className="position-relative" style={{ height: 'inherit' }}>
                                         <img src={item.image ? item.image : placeholder} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
                                         <div className="event-autre-item-img-cover position-absolute">
-                                            <div className="button-price-events-component">{item.prix ? item.prix : 0} XAF</div>
+                                            <div className="button-price-events-component">{item.prix ? item.prix : 0} FCFA</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>
                                             {/* <div className="button-bookmark-events-component">{item.bookmark ? <BsBookmarkFill fill='#c5473b' size={15} /> : <BsBookmark fill='#c5473b' size={15} />}</div> */}
                                         </div>
@@ -369,7 +369,7 @@ const Event = ({ t, history, user }) => {
                                     <div className="position-relative" style={{ height: 'inherit' }}>
                                         <img src={item.image ? item.image : placeholder} className="shadow w-100" style={{ objectFit: 'cover' }} alt="" />
                                         <div className="event-autre-item-img-cover position-absolute">
-                                            <div className="button-price-events-component">{item.prix ? item.prix : 0} XAF</div>
+                                            <div className="button-price-events-component">{item.prix ? item.prix : 0} FCFA</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>
                                         </div>
                                     </div>

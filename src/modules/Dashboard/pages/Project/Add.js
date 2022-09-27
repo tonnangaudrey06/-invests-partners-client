@@ -846,7 +846,7 @@ const ProjetAdd = (props) => {
                                             variant="filled"
                                             textAlign="left"
                                             value={projet.financement}
-                                            currencySymbol="XAF"
+                                            currencySymbol="FCFA"
                                             onChange={(event, value) => setProjet({ ...projet, financement: value })}
                                         />
                                         {/* <TextField
@@ -857,7 +857,7 @@ const ProjetAdd = (props) => {
                                                 InputProps={{
                                                     inputMode: 'numeric',
                                                     pattern: '[0-9]*',
-                                                    startAdornment: <InputAdornment position="start">XAF</InputAdornment>
+                                                    startAdornment: <InputAdornment position="start">FCFA</InputAdornment>
                                                 }}
 
                                                 label="Besoin d'un financement de"
@@ -1322,7 +1322,7 @@ const ProjetAdd = (props) => {
                                 {projet?.financement &&
                                     <Grid item xs={12} md={12} className="mt-1">
                                         <p className="fw-bolder fs-5 text-primary">Besoin d'un financement de</p>
-                                        <p className="fs-6">{projet?.financement} XAF</p>
+                                        <p className="fs-6">{projet?.financement} FCFA</p>
                                         <Divider></Divider>
                                     </Grid>
                                 }

@@ -17,7 +17,7 @@ import {
 } from "../modules";
 
 const AppNavigator = (props) => {
-  const {history} = props;
+  const { history } = props;
   return (
     <Switch history={history}>
       <Route exact path="/" component={Home} />
@@ -27,7 +27,7 @@ const AppNavigator = (props) => {
       <Route exact path="/events/:id" component={EventDetails} />
       <Route exact path="/projets" component={Projet} />
       <Route exact path="/projets/:section" component={ProjetSecteur} />
-      <Route exact path="/projets/:projet/details" role={4} component={ProjetDetails} />
+      <Route exact path="/projets/:projet/details" component={ProjetDetails} />
       <Route exact path="/projets/:section/:town" component={ProjetTown} />
       <Route exact path="/projets/:section/:town/:projet/details" component={ProjetDetails} />
       <ProtectedRoute path="/dashboard" component={Dashboard} role={3} />

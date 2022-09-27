@@ -39,14 +39,18 @@
 }
 
 .projects-cards-title-container {
-    display: flex;
-    margin: 0;
-    justify-content: space-between;
-    align-items: center;
-}
+    font-family: "Building", sans-serif;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    font-size: 1.5rem;
+    text-decoration: none;
 
-.projects-cards-title-container > h5 {
-    margin: 0;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .projects-cards-content {
@@ -55,20 +59,20 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    line-height: 1.4;
+    font-size: 1rem;
+}
+
+.projects-cards-invest {
+    font-size: .8rem;
+    font-weight: bold;
 }
 
 .projects-cards-bottom {
     display: flex;
-    flex-direction: row;
-    /* position: absolute; */
-    /* bottom: 10px; */
     align-items: center;
-    color: #c5473b;
     justify-content: space-between;
     width: 100%;
-    /* padding: 0 10px; */
-    font-size: 11px;
+    font-size: .8rem;
     font-weight: bold;
 }
 
@@ -80,21 +84,23 @@
     top: 0;
     height: 15rem;
     left: 0;
-    opacity: .5;
+    opacity: 0.5;
     transition: ease-in-out 0.2s;
 }
 
 .projects-cards-plus-button {
     position: absolute;
-    bottom: 10%;
+    bottom: 5%;
     color: white;
     background-color: #c5473b;
-    padding: 10px 25px;
+    padding: .5rem .8rem;
     border-top-right-radius: 10rem;
     border-bottom-right-radius: 10rem;
     text-decoration: none;
     display: none;
     transition: ease-in-out 0.2s;
+    font-size: .9rem;
+    font-weight: 600;
 }
 
 .projects-cards:hover .projects-cards-plus {

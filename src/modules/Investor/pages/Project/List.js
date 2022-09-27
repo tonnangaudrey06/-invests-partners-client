@@ -196,7 +196,7 @@ const ProjetList = (props) => {
 
                                         </TableCell> */}
                                         <TableCell align="right" style={{ width: "15%" }}>
-                                            <span className="fw-bolder fs-6">{moneyFormat(projet?.total_investi)} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet?.total_investi)} FCFA</span>
                                         </TableCell>
                                         <TableCell align="center" style={{ width: "5%" }}>
                                             <i className="bi bi-chevron-compact-right"></i>

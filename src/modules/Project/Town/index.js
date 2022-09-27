@@ -21,10 +21,12 @@ import { withNamespaces } from "react-i18next";
 import { moneyFormat } from '../../../core/utils/helpers';
 import backgroundTop from '../../../assets/img/ban.png';
 import { Button } from '@mui/material';
+import LikeButton from './../../../components/LikeButton/index';
 
 const ProjetTown = ({ match, history, user, t }) => {
     const { params: { section, town } } = match;
 
+    const [likeCount, setLikeCount] = React.useState(0);
     const [projets, setProjets] = React.useState([]);
     const [secteur, setSecteur] = React.useState(null);
     const [allProjets, setAllProjets] = React.useState([]);
@@ -112,7 +114,7 @@ const ProjetTown = ({ match, history, user, t }) => {
                         </div>
                     )}
                     {projets.map((item, index) => (
-                        <div key={index} className="col-md-6 col-lg-4">
+                        <div key={index} className="col-sm-12 col-md-6 col-lg-4 col-xl-3">
                             <Card classes={{ root: 'projects-cards shadow' }} sx={{
                                 borderRadius: '1rem',
                                 position: 'relative'
@@ -125,14 +127,22 @@ const ProjetTown = ({ match, history, user, t }) => {
                                     alt={item?.intitule}
                                 />
                                 <CardContent>
-                                    <div className="projects-cards-title-container mb-1">
-                                        <Link to={`${match.url}/${item.id}/details`} className="text-decoration-none">
-                                            <h5 className="fw-bold">{item.intitule}</h5>
-                                        </Link>
+                                    <Link to={`${match.url}/${item.id}/details`} className="projects-cards-title-container">
+                                        {item.intitule}
+                                    </Link>
+                                    <p className="projects-cards-content">{item.description}</p>
+                                    <div className="projects-cards-invest text-muted mt-3 mb-1">{moneyFormat(item.iv_total)} {t('projet.details.invest')}</div>
+                                    <div className="projects-cards-bottom text-muted">
+                                        {moneyFormat(item.iv_count)} {t('projet.details.investor')}
+                                        <div className="d-flex align-items-center gap-2">
+                                            <LikeButton
+                                                user={user}
+                                                projet={item}
+                                                likeCount={(value) => setLikeCount(value)}
+                                            />
+                                            {`${likeCount} likes`}
+                                        </div>
                                     </div>
-                                    <p className="projects-cards-content mb-1">{item.description}</p>
-                                    <p className="mb-1 fw-bold">{moneyFormat(item.iv_total)} {t('projet.details.invest')}</p>
-                                    <div className="projects-cards-bottom text-muted">{moneyFormat(item.iv_count)} {t('projet.details.investor')}</div>
                                 </CardContent>
                                 <div className="projects-cards-plus cursor-pointer" onClick={() => history.push(`${match.url}/${item.id}/details`)}>
                                     <Link to={`${match.url}/${item.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">

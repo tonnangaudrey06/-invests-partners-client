@@ -15,7 +15,7 @@ const InformationsProjet = () => {
                 </div>
                 <div className="element" >
                     <span className="label"> Montant minimum d'investissement  : </span>
-                    <span className="valeur"> 100 000 XAF </span>
+                    <span className="valeur"> 100 000 FCFA </span>
                 </div>
                 <div className="element" >
                     <span className="label"> Taux de rentabilité : </span>
@@ -23,7 +23,7 @@ const InformationsProjet = () => {
                 </div>
                 <div className="element" >
                     <span className="label"> CA prévisionnel : </span>
-                    <span className="valeur"> 50 000 000 000 XAF </span>
+                    <span className="valeur"> 50 000 000 000 FCFA </span>
                 </div>
                 <div className="element" >
                     <span className="label"> Durée du projet : </span>

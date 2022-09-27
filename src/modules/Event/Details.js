@@ -327,7 +327,7 @@ const EventDetails = ({ t, match, user }) => {
             {event?.prix &&
               <div className="d-flex align-items-center pt-2 pe-4">
                 <BiMoney />
-                <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.prix ? moneyFormat(event?.prix) + ' XAF' : t('app.free')}</span>
+                <span style={{ marginLeft: 10, fontSize: 14 }}>{event?.prix ? moneyFormat(event?.prix) + ' FCFA' : t('app.free')}</span>
               </div>
             }
           </div>

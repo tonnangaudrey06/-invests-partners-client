@@ -144,7 +144,7 @@
             "title": "Participation in the event",
             "text": {
                 "_1": "You want to participate in the event",
-                "_2": "Participation in this event will you cost {{ prix }} XAF per seat",
+                "_2": "Participation in this event will you cost {{ prix }} FCFA per seat",
                 "_3": "Participation in this event is free"
             },
             "sub_title_1": "Personal informations",
@@ -351,8 +351,8 @@
                 }
             },
             "text": {
-                "_1": "{{ plage }} => Investment in projects whose financing value is between {{ min }} XAF and {{ max }} XAF",
-                "_2": "Annual subscription fee: {{ prix }} XAF",
+                "_1": "{{ plage }} => Investment in projects whose financing value is between {{ min }} FCFA and {{ max }} FCFA",
+                "_2": "Annual subscription fee: {{ prix }} FCFA",
                 "_3": "Fields with (*) are mandatory",
                 "_4": "I accept",
                 "_5": "the General Conditions of Use",
@@ -373,14 +373,22 @@
                 }
             },
             "text": {
-                "_1": "You have chosen the {{ plage }} profile which has an investment range between {{min}} XAF and {{max}} XAF",
-                "_2": "For this investment profile, you will pay {{ prix }} XAF as a subscription fee"
+                "_1": "You have chosen the {{ plage }} profile which has an investment range between {{min}} FCFA and {{max}} FCFA",
+                "_2": "For this investment profile, you will pay {{ prix }} FCFA as a subscription fee"
             },
             "btn": "Pay",
-            "btnCard": "Procédez au paiement"
+            "btnCard": "Proceed to payment"
         }
     },
     "projet": {
+        "etat": {
+            "ongoing": "Ongoing",
+            "done": "Done"
+        },
+        "invest": {
+            "none": "No investissement",
+            "done": "{{ prix }} FCFA invested"
+        },
         "title": "THE BEST DEAL IS AVAILABLE TO YOU",
         "sub_title": "OUR SECTORS OF ACTIVITY",
         "not_found_secteur": "No sector for the moment",
@@ -415,8 +423,25 @@
             }
         },
         "details": {
-            "invest": "XAF already invested",
-            "investor": "contributions",
+            "text": {
+                "plage": {
+                    "_1": "Your investment range does not allow you to make an investment in this project.",
+                    "_2": "Change your investment range."
+                },
+                "done": {
+                    "_1": "This project has reached its investment goal.",
+                    "_2": "Consult the other projects",
+                    "_3": "and see if there are any that interest you."
+                },
+                "auth": {
+                    "_1": "Do you want to invest in this project?",
+                    "_2": "Login as an investor",
+                    "_3": "or",
+                    "_4": "Create an investor account."
+                }
+            },
+            "invest": "FCFA invested",
+            "investor": "investor(s)",
             "more": "Find out more",
             "cat": "Category",
             "localize": "Location",
@@ -439,8 +464,8 @@
             }
         },
         "other": {
-            "_1": "month",
-            "_2": "Not defined",
+            "_1": "month(s)",
+            "_2": "...",
             "modal": {
                 "title": "You are interested in this project",
                 "message": "Your message",

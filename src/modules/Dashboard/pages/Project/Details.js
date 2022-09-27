@@ -250,7 +250,7 @@ const ProjectDetails = (props) => {
                     <Modal.Title>Paiement des frais d'abonnement</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p className="mb-1 small lh-base text-center">Vous allez payer <strong> {projet?.user_data?.profil_porteur?.montant} XAF</strong> pour les frais études de votre projet</p>
+                    <p className="mb-1 small lh-base text-center">Vous allez payer <strong> {projet?.user_data?.profil_porteur?.montant} FCFA</strong> pour les frais études de votre projet</p>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
                             <FormControl className="d-flex flex-column align-items-center mt-2" component="fieldset" sx={{ m: 1, width: "100%" }}>

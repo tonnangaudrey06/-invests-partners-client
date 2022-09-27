@@ -1,26 +1,42 @@
 import React from "react";
 
 import projetimg from "../../../../assets/img/projet.jpg";
+import { LikeButton } from "../../../../components";
 
 import { moneyFormat } from '../../../../core/utils/helpers';
 
-const EnteteProjet = (props) => {
+const EnteteProjet = ({
+    projet,
+    user,
+    t,
+    errorMessage = (message) => { },
+    setError = (value) => { }
+}) => {
 
-    const { projet, t } = props;
+    const [likeCount, setLikeCount] = React.useState(0);
 
     return (
-        <div className="entete">
-            <div className="upper-container">
-                <div className="image-container">
-                    <img src={projet?.logo ? projet.logo : projetimg} alt="Logo" height="100px" width="100px" />
-                </div>
+        <div className="project-details-entete mb-4">
+            <div className="project-details-image">
+                <img src={projet?.logo ? projet.logo : projetimg} alt="Logo projet" />
             </div>
-            <div className="lower-container" >
-                <div className="titre"> <h3>{projet?.intitule}</h3></div>
-                {/* <div className="desc"> <h4>{description}</h4></div> */}
-                <div className="info">
-                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_total)} {t('projet.details.invest')}</h5></span>
-                    <span className="donnee"> <h5>{moneyFormat(projet?.iv_count)}  {t('projet.details.investor')}</h5></span>
+            <div className="project-details-box">
+                <div className="project-details-titre">{projet?.intitule}</div>
+
+                <div className="project-details-info my-3"> {moneyFormat(projet?.iv_total)} {t('projet.details.invest')}</div>
+
+                <div className="d-flex align-items-center flex-wrap gap-4">
+                    <div className="project-details-info"> {moneyFormat(projet?.iv_count)}  {t('projet.details.investor')}</div>
+                    <div className="project-details-info d-flex align-items-center gap-2">
+                        <LikeButton
+                            user={user}
+                            projet={projet}
+                            likeCount={(value) => setLikeCount(value)}
+                            errorMessage={(value) => errorMessage(value)}
+                            setError={(value) => setLikeCount(value)}
+                        />
+                        {`${likeCount} likes`}
+                    </div>
                     {/* <span className="donnee"> <h5><AiFillLike className="me-1" /> {nbLike}</h5></span> */}
                 </div>
             </div>

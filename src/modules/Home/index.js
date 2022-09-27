@@ -50,6 +50,7 @@ import { withNamespaces } from "react-i18next";
 
 import { connect } from "react-redux";
 import { Button, CircularProgress } from '@mui/material';
+import LikeButton from './../../components/LikeButton/index';
 
 const CustomSlide = ({
   history,
@@ -63,6 +64,7 @@ const CustomSlide = ({
 }) => {
   const [message, setMessage] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+  const [likeCount, setLikeCount] = React.useState(0);
   const [openPopup, setOpenPopup] = React.useState(false);
 
   const openMessage = () => {
@@ -134,21 +136,23 @@ const CustomSlide = ({
           <img src={projet.logo} alt={projet.intitule} />
         </div>
         <div className='projet-ip-box'>
-          <div className="projet-ip-content" >
-            <div className="mb-1">
+          <div className="projet-ip-content mb-2" >
+            <div className="d-flex justify-content-between align-items-center mb-1">
               <Badge pill bg="primary">
                 {projet?.secteur_data?.libelle}
               </Badge>
+              <Badge pill bg={`${projet?.etat === 'CLOTURE' ? 'success' : 'secondary'}`}>
+                {`${projet?.etat === 'CLOTURE' ? t('projet.etat.done') : t('projet.etat.ongoing')}`}
+              </Badge>
             </div>
+
             <h3>{projet.intitule}</h3>
-            <p className="text-truncate">{projet.description}</p>
 
-            {/* <Link to={`projets/${projet.id}/details`} className="projects-cards-plus-button text-decoration-none text-white">
-              {t('projet.details.more')}
-            </Link> */}
+            <p>{projet.description}</p>
 
-            {user &&
+            {user && projet?.etat !== 'CLOTURE' &&
               <Button
+                size="small"
                 type="button"
                 variant="contained"
                 className="me-3"
@@ -159,6 +163,7 @@ const CustomSlide = ({
             }
 
             <Button
+              size="small"
               type="button"
               variant="contained"
               color="white"
@@ -216,14 +221,19 @@ const CustomSlide = ({
             </Popup>
           </div>
           <div className='projet-ip-bottom'>
-            <div className="projet-ip-details-invest text-white">
-              {projet.iv_total ? `${moneyFormat(projet.iv_total)} XAF déjà investis` : `Aucun investissement`}
+            <div className="projet-ip-details-invest">
+              {projet.iv_total ? t('projet.invest.none', moneyFormat(projet.iv_total)) : t('projet.invest.none')}
             </div>
-            {/* {user &&
-              <div className="projet-ip-details-fav">
-                <AiOutlineHeart fill={"#c5473b"} size={25} />
-              </div>
-            } */}
+            <div className="projet-ip-details-fav">
+              <LikeButton
+                user={user}
+                projet={projet}
+                likeCount={(value) => setLikeCount(value)}
+                errorMessage={(value) => errorMessage(value)}
+                setError={(value) => setError(value)}
+              />
+              {`${likeCount} likes`}
+            </div>
           </div>
         </div>
       </div>
@@ -289,11 +299,13 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
     speed: 500,
 
     autoplay: true,
-    autoplaySpeed: 8000,
+    autoplaySpeed: 4000,
     pauseOnHover: true,
 
-    centerMode: true,
-    centerPadding: '60px',
+    // className: "center",
+    // centerMode: true,
+    // centerPadding: "1.2rem",
+
     slidesToShow: 3,
     slidesToScroll: 1,
 
@@ -776,7 +788,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
             </div>
             <div className="col-md-12 col-lg-4 my-4">
               <div className="d-flex align-items-center flex-column mb-md-2 m-lg-0">
-                <h3 className="text-white" style={{ fontSize: '3rem' }}>{`${millionFormat(chiffre?.total || 0)} XAF`}</h3>
+                <h3 className="text-white" style={{ fontSize: '3rem' }}>{`${millionFormat(chiffre?.total || 0)} FCFA`}</h3>
                 <div>
                   <RiCoinsLine size={100} fill={'white'} />
                 </div>
@@ -822,6 +834,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
                         <div className="d-flex align-items-center justify-content-center">
                           {!item.isPast && item.places > item.total_reserve && (
                             <Button
+                              size="small"
                               className="mr-2"
                               type="submit"
                               variant="contained"
@@ -831,6 +844,7 @@ const HomeScreen = ({ history, t, user, language, appLoading, setStopAppLoading 
                             </Button>
                           )}
                           <Button
+                            size="small"
                             type="button"
                             variant="contained"
                             color="white"

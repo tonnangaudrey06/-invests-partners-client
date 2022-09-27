@@ -66,7 +66,7 @@ const RightSide = ({ form, projet }) => {
                     </Grid>
                     <Grid item xs={12} md={12} className="mt-4">
                         <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Besoin d'un financement de</p>
-                        <p className="fs-5">{moneyFormat(projet?.financement)} XAF</p>
+                        <p className="fs-5">{moneyFormat(projet?.financement)} FCFA</p>
                         <Divider></Divider>
                     </Grid>
                     <Grid item xs={12} md={12} className="mt-4">
@@ -236,11 +236,11 @@ const RightSide = ({ form, projet }) => {
                 <div className="col-md-5" style={{ borderLeft: 'solid', borderLeftWidth: 1, borderLeftColor: 'gray', paddingLeft: 10 }}>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Montant cible</p>
-                        <p className="fs-4 text-primary">{moneyFormat(projet?.financement)} XAF</p>
+                        <p className="fs-4 text-primary">{moneyFormat(projet?.financement)} FCFA</p>
                     </div>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Montant investi</p>
-                        <p className="fs-4 text-primary">{moneyFormat(projet?.iv_total)} XAF</p>
+                        <p className="fs-4 text-primary">{moneyFormat(projet?.iv_total)} FCFA</p>
                     </div>
                     <div className="mb-1">
                         <p className="fw-bolder fs-2 invest-text" style={{ fontFamily: 'building' }}>Nombre d'investisseurs</p>
@@ -277,7 +277,7 @@ const RightSide = ({ form, projet }) => {
                         </div>
                         <div className="mb-1">
                             <p className="fw-bolder fs-3 text-primary" style={{ fontFamily: 'building' }}>Chiffre d'affaires previsionnel: </p>
-                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.ca_previsionnel)} XAF</p>
+                            <p className="fs-4 lh-sm fw-bolder">{moneyFormat(projet?.ca_previsionnel)} FCFA</p>
                             <Divider></Divider>
                         </div>
                         <div className="mb-1">

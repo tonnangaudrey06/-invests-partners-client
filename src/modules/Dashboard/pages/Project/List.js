@@ -202,14 +202,14 @@ const ProjetList = (props) => {
 
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "14%" }}>
-                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement)} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement)} FCFA</span>
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "15%" }}>
-                                            <span className="fw-bolder fs-6">{moneyFormat(projet.iv_total)} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.iv_total)} FCFA</span>
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "12%" }}>
                                             {/* <i className="bi bi-chevron-compact-right"></i> */}
-                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement - projet.iv_total)} XAF</span>
+                                            <span className="fw-bolder fs-6">{moneyFormat(projet.financement - projet.iv_total)} FCFA</span>
                                         </TableCell>
                                     </StyledTableRow>
                                 </Tooltip>

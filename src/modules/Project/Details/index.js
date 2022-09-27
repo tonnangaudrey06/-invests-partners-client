@@ -26,6 +26,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 import { withNamespaces } from "react-i18next";
+import { Link } from 'react-router-dom';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -34,7 +35,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const News = (props) => { return (<Post {...props} />); };
 
-const ProjetDetails = ({ match, user, t }) => {
+const ProjetDetails = ({ match, user, t, location }) => {
 
     const { params: { projet } } = match;
     const [details, setProjetDetails] = React.useState(null);
@@ -117,15 +118,22 @@ const ProjetDetails = ({ match, user, t }) => {
     }, [projet]);
 
     const checkCanFianance = () => {
-        if (!user?.profil_invest) {
-            return false;
-        }
+        if (details?.etat === "CLOTURE") return false;
+        return true;
+    }
 
-        if (!user?.profil_invest?.montant_max || +user?.profil_invest?.montant_max === 0) {
-            return true;
-        }
+    const checkUserCanInvest = () => {
+        if (!user) return false;
 
-        if (+user?.profil_invest?.montant_max >= +details?.financement) {
+        if (!user?.role === 4) return false;
+
+        if (!user?.profil_invest) return false;
+
+        return true;
+    }
+
+    const checkUserCanInvestWithPlage = () => {
+        if (user?.profil_invest?.montant_max && (user?.profil_invest?.montant_max >= +details?.financement)) {
             return true;
         }
 
@@ -152,25 +160,45 @@ const ProjetDetails = ({ match, user, t }) => {
             ) : (
                 <div className="container mt-5 py-5">
                     <div className="my-5">
-                        <Grid container columnSpacing={6} rowSpacing={3}>
+                        <Grid container columnSpacing={6} rowSpacing={3} alignItems="stretch">
                             <Grid item md={4} sm={12}>
-                                <div className="d-flex flex-column align-items-center gap-2">
-                                    <EnteteProjet projet={details} t={t} />
+                                <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+                                    <EnteteProjet
+                                        projet={details}
+                                        errorMessage={(value) => setRsMessage(value)}
+                                        setError={(value) => setError(value)}
+                                        user={user}
+                                        t={t}
+                                    />
 
-                                    {checkCanFianance() && (
-                                        <div className="w-100 d-flex justify-content-center align-items-center">
-                                            <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-50">{t('projet.details.btn._1')}</Button>
-                                        </div>
+                                    {checkUserCanInvest() ? (
+                                        checkCanFianance() ? (
+                                            checkUserCanInvestWithPlage() ? (
+                                                <div className="w-100 d-flex justify-content-center align-items-center">
+                                                    <Button variant="contained" size="small" onClick={openMessage} className="btn-rounded btn-default w-50">{t('projet.details.btn._1')}</Button>
+                                                </div>
+                                            ) : (
+                                                <p className="text-center">{t('projet.details.text.plage._1')} <Link to="/investor/profil">{t('projet.details.text.plage._2')}</Link></p>
+                                            )
+                                        ) : (
+                                            <p className="text-center">{t('projet.details.text.done._1')} <Link to="/projets">{t('projet.details.text.done._2')}</Link> {t('projet.details.text.done._3')}</p>
+                                        )
+                                    ) : (
+                                        <p className="text-center">{t('projet.details.text.auth._1')} <Link to={{ pathname: "/auth", search: "?page=login", state: { from: location } }} >{t('projet.details.text.auth._2')}</Link> {t('projet.details.text.auth._3')} <Link to={{ pathname: "/auth", search: "?page=register", state: { from: location } }}>{t('projet.details.text.auth._4')}</Link>.</p>
                                     )}
                                 </div>
 
                                 <div className="card border-0 shadow-sm rounded-lg mt-4">
                                     <div className="card-body">
-                                        <div style={{ marginBottom: 10 }}>
-                                            <Badge pill bg="primary" className="fs-6">
+                                        <div className="d-flex justify-content-between align-items-center mb-1">
+                                            <Badge pill bg="primary">
                                                 {details?.secteur_data?.libelle}
                                             </Badge>
+                                            <Badge pill bg={`${details?.etat === 'CLOTURE' ? 'success' : 'secondary'}`}>
+                                                {`${details?.etat === 'CLOTURE' ? t('projet.etat.done') : t('projet.etat.ongoing')}`}
+                                            </Badge>
                                         </div>
+
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
                                             <span className="fw-bolder">{t('projet.details.localize')} : {" "} </span>
                                             {details?.ville_activite}, {details?.pays_activite}
@@ -181,38 +209,36 @@ const ProjetDetails = ({ match, user, t }) => {
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
                                             <span className="fw-bolder">{t('projet.details.ca')} : {" "}</span>
-                                            {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' XAF' : t('projet.other._2')}
+                                            {details?.ca_previsionnel ? moneyFormat(details?.ca_previsionnel) + ' FCFA' : t('projet.other._2')}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
                                             <span className="fw-bolder">{t('projet.details.duree')} :{" "}</span>
-                                            {details?.duree ? details?.duree + t('projet.other._1') : t('projet.other._2')}
+                                            {details?.duree ? `${details?.duree} ${t('projet.other._1')}` : t('projet.other._2')}
                                         </p>
                                         <p className="fs-6" style={{ marginBottom: 10 }}>
                                             <span className="fw-bolder">{t('projet.details.dead_line')} :{" "}</span>
-                                            {details?.rsi ? details?.rsi + t('projet.other._1') : t('projet.other._2')}
+                                            {details?.rsi ? `${details?.rsi} ${t('projet.other._1')}` : t('projet.other._2')}
                                         </p>
                                     </div>
                                 </div>
                             </Grid>
 
                             <Grid item md={8} sm={12}>
-                                {checkFileIsVideo() &&
-                                    <div className="embed-responsive embed-responsive-1by1 mb-5">
-                                        <Videoplay video={details?.doc_presentation} />
-                                    </div>
-                                }
+                                <div className="bg-light shadow h-100 px-4">
+                                    {checkFileIsVideo() &&
+                                        <div className="embed-responsive embed-responsive-1by1 mb-5 bg-transparent">
+                                            <Videoplay video={details?.doc_presentation} />
+                                        </div>
+                                    }
 
-                                <div className="card border-0 rounded mt-5">
                                     <div className="card-body">
-                                        <h3 className="fw-bolder">{t('projet.details.desc')}</h3>
-                                        <p className="mt-1 text-muted">{details?.description}</p>
+                                        <h4 className="fw-bolder">{t('projet.details.desc')}</h4>
+                                        <p className="text-muted">{details?.description}</p>
                                     </div>
-                                </div>
 
-                                {(details?.actualites || []).lenght > 0 && (
-                                    <div className="card border-0 rounded">
+                                    {(details?.actualites || []).lenght > 0 && (
                                         <div className="card-body">
-                                            <h3 className="fw-bolder">{t('projet.details.actu')}</h3>
+                                            <h4 className="fw-bolder">{t('projet.details.actu')}</h4>
                                             <div className="row g-4 mt-2">
                                                 {(details?.actualites || []).map((actualite, index) => (
                                                     <div className="col-md-4" key={index}>
@@ -221,13 +247,14 @@ const ProjetDetails = ({ match, user, t }) => {
                                                 ))}
                                             </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </Grid>
                         </Grid>
                     </div>
                 </div>
-            )}
+            )
+            }
 
             <Modal
                 show={visible}
@@ -286,7 +313,7 @@ const ProjetDetails = ({ match, user, t }) => {
                     {rs_message}
                 </Alert>
             </Snackbar>
-        </Container>
+        </Container >
     );
 };
 

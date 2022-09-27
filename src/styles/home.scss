@@ -235,19 +235,17 @@
   min-height: 10rem;
   border-radius: 10px;
   background-color: #040404b8;
-  display: flex;
   position: relative;
   overflow: hidden;
-  color: white;
 
   @media (max-width: 991.98px) {
     flex-direction: column;
   }
 
   .projet-ip-box {
-    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 
     @media (max-width: 991.98px) {
       flex: 0 1 100%;
@@ -255,10 +253,11 @@
   }
 
   .projet-ip-bottom {
-    flex: 0 1 auto;
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    color: #bbbbbb;
+    font-size: 0.9rem;
   }
 
   .projet-ip-image {
@@ -278,17 +277,15 @@
   }
 
   .projet-ip-content {
-    padding: 10px 20px;
-    flex: 1 1 auto;
-
     p {
       text-overflow: ellipsis;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      line-height: 1.5;
-      margin-bottom: 1rem;
+      -webkit-line-clamp: 2;
+      margin-bottom: 2rem;
+      color: #bbbbbb !important;
+      font-size: 0.9rem;
     }
 
     h3 {
@@ -297,35 +294,36 @@
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      font-size: 1.9em;
-      margin-bottom: 1rem;
+      -webkit-line-clamp: 1;
+      margin-bottom: 0;
+      color: white;
     }
   }
 
-  .projet-ip-button {
-    padding: 10px;
-    background-color: #c5473b;
-    width: max-content;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.5s;
-  }
+  // .projet-ip-button {
+  //   padding: 10px;
+  //   background-color: #c5473b;
+  //   width: max-content;
+  //   color: white;
+  //   border-radius: 5px;
+  //   cursor: pointer;
+  //   transition: 0.5s;
+  // }
 
-  .projet-ip-button:hover {
-    opacity: 0.8;
-  }
+  // .projet-ip-button:hover {
+  //   opacity: 0.8;
+  // }
 
-  .projet-ip-details-invest {
-    color: #c5473b;
-    font-weight: 600;
-  }
+  // .projet-ip-details-invest {
+  //   color: #c5473b;
+  //   font-weight: 600;
+  // }
 
   .projet-ip-details-fav {
-    color: #c5473b;
+    font-size: 0.9rem;
     cursor: pointer;
-    font-weight: 600;
+    display: flex;
+    gap: 5px;
   }
 }
 

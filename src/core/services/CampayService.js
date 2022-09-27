@@ -6,7 +6,7 @@ class CampayService {
     payInscription(numero, montant) {
         const data = {
             amount: montant,
-            currency: "XAF",
+            currency: "FCFA",
             from: numero,
             description: "creation de votre compte d´investisseur sur la plateforme Invest & Partners",
             external_reference: "",
@@ -28,7 +28,7 @@ class CampayService {
     payEvent(numero, montant) {
         const data = {
             amount: montant,
-            currency: "XAF",
+            currency: "FCFA",
             from: numero,
             description: "participation à un événement organiser par Invest & Partners",
             external_reference: "",
@@ -50,7 +50,7 @@ class CampayService {
     payProjet(numero, montant) {
         const data = {
             amount: montant,
-            currency: "XAF",
+            currency: "FCFA",
             from: numero,
             description: "étude de votre projet sur la plateforme Invest & Partners",
             external_reference: "",
@@ -72,7 +72,7 @@ class CampayService {
     payPlage(numero, montant) {
         const data = {
             amount: montant,
-            currency: "XAF",
+            currency: "FCFA",
             from: numero,
             description: "frais d'abonement à une plage d'investissement sur la plateforme Invest & Partners",
             external_reference: "",
@@ -94,7 +94,7 @@ class CampayService {
     payVisa(amount, description, user = null) {
         const data = {
             amount,
-            currency: "XAF",
+            currency: "FCFA",
             description,
             redirect_url: "",
             payment_options: "CARD",

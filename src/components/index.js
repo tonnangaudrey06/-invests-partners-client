@@ -8,5 +8,18 @@ import TablePaginationActions from "./Table/Pagination";
 import CustomTableHead from "./Table/Head";
 import CurrencyInput from "./CurrencyInput";
 import LazyBackgroundImage from "./LazyBackgroundImage";
+import LikeButton from "./LikeButton";
 
-export { BannerSlider, SectionTitle, Button, Container, Header, Footer, TablePaginationActions, CustomTableHead, CurrencyInput, LazyBackgroundImage }
+export {
+  BannerSlider,
+  SectionTitle,
+  Button,
+  Container,
+  Header,
+  Footer,
+  TablePaginationActions,
+  CustomTableHead,
+  CurrencyInput,
+  LazyBackgroundImage,
+  LikeButton
+}
