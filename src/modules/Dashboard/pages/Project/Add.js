@@ -256,6 +256,8 @@ const ProjetAdd = (props) => {
             formData.append('membres', JSON.stringify(membres))
         }
 
+        // console.log(projet);
+
         ProjetService.addProjet(formData).then(
             (rs) => {
                 props.setLoadingFalse();
@@ -290,7 +292,7 @@ const ProjetAdd = (props) => {
             intitule: '',
             secteur: '',
             site: '',
-            niveau: 'IDEE',
+            avancement: 'IDEE',
             financement: '',
             pays_activite: 'Cameroun',
             ville_activite: '',
@@ -817,8 +819,8 @@ const ProjetAdd = (props) => {
                                             row
                                             aria-label="etat"
                                             name="row-etat-buttons-group"
-                                            value={projet.niveau}
-                                            onChange={(e, value) => setProjet({ ...projet, niveau: value })}
+                                            value={projet.avancement}
+                                            onChange={(e, value) => setProjet({ ...projet, avancement: value })}
                                         >
                                             <Tooltip title="Votre projet est encore à la phase d'idée" TransitionComponent={Zoom} disableInteractive arrow>
                                                 <FormControlLabel value="IDEE" control={<Radio />} label="Idée" />
@@ -1311,10 +1313,10 @@ const ProjetAdd = (props) => {
                                     </Grid>
                                 }
 
-                                {projet?.niveau &&
+                                {projet?.avancement &&
                                     <Grid item xs={12} md={6} className="mt-1">
                                         <p className="fw-bolder fs-5 text-primary">Niveau d'évolution</p>
-                                        <p className="fs-6">{projet?.niveau}</p>
+                                        <p className="fs-6">{projet?.avancement}</p>
                                         <Divider></Divider>
                                     </Grid>
                                 }
