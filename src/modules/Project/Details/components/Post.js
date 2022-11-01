@@ -26,14 +26,24 @@ const Post = (props) => {
   }, [props])
 
   return (
-    <Card sx={{ width: '100%', borderRadius: ".8rem" }} classes={{ root: 'shadow' }}>
+    <Card
+      sx={{ width: "100%", borderRadius: ".8rem" }}
+      classes={{ root: "shadow" }}
+    >
       <CardHeader
-        avatar={
-          <Avatar src={logo ? logo : projetimg}></Avatar>
-        }
+        avatar={<Avatar src={logo ? logo : projetimg}></Avatar>}
         title={actualite?.libelle}
-        subheader={moment(actualite?.created_at).format(" DD MMMM YYYY [à] HH:mm:ss")}
+        subheader={moment(actualite?.created_at).format(
+          " DD MMMM YYYY [à] HH:mm:ss"
+        )}
       />
+      <CardContent>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          dangerouslySetInnerHTML={{ __html: actualite?.description }}
+        />
+      </CardContent>
       {actualite?.image && (
         <CardMedia
           className="cursor-pointer"
@@ -44,11 +54,8 @@ const Post = (props) => {
           alt="Paella dish"
         />
       )}
-      <CardContent>
-        <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: actualite?.description }} />
-      </CardContent>
     </Card>
-  )
+  );
 }
 
 export default Post;

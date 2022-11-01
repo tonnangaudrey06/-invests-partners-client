@@ -236,12 +236,12 @@ const ProjetDetails = ({ match, user, t, location }) => {
                                         <p className="text-muted">{details?.description}</p>
                                     </div>
 
-                                    {(details?.actualites || []).lenght > 0 && (
+                                    {(details?.actualites || []).length > 0 && (
                                         <div className="card-body">
                                             <h4 className="fw-bolder">{t('projet.details.actu')}</h4>
-                                            <div className="row g-4 mt-2">
+                                            <div className="row gy-3 mt-1">
                                                 {(details?.actualites || []).map((actualite, index) => (
-                                                    <div className="col-md-4" key={index}>
+                                                    <div className="col-md-6" key={index}>
                                                         <News actualite={actualite} logo={details?.logo} />
                                                     </div>
                                                 ))}
