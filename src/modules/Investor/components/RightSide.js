@@ -42,14 +42,18 @@ const RightSide = ({ form, projet }) => {
 
     const News = () => {
         return (
-            <div className="container mt-3 mb-5">
-                <div className="d-flex flex-column align-items-center">
-                    {(projet?.actualites || []).map((actualite, index) => (
-                        <PostContent key={index} actualite={actualite} logo={projet?.logo} />
-                    ))}
-                </div>
-            </div>
-        )
+          <div className="m-3 row gy-3">
+            {(projet?.actualites || []).map((actualite, index) => (
+              <div className="col-md-6">
+                <PostContent
+                  key={index}
+                  actualite={actualite}
+                  logo={projet?.logo}
+                />
+              </div>
+            ))}
+          </div>
+        );
     }
 
     const Reports = () => {
