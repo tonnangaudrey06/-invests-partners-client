@@ -151,13 +151,13 @@ const ProjectDetails = (props) => {
             async (rs) => {
                 props.setLoadingFalse();
                 await PaiementService.save(user?.id, {
-                    trans_id: trans,
-                    methode: methodPaiement,
-                    telephone: numero,
-                    montant: user?.status === 'PARTICULIER' ? 15000 : 50000,
-                    type: "PROJET",
-                    etat: "REUSSI",
-                    projet: projet?.id
+                  trans_id: trans,
+                  methode: methodPaiement,
+                  telephone: numero,
+                  montant: projet?.user_data?.profil_porteur?.montant,
+                  type: "PROJET",
+                  etat: "REUSSI",
+                  projet: projet?.id,
                 });
                 setEtat(prevEtat => { return { ...prevEtat, success: true } });
                 setEtat(prevEtat => { return { ...prevEtat, message: 'Paiement effectué' } });

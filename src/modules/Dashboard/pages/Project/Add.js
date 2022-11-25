@@ -829,7 +829,7 @@ const ProjetAdd = (props) => {
                                                 <FormControlLabel value="PROTOTYPE" control={<Radio />} label="Prototype" />
                                             </Tooltip>
                                             <Tooltip title="Votre projet est déjà sur le marché" TransitionComponent={Zoom} disableInteractive arrow>
-                                                <FormControlLabel value="SUR_MARCHE" control={<Radio />} label="Sur le marché" />
+                                                <FormControlLabel value="SUR_LE_MARCHE" control={<Radio />} label="Sur le marché" />
                                             </Tooltip>
                                         </RadioGroup>
                                     </FormControl>
