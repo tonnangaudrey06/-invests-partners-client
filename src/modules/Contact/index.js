@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import { Button } from '@mui/material';
 
 const mapDispatchToProps = (dispatch) => {
@@ -197,4 +197,4 @@ const Contact = (props) => {
         </Container>
     );
 };
-export default withNamespaces()(connect(null, mapDispatchToProps)(Contact));
+export default withTranslation()(connect(null, mapDispatchToProps)(Contact));

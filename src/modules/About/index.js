@@ -14,7 +14,7 @@ import relation from "../../assets/img/relation.jpg";
 import strategy from "../../assets/img/strategy.jpg";
 import manage from "../../assets/img/ip-12.jpg";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import "../../styles/about.scss";
 
@@ -259,4 +259,4 @@ const About = ({ match, location, history, t }) => {
     );
 };
 
-export default withNamespaces()(About);
+export default withTranslation()(About);

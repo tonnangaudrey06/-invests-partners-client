@@ -36,7 +36,7 @@ import useGeoLocation from "react-ipgeolocation";
 
 import { EventService, CampayService, PaiementService } from '../../core/services'
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import { connect } from 'react-redux';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -316,7 +316,7 @@ const Event = ({ t, history, user }) => {
                                         <div className="event-autre-item-img-cover position-absolute">
                                             <div className="button-price-events-component">{item.prix ? item.prix : 0} FCFA</div>
                                             <div className="button-bookmark-events-component">{item.prix ? 'Payant' : 'Gratuit'}</div>
-                                            {/* <div className="button-bookmark-events-component">{item.bookmark ? <BsBookmarkFill fill='#c5473b' size={15} /> : <BsBookmark fill='#c5473b' size={15} />}</div> */}
+                                            {/* <div className="button-bookmark-events-component">{item.bookmark ? <BsBookmarkFill fill='#c34839' size={15} /> : <BsBookmark fill='#c34839' size={15} />}</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -572,4 +572,4 @@ const Event = ({ t, history, user }) => {
 
 const mapStateToProps = (state) => ({ user: state.auth.user })
 
-export default withNamespaces()(connect(mapStateToProps)(Event));
+export default withTranslation()(connect(mapStateToProps)(Event));

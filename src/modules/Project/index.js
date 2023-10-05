@@ -16,7 +16,7 @@ import { SecteurService } from '../../core/services';
 
 import { setSecteur } from '../../core/reducers/app/actions';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const Projet = (props) => {
 
@@ -96,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({ app: state.app })
 
-export default withNamespaces()(Redux.connect(mapStateToProps, mapDispatchToProps)(Projet));
+export default withTranslation()(Redux.connect(mapStateToProps, mapDispatchToProps)(Projet));

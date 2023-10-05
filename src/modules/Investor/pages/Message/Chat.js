@@ -157,7 +157,7 @@ const ChatMessagesPorteurProjet = ({ match, history, user }) => {
                 )}
                 {(messages || []).map((item, index) => (
                     <div key={index} className="message-item border mb-3">
-                        {/* <div className="message-seen" style={{ backgroundColor: item.vu === 1 ? "green" : "#c5473b" }}></div> */}
+                        {/* <div className="message-seen" style={{ backgroundColor: item.vu === 1 ? "green" : "#c34839" }}></div> */}
                         <div className="d-flex align-items-center justify-content-between lh-sm">
                             <div className="d-flex align-items-center">
                                 <div className="message-sender me-3">

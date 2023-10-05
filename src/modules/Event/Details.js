@@ -41,7 +41,7 @@ import { connect } from "react-redux";
 
 import { EventService, CampayService, PaiementService } from '../../core/services';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -294,7 +294,7 @@ const EventDetails = ({ t, match, user }) => {
 
         <section className="col-md-8 m-0 p-4">
           <small className="text-muted small" style={{ fontSize: ".8em" }}>
-            {t('event.organise')} Invest & Partners
+            {t('event.organise')} IP INVESTMENT S.A.
           </small>
 
           <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
@@ -508,4 +508,4 @@ const EventDetails = ({ t, match, user }) => {
 
 const mapStateToProps = (state) => ({ user: state.auth.user })
 
-export default withNamespaces()(connect(mapStateToProps)(EventDetails));
+export default withTranslation()(connect(mapStateToProps)(EventDetails));

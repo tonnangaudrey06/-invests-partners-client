@@ -1,4 +1,4 @@
-import { withNamespaces } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const SectionTitle = ({titleCss, dividerCss, title, t }) => {
     return (
@@ -8,4 +8,4 @@ const SectionTitle = ({titleCss, dividerCss, title, t }) => {
     );
 }
 
-export default withNamespaces()(SectionTitle);
+export default withTranslation()(SectionTitle);

@@ -156,9 +156,6 @@ class Login extends React.Component {
     const { translate: t } = this.props;
     return (
       <form className="login-form px-0 px-md-5" onSubmit={this.handleLogin}>
-        <div className="d-lg-none d-flex justify-content-xl-center align-items-center">
-          <img src={logo} width="150" alt="I&P" />
-        </div>
         <div className="d-flex flex-column justify-content-lg-center align-items-center h-100 py-4 py-lg-0">
           <Grid container spacing={2}>
             <Grid item xs={12} md={12}>

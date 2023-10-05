@@ -34,7 +34,7 @@ const InformationsProjet = () => {
                     <span className="valeur"> 10 ans </span>
                 </div>
                 <div className="button">
-                    <Button title="Je suis interessé" color="#c5473b" fontColor="white" fontSize="14px" />
+                    <Button title="Je suis interessé" color="#c34839" fontColor="white" fontSize="14px" />
                     <div className="fav"><span className="label">Ajouter au favoris</span> <i className="bi bi-heart"></i></div>
                 </div>
             </div>

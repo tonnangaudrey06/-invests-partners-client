@@ -8,7 +8,7 @@
   src: local("Building"), url("../assets/fonts/Building_Typeface.ttf") format("truetype");
 }
 
-$primary: #c5473b;
+$primary: #c34839;
 $secondary: #585b60;
 $color-6: #eeeeee;
 $danger: #f44336;
@@ -19,6 +19,16 @@ $font-family-sans-serif: "Karla";
 @import "~slick-carousel/slick/slick-theme.css";
 @import "~react-perfect-scrollbar/dist/css/styles.css";
 @import "~react-circular-progressbar/dist/styles.css";
+@import "about.scss";
+@import "contact.scss";
+@import "dashboard.scss";
+@import "detailProjet.scss";
+@import "event.scss";
+@import "footer.scss";
+@import "header.scss";
+@import "home.scss";
+@import "login.scss";
+@import "projet.scss";
 
 *,
 *::before,
@@ -87,7 +97,7 @@ p {
 }
 
 .form-input:focus {
-  border-color: #c5473b;
+  border-color: #c34839;
 }
 
 .form-input-label {
@@ -263,7 +273,7 @@ p {
 }
 
 .tab-nav-item.active {
-  background: #c5473b;
+  background: #c34839;
   color: white;
   border-radius: 2em;
 }
@@ -281,13 +291,13 @@ p {
 
 .profile-nav {
   & .nav-link {
-    background: #c5473b24;
+    background: #c3483924;
     transition: all 0.2s ease-in-out;
   }
 
   & .nav-link:hover {
     color: #fff;
-    background-color: #c5473b;
+    background-color: #c34839;
   }
 }
 

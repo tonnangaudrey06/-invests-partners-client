@@ -8,7 +8,7 @@ class CampayService {
             amount: montant,
             currency: "FCFA",
             from: numero,
-            description: "creation de votre compte d´investisseur sur la plateforme Invest & Partners",
+            description: "creation de votre compte d´investisseur sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
             external_user: ""
         };
@@ -30,7 +30,7 @@ class CampayService {
             amount: montant,
             currency: "FCFA",
             from: numero,
-            description: "participation à un événement organiser par Invest & Partners",
+            description: "participation à un événement organiser par IP INVESTMENT S.A.",
             external_reference: "",
             external_user: ""
         };
@@ -52,7 +52,7 @@ class CampayService {
             amount: montant,
             currency: "FCFA",
             from: numero,
-            description: "étude de votre projet sur la plateforme Invest & Partners",
+            description: "étude de votre projet sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
             external_user: ""
         };
@@ -74,7 +74,7 @@ class CampayService {
             amount: montant,
             currency: "FCFA",
             from: numero,
-            description: "frais d'abonement à une plage d'investissement sur la plateforme Invest & Partners",
+            description: "frais d'abonement à une plage d'investissement sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
             external_user: ""
         };

@@ -105,7 +105,7 @@ const RightSide = ({ form, projet }) => {
                             styles={{
                                 root: {},
                                 path: {
-                                    stroke: '#c5473b',
+                                    stroke: '#c34839',
                                     strokeLinecap: 'butt',
                                 },
                                 trail: {
@@ -115,7 +115,7 @@ const RightSide = ({ form, projet }) => {
                                     transformOrigin: 'center center',
                                 },
                                 text: {
-                                    fill: '#c5473b',
+                                    fill: '#c34839',
                                     fontSize: '1.2em',
                                     fontWeight: '600',
                                     fontFamily: 'Karla'

@@ -1084,9 +1084,9 @@ const ProjetAdd = (props) => {
                                         <div key={index} className="col-sm-12 col-md-4 col-lg-3 p-0">
                                             <div className="projet-add-expert-item">
                                                 <div style={{ width: '100%', position: 'relative' }}>
-                                                    <img className="projet-add-expert-image" alt="Expert I&P" src={(item.membre?.photo && item.membre?.photo !== 'null') ? item.membre?.photo : expert} />
+                                                    <img className="projet-add-expert-image" alt="Expert IP INVESTMENT S.A." src={(item.membre?.photo && item.membre?.photo !== 'null') ? item.membre?.photo : expert} />
                                                     <div className="projet-add-expert-item-remove-btn" onClick={() => removeNewMembre(item.membre?.id)}>
-                                                        <MdRemoveCircle className="projet-add-expert-button-modal" fill="#c5473b" size={40} />
+                                                        <MdRemoveCircle className="projet-add-expert-button-modal" fill="#c34839" size={40} />
                                                     </div>
                                                 </div>
                                                 <div className="projet-add-expert-name">{item.membre?.nom_complet}</div>
@@ -1100,7 +1100,7 @@ const ProjetAdd = (props) => {
                                 <div className="col-sm-12 col-md-4 col-lg-3 p-0">
                                     <Tooltip title="Ajouter un membre dans votre équipe" TransitionComponent={Zoom} disableInteractive arrow>
                                         <div className="projet-add-expert-item projet-add-expert-modal" onClick={() => setModalOpen(true)}>
-                                            <MdAddCircle className="projet-add-expert-button-modal" fill="#c5473b" size={40} />
+                                            <MdAddCircle className="projet-add-expert-button-modal" fill="#c34839" size={40} />
                                         </div>
                                     </Tooltip>
                                 </div>
@@ -1430,7 +1430,7 @@ const ProjetAdd = (props) => {
                                                 <div key={index} className="col-sm-12 col-md-4 col-lg-3 p-0">
                                                     <div className="projet-add-expert-item">
                                                         <div style={{ width: '100%', position: 'relative' }}>
-                                                            <img className="projet-add-expert-image" alt="Expert I&P" src={item.membre?.photo && item.membre?.photo !== 'null' ? item.membre?.photo : expert} />
+                                                            <img className="projet-add-expert-image" alt="Expert IP INVESTMENT S.A." src={item.membre?.photo && item.membre?.photo !== 'null' ? item.membre?.photo : expert} />
                                                         </div>
                                                         <div className="projet-add-expert-name">{item.membre?.nom_complet}</div>
                                                         <div className="projet-add-expert-bibio">{item?.statut}</div>

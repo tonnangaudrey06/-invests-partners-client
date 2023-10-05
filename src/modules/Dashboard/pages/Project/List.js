@@ -15,7 +15,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import { TablePaginationActions, CustomTableHead } from '../../../../components';
 
@@ -262,4 +262,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default withNamespaces()(connect(mapStateToProps, mapDispatchToProps)(ProjetList));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ProjetList));

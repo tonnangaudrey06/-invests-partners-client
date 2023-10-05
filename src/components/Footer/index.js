@@ -1,4 +1,3 @@
-import '../../styles/footer.scss'
 import { Link } from 'react-router-dom';
 import terms from '../../assets/Terms-and-Conditions.pdf';
 import conditions from '../../assets/CONFIDENTIALITY POLICY I&P.pdf';
@@ -8,7 +7,7 @@ import MuiAlert from '@mui/material/Alert';
 
 import { UserService } from '../../core/services';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -112,7 +111,7 @@ const Footer = ({ t }) => {
             <div className="col-md-7">
               <div className="row">
                 <div className="col-md-4 mb-md-0 mb-4">
-                  <h2 className="footer-heading">Invest & Partners</h2>
+                  <h2 className="footer-heading">IP INVESTMENT S.A.</h2>
                   <ul className="list-unstyled">
                     <li><Link to="/about-us" className="d-block">{t('header.about')}</Link></li>
                   </ul>
@@ -176,4 +175,4 @@ const Footer = ({ t }) => {
   );
 }
 
-export default withNamespaces()(Footer);
+export default withTranslation()(Footer);

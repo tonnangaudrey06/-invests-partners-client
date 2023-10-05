@@ -139,10 +139,10 @@ export default class ResetPassword extends React.Component {
                         <div className="auth-cover">
                             <div className="h-100 justify-content-center d-flex flex-column align-items-center auth-present p-5 text-center">
                                 <div className="d-flex justify-content-xl-center align-items-center mb-1">
-                                    <img src={logo} width="100" alt="I&P" />
+                                    <img src={logo} width="100" alt="IP INVESTMENT S.A." />
                                 </div>
                                 <h1>Votre meilleur partenaire</h1>
-                                <p>INVEST & PARTNERS, l'assurance d'un placement profitable</p>
+                                <p>IP INVESTMENT S.A., l'assurance d'un placement profitable</p>
                                 <Link to={'/'} className="btn btn-default btn-outline-light btn-rounded mt-1">Aller à l'accueil</Link>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ export default class ResetPassword extends React.Component {
                         <form className="login-form px-0 px-md-5" onSubmit={this.handleForgot}>
                             <div className="d-flex flex-column justify-content-lg-center align-items-center h-100 py-4 py-lg-0 w-75">
                                 <div className="d-flex justify-content-xl-center align-items-center">
-                                    <img src={logo} width="150" alt="I&P" />
+                                    <img src={logo} width="150" alt="IP INVESTMENT S.A." />
                                 </div>
                                 <h4 className="fw-bolder mb-5">Entrez votre nouveau mot de passe</h4>
                                 <Grid container spacing={2}>

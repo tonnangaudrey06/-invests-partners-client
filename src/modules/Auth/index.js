@@ -16,7 +16,7 @@ import MuiAlert from '@mui/material/Alert';
 
 import React from 'react';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -66,7 +66,7 @@ const Auth = (props) => {
           <div className="auth-cover">
             <div className="h-100 justify-content-center d-flex flex-column align-items-center auth-present p-5 text-center">
               <div className="d-flex justify-content-xl-center align-items-center mb-1">
-                <img src={logo} width="100" alt="I&P" />
+                <img src={logo} height="80" alt="IP INVESTMENT S.A." />
               </div>
               <h1> {t('auth.des.title')}</h1>
               <p> {t('auth.des.text')}</p>
@@ -101,4 +101,4 @@ const Auth = (props) => {
     </Container>
   );
 }
-export default withNamespaces()(Auth);
+export default withTranslation()(Auth);

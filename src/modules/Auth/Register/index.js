@@ -293,7 +293,7 @@ const Register = (props) => {
         try {
             const rs = await CampayService.payVisa(
                 getSelectedPlage()?.frais_abonnement, 
-                "creation de votre compte d´investisseur sur la plateforme Invest & Partners"
+                "creation de votre compte d´investisseur sur la plateforme IP INVESTMENT S.A."
             );
             console.log(rs.data);
             setIsGeneratingPaymentLink(false);
@@ -557,9 +557,9 @@ const Register = (props) => {
                     />}
                     label={
                         <label>
-                            {t('auth.inscription.text._4')}
+                            {t('auth.inscription.text._4')}{" "}
                             <a href={terms} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._5')}</a>
-                            {t('auth.inscription.text._6')}
+                            {" "}{t('auth.inscription.text._6')}{" "}
                             <a href={conditions} target="_blank" rel="noreferrer" className="text-decoration-none">{t('auth.inscription.text._7')}</a>.
                         </label>
                     }

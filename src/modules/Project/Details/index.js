@@ -25,7 +25,7 @@ import { connect } from "react-redux";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 
 
@@ -54,7 +54,7 @@ const ProjetDetails = ({ match, user, t, location }) => {
 
     const openMessage = (e) => {
         setVisible(true);
-        setMessage("Bonjour, je m'appelle " + user?.nom_complet + ". Je suis un investisseur sur votre plateforme \"Invest & Partners\". Je suis intéressé par le projet \"" + details?.intitule + "\" et je souhaite avoir plus de détails sur celui-ci.")
+        setMessage("Bonjour, je m'appelle " + user?.nom_complet + ". Je suis un investisseur sur votre plateforme \"IP INVESTMENT S.A.\". Je suis intéressé par le projet \"" + details?.intitule + "\" et je souhaite avoir plus de détails sur celui-ci.")
     }
 
     const sendMessage = (e) => {
@@ -321,4 +321,4 @@ function mapStateToProps(state) {
     return ({ user: state.auth.user });
 }
 
-export default withNamespaces()(connect(mapStateToProps)(ProjetDetails));
+export default withTranslation()(connect(mapStateToProps)(ProjetDetails));

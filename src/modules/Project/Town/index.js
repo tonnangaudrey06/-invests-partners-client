@@ -16,7 +16,7 @@ import { Container } from '../../../components';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import { moneyFormat } from '../../../core/utils/helpers';
 import backgroundTop from '../../../assets/img/ban.png';
@@ -181,4 +181,4 @@ const ProjetTown = ({ match, history, user, t }) => {
 
 const mapStateToProps = (state) => ({ user: state.auth.user });
 
-export default withNamespaces()(connect(mapStateToProps)(ProjetTown));
+export default withTranslation()(connect(mapStateToProps)(ProjetTown));

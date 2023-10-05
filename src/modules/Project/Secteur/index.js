@@ -12,7 +12,7 @@ import { SecteurService } from '../../../core/services';
 
 import countryImg from '../../../assets/img/country.jpg';
 
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const ProjetSecteur = (props) => {
 
@@ -111,4 +111,4 @@ const ProjetSecteur = (props) => {
     );
 }
 
-export default withNamespaces()(ProjetSecteur);
+export default withTranslation()(ProjetSecteur);

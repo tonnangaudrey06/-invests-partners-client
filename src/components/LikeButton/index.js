@@ -1,5 +1,3 @@
-import '../../styles/header.scss';
-
 import React, { useEffect, useState } from 'react';
 import { ProjetService } from '../../core/services';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
@@ -8,7 +6,7 @@ const LikeButton = ({
   user,
   projet,
   size = 20,
-  color = "#c5473b",
+  color = "#c34839",
   likeCount = (value) => { },
   errorMessage = (message) => { },
   setError = (value) => { }
