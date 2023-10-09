@@ -1,116 +1,110 @@
 .side-menu {
-    position: fixed;
-    background: #c34839;
-    width: 18rem;
-    min-height: 100vh;
-    box-sizing: border-box;
-    padding: 2rem;
-    transition: width 0.2s ease-in;
-    .top-section {
+  position: fixed;
+  background: #c34839;
+  width: 18rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 2rem;
+  transition: width 0.2s ease-in;
+
+  .logo {
+    width: 10rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .main-menu {
+    margin-top: 3rem;
+    
+    .menu-item.active {
+      a {
+        color: white;
+      }
+
+      .markActive {
+        background: white;
+        border-radius: 0 10px 10px 0;
+        display: inline-block;
+        width: 5px;
+        height: 30px;
+        position: absolute;
+        left: -20px;
+        transition: all 0.3s ease-in;
+      }
+    }
+
+    .menu-item:hover {
+      a {
+        color: white;
+      }
+      .markActive {
+        background: white;
+        border-radius: 0 10px 10px 0;
+        display: inline-block;
+        width: 5px;
+        height: 30px;
+        position: absolute;
+        left: -20px;
+        transition: all 0.1s linear;
+      }
+    }
+
+    .menu-item {
+      a {
+        color: rgba(255, 255, 255, 0.528);
+        font-size: 1rem;
+        display: block;
+        font-weight: 600;
+        padding-bottom: 1.8rem;
         position: relative;
-        .logo {
-            width: 3rem;
-            height: 3rem;
-            overflow: hidden;
-            display: inline-block;
-            img {
-                max-width: 100%;
-                max-height: 100%;
-            }
+        text-decoration: none;
+
+        .name {
+          // position: absolute;
+          // display: inline-block;
+          line-height: 1.5;
+          opacity: 1;
+          transition: opacity 0.5 ease-in;
+          overflow: hidden;
         }
-        .toggle-menu-btn {
-            color: white;
-            font-size: 1.5rem;
-            position: absolute;
-            top: 1.5rem;
-            right: 0;
-            transform: translateY(-50%);
-            cursor: pointer;
+
+        .menu-icone {
+          // display: inline-block;
+          width: 2rem;
+          height: 2rem;
+          font-size: 1.5rem;
+          line-height: 1.5;
+          // text-align: center;
         }
+      }
     }
-
-    .main-menu {
-        margin-top: 80px;
-        .menu-item.active {
-            a {
-                color: white;
-            }
-            .markActive {
-                background: white;
-                border-radius: 0 10px 10px 0;
-                display: inline-block;
-                width: 5px;
-                height: 30px;
-                position: absolute;
-                left: -20px;
-                transition: all 0.3s ease-in;
-            }
-        }
-
-        .menu-item:hover {
-            a {
-                color: white;
-            }
-            .markActive {
-                background: white;
-                border-radius: 0 10px 10px 0;
-                display: inline-block;
-                width: 5px;
-                height: 30px;
-                position: absolute;
-                left: -20px;
-                transition: all 0.1s linear;
-            }
-        }
-
-        .menu-item {
-            a {
-                color: rgba(255, 255, 255, 0.528);
-                font-size: 1rem;
-                display: block;
-                font-weight: 600;
-                padding-bottom: 1.8rem;
-                position: relative;
-                text-decoration: none;
-
-                .name {
-                    // position: absolute;
-                    // display: inline-block;
-                    line-height: 1.5;
-                    opacity: 1;
-                    transition: opacity 0.5 ease-in;
-                    overflow: hidden;
-                }
-
-                .menu-icone {
-                    // display: inline-block;
-                    width: 2rem;
-                    height: 2rem;
-                    font-size: 1.5rem;
-                    line-height: 1.5;
-                    // text-align: center;
-                }
-            }
-        }
-    }
+  }
 }
 
 .side-menu.inactive {
-    width: 6rem;
-    .top-section {
-        .toggle-menu-btn {
-            position: absolute;
-            right: -4rem;
-            color: #c34839;
-            cursor: pointer;
-        }
+  width: 6rem;
+  .top-section {
+    .toggle-menu-btn {
+      position: absolute;
+      right: -4rem;
+      color: #c34839;
+      cursor: pointer;
     }
+  }
 
-    .main-menu {
-        .menu-item {
-            span {
-                opacity: 0;
-            }
-        }
+  .main-menu {
+    .menu-item {
+      span {
+        opacity: 0;
+      }
     }
+  }
 }

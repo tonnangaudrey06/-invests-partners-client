@@ -15,7 +15,7 @@ import { connect, useDispatch } from "react-redux";
 
 import localStorage from "./core/utils/localstorage";
 
-// import LoadingOverlay from 'react-loading-overlay';
+import LoadingOverlay from 'react-loading-overlay';
 
 import history from "./core/utils/history";
 import { setStopAppLoading } from "./core/reducers/app/actions";
@@ -78,11 +78,11 @@ const App = (props) => {
   }, []);
 
   return (
-    // <LoadingOverlay
-    //   active={props?.loading}
-    //   spinner
-    //   text='Veuillez patienter...'
-    // >
+    <LoadingOverlay
+      active={props?.loading}
+      spinner
+      text='Veuillez patienter...'
+    >
     <BrowserRouter>
       <PageLoader loading={appLoading} />
 

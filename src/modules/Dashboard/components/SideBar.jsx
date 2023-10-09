@@ -12,9 +12,9 @@ const Sidebar = (props) => {
 
   const menuItems = [
     {
-      name: "Mes investissements",
+      name: "Mes projets",
       exact: true,
-      to: `${props?.rootUrl}/investissement`,
+      to: `${props?.rootUrl}/projets`,
       iconClassName: "bi bi-house",
     },
     {

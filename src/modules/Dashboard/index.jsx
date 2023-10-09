@@ -71,6 +71,7 @@ const Dashboard = (props) => {
             </div>
             <Router>
                 <Sidebar location={location} history={history} rootUrl={match.url} onChangeActive={handleChangeActive} />
+                
                 <div className="dashboard-section-content" style={sectionCss}>
                     <div className="mb-5">
                         <Button onClick={goBack} variant="contained" startIcon={<KeyboardReturnIcon />}>
