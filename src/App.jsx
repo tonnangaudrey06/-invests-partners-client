@@ -1,5 +1,5 @@
 import AppNavigator from "./navigation";
-import React from "react";
+import React, { useCallback } from "react";
 
 import { login, logout } from "./core/reducers/auth/actions";
 import authService from "./core/services/AuthService";
@@ -15,11 +15,10 @@ import { connect, useDispatch } from "react-redux";
 
 import localStorage from "./core/utils/localstorage";
 
-import LoadingOverlay from 'react-loading-overlay';
-
 import history from "./core/utils/history";
 import { setStopAppLoading } from "./core/reducers/app/actions";
 import PageLoader from "./components/PageLoader";
+import LoadingOverlay from "@ronchalant/react-loading-overlay";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -35,9 +34,9 @@ const App = (props) => {
     message: "",
   });
 
-  const handleErrorAlertOpen = () => {
-    setState({ ...state, error: true });
-  };
+  const handleErrorAlertOpen = useCallback(() => {
+    setState(state => ({ ...state, error: true }));
+  }, []);
 
   const handleErrorAlertClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -46,7 +45,7 @@ const App = (props) => {
     setState({ ...state, error: false });
   };
 
-  const loadProfile = () => {
+  const loadProfile = useCallback(() => {
     if (localStorage.exist("user")) {
       authService.profile().then(
         (rs) => {
@@ -71,42 +70,42 @@ const App = (props) => {
         setStopAppLoading();
       }, 1500);
     }
-  };
+  }, [dispatch, handleErrorAlertOpen, setStopAppLoading]);
 
   React.useEffect(() => {
     loadProfile();
-  }, []);
+  }, [loadProfile]);
 
   return (
     <LoadingOverlay
       active={props?.loading}
       spinner
-      text='Veuillez patienter...'
+      text="Veuillez patienter..."
     >
-    <BrowserRouter>
-      <PageLoader loading={appLoading} />
+      <BrowserRouter>
+        <PageLoader loading={appLoading} />
 
-      <ScrollToTop />
+        <ScrollToTop />
 
-      <AppNavigator history={history} />
+        <AppNavigator history={history} />
 
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        key="bottomright"
-        open={state.error}
-        autoHideDuration={10000}
-        onClose={handleErrorAlertClose}
-      >
-        <Alert
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          key="bottomright"
+          open={state.error}
+          autoHideDuration={10000}
           onClose={handleErrorAlertClose}
-          severity="error"
-          sx={{ width: "100%", textAlign: "center" }}
         >
-          {state.message}
-        </Alert>
-      </Snackbar>
-    </BrowserRouter>
-    // </LoadingOverlay>
+          <Alert
+            onClose={handleErrorAlertClose}
+            severity="error"
+            sx={{ width: "100%", textAlign: "center" }}
+          >
+            {state.message}
+          </Alert>
+        </Snackbar>
+      </BrowserRouter>
+    </LoadingOverlay>
   );
 };
 

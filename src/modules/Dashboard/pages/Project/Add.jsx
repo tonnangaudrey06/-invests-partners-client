@@ -507,6 +507,7 @@ const ProjetAdd = (props) => {
                   NB: Les chapms avec (*) sont obligatoires
                 </span>
               </p>
+
               <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
                   <p className="fw-bolder fs-5">
@@ -531,7 +532,7 @@ const ProjetAdd = (props) => {
                       label="Email"
                       size="small"
                       placeholder="Email"
-                      value={auth?.user?.email || ""}
+                      defaultValue=""
                       onBlur={(e) => changeUser(e, { email: e.target.value })}
                     />
                   )}
@@ -551,7 +552,7 @@ const ProjetAdd = (props) => {
                       size="small"
                       label="Numéro de téléphone"
                       placeholder="Numéro de téléphone"
-                      value={auth?.user?.telephone || ""}
+                      defaultValue=""
                       onBlur={(e) =>
                         changeUser(e, { telephone: e.target.value })
                       }
@@ -632,7 +633,7 @@ const ProjetAdd = (props) => {
                           ? "Ville de résidence"
                           : "Ville d'activité de l'entreprise"
                       }
-                      value={auth?.user?.ville || ""}
+                      defaultValue=""
                       onBlur={(e) => changeUser(e, { ville: e.target.value })}
                     />
                   )}
@@ -651,7 +652,7 @@ const ProjetAdd = (props) => {
                         row
                         aria-label="etat"
                         name="row-etat-buttons-group"
-                        value={user.anciennete || ""}
+                        value={auth.user.anciennete}
                         onChange={(e, value) =>
                           changeUser(e, { anciennete: value })
                         }
@@ -924,7 +925,7 @@ const ProjetAdd = (props) => {
                       variant="filled"
                       label="Nom du projet"
                       placeholder="Nom du projet"
-                      value={projet.intitule || ""}
+                      value={projet.intitule}
                       onChange={(e) =>
                         setProjet({ ...projet, intitule: e.target.value })
                       }
@@ -946,7 +947,7 @@ const ProjetAdd = (props) => {
                       variant="filled"
                       label="Secteur d'activité"
                       placeholder="Secteur d'activité"
-                      value={projet.secteur || ""}
+                      value={projet.secteur}
                       onChange={(e) =>
                         setProjet({ ...projet, secteur: e.target.value })
                       }
@@ -973,7 +974,7 @@ const ProjetAdd = (props) => {
                       row
                       aria-label="etat"
                       name="row-etat-buttons-group"
-                      value={projet.avancement || ""}
+                      value={projet.avancement}
                       onChange={(e, value) =>
                         setProjet({ ...projet, avancement: value })
                       }
@@ -1030,7 +1031,7 @@ const ProjetAdd = (props) => {
                       size="small"
                       variant="filled"
                       textAlign="left"
-                      value={projet.financement || ""}
+                      value={projet.financement}
                       currencySymbol="FCFA"
                       onChange={(event, value) =>
                         setProjet({ ...projet, financement: value })
@@ -1048,7 +1049,7 @@ const ProjetAdd = (props) => {
                       type="url"
                       label="Site web du projet"
                       placeholder="Site web"
-                      value={projet.site || ""}
+                      value={projet.site}
                       onChange={(e) =>
                         setProjet({ ...projet, site: e.target.value })
                       }
@@ -1070,7 +1071,7 @@ const ProjetAdd = (props) => {
                       variant="filled"
                       label="Pays d'activité"
                       placeholder="Pays d'activité"
-                      value={projet.pays_activite || ""}
+                      value={projet.pays_activite}
                       onChange={(e) =>
                         setProjet({ ...projet, pays_activite: e.target.value })
                       }
@@ -1094,7 +1095,7 @@ const ProjetAdd = (props) => {
                       variant="filled"
                       label="Ville d'activité"
                       placeholder="Ville d'activité"
-                      value={projet.ville_activite || ""}
+                      value={projet.ville_activite}
                       onChange={(e) =>
                         setProjet({ ...projet, ville_activite: e.target.value })
                       }
@@ -1113,7 +1114,7 @@ const ProjetAdd = (props) => {
                       placeholder="Décrivez votre projet en quelques mots"
                       multiline
                       rows={5}
-                      value={projet.description || ""}
+                      value={projet.description}
                       onChange={(e) =>
                         setProjet({ ...projet, description: e.target.value })
                       }
@@ -1395,7 +1396,7 @@ const ProjetAdd = (props) => {
                                   variant="filled"
                                   label="Nom complet"
                                   placeholder="Nom complet"
-                                  value={membre.nom_complet || ""}
+                                  value={membre.nom_complet}
                                   onChange={(e) =>
                                     setMembre({
                                       ...membre,
@@ -1416,7 +1417,7 @@ const ProjetAdd = (props) => {
                                   type="email"
                                   label="Email"
                                   placeholder="example@domaine.com"
-                                  value={membre.email || ""}
+                                  value={membre.email}
                                   onChange={(e) =>
                                     setMembre({
                                       ...membre,
@@ -1437,7 +1438,7 @@ const ProjetAdd = (props) => {
                                   type="tel"
                                   label="Téléphone"
                                   placeholder="Téléphone"
-                                  value={membre.telephone || ""}
+                                  value={membre.telephone}
                                   onChange={(e) =>
                                     setMembre({
                                       ...membre,
