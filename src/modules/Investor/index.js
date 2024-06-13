@@ -55,9 +55,7 @@ const DashboardInvestor = (props) => {
             <div className="nav-top d-flex align-items-center justify-content-around p-3">
                 <Chip onClick={() => { history.push(`${match.url}/profil`) }} avatar={<Avatar sx={{ width: 30, height: 30 }}>M</Avatar>} label={auth.user.nom_complet} color="primary" variant="outlined" />
                 <IconButton>
-                    <Badge variant="dot" color="primary">
-                        <NotificationsNoneIcon />
-                    </Badge>
+                    <NotificationsNoneIcon />
                 </IconButton>
                 <IconButton onClick={logoutUser}>
                     <LogoutIcon />

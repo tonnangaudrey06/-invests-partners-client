@@ -61,9 +61,8 @@ const Dashboard = (props) => {
             <div className="nav-top d-flex align-items-center justify-content-around p-3">
                 <Chip className="me-3" onClick={() => { history.push(`${match.url}/profil`) }} avatar={auth.user.photo ? <Avatar alt={auth.user.nom_complet} src={auth.user.photo} /> : <Avatar {...stringAvatar(auth.user.nom + ' ' + auth.user.prenom)} />} label={auth.user.nom_complet} color="primary" variant="outlined" />
                 <IconButton className="me-3">
-                    <Badge variant="dot" color="primary">
                         <NotificationsNoneIcon />
-                    </Badge>
+                  
                 </IconButton>
                 <IconButton onClick={logoutUser}>
                     <LogoutIcon />

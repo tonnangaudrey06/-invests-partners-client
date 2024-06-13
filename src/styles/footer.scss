@@ -110,7 +110,7 @@ footer {
   .list-unstyled {
     li {
       a {
-        color: rgba(255, 255, 255, 0.2);
+        color: $primary;
         &:hover {
           color: $white;
         }
@@ -186,7 +186,7 @@ footer {
     .subheading {
       display: inline-block;
       margin-top: 5px;
-      color: rgba(255, 255, 255, 0.3);
+      color: $primary;
       font-size: 13px;
     }
   }

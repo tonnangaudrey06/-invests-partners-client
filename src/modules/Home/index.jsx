@@ -300,6 +300,7 @@ const HomeScreen = ({
   appLoading,
   setStopAppLoading,
 }) => {
+  
   const [navigateBanner, setNavigateBanner] = useState(false);
 
   const [sliders, setSliders] = React.useState([]);
@@ -341,66 +342,9 @@ const HomeScreen = ({
   });
   const loc = useGeoLocation();
 
-  const settings = {
-    dots: false,
-    infinite: true,
+  
 
-    speed: 500,
-
-    autoplay: true,
-    autoplaySpeed: 4000,
-    pauseOnHover: true,
-
-    // className: "center",
-    // centerMode: true,
-    // centerPadding: "1.2rem",
-
-    slidesToShow: 3,
-    slidesToScroll: 1,
-
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-
-          centerMode: true,
-          centerPadding: "60px",
-
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-
-          centerMode: true,
-          centerPadding: "40px",
-
-          dots: true,
-          button: false,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-
-          centerMode: true,
-          centerPadding: "20px",
-
-          dots: true,
-          button: false,
-        },
-      },
-    ],
-  };
-
-  let slider = new Slider(settings);
+  let slider = new Slider();
 
   const openParticipate = (event) => {
     setEvent(event);
@@ -887,7 +831,7 @@ const HomeScreen = ({
             <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
-                <Slider ref={(c) => (slider = c)} {...settings}>
+                <Slider ref={(c) => (slider = c)}>
                   {(projets || []).map((item, index) => (
                     <CustomSlide
                       history={history}

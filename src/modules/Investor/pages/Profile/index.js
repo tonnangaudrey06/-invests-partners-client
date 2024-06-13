@@ -4,48 +4,48 @@ import { connect } from "react-redux";
 import moment from "moment";
 import { Modal } from "react-bootstrap";
 
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import Grid from "@mui/material/Grid";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
+import { styled } from "@mui/material/styles";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
-import {
-  UserService,
-  PlageInvestissementService,
-  CampayService,
-  PaiementService,
-} from "../../../../core/services";
 import {
   setLoadingFalse,
   setLoadingTrue,
 } from "../../../../core/reducers/app/actions";
+import {
+  CampayService,
+  PaiementService,
+  PlageInvestissementService,
+  UserService,
+} from "../../../../core/services";
 
-import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 import useGeoLocation from "react-ipgeolocation";
 
-import { moneyFormat, sleep } from "../../../../core/utils/helpers";
 import { user } from "../../../../core/reducers/auth/actions";
+import { moneyFormat, sleep } from "../../../../core/utils/helpers";
 
 import profile from "../../../../assets/img/profil.jpg";
 
-import { Pays } from "../../../../data";
 import { DownloadRounded } from "@mui/icons-material";
+import { Pays } from "../../../../data";
 
 const Input = styled("input")({
   display: "none",
@@ -101,6 +101,7 @@ const ProfilPorteurProjet = (props) => {
 
     switch (status) {
       case "SUCCESSFUL":
+        //updateUserProfile(user.id, selectedPlage.id);
         setPaiement({ pending: false, failed: false });
         hidePayement();
         changeUserPlage(refrence);
@@ -154,10 +155,18 @@ const ProfilPorteurProjet = (props) => {
     setSelectedPlage(null);
   };
 
+
   const openChangePlage = (item) => {
-    setVisible(true);
     setSelectedPlage(item);
-    setSupPay(+item.frais_abonnement - +user.profil_invest?.frais_abonnement);
+    const fraisDifference = +item.frais_abonnement - +user.profil_invest?.frais_abonnement;
+
+    if (fraisDifference >= 0) {
+      console.log('upgrade');
+      setSupPay(fraisDifference);
+      setVisible(true);
+    } else {
+      console.log('downgrade');
+    }
   };
 
   const handleErrorAlertOpen = () => {
@@ -210,6 +219,7 @@ const ProfilPorteurProjet = (props) => {
   const changeUserPlage = (trans = "") => {
     setLoading(true);
     props.setLoadingTrue();
+    
     UserService.updateProfil(user.id, { profil: selectedPlage?.id }).then(
       async (rs) => {
         setUser(rs.data.data);
@@ -246,6 +256,46 @@ const ProfilPorteurProjet = (props) => {
       }
     );
   };
+
+  const downgradeUserPlage = (trans = "") => {
+    setLoading(true);
+    props.setLoadingTrue();
+    UserService.updateProfil(user.id, { profil: selectedPlage?.id }).then(
+      (rs) => {
+        console.log({rs});
+        setUser(rs.data.data);
+        props.setUserData(rs.data.data);
+        setLoading(false);
+        props.setLoadingFalse();
+        setMessage("Plage d'investissement mis à jour avec succès");
+        handleSuccessAlertOpen();
+        //updateUserProfile(selectedPlage.id);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        props.setLoadingFalse();
+        setMessage(resMessage);
+        setLoading(false);
+        handleErrorAlertOpen();
+      }
+    );
+  };
+
+  React.useEffect(() => {
+    if (selectedPlage !== null) {
+      const fraisDifference = +selectedPlage.frais_abonnement - +user.profil_invest?.frais_abonnement;
+      if (fraisDifference < 0) {
+        downgradeUserPlage();
+      }
+    }
+  }, [selectedPlage]);
+
 
   const changeUser = (e) => {
     e.preventDefault();
@@ -428,6 +478,8 @@ const ProfilPorteurProjet = (props) => {
 
     loadPlage();
   }, [props]);
+
+
 
   return (
     <div>
@@ -1143,6 +1195,7 @@ const ProfilPorteurProjet = (props) => {
                                 disabled={
                                   item.montant_max <
                                   user?.profil_invest?.montant_min
+                                  
                                 }
                                 className="mt-2"
                                 onClick={() => openChangePlage(item)}
@@ -1156,6 +1209,14 @@ const ProfilPorteurProjet = (props) => {
                     ))}
                   </div>
                 </div>
+                {visible && (
+                <div className="payment-modal">
+                  <h4>Frais d'abonnement: {moneyFormat(supPay)} FCFA</h4>
+                  <Button variant="contained" color="primary" onClick={payer}>
+                    Payer
+                  </Button>
+                </div>
+              )}
               </div>
             </div>
           </div>

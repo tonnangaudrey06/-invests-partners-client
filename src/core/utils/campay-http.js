@@ -16,6 +16,7 @@ instance.interceptors.request.use(
         const token = localStorage.exist('campay-token') ? localStorage.get('campay-token') : null;
         if (token !== null && !request.url.includes('token')) {
             request.headers['Authorization'] = 'Token ' + token;
+            
         }
         return request;
     },

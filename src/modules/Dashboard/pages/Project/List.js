@@ -198,7 +198,7 @@ const ProjetList = (props) => {
                                                 'ATTENTE_PAIEMENT': <span className="badge bg-warning p-1">{projet.etat_complet}</span>,
                                                 'CLOTURE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
                                                 'PUBLIE': <span className="badge bg-success p-1">{projet.etat_complet}</span>,
-                                            }[projet.etat] || <span className="badge bg-secondary p-1">En attente de publication</span>}
+                                            }[projet.etat] || <span className="badge bg-secondary p-1">{projet.etat_complet}</span>}
 
                                         </TableCell>
                                         <TableCell align="right" style={{ width: "14%" }}>

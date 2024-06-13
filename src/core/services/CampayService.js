@@ -5,8 +5,8 @@ import localstorage from '../utils/localstorage'
 class CampayService {
     payInscription(numero, montant) {
         const data = {
-            amount: montant,
-            currency: "FCFA",
+            amount: 5,
+            currency: "XAF",
             from: numero,
             description: "creation de votre compte d´investisseur sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
@@ -27,8 +27,8 @@ class CampayService {
 
     payEvent(numero, montant) {
         const data = {
-            amount: montant,
-            currency: "FCFA",
+            amount: 5,
+            currency: "XAF",
             from: numero,
             description: "participation à un événement organiser par IP INVESTMENT S.A.",
             external_reference: "",
@@ -49,8 +49,8 @@ class CampayService {
 
     payProjet(numero, montant) {
         const data = {
-            amount: montant,
-            currency: "FCFA",
+            amount: 5,
+            currency: "XAF",
             from: numero,
             description: "étude de votre projet sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
@@ -71,13 +71,15 @@ class CampayService {
 
     payPlage(numero, montant) {
         const data = {
-            amount: montant,
-            currency: "FCFA",
+            amount: 5,
+            currency: "XAF",
             from: numero,
             description: "frais d'abonement à une plage d'investissement sur la plateforme IP INVESTMENT S.A.",
             external_reference: "",
             external_user: ""
         };
+
+        console.log(numero)
 
         return new Promise((resolve, reject) => {
             http.post('collect/', data)

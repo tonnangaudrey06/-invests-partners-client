@@ -7,7 +7,11 @@ class AuthService {
     login(user) {
         return new Promise(async (resolve, reject) => {
             try {
+
+                console.log("testttttttttt");
                 const rs = await http.post(source + 'login', user);
+                
+                console.log(rs.data.data);
                 localstorage.set('token', rs.data.data.token);
                 localstorage.setJson('user', { role: rs.data.data.user.role });
                 resolve(rs);

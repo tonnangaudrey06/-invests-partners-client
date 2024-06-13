@@ -1,7 +1,7 @@
 const campay = {
-    URL: 'https://demo.campay.net/api/',
-    USERNAME: 'qTY7cW3OTfLB3y43GMhO_M7eXGqd-xkYGhLky8ZVfgZgC31IOf384F7qgjrxuFeMlK2yBWZwVgASqAgZCGMv3w',
-    PASSWORD: 'EsDOgM5_CxyLAzLrPcXM3hSAF3W2rhLlUctyaZQRWNGrS0xaQ93-LjKllZ4B6Mdr3XJqEA2Z891zpGeVpRYM7Q',
+    URL: 'https://demo.campay.net/api',
+    USERNAME: '1vNp-rV9fAhWvXTOPlgRbA3aivOu31Jw1aOMyKytpID6Oa_mpgSFiAbqSdOtFD5jlJN6iaPCoeBlakZetEjUEw',
+    PASSWORD: 'rRcQgWb9jUfZssFwEY0UfbfdY_aoGK7FDH3400X9rjbhnJF7Zc7DDuzrxMTbYJpGEeF0nkFmAPQcVXJTuLYL_g',
 }
 
 const config = {
@@ -10,5 +10,7 @@ const config = {
     CAMPAY_USERNAME: process.env.REACT_APP_CAMPAY_USERNAME || campay.USERNAME,
     CAMPAY_PASSWORD: process.env.REACT_APP_CAMPAY_PASSWORD || campay.PASSWORD
 }
+
+
 
 export default config
