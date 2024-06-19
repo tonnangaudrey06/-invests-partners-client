@@ -821,32 +821,6 @@ const ProfilPorteurProjet = (props) => {
                               ) && <CheckCircleIcon color="success" />}
                             </div>
 
-                            {/* {checkFiscal(
-                              "ATTESTATION_DOMICILIATION_BANCAIRE"
-                            ) ? (
-                              <a
-                                title="Téléchager votre CNI"
-                                target="_blank"
-                                rel="noreferrer"
-                                href={getFiscal(
-                                  "ATTESTATION_DOMICILIATION_BANCAIRE"
-                                )?.path}
-                                className="d-flex justify-content-center align-items-center my-1"
-                              >
-                                <span className="me-3">CNI/Passport</span>
-
-                                <DownloadRounded
-                                  className="cursor-pointer"
-                                  color="success"
-                                />
-                              </a>
-                            ) : (
-                              <div className="d-flex justify-content-center align-items-center my-1">
-                                <span className="me-3">CNI/Passport</span>
-                                <HighlightOffIcon color="error" />
-                              </div>
-                            )} */}
-
                             <label className="me-2" htmlFor="fiscal-adb">
                               <input
                                 className="d-none"

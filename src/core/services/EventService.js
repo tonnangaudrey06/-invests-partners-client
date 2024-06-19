@@ -25,6 +25,8 @@ class EventService {
         });
     }
 
+    
+
     getLatest() {
         return new Promise(async (resolve, reject) => {
             try {

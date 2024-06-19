@@ -158,6 +158,7 @@ const ProjetAdd = (props) => {
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
+  
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -1145,7 +1146,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetDoc}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer un fichier
+                        Importer un fichier*
                       </Button>
                     </label>
 
@@ -1189,7 +1190,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetLogo}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer une image
+                        Importer une image*
                       </Button>
                     </label>
 
@@ -1235,7 +1236,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetMedia}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer un ou plusieurs fichiers
+                        Importer un ou plusieurs fichiers*
                       </Button>
                     </label>
 
