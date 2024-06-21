@@ -464,8 +464,12 @@ const Register = (props) => {
                             {...register('password', {
                                 required: "Le mot de passe est obligatoire",
                                 minLength: {
-                                    value: 6,
+                                    value: 8,
                                     message: "Le mot de passe doit contenir au moins 6 caractères"
+                                },
+                                pattern: {
+                                    value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&])/,
+                                    message: "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial"
                                 }
                             })}
                             helperText={errors.password && errors.password?.message}

@@ -26,6 +26,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
+import Typography from "@mui/material/Typography";
 
 import { connect } from "react-redux";
 
@@ -75,6 +76,7 @@ const ProjetAdd = (props) => {
   // const [loading, setLoading] = React.useState(false);
   const [tab, setTab] = React.useState("new");
   const [message, setMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -152,13 +154,19 @@ const ProjetAdd = (props) => {
   };
 
   const handleNext = () => {
+    if (activeStep === 1) {
+      if (!doc_presentation || !logo || medias.length === 0) {
+        setErrorMessage('Vérifier que les champs obligatoires ont bien été remplis');
+        return;
+      }
+    }
+    setErrorMessage('');
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
-  
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -915,6 +923,11 @@ const ProjetAdd = (props) => {
                   NB: Les chapms avec (*) sont obligatoires
                 </span>
               </p>
+              {errorMessage && (
+            <Typography color="error" variant="body2">
+              {errorMessage}
+            </Typography>
+          )}
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>

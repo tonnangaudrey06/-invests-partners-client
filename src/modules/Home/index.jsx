@@ -344,7 +344,7 @@ const HomeScreen = ({
 
   
 
-  let slider = new Slider();
+  //let slider = new Slider();
 
   const openParticipate = (event) => {
     setEvent(event);
@@ -566,13 +566,31 @@ const HomeScreen = ({
     });
   };
 
-  const next = () => {
-    slider.slickNext();
-  };
+
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const itemsPerPage = 4;
 
   const previous = () => {
-    slider.slickPrev();
+    setCurrentIndex((prevIndex) =>
+      prevIndex - itemsPerPage < 0 ? 0 : prevIndex - itemsPerPage
+    );
   };
+
+  const next = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex + itemsPerPage >= projets.length
+        ? prevIndex
+        : prevIndex + itemsPerPage
+    );
+  };
+
+  // const next = () => {
+  //   slider.slickNext();
+  // };
+
+  // const previous = () => {
+  //   slider.slickPrev();
+  // };
 
   React.useEffect(() => {
     loadDatas();
@@ -826,13 +844,12 @@ const HomeScreen = ({
           </div>
         )}
 
-        {(projets || []).length > 0 && (
+        {(projets || []).length > 3 && (
           <div className="section-projet py-5">
             <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
-                <Slider ref={(c) => (slider = c)}>
-                  {(projets || []).map((item, index) => (
+              {(projets || []).slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
                     <CustomSlide
                       history={history}
                       onOpenModal={(value) => setModalOpen(value)}
@@ -842,35 +859,22 @@ const HomeScreen = ({
                       key={index}
                     />
                   ))}
-                  {(projets || []).map((item, index) => (
-                    <CustomSlide
-                      history={history}
-                      onOpenModal={(value) => setModalOpen(value)}
-                      projet={item}
-                      t={t}
-                      user={user}
-                      key={index}
-                    />
-                  ))}
-                  {(projets || []).map((item, index) => (
-                    <CustomSlide
-                      history={history}
-                      onOpenModal={(value) => setModalOpen(value)}
-                      projet={item}
-                      t={t}
-                      user={user}
-                      key={index}
-                    />
-                  ))}
-                </Slider>
               </div>
               <div>
-                <span className="projet-ip-button-left " onClick={previous}>
-                  <IoArrowBack />
-                </span>
-                <span className="projet-ip-button-right" onClick={next}>
-                  <IoArrowForward />
-                </span>
+              <span
+                className={`projet-ip-button-left ${currentIndex === 0 ? 'disabled' : ''}`}
+                onClick={previous}
+              >
+                <IoArrowBack />
+              </span>
+              <span
+                className={`projet-ip-button-right ${
+                  currentIndex + itemsPerPage >= projets.length ? 'disabled' : ''
+                }`}
+                onClick={next}
+              >
+                <IoArrowForward />
+              </span>
               </div>
             </div>
           </div>
