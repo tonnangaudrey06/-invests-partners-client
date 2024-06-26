@@ -62,6 +62,28 @@ import { connect } from "react-redux";
 import { Button, CircularProgress } from "@mui/material";
 import LikeButton from "../../components/LikeButton/index";
 
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: 'block', background: 'black', right: 0 }}
+      onClick={onClick}
+    />
+  );
+};
+
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: 'block', background: 'black', left: 0 }}
+      onClick={onClick}
+    />
+  );
+};
+
 const CustomSlide = ({
   history,
   projet,
@@ -300,7 +322,6 @@ const HomeScreen = ({
   appLoading,
   setStopAppLoading,
 }) => {
-  
   const [navigateBanner, setNavigateBanner] = useState(false);
 
   const [sliders, setSliders] = React.useState([]);
@@ -308,6 +329,8 @@ const HomeScreen = ({
   const [partenaires, setPartenaires] = React.useState([]);
 
   const [experts, setExperts] = React.useState([]);
+
+  const [actualites, setActualites] = React.useState([]);
 
   const [projets, setProjets] = React.useState([]);
 
@@ -342,9 +365,45 @@ const HomeScreen = ({
   });
   const loc = useGeoLocation();
 
-  
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true,
+    slidesToShow: 0,
+    slidesToScroll: 1,
+  };
 
-  //let slider = new Slider();
+
+  // const settings = {
+  //   dots: true,
+  //   infinite: false,
+  //   speed: 500,
+  //   slidesToShow: 0,
+  //   slidesToScroll: 1
+  // };
+
+  const actualitesettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 0,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
+
+  // const actualitesettings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1
+  // };
+
+  let slider = new Slider(settings);
 
   const openParticipate = (event) => {
     setEvent(event);
@@ -538,6 +597,7 @@ const HomeScreen = ({
       AppService.slider(),
       AppService.chiffre(),
       AppService.partenaire(),
+      AppService.actualitesecteur(),
       AppService.projet(),
       EventService.getLatest(),
       AppService.experts(),
@@ -546,12 +606,15 @@ const HomeScreen = ({
         slidesData,
         statsData,
         partnersDatas,
+        actualityData,
         projectsData,
         eventsData,
         expertData,
       ] = values;
+      console.log(actualityData);
       setSliders(slidesData?.data?.data);
       setPartenaires(partnersDatas?.data?.data);
+      setActualites(actualityData?.data);
       setProjets(projectsData?.data?.data);
       setEvents(eventsData?.data?.data);
       setChiffres(statsData?.data?.data);
@@ -566,31 +629,13 @@ const HomeScreen = ({
     });
   };
 
-
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const itemsPerPage = 4;
+  const next = () => {
+    slider.slickNext();
+  };
 
   const previous = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - itemsPerPage < 0 ? 0 : prevIndex - itemsPerPage
-    );
+    slider.slickPrev();
   };
-
-  const next = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + itemsPerPage >= projets.length
-        ? prevIndex
-        : prevIndex + itemsPerPage
-    );
-  };
-
-  // const next = () => {
-  //   slider.slickNext();
-  // };
-
-  // const previous = () => {
-  //   slider.slickPrev();
-  // };
 
   React.useEffect(() => {
     loadDatas();
@@ -844,12 +889,36 @@ const HomeScreen = ({
           </div>
         )}
 
-        {(projets || []).length > 3 && (
+        {(actualites || []).length > 0 && (
+           <div className="section-actualite py-5">
+           <SectionTitle title="actualite.title" />
+           <div className="actualite-container mb-3">
+             <div className="actualite-wrapper">
+              <Slider {...actualitesettings}>
+                {actualites.map((item, index) => (
+                  <div className="actualite-item" key={index}>
+                    <h3>{item.secteur}</h3>
+                    <p className="">{item.description}</p>
+                    <img
+                      className="actualite-image"
+                      alt="Partenaires"
+                      src={item.image}
+                    />
+                  </div>
+                ))}
+              </Slider>
+             </div>
+           </div>
+         </div>    
+          )}
+
+        {(projets || []).length > 0 && (
           <div className="section-projet py-5">
             <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
-              {(projets || []).slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
+                <Slider ref={(c) => (slider = c)} {...settings}>
+                  {(projets || []).map((item, index) => (
                     <CustomSlide
                       history={history}
                       onOpenModal={(value) => setModalOpen(value)}
@@ -859,22 +928,15 @@ const HomeScreen = ({
                       key={index}
                     />
                   ))}
+                </Slider>
               </div>
               <div>
-              <span
-                className={`projet-ip-button-left ${currentIndex === 0 ? 'disabled' : ''}`}
-                onClick={previous}
-              >
-                <IoArrowBack />
-              </span>
-              <span
-                className={`projet-ip-button-right ${
-                  currentIndex + itemsPerPage >= projets.length ? 'disabled' : ''
-                }`}
-                onClick={next}
-              >
-                <IoArrowForward />
-              </span>
+                <span className="projet-ip-button-left " onClick={previous}>
+                  <IoArrowBack />
+                </span>
+                <span className="projet-ip-button-right" onClick={next}>
+                  <IoArrowForward />
+                </span>
               </div>
             </div>
           </div>

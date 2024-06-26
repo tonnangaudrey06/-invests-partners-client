@@ -468,7 +468,7 @@ const Register = (props) => {
                                     message: "Le mot de passe doit contenir au moins 6 caractères"
                                 },
                                 pattern: {
-                                    value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&])/,
+                                    value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*_#?&])/,
                                     message: "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial"
                                 }
                             })}

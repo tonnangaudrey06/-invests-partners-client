@@ -36,6 +36,17 @@ class AppService {
         });
     }
 
+    actualitesecteur (){
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.get(`${source}/actualites`);
+                resolve(rs.data); 
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+
     projet() {
         return new Promise(async (resolve, reject) => {
             try {

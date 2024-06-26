@@ -16,6 +16,7 @@ const initialState = {
     stats: [],
     sliders: [],
     patners: [],
+    actuality:[],
     events: [],
     paiement: {
         pending: false,

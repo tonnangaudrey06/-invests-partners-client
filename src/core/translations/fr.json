@@ -114,6 +114,10 @@
         "title": "Nos partenaires",
         "text": "IP INVESTMENT S.A. s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes."
     },
+    "actualite": {
+        "title": "Nos actualités",
+        "text":"IP INVESTMENT S.A. vous donne des actualités en fonction des secteurs d'activité."
+    },
     "projet_ip": {
         "title": "Nos projets"
     },
@@ -471,6 +475,7 @@
             }
         }
     },
+    
     "dashboard": {
         "nav": {
             "_1": "Accueil",

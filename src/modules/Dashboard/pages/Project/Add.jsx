@@ -154,12 +154,11 @@ const ProjetAdd = (props) => {
   };
 
   const handleNext = () => {
-    if (activeStep === 1) {
-      if (!doc_presentation || !logo || medias.length === 0) {
-        setErrorMessage('Vérifier que les champs obligatoires ont bien été remplis');
-        return;
-      }
+    if (activeStep === 1 && !doc_presentation) {
+      setErrorMessage('Vérifier que les champs obligatoires ont bien été remplis.');
+      return;
     }
+    
     setErrorMessage('');
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
@@ -1139,7 +1138,7 @@ const ProjetAdd = (props) => {
                 <Grid item xs={12} md={7}>
                   <FormControl sx={{ m: 1, width: "100%" }}>
                     <h5 className="fw-bolder mb-0">
-                      Fichier de présentation du projet
+                      Fichier de présentation du projet*
                     </h5>
                     <small
                       style={{ fontSize: 13 }}
@@ -1159,7 +1158,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetDoc}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer un fichier*
+                        Importer un fichier
                       </Button>
                     </label>
 
@@ -1203,7 +1202,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetLogo}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer une image*
+                        Importer une image
                       </Button>
                     </label>
 
@@ -1249,7 +1248,7 @@ const ProjetAdd = (props) => {
                         onChange={changeProjetMedia}
                       />
                       <Button variant="contained" component="span" size="small">
-                        Importer un ou plusieurs fichiers*
+                        Importer un ou plusieurs fichiers
                       </Button>
                     </label>
 
