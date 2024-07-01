@@ -1,7 +1,7 @@
 import "../../styles/home.scss";
 import "reactjs-popup/dist/index.css";
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState  } from "react";
 import Popup from "reactjs-popup";
 
 import { Container, SectionTitle } from "../../components";
@@ -10,6 +10,8 @@ import { HomeData } from "../../data";
 import placeholder from "../../assets/img/ip-13.jpg";
 
 import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import { Badge, Modal } from "react-bootstrap";
 
@@ -61,28 +63,7 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Button, CircularProgress } from "@mui/material";
 import LikeButton from "../../components/LikeButton/index";
-
-const NextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: 'block', background: 'black', right: 0 }}
-      onClick={onClick}
-    />
-  );
-};
-
-const PrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: 'block', background: 'black', left: 0 }}
-      onClick={onClick}
-    />
-  );
-};
+import DOMPurify from 'dompurify';
 
 const CustomSlide = ({
   history,
@@ -366,42 +347,117 @@ const HomeScreen = ({
   const loc = useGeoLocation();
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    pauseOnHover: true,
-    slidesToShow: 0,
+    slidesToShow: 2, 
     slidesToScroll: 1,
+    autoplay: true, 
+    autoplaySpeed: 1000, 
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 600, 
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, 
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
-
-  // const settings = {
-  //   dots: true,
-  //   infinite: false,
-  //   speed: 500,
-  //   slidesToShow: 0,
-  //   slidesToScroll: 1
-  // };
+  
 
   const actualitesettings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 0,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  
+
+  function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString();
+  }
+
+  const processDescription = (htmlString) => {
+    const div = document.createElement('div');
+        div.innerHTML = htmlString;
+
+        let textContent = div.textContent || div.innerText || '';
+        if (textContent.length > 10) {
+            textContent = textContent.substring(0, 20) + '...';
+        }
+
+        let truncatedHTML = div.innerHTML;
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(truncatedHTML, 'text/html');
+        const images = doc.getElementsByTagName('img');
+
+        for (let img of images) {
+            img.style.width = '50px';
+            img.style.height = '50px';
+            img.style.float = 'left';
+            img.style.marginRight = '10px';
+        }
+    
+    return div.innerHTML;
+};
+
+
+  const [selectedActualite, setSelectedActualite] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  
+
+  const openPopup = (actualite) => {
+    setSelectedActualite(actualite);
+    setIsPopupOpen(true);
   };
 
-  // const actualitesettings = {
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1
-  // };
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedActualite(null);
+  };
 
   let slider = new Slider(settings);
 
@@ -889,29 +945,57 @@ const HomeScreen = ({
           </div>
         )}
 
-        {(actualites || []).length > 0 && (
-           <div className="section-actualite py-5">
-           <SectionTitle title="actualite.title" />
-           <div className="actualite-container mb-3">
-             <div className="actualite-wrapper">
+    {(actualites || []).length > 0 && (
+        <div className="section-actualite py-5">
+          <SectionTitle title="actualite.title" />
+          <div className="actualite-container mb-3">
+            <div className="actualite-wrapper">
               <Slider {...actualitesettings}>
                 {actualites.map((item, index) => (
                   <div className="actualite-item" key={index}>
-                    <h3>{item.secteur}</h3>
-                    <p className="">{item.description}</p>
                     <img
                       className="actualite-image"
                       alt="Partenaires"
                       src={item.image}
                     />
+                    <div className="actualite-content">
+                      <h3 className="actualite-secteur">{item.secteur_libelle}</h3>
+                      <p className="actualite-libelle">{item.libelle}</p>
+                      
+                      <p className="actualite-description" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(processDescription(item.description)) }} />
+                      <p className="actualite-date">Publié le : {new Date(item.created_at).toLocaleDateString()}</p>
+                      <button onClick={() => openPopup(item)}>En savoir plus</button>
+                    </div>
                   </div>
                 ))}
               </Slider>
-             </div>
-           </div>
-         </div>    
-          )}
+            </div>
+          </div>
+        </div>
+      )}
 
+      {isPopupOpen && (
+        <div className="popup">
+          <div className="popup-content">
+          <button className="close-popup" onClick={closePopup}>X</button>
+            <div className="popup-inner">
+              <div className="popup-image-container">
+                <img src={selectedActualite.image} alt="Actualité" className="popup-image" />
+              </div>
+              <div className="popup-text">
+                <h3 className="popup-libelle">{selectedActualite.libelle}</h3>
+                <p>{selectedActualite.secteur_libelle}</p>
+                <div
+                  className="popup-description"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedActualite.description) }}
+                />
+                <p className="popup-date">Publié le : {new Date(selectedActualite.created_at).toLocaleDateString()}</p>
+                {/* Ajoutez d'autres détails ici si nécessaire */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
         {(projets || []).length > 0 && (
           <div className="section-projet py-5">
             <SectionTitle title="projet_ip.title" />
