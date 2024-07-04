@@ -232,9 +232,11 @@
   ACTUALITE
 **/
 .section-actualite {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 18px;
+  padding-right: 18px;
   padding: 1rem;
+  margin: 20px 0;
+  border-top: 3px solid #ccc;
 }
 
 .actualite-container {
@@ -349,7 +351,7 @@
 }
 
 .popup-content {
-  padding: 20px;
+  padding: 40px !important;
   border-radius: 5px;
   width: 20cm; 
   height: 10cm; 
@@ -984,7 +986,7 @@
 }
 
 .popup {
-  background-color: hotpink !important;
+  background-color: rgba(0, 0, 0, 0.705);
 }
 
 .modal-experts .modal-experts-content {

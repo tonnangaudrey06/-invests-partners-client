@@ -4,8 +4,6 @@ import * as React from 'react';
 
 import { GoCalendar, GoClock, GoLocation } from 'react-icons/go';
 import { BiMoney } from 'react-icons/bi';
-import { DownloadRounded } from "@mui/icons-material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import {
   Box,
@@ -270,12 +268,6 @@ const EventDetails = ({ t, match, user }) => {
     }
   }, [user])
 
-  const getFileName = (url) => {
-    return url.substring(url.lastIndexOf('/') + 1);
-  };
-
-  const fileName = event?.fichier ? getFileName(event.fichier) : '';
-
   return (
     <Container header headerActive active="Events" footer>
       <div style={{ backgroundImage: `url(${eventImg})` }} className="event-details-bg-image">
@@ -310,11 +302,11 @@ const EventDetails = ({ t, match, user }) => {
           </h3>
 
           <div className="d-flex flex-wrap align-items-center">
-            {event?.date_evenement &&
+            {event?.date_debut &&
               <div className="d-flex align-items-center pt-2 pe-4">
                 <GoCalendar />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>
-                  {moment(event?.date_evenement).format("DD MMMM YYYY")}
+                  {moment(event?.date_debut).format("DD MMMM YYYY")}
                 </span>
               </div>
             }
@@ -351,27 +343,7 @@ const EventDetails = ({ t, match, user }) => {
             <p className="lh-base fs-6">{event?.description}</p>
           </section>
         )}
-
-      <div className="mt-0  w-100 d-flex align-items-center gap-2">
-          {event?.fichier && (
-            <a
-              title="Téléchager la piece jointe"
-              target="_blank"
-              rel="noreferrer"
-              href={event?.fichier}
-              className="d-flex justify-content-center align-items-center my-1 gap-2"
-            >
-              <DownloadRounded
-                className="cursor-pointer"
-                color="success"
-              />
-              {fileName}
-              
-            </a>
-          )}
-
-        </div>
-    </div>
+      </div>
 
       <Modal
         show={visible}

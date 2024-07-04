@@ -39,7 +39,7 @@ class AppService {
     actualitesecteur (){
         return new Promise(async (resolve, reject) => {
             try {
-                const rs = await http.get(`${source}/actualites`);
+                const rs = await http.get(`${source}/actualitesecteur`);
                 resolve(rs.data); 
             } catch (error) {
                 reject(error);

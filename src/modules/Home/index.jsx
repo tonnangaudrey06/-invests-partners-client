@@ -37,6 +37,8 @@ import useGeoLocation from "react-ipgeolocation";
 
 import moment from "moment";
 import "moment/locale/fr";
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 import { GrMail } from "react-icons/gr";
 import {
@@ -160,7 +162,7 @@ const CustomSlide = ({
   const goToDetails = () => {
     history.push(`projets/${projet.id}/details`);
   };
-
+  
   return (
     <>
       <div className="mx-4 my-2 projet-ip-item shadow-sm">
@@ -323,9 +325,21 @@ const HomeScreen = ({
 
   const [modalOpen, setModalOpen] = React.useState(false);
 
+  const [pageLoading, setPageLoading] = React.useState(true);
+
+  
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
-  const [pageLoading, setPageLoading] = React.useState(true);
+
+  const openParticipate = (event) => {
+    setEvent(event);
+    setVisible(true);
+  };
+
+
+  //const sortedEvents = events.sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut));
+
+
   const [etat, setEtat] = React.useState({
     message: "",
     error: false,
@@ -461,11 +475,6 @@ const HomeScreen = ({
 
   let slider = new Slider(settings);
 
-  const openParticipate = (event) => {
-    setEvent(event);
-    setVisible(true);
-  };
-
   const onChangeForm = (key, value) => {
     setParticipation((prevData) => {
       return { ...prevData, [key]: value };
@@ -492,6 +501,7 @@ const HomeScreen = ({
 
   const hideParticipate = () => {
     setVisible(false);
+    setEvent(null);
   };
 
   const handleParticipe = (trans = "") => {
@@ -670,6 +680,7 @@ const HomeScreen = ({
       console.log(actualityData);
       setSliders(slidesData?.data?.data);
       setPartenaires(partnersDatas?.data?.data);
+      console.log(actualityData?.data)
       setActualites(actualityData?.data);
       setProjets(projectsData?.data?.data);
       setEvents(eventsData?.data?.data);
@@ -1086,266 +1097,189 @@ const HomeScreen = ({
           </div>
         )}
 
-        {(events || []).length > 0 && (
-          <div className="section-event container pb-5">
-            <SectionTitle title="event.title" />
-            <div className="row g-2">
-              {(events || []).map((item, index) => (
-                <div className="col-md-6 col-lg-4" key={index}>
+{(events || []).length > 0 && (
+        <div className="section-event container pb-5">
+          <SectionTitle title="event.title" />
+          <div className="row g-2">
+            {(events || [])
+              .sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut))
+              .slice(0, 4)
+              .map((item, index) => (
+                <div className="col-md-6 col-lg-4" key={item.id}>
                   <div className="event-item shadow">
                     <div className="event-image">
                       <img src={item.image ? item.image : placeholder} alt="" />
                     </div>
                     <div className="event-hover p-3">
                       <div className="w-100">
-                        <div className="fw-bolder event-title">
-                          {item.libelle}
-                        </div>
+                        <div className="fw-bolder event-title">{item.libelle}</div>
                         <div className="row gx-3 gy-2 mb-2">
                           <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <FaCalendarCheck
-                              size={15}
-                              fill="#c34839"
-                              className="me-1"
-                            />
-                            {moment(item.date_evenement).format("DD MMMM YYYY")}
+                            <FaCalendarCheck size={15} fill="#c34839" className="me-1" />
+                            {moment(item.date_debut).format('DD MMMM YYYY')}
                           </div>
                           <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <FaClock
-                              size={15}
-                              fill="#c34839"
-                              className="me-1"
-                            />
-                            {t("date.time_format", {
-                              start: moment(
-                                new Date("Thu, 01 Jan 1970 " + item.heure_debut)
-                              ).format("HH[H]mm"),
-                              end: moment(
-                                new Date("Thu, 01 Jan 1970 " + item.heure_debut)
-                              )
-                                .add(+item.duree, "hours")
-                                .format("HH[H]mm"),
-                            })}
+                            <FaClock size={15} fill="#c34839" className="me-1" />
+                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`)).format('HH[H]mm')} -{' '}
+                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`))
+                              .add(item.duree, 'hours')
+                              .format('HH[H]mm')}
                           </div>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
-                          {!item.isPast && item.places > item.total_reserve && (
+                          {!item.isPast && new Date(item.date_debut) > new Date() && item.places > item.total_reserve && (
                             <Button
-                              size="small"
-                              className="mr-2"
-                              type="submit"
-                              variant="contained"
-                              onClick={() => openParticipate(item)}
-                            >
-                              {t("button.participer")}
-                            </Button>
+                            size="small"
+                            className="mr-2"
+                            type="submit"
+                            variant="contained"
+                            onClick={() => openParticipate(item)}
+                          >
+                            {t("button.participer")}
+                          </Button>
                           )}
                           <Button
-                            size="small"
-                            type="button"
-                            variant="contained"
-                            color="white"
-                            onClick={() => history.push(`events/${item.id}`)}
-                          >
-                            {t("button.savoir")}
-                          </Button>
+                          size="small"
+                          type="button"
+                          variant="contained"
+                          color="white"
+                          onClick={() => {
+                            console.log(`Navigating to event with ID: ${item.id}`);
+                            history.push(`events/${item.id}`);
+                          }}
+                        >
+                          {t("button.savoir")}
+                        </Button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
           </div>
-        )}
-
-        <Modal
-          show={visible}
-          onHide={hideParticipate}
-          backdrop="static"
-          keyboard={false}
-          centered
-        >
-          <Modal.Header closeButton={!paiement.pending}>
-            <Modal.Title>{t("event.form.title")}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p className="mb-1 lh-base text-center">
-              {t("event.form.text._1")} <strong>{event?.libelle}</strong>
+        </div>
+      )}
+      <Modal show={visible} onHide={hideParticipate} backdrop="static" keyboard={false} centered>
+        <Modal.Header closeButton={!paiement.pending}>
+          <Modal.Title>{t('event.form.title')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-1 lh-base text-center">
+            {t('event.form.text._1')} <strong>{event?.libelle}</strong>
+          </p>
+          {event?.prix ? (
+            <p className="mb-1 text-muted text-center">
+              {t('event.form.text._2', {
+                prix: moneyFormat(event?.prix),
+              })}
             </p>
-            {event?.prix ? (
-              <p className="mb-1 text-muted text-center">
-                {t("event.form.text._2", {
-                  prix: moneyFormat(event?.prix),
-                })}
-              </p>
-            ) : (
-              <p className="mb-1 text-muted text-center">
-                {t("event.form.text._3")}
-              </p>
+          ) : (
+            <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
+          )}
+          <hr />
+          <h5 className="fw-bolder my-1">{t('event.form.sub_title_1')}</h5>
+          <Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }}>
+                <TextField
+                  fullWidth
+                  required
+                  size="small"
+                  type="text"
+                  variant="filled"
+                  label={t('event.form.input._1.title')}
+                  placeholder={t('event.form.input._1.placeholder')}
+                  value={participation.nom_complet}
+                  onChange={(e) => onChangeForm('nom_complet', e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }}>
+                <TextField
+                  fullWidth
+                  required
+                  size="small"
+                  type="email"
+                  variant="filled"
+                  label={t('event.form.input._2.title')}
+                  placeholder="example@domaine.com"
+                  value={participation.email}
+                  onChange={(e) => onChangeForm('email', e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  required
+                  variant="filled"
+                  label={t('event.form.input._3.title')}
+                  placeholder={t('event.form.input._3.placeholder')}
+                  type="tel"
+                  value={participation.telephone}
+                  onChange={(e) => onChangeForm('telephone', e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  required
+                  variant="filled"
+                  label={t('event.form.input._4.title')}
+                  placeholder={t('event.form.input._4.placeholder')}
+                  type="number"
+                  InputProps={{
+                    inputProps: {
+                      min: 0,
+                      max: event?.places - event?.total_reserve,
+                    },
+                  }}
+                  value={participation.places || ''}
+                  onChange={(e) => onChangeForm('places', +e.target.value)}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+          <hr />
+          <Grid container spacing={2}>
+            {event?.prix && (
+              <Grid item xs={12} md={12}>
+                <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }} className="d-flex flex-column align-items-center">
+                  <h6 className="fw-bolder">{t('event.form.sub_title_2')}</h6>
+                  <RadioGroup row value={methodPaiement || 'OM'} onChange={(e, value) => setMethodPaiement(value)}>
+                    <FormControlLabel value="OM" control={<Radio />} label="Orange Money" />
+                    <FormControlLabel value="MOMO" control={<Radio />} label="MTN Mobile Money" />
+                  </RadioGroup>
+                </FormControl>
+                <FormControl component="fieldset" sx={{ my: 0.5, width: '100%' }}>
+                  <h6 className="fw-bolder mt-2 text-center">{t('event.form.pay._1.title')}</h6>
+                  <PhoneInput defaultCountry={loc.country} placeholder={t('event.form.pay._1.placeholder')} value={numero || ''} onChange={setNumero} />
+                </FormControl>
+                <p className="my-2 text-center fw-bolder">{paiement.message}</p>
+              </Grid>
             )}
-            <hr />
-            <h5 className="fw-bolder my-1">{t("event.form.sub_title_1")}</h5>
-            <Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  component="fieldset"
-                  sx={{ my: 0.5, width: "100%" }}
-                >
-                  <TextField
-                    fullWidth
-                    required
-                    size="small"
-                    type="text"
-                    variant="filled"
-                    label={t("event.form.input._1.title")}
-                    placeholder={t("event.form.input._1.placeholder")}
-                    value={participation.nom_complet}
-                    onChange={(e) =>
-                      onChangeForm("nom_complet", e.target.value)
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  component="fieldset"
-                  sx={{ my: 0.5, width: "100%" }}
-                >
-                  <TextField
-                    fullWidth
-                    required
-                    size="small"
-                    type="email"
-                    variant="filled"
-                    label={t("event.form.input._2.title")}
-                    placeholder="example@domaine.com"
-                    value={participation.email}
-                    onChange={(e) => onChangeForm("email", e.target.value)}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  component="fieldset"
-                  sx={{ my: 0.5, width: "100%" }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    required
-                    variant="filled"
-                    label={t("event.form.input._3.title")}
-                    placeholder={t("event.form.input._3.placeholder")}
-                    type="tel"
-                    value={participation.telephone}
-                    onChange={(e) => onChangeForm("telephone", e.target.value)}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  component="fieldset"
-                  sx={{ my: 0.5, width: "100%" }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    required
-                    variant="filled"
-                    label={t("event.form.input._4.title")}
-                    placeholder={t("event.form.input._4.placeholder")}
-                    type="number"
-                    InputProps={{
-                      inputProps: {
-                        min: 0,
-                        max: event?.places - event?.total_reserve,
-                      },
-                    }}
-                    value={participation.places || ""}
-                    onChange={(e) => onChangeForm("places", +e.target.value)}
-                  />
-                </FormControl>
-              </Grid>
+            <Grid item xs={12} md={12}>
+              <div className="d-flex justify-content-center align-items-center w-100">
+                {event?.prix ? (
+                  <LoadingButton className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50" loading={paiement.pending} disabled={!numero} onClick={payer} variant="contained">
+                    {t('event.form.btn._1')}
+                  </LoadingButton>
+                ) : (
+                  <LoadingButton className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50" onClick={checkSeat} variant="contained">
+                    {t('event.form.btn._2')}
+                  </LoadingButton>
+                )}
+              </div>
             </Grid>
-            <hr />
-            <Grid container spacing={2}>
-              {event?.prix && (
-                <Grid item xs={12} md={12}>
-                  <FormControl
-                    component="fieldset"
-                    sx={{ my: 0.5, width: "100%" }}
-                    className="d-flex flex-column align-items-center"
-                  >
-                    <h6 className="fw-bolder">{t("event.form.sub_title_2")}</h6>
-                    <RadioGroup
-                      row
-                      value={methodPaiement || "OM"}
-                      onChange={(e, value) => setMethodPaiement(value)}
-                    >
-                      <FormControlLabel
-                        value="OM"
-                        control={<Radio />}
-                        label="Orange Money"
-                      />
-                      <FormControlLabel
-                        value="MOMO"
-                        control={<Radio />}
-                        label="MTN Mobile Money"
-                      />
-                      {/* <FormControlLabel value="MASTER_CARD" control={<Radio />} label="Master card" /> */}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormControl
-                    component="fieldset"
-                    sx={{ my: 0.5, width: "100%" }}
-                  >
-                    <h6 className="fw-bolder mt-2 text-center">
-                      {t("event.form.pay._1.title")}
-                    </h6>
-                    <PhoneInput
-                      defaultCountry={loc.country}
-                      placeholder={t("event.form.pay._1.placeholder")}
-                      value={numero || ""}
-                      onChange={setNumero}
-                    />
-                  </FormControl>
-                  <p className="my-2 text-center fw-bolder">
-                    {paiement.message}
-                  </p>
-                  {/* <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre carte bancaire</h6>
-                                <input type="text" />
-                            </FormControl> */}
-                </Grid>
-              )}
-
-              <Grid item xs={12} md={12}>
-                <div className="d-flex justify-content-center align-items-center w-100">
-                  {event?.prix ? (
-                    <LoadingButton
-                      className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
-                      loading={paiement.pending}
-                      disabled={!numero}
-                      onClick={payer}
-                      variant="contained"
-                    >
-                      {t("event.form.btn._1")}
-                    </LoadingButton>
-                  ) : (
-                    <LoadingButton
-                      className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
-                      onClick={checkSeat}
-                      variant="contained"
-                    >
-                      {t("event.form.btn._2")}
-                    </LoadingButton>
-                  )}
-                </div>
-              </Grid>
-            </Grid>
-          </Modal.Body>
-        </Modal>
+          </Grid>
+        </Modal.Body>
+      </Modal>
 
         <Popup
           position="top center"
