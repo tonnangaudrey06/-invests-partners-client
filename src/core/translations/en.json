@@ -142,6 +142,16 @@
         },
         "form": {
             "title": "Participation in the event",
+            "sous-titre":{
+                "personel": {
+                    "title":"Personal Informations",
+                    "info": "Fill in all fields"
+                },
+                "projet": {
+                    "title":"Fill in all fields",
+                    "info": "Fields are optional"
+                }
+            },
             "text": {
                 "_1": "You want to participate in the event",
                 "_2": "Participation in this event will you cost {{ prix }} FCFA per seat",
@@ -150,18 +160,62 @@
             "sub_title_1": "Personal informations",
             "input": {
                 "_1": {
-                    "title": "Full name",
-                    "placeholder": "Last name & first Name"
+                    "title": "Name",
+                    "placeholder": "Enter your name"
                 },
                 "_2": {
+                    "title": "Surname",
+                    "placeholder": "Enter your surname"
+                },
+                "_3": {
+                    "title": "Birth date",
+                    "placeholder": "Enter your birth date"
+                },
+                "_4": {
+                    "title": "Sexe",
+                    "placeholder": ""
+                },
+                "_5": {
                     "title": "Email",
                     "placeholder": ""
                 },
-                "_3": {
+                "_6": {
                     "title": "Phone",
                     "placeholder": "Phone"
                 },
-                "_4": {
+                "_7": {
+                    "title": "CNI number",
+                    "placeholder": "Enter your CNI number"
+                },
+                "_8": {
+                    "title": "City of residence",
+                    "placeholder": "Enter your city of residence"
+                },
+                "_9": {
+                    "title": "Présentation du ou des porteurs de projets",
+                    "placeholder": "Parcours, expériences, ambitions, motivation"
+                },
+                "_10": {
+                    "title": "Présentation du projet (1)",
+                    "placeholder": "Genèse et historique du projet, identification du besoin ou du problème à résoudre"
+                },
+                "_11": {
+                    "title": "Présentation du projet (2)",
+                    "placeholder": "Présentez la solution que vous apportez au problème que vous avez identifié"
+                },
+                "_12": {
+                    "title": "Présentaion du marché et de l'environement",
+                    "placeholder": "Stratégie et réseau de distribution, clients, fournisseurs, partenaires, concurrents"
+                },
+                "_13": {
+                    "title": "Impact sociau-économique du projet",
+                    "placeholder": "Objectifs attendus, impact socio économique et environnemental, responsabilité sociétale"
+                },
+                "_14": {
+                    "title": "Plan de financement du projet",
+                    "placeholder": "Détail budgétaire, prévisions financières, retours sur investissement"
+                },
+                "_15": {
                     "title": "Number of places",
                     "placeholder": "Places"
                 }

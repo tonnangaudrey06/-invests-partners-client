@@ -147,7 +147,17 @@
             "restant": "Places restantes"
         },
         "form": {
-            "title": "Participation à l'évenement",
+            "title": "Participation a l'evenement",
+            "sous-titre":{
+                "personel": {
+                    "title":"Informations personnelles",
+                    "info": "Remplisez tous les champs"
+                },
+                "projet": {
+                    "title":"Informations sur le projet",
+                    "info": "Les champs sont facultatifs"
+                }
+            },
             "text": {
                 "_1": "Vous voulez participer à l'évenement",
                 "_2": "La participation à cette évenement vous coûtera {{ prix }} FCFA par place",
@@ -156,19 +166,63 @@
             "sub_title_1": "Informations personnelles",
             "input": {
                 "_1": {
-                    "title": "Nom complet",
-                    "placeholder": "Nom & prenom"
+                    "title": "Nom",
+                    "placeholder": "Entrer votre nom"
                 },
                 "_2": {
-                    "title": "Email",
-                    "placeholder": ""
+                    "title": "Prénom",
+                    "placeholder": "Enter votre pénom"
                 },
                 "_3": {
-                    "title": "Téléphone",
-                    "placeholder": "Téléphone"
+                    "title": "Birth date",
+                    "placeholder": "Entrer votre date de naissance"
                 },
                 "_4": {
-                    "title": "Nombre places",
+                    "title": "Sexe",
+                    "placeholder": ""
+                },
+                "_5": {
+                    "title": "Email",
+                    "placeholder": "example@domaine.com"
+                },
+                "_6": {
+                    "title": "Téléphone",
+                    "placeholder": "Phone"
+                },
+                "_7": {
+                    "title": "Carte d'indentité",
+                    "placeholder": "Entrer votre numero de CNI"
+                },
+                "_8": {
+                    "title": "Ville de résidence",
+                    "placeholder": "Entrer votre ville de résidence"
+                },
+                "_9": {
+                    "title": "Présentation du ou des porteurs de projets",
+                    "placeholder": "Parcours, expériences, ambitions, motivation"
+                },
+                "_10": {
+                    "title": "Présentation du projet (1)",
+                    "placeholder": "Genèse et historique du projet, identification du besoin ou du problème à résoudre"
+                },
+                "_11": {
+                    "title": "Présentation du projet (2)",
+                    "placeholder": "Présentez la solution que vous apportez au problème que vous avez identifié"
+                },
+                "_12": {
+                    "title": "Présentaion du marché et de l'environement",
+                    "placeholder": "Stratégie et réseau de distribution, clients, fournisseurs, partenaires, concurrents"
+                },
+                "_13": {
+                    "title": "Impact sociau-économique du projet",
+                    "placeholder": "Objectifs attendus, impact socio économique et environnemental, responsabilité sociétale"
+                },
+                "_14": {
+                    "title": "Plan de financement du projet",
+                    "placeholder": "Détail budgétaire, prévisions financières, retours sur investissement"
+                },
+                "_15": {
+                    "title": "Number of places",
                     "placeholder": "Places"
                 }
             },

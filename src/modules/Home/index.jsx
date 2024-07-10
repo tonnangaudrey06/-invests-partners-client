@@ -1128,7 +1128,7 @@ const HomeScreen = ({
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
                           {!item.isPast && new Date(item.date_debut) > new Date() && item.places > item.total_reserve && (
-                            <Button
+                          <Button
                             size="small"
                             className="mr-2"
                             type="submit"
