@@ -142,13 +142,13 @@
         },
         "form": {
             "title": "Participation in the event",
-            "sous-titre":{
-                "personel": {
+            "subtitle":{
+                "personnel": {
                     "title":"Personal Informations",
                     "info": "Fill in all fields"
                 },
                 "projet": {
-                    "title":"Fill in all fields",
+                    "title":"Project Informations",
                     "info": "Fields are optional"
                 }
             },
@@ -158,6 +158,7 @@
                 "_3": "Participation in this event is free"
             },
             "sub_title_1": "Personal informations",
+            "helper": "Required field",
             "input": {
                 "_1": {
                     "title": "Name",
@@ -218,6 +219,12 @@
                 "_15": {
                     "title": "Number of places",
                     "placeholder": "Places"
+                },
+                "_16": {
+                    "title": "Payment mode"
+                },
+                "_17": {
+                    "title": "Paiement phone number"
                 }
             },
             "sub_title_2": "Choose the payment method",

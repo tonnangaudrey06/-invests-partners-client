@@ -148,8 +148,8 @@
         },
         "form": {
             "title": "Participation a l'evenement",
-            "sous-titre":{
-                "personel": {
+            "subtitle":{
+                "personnel": {
                     "title":"Informations personnelles",
                     "info": "Remplisez tous les champs"
                 },
@@ -164,6 +164,7 @@
                 "_3": "La participation à cette évenement est gratuit"
             },
             "sub_title_1": "Informations personnelles",
+            "helper": "Champs obligation",
             "input": {
                 "_1": {
                     "title": "Nom",
@@ -210,11 +211,11 @@
                     "placeholder": "Présentez la solution que vous apportez au problème que vous avez identifié"
                 },
                 "_12": {
-                    "title": "Présentaion du marché et de l'environement",
+                    "title": "Présentation du marché et de l'environement",
                     "placeholder": "Stratégie et réseau de distribution, clients, fournisseurs, partenaires, concurrents"
                 },
                 "_13": {
-                    "title": "Impact sociau-économique du projet",
+                    "title": "Impact sociaux-économique du projet",
                     "placeholder": "Objectifs attendus, impact socio économique et environnemental, responsabilité sociétale"
                 },
                 "_14": {
@@ -224,6 +225,12 @@
                 "_15": {
                     "title": "Number of places",
                     "placeholder": "Places"
+                },
+                "_16": {
+                    "title": "Mode de paiement"
+                },
+                "_17": {
+                    "title": "Numero de telephone du paiement"
                 }
             },
             "sub_title_2": "Choisir le moyen de paiement",
