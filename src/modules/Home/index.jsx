@@ -64,6 +64,7 @@ import { connect } from "react-redux";
 import { Button, CircularProgress } from "@mui/material";
 import LikeButton from "../../components/LikeButton/index";
 import DOMPurify from 'dompurify';
+import { Link } from "react-router-dom";
 
 const CustomSlide = ({
   history,
@@ -1125,7 +1126,8 @@ const HomeScreen = ({
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
                           {!item.isPast && new Date(item.date_debut) > new Date() && item.places > item.total_reserve && (
-                          <Button
+                          <Link
+                            to={`event/${item.id}/paiement`}
                             size="small"
                             className="mr-2"
                             type="submit"
@@ -1133,20 +1135,17 @@ const HomeScreen = ({
                             onClick={() => openParticipate(item)}
                           >
                             {t("button.participer")}
-                          </Button>
+                          </Link>
                           )}
-                          <Button
+                          <Link
+                          to={`events/${item.id}`}
                           size="small"
                           type="button"
                           variant="contained"
                           color="white"
-                          onClick={() => {
-                            console.log(`Navigating to event with ID: ${item.id}`);
-                            history.push(`events/${item.id}`);
-                          }}
                         >
                           {t("button.savoir")}
-                        </Button>
+                        </Link>
                         </div>
                       </div>
                     </div>

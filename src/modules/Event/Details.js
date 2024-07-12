@@ -7,7 +7,6 @@ import { BiMoney } from 'react-icons/bi';
 
 import {
   Box,
-  Button,
   FormControl,
   FormControlLabel,
   LinearProgress,
@@ -42,6 +41,7 @@ import { connect } from "react-redux";
 import { EventService, CampayService, PaiementService } from '../../core/services';
 
 import { withTranslation } from "react-i18next";
+import { Link } from 'react-router-dom';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -287,7 +287,7 @@ const EventDetails = ({ t, match, user }) => {
           </Box>
           {!event?.isPast && event?.places > event?.total_reserve &&
             <div className="d-flex justify-content-between align-items-center w-100">
-              <Button fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
+              <Link to={`/event/${id}/paiement`} fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2">{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Link>
             </div>
           }
         </section>

@@ -29,15 +29,16 @@ import {
   PaiementService,
 } from "../../core/services";
 import { sleep } from "../../core/utils/helpers";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
 const Alert = forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Paiement = ({ history, t, user, language }) => {
+const Paiement = ({ t, user, language }) => {
   const { id } = useParams();
+  const history = useHistory();
 
   const [participation, setParticipation] = useState({
     nom: "",
@@ -186,6 +187,7 @@ const Paiement = ({ history, t, user, language }) => {
           ville: "",
           numeroCNI: "",
           telephone: "",
+          places: 1,
           project: {
             porteurProjet: "",
             presentation1: "",
@@ -194,8 +196,8 @@ const Paiement = ({ history, t, user, language }) => {
             impact: "",
             financement: "",
           },
-          paymentDetails: {},
         });
+        history.push("/events");
       },
       (error) => {
         const resMessage =
