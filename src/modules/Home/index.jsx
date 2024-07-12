@@ -37,8 +37,6 @@ import useGeoLocation from "react-ipgeolocation";
 
 import moment from "moment";
 import "moment/locale/fr";
-import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 
 import { GrMail } from "react-icons/gr";
 import {
@@ -147,7 +145,6 @@ const CustomSlide = ({
     if (+user?.profil_invest?.montant_max >= +projet?.financement) {
       return true;
     }
-
     return false;
   };
 

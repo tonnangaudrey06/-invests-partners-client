@@ -21,6 +21,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { FormLabel } from "react-bootstrap";
+import { EventService, CampayService, PaiementService} from "../../core/services";
+import { sleep } from "../../core/utils/helpers";
+import { useParams } from "react-router-dom";
 
 const Paiement = ({ history, t, user, language }) => {
   const [participation, setParticipation] = useState({
@@ -32,7 +35,6 @@ const Paiement = ({ history, t, user, language }) => {
     ville: "",
     numeroCNI: "",
     telephone: "",
-    places: 0,
     project: {
       porteurProjet: "",
       presentation1: "",
@@ -43,18 +45,19 @@ const Paiement = ({ history, t, user, language }) => {
     },
     paymentDetails: {}
   });
-
   const [errors, setErrors] = useState({});
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
-    paymentType: 'OM',
-    paymentPhone: '',
+    methodPaiement: 'OM',
+    numero: '',
     seats: 1
   });
   const [paymentErrors, setPaymentErrors] = useState({});
+  const [visible, setVisible] = useState(false);
+  const { id } = useParams()
 
-  const handlePaymentChange = (event) => {
-    const { name, value } = event.target;
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
     setPaymentDetails(prevState => ({
       ...prevState,
       [name]: value
@@ -74,6 +77,167 @@ const Paiement = ({ history, t, user, language }) => {
           [key]: value
         } };
     });
+  };
+
+  const [event, setEvent] = useState({})
+  const [paiement, setPaiement] = useState({
+    pending: false,
+    failed: false,
+    message: "",
+  });
+  const [etat, setEtat] = useState({
+    message: "",
+    error: false,
+    success: false,
+  });
+
+  const fetchData = () => {
+    EventService.getOne(id).then(
+      (data) => {
+        setEvent(data.data.data);
+      }
+    )
+  };
+
+  const hideParticipate = () => {
+    setVisible(false);
+    setEvent(null);
+  };
+
+  const handleParticipe = (trans = "") => {
+    EventService.participate(event?.id, participation).then(
+      async (rs) => {
+        fetchData();
+        hideParticipate();
+        await PaiementService.save(rs?.id, {
+          trans_id: trans,
+          methode: paymentDetails.methodPaiement,
+          telephone: paymentDetails.numero,
+          montant: event?.prix * participation?.places,
+          type: "EVENT",
+          etat: "REUSSI",
+          event: event?.id,
+          participant: true,
+        });
+        setEtat({
+          error: false,
+          success: true,
+          message: "Votre réservation a été effectuée",
+        });
+        setParticipation({
+          nom_complet: "",
+          email: "",
+          telephone: "",
+          places: 0,
+        });
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setEtat({ error: true, success: false, message: resMessage });
+      }
+    );
+  };
+
+  const payementDone = () => {
+    setVisible(false);
+    setPaymentDetails({
+      methodPaiement: "OM",
+      numero: "",
+      seats: 1,
+    })
+    setPaiement({
+      pending: false,
+      failed: false,
+      message: "",
+    });
+  };
+
+  const countdown = async (refrence) => {
+    let status = "PENDING";
+    setPaiement({ ...paiement, pending: true, failed: false });
+
+    while (status === "PENDING" || status === "ERROR") {
+      try {
+        const rs = await CampayService.checkPayment(refrence);
+        status = rs.status;
+        if (rs.status !== "PENDING") {
+          break;
+        }
+        await sleep(5000);
+      } catch (error) {
+        status = "ERROR";
+        console.error(error);
+        break;
+      }
+    }
+
+    switch (status) {
+      case "SUCCESSFUL":
+        payementDone();
+        handleParticipe(refrence);
+        break;
+      case "FAILED":
+        setPaiement({
+          pending: false,
+          failed: true,
+          message: `La transaction a échoué. Essayez à nouveau`,
+        });
+        break;
+      default:
+        await countdown(refrence);
+        break;
+    }
+  };
+
+  const payer = () => {
+    EventService.checkSeat(event?.id, participation).then(
+      async (rs) => {
+        setPaiement({ pending: true, failed: false, message: "" });
+        try {
+          const rs = await CampayService.payEvent(
+            paymentDetails.numero,
+            event?.prix * participation?.places
+          );
+          let messageP = "La transaction ";
+
+          if (paymentDetails.methodPaiement === "MOMO") {
+            messageP = messageP + "MTN Mobile Money";
+          }
+
+          if (paymentDetails.methodPaiement === "OM") {
+            messageP = messageP + "Orange Money";
+          }
+
+          setPaiement((prevData) => {
+            return {
+              ...prevData,
+              message: `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`,
+            };
+          });
+
+          countdown(rs.reference);
+        } catch (error) {
+          setPaiement({ pending: false, failed: true, message: "" });
+          console.error(error);
+        }
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setEtat({ error: true, success: false, message: resMessage });
+      }
+    );
   };
 
   // Validation du premier formulaire
@@ -99,8 +263,8 @@ const Paiement = ({ history, t, user, language }) => {
     const newErrors = {};
     let valid = true;
 
-    if (!paymentDetails.paymentType) {
-      newErrors.paymentType = 'Le type de paiement est requis';
+    if (!paymentDetails.methodPaiement) {
+      newErrors.methodPaiement = 'Le type de paiement est requis';
       valid = false;
     }
 
@@ -109,7 +273,7 @@ const Paiement = ({ history, t, user, language }) => {
       'MTN': /^(650|651|652|653|654|670|671|672|673|674|675|676|677|678|679)\d{6}$/
     };
 
-    if (!paymentDetails.paymentPhone.match(phoneRegex[paymentDetails.paymentType])) {
+    if (!paymentDetails.paymentPhone.match(phoneRegex[paymentDetails.methodPaiement])) {
       newErrors.paymentPhone = 'Numéro de téléphone invalide';
       valid = false;
     }
@@ -397,19 +561,19 @@ const Paiement = ({ history, t, user, language }) => {
             <Typography variant="caption">{t("event.form.subtitle.personnel.info")}</Typography>
         </DialogTitle>
         <DialogContent>
-          <FormControl fullWidth margin="normal" error={!!paymentErrors.paymentType}>
+          <FormControl fullWidth margin="normal" error={!!paymentErrors.methodPaiement}>
             <InputLabel>{t("event.form.input._15.title")}</InputLabel>
             <Select
-              name="paymentType"
-              value={paymentDetails.paymentType}
+              name="methodPaiement"
+              value={paymentDetails.methodPaiement}
               onChange={handlePaymentChange}
               variant="filled"
               required
             >
               <MenuItem value="OM">Orange Money</MenuItem>
-              <MenuItem value="MTN">MTN Mobile Money</MenuItem>
+              <MenuItem value="MOMO">MTN Mobile Money</MenuItem>
             </Select>
-            {paymentErrors.paymentType && <FormHelperText>{paymentErrors.paymentType}</FormHelperText>}
+            {paymentErrors.methodPaiement && <FormHelperText>{paymentErrors.methodPaiement}</FormHelperText>}
           </FormControl>
           <TextField
             label={t("event.form.input._17.title")}
@@ -419,7 +583,7 @@ const Paiement = ({ history, t, user, language }) => {
             name="paymentPhone"
             value={paymentDetails.paymentPhone}
             onChange={handlePaymentChange}
-            placeholder={paymentDetails.paymentType === "OM" ? "N° Orange Money" : "N° MTN Mobile Money"}
+            placeholder={paymentDetails.methodPaiement === "OM" ? "N° Orange Money" : "N° MTN Mobile Money"}
             required
             error={!!paymentErrors.paymentPhone}
             helperText={paymentErrors.paymentPhone}
