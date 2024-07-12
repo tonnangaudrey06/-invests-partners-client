@@ -469,7 +469,7 @@ const EventDetails = ({ t, match, user }) => {
               <div className="d-flex justify-content-center align-items-center w-100">
                 {event?.prix ? (
                   <LoadingButton
-                    className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                    className="btn-default btn-rounded mx-auto flex flex-align-center flex-justify-center w-50"
                     loading={paiement.pending}
                     disabled={!numero}
                     onClick={payer}
@@ -479,7 +479,7 @@ const EventDetails = ({ t, match, user }) => {
                   </LoadingButton>
                 ) : (
                   <LoadingButton
-                    className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+                    className="btn-default btn-rounded mx-auto flex flex-align-center flex-justify-center w-50"
                     onClick={checkSeat}
                     variant="contained"
                   >

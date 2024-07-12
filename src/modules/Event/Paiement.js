@@ -19,67 +19,54 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef, useState } from "react";
 import { FormLabel } from "react-bootstrap";
-import { EventService, CampayService, PaiementService} from "../../core/services";
+import {
+  EventService,
+  CampayService,
+  PaiementService,
+} from "../../core/services";
 import { sleep } from "../../core/utils/helpers";
 import { useParams } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+
+const Alert = forwardRef((props, ref) => {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Paiement = ({ history, t, user, language }) => {
+  const { id } = useParams();
+
   const [participation, setParticipation] = useState({
     nom: "",
     prenom: "",
-    dateNais: new Date().toISOString().split('T')[0],
+    dateNais: new Date().toISOString().split("T")[0],
     sexe: "M",
     email: "",
     ville: "",
     numeroCNI: "",
     telephone: "",
+    places: 1,
     project: {
       porteurProjet: "",
       presentation1: "",
       presentation2: "",
       environement: "",
       impact: "",
-      financement: ""
+      financement: "",
     },
-    paymentDetails: {}
   });
   const [errors, setErrors] = useState({});
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
-    methodPaiement: 'OM',
-    numero: '',
-    seats: 1
+    methodPaiement: "OM",
+    numero: "",
+    seats: 1,
   });
   const [paymentErrors, setPaymentErrors] = useState({});
-  const [visible, setVisible] = useState(false);
-  const { id } = useParams()
-
-  const handlePaymentChange = (e) => {
-    const { name, value } = e.target;
-    setPaymentDetails(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleChange = (key, value) => {
-    setParticipation((prevData) => {
-      return { ...prevData, [key]: value };
-    });
-  };
-  const handleProjectChange = (key, value) => {
-    setParticipation((prevData) => {
-      return { ...prevData,
-        project: {
-          ...prevData.project,
-          [key]: value
-        } };
-    });
-  };
-
-  const [event, setEvent] = useState({})
+  const [event, setEvent] = useState({});
   const [paiement, setPaiement] = useState({
     pending: false,
     failed: false,
@@ -91,19 +78,85 @@ const Paiement = ({ history, t, user, language }) => {
     success: false,
   });
 
-  const fetchData = () => {
-    EventService.getOne(id).then(
-      (data) => {
-        setEvent(data.data.data);
-      }
-    )
+  // changement du formulqire de paiement
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentDetails((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
+  // changement du formulaire informations personnelles
+  const handleChange = (key, value) => {
+    setParticipation((prevData) => {
+      return { ...prevData, [key]: value };
+    });
+  };
+
+  // changement du formulaire informations du projet
+  const handleProjectChange = (key, value) => {
+    setParticipation((prevData) => {
+      return {
+        ...prevData,
+        project: {
+          ...prevData.project,
+          [key]: value,
+        },
+      };
+    });
+  };
+
+  const handleErrorAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setEtat((prevData) => {
+      return { ...prevData, error: false };
+    });
+  };
+
+  const handleSuccessAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setEtat((prevData) => {
+      return { ...prevData, success: false };
+    });
+  };
+
+  // Recuperation de l'evenement grace a l'id
+  const fetchData = () => {
+    EventService.getOne(id).then((data) => {
+      setEvent(data.data.data);
+    });
+  };
+
+  // Cacher la modalde paiement
   const hideParticipate = () => {
-    setVisible(false);
+    setPaymentModalOpen(false);
     setEvent(null);
   };
 
+  const checkSeat = () => {
+    EventService.checkSeat(event?.id, participation).then(
+      (rs) => {
+        handleParticipe();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setEtat({ error: true, success: false, message: resMessage });
+      }
+    );
+  };
+
+  // Envoie des donnees vers le serveur
   const handleParticipe = (trans = "") => {
     EventService.participate(event?.id, participation).then(
       async (rs) => {
@@ -125,10 +178,23 @@ const Paiement = ({ history, t, user, language }) => {
           message: "Votre réservation a été effectuée",
         });
         setParticipation({
-          nom_complet: "",
+          nom: "",
+          prenom: "",
+          dateNais: new Date().toISOString().split("T")[0],
+          sexe: "M",
           email: "",
+          ville: "",
+          numeroCNI: "",
           telephone: "",
-          places: 0,
+          project: {
+            porteurProjet: "",
+            presentation1: "",
+            presentation2: "",
+            environement: "",
+            impact: "",
+            financement: "",
+          },
+          paymentDetails: {},
         });
       },
       (error) => {
@@ -144,13 +210,14 @@ const Paiement = ({ history, t, user, language }) => {
     );
   };
 
+  // Paiement effectue avec success
   const payementDone = () => {
-    setVisible(false);
+    setPaymentModalOpen(false);
     setPaymentDetails({
       methodPaiement: "OM",
       numero: "",
       seats: 1,
-    })
+    });
     setPaiement({
       pending: false,
       failed: false,
@@ -162,6 +229,7 @@ const Paiement = ({ history, t, user, language }) => {
     let status = "PENDING";
     setPaiement({ ...paiement, pending: true, failed: false });
 
+    // En attente de paiement ou erreur
     while (status === "PENDING" || status === "ERROR") {
       try {
         const rs = await CampayService.checkPayment(refrence);
@@ -196,90 +264,100 @@ const Paiement = ({ history, t, user, language }) => {
   };
 
   const payer = () => {
-    EventService.checkSeat(event?.id, participation).then(
-      async (rs) => {
-        setPaiement({ pending: true, failed: false, message: "" });
-        try {
-          const rs = await CampayService.payEvent(
-            paymentDetails.numero,
-            event?.prix * participation?.places
-          );
-          let messageP = "La transaction ";
-
-          if (paymentDetails.methodPaiement === "MOMO") {
-            messageP = messageP + "MTN Mobile Money";
+    if(validatePaymentForm()){
+      setParticipation({...participation, places: paymentDetails.seats})
+      EventService.checkSeat(event?.id, participation).then(
+        async (rs) => {
+          setPaiement({ pending: true, failed: false, message: "" });
+          try {
+            const rs = await CampayService.payEvent(
+              paymentDetails.numero,
+              event?.prix * participation?.places
+            );
+            let messageP = "La transaction ";
+  
+            if (paymentDetails.methodPaiement === "MOMO") {
+              messageP = messageP + "MTN Mobile Money";
+            }
+  
+            if (paymentDetails.methodPaiement === "OM") {
+              messageP = messageP + "Orange Money";
+            }
+  
+            setPaiement((prevData) => {
+              return {
+                ...prevData,
+                message: `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`,
+              };
+            });
+  
+            countdown(rs.reference);
+          } catch (error) {
+            setPaiement({ pending: false, failed: true, message: "" });
+            console.error(error);
           }
-
-          if (paymentDetails.methodPaiement === "OM") {
-            messageP = messageP + "Orange Money";
-          }
-
-          setPaiement((prevData) => {
-            return {
-              ...prevData,
-              message: `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`,
-            };
-          });
-
-          countdown(rs.reference);
-        } catch (error) {
-          setPaiement({ pending: false, failed: true, message: "" });
-          console.error(error);
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+  
+          setEtat({ error: true, success: false, message: resMessage });
         }
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setEtat({ error: true, success: false, message: resMessage });
-      }
-    );
+      );  
+    }
   };
 
   // Validation du premier formulaire
-  const validateMainForm = () => {
+  const validateMainForm = (e) => {
+    e.preventDefault();
     const newErrors = {};
     let valid = true;
 
-    ['nom', 'prenom', 'email', 'ville', 'numeroCNI', 'telephone'].forEach(field => {
-      if (participation[field].trim() === '') {
-        newErrors[field] = true;
-        valid = false;
-      } else {
-        newErrors[field] = false;
+    ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"].forEach(
+      (field) => {
+        if (participation[field].trim() === "") {
+          newErrors[field] = true;
+          valid = false;
+        } else {
+          newErrors[field] = false;
+        }
       }
-    });
+    );
 
     setErrors(newErrors);
     return valid;
   };
-  
+
   // validation du formulaire de paiement
   const validatePaymentForm = () => {
     const newErrors = {};
     let valid = true;
 
     if (!paymentDetails.methodPaiement) {
-      newErrors.methodPaiement = 'Le type de paiement est requis';
+      newErrors.methodPaiement = "Le type de paiement est requis";
       valid = false;
     }
 
     const phoneRegex = {
-      'OM': /^(655|656|657|658|659|690|691|692|693|694|695|696|697|698|699)\d{6}$/,
-      'MTN': /^(650|651|652|653|654|670|671|672|673|674|675|676|677|678|679)\d{6}$/
+      OM: /^(655|656|657|658|659|690|691|692|693|694|695|696|697|698|699)\d{6}$/,
+      MTN: /^(650|651|652|653|654|670|671|672|673|674|675|676|677|678|679)\d{6}$/,
     };
 
-    if (!paymentDetails.paymentPhone.match(phoneRegex[paymentDetails.methodPaiement])) {
-      newErrors.paymentPhone = 'Numéro de téléphone invalide';
+    if (
+      !paymentDetails.paymentPhone.match(
+        phoneRegex[paymentDetails.methodPaiement]
+      )
+    ) {
+      newErrors.paymentPhone = "Numéro de téléphone invalide";
       valid = false;
     }
 
     if (paymentDetails.seats < 1) {
-      newErrors.seats = 'Le nombre de places doit être supérieur ou égal à 1';
+      newErrors.seats = "Le nombre de places doit être supérieur ou égal à 1";
       valid = false;
     }
 
@@ -287,21 +365,6 @@ const Paiement = ({ history, t, user, language }) => {
     return valid;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateMainForm()) {
-      setPaymentModalOpen(true);
-    }
-  };
-
-  const handlePaymentSubmit = (e) => {
-    e.preventDefault();
-    if (validatePaymentForm()) {
-      setParticipation({...participation, paymentDetails: paymentDetails});
-      console.log('Formulaire principal:', participation);
-      setPaymentModalOpen(false);
-    }
-  }
 
   return (
     <Container header footer headerActive active="paiement">
@@ -310,7 +373,7 @@ const Paiement = ({ history, t, user, language }) => {
       >
         <h1 className="section-title text-black">{t("event.form.title")}</h1>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => validateMainForm(e)}
           style={{
             maxWidth: 900,
             marginInline: "auto",
@@ -321,9 +384,11 @@ const Paiement = ({ history, t, user, language }) => {
         >
           <div>
             <Typography variant="h5" fontWeight="bold" marginTop="1rem">
-            {t("event.form.subtitle.personnel.title")}
+              {t("event.form.subtitle.personnel.title")}
             </Typography>
-            <Typography variant="caption">{t("event.form.subtitle.personnel.info")}</Typography>
+            <Typography variant="caption">
+              {t("event.form.subtitle.personnel.info")}
+            </Typography>
           </div>
           <div className="d-flex gap-3">
             <FormControl component="fieldset" sx={{ my: 0.5, width: "100%" }}>
@@ -374,7 +439,7 @@ const Paiement = ({ history, t, user, language }) => {
                 onChange={(e) => handleChange("dateNais", e.target.value)}
               />
             </FormControl>
-             <FormControl
+            <FormControl
               sx={{
                 my: 0.5,
                 width: "100%",
@@ -383,7 +448,7 @@ const Paiement = ({ history, t, user, language }) => {
                 alignItems: "center",
               }}
             >
-              <FormLabel style={{ paddingLeft: "1rem", color: "#0000008a"}}>
+              <FormLabel style={{ paddingLeft: "1rem", color: "#0000008a" }}>
                 {t("event.form.input._4.title")}
               </FormLabel>
               <RadioGroup
@@ -472,9 +537,11 @@ const Paiement = ({ history, t, user, language }) => {
           <br />
           <div>
             <Typography variant="h5" fontWeight="bold" marginTop="1rem">
-            {t("event.form.subtitle.projet.title")}
+              {t("event.form.subtitle.projet.title")}
             </Typography>
-            <Typography variant="caption">{t("event.form.subtitle.projet.info")}</Typography>
+            <Typography variant="caption">
+              {t("event.form.subtitle.projet.info")}
+            </Typography>
           </div>
           <TextField
             multiline
@@ -485,7 +552,9 @@ const Paiement = ({ history, t, user, language }) => {
             label={t("event.form.input._9.title")}
             placeholder={t("event.form.input._9.placeholder")}
             value={participation.porteurProjet}
-            onChange={(e) => handleProjectChange("porteurProjet", e.target.value)}
+            onChange={(e) =>
+              handleProjectChange("porteurProjet", e.target.value)
+            }
           />
           <TextField
             multiline
@@ -496,7 +565,9 @@ const Paiement = ({ history, t, user, language }) => {
             label={t("event.form.input._10.title")}
             placeholder={t("event.form.input._10.placeholder")}
             value={participation.presentation1}
-            onChange={(e) => handleProjectChange("presentation1", e.target.value)}
+            onChange={(e) =>
+              handleProjectChange("presentation1", e.target.value)
+            }
           />
           <TextField
             multiline
@@ -507,7 +578,9 @@ const Paiement = ({ history, t, user, language }) => {
             label={t("event.form.input._11.title")}
             placeholder={t("event.form.input._11.placeholder")}
             value={participation.presentation2}
-            onChange={(e) => handleProjectChange("presentation2", e.target.value)}
+            onChange={(e) =>
+              handleProjectChange("presentation2", e.target.value)
+            }
           />
           <TextField
             multiline
@@ -518,7 +591,9 @@ const Paiement = ({ history, t, user, language }) => {
             label={t("event.form.input._12.title")}
             placeholder={t("event.form.input._12.placeholder")}
             value={participation.environement}
-            onChange={(e) => handleProjectChange("environement", e.target.value)}
+            onChange={(e) =>
+              handleProjectChange("environement", e.target.value)
+            }
           />
           <TextField
             multiline
@@ -545,7 +620,12 @@ const Paiement = ({ history, t, user, language }) => {
           <div
             style={{ display: "flex", marginTop: 30, justifyContent: "end" }}
           >
-            <Button width="fit-content" type="submit" variant="contained" size="medium" onClick={(e) => validateMainForm(e)}>
+            <Button
+              width="fit-content"
+              type="submit"
+              variant="contained"
+              className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+            >
               {t("button.participer")}
             </Button>
           </div>
@@ -553,15 +633,24 @@ const Paiement = ({ history, t, user, language }) => {
       </Box>
 
       {/* Modal de paeiment */}
-      <Dialog open={paymentModalOpen} onClose={() => setPaymentModalOpen(false)}>
+      <Dialog
+        open={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+      >
         <DialogTitle>
-        <Typography variant="h5" fontWeight="bold" marginTop="1rem">
+          <Typography variant="h5" fontWeight="bold" marginTop="1rem">
             {t("event.form.subtitle.personnel.title")}
-            </Typography>
-            <Typography variant="caption">{t("event.form.subtitle.personnel.info")}</Typography>
+          </Typography>
+          <Typography variant="caption">
+            {t("event.form.subtitle.personnel.info")}
+          </Typography>
         </DialogTitle>
         <DialogContent>
-          <FormControl fullWidth margin="normal" error={!!paymentErrors.methodPaiement}>
+          <FormControl
+            fullWidth
+            margin="normal"
+            error={!!paymentErrors.methodPaiement}
+          >
             <InputLabel>{t("event.form.input._15.title")}</InputLabel>
             <Select
               name="methodPaiement"
@@ -573,7 +662,9 @@ const Paiement = ({ history, t, user, language }) => {
               <MenuItem value="OM">Orange Money</MenuItem>
               <MenuItem value="MOMO">MTN Mobile Money</MenuItem>
             </Select>
-            {paymentErrors.methodPaiement && <FormHelperText>{paymentErrors.methodPaiement}</FormHelperText>}
+            {paymentErrors.methodPaiement && (
+              <FormHelperText>{paymentErrors.methodPaiement}</FormHelperText>
+            )}
           </FormControl>
           <TextField
             label={t("event.form.input._17.title")}
@@ -583,7 +674,11 @@ const Paiement = ({ history, t, user, language }) => {
             name="paymentPhone"
             value={paymentDetails.paymentPhone}
             onChange={handlePaymentChange}
-            placeholder={paymentDetails.methodPaiement === "OM" ? "N° Orange Money" : "N° MTN Mobile Money"}
+            placeholder={
+              paymentDetails.methodPaiement === "OM"
+                ? "N° Orange Money"
+                : "N° MTN Mobile Money"
+            }
             required
             error={!!paymentErrors.paymentPhone}
             helperText={paymentErrors.paymentPhone}
@@ -603,15 +698,60 @@ const Paiement = ({ history, t, user, language }) => {
             InputProps={{ inputProps: { min: 1 } }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setPaymentModalOpen(false)} color="secondary">
-            Annuler
-          </Button>
-          <Button onClick={handlePaymentSubmit} type="submit" variant="contained" size="big">
-            Confirmer
-          </Button>
+        <DialogActions style={{ justifyContent: "center" }}>
+          {event?.prix ? (
+            <LoadingButton
+              className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+              loading={paiement.pending}
+              disabled={!paymentDetails.numero}
+              onClick={payer}
+              variant="contained"
+            >
+              {t("event.form.btn._1")}
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
+              onClick={checkSeat}
+              variant="contained"
+            >
+              {t("event.form.btn._2")}
+            </LoadingButton>
+          )}
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        key="bottomright"
+        open={etat.error}
+        autoHideDuration={10000}
+        onClose={handleErrorAlertClose}
+      >
+        <Alert
+          onClose={handleErrorAlertClose}
+          severity="error"
+          sx={{ width: "100%", textAlign: "center" }}
+        >
+          {etat.message}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        key="bottomrightsuccess"
+        open={etat.success}
+        autoHideDuration={10000}
+        onClose={handleSuccessAlertClose}
+      >
+        <Alert
+          onClose={handleSuccessAlertClose}
+          severity="success"
+          sx={{ width: "100%", textAlign: "center" }}
+        >
+          {etat.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
