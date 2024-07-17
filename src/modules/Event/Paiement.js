@@ -131,6 +131,7 @@ const Paiement = ({ history, t, user, language }) => {
   };
 
   const checkSeat = () => {
+    console.log(participation.places)
     EventService.checkSeat(event?.id, participation).then(
       (rs) => {
         handleParticipe();
