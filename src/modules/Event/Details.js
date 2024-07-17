@@ -42,6 +42,7 @@ import { connect } from "react-redux";
 import { EventService, CampayService, PaiementService } from '../../core/services';
 
 import { withTranslation } from "react-i18next";
+import { useHistory } from 'react-router-dom';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -49,6 +50,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const EventDetails = ({ t, match, user }) => {
   const { params: { id } } = match;
+  const history = useHistory()
 
   const [event, setEvent] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
@@ -73,7 +75,7 @@ const EventDetails = ({ t, match, user }) => {
   })
   const loc = useGeoLocation();
 
-  const openParticipate = () => {
+  const onParticipate = () => {
     setVisible(true);
   }
 
@@ -209,6 +211,7 @@ const EventDetails = ({ t, match, user }) => {
   }
 
   const handleParticipe = (trans = "") => {
+    console.log(numero)
     EventService.participate(event?.id, participation).then(
       async (rs) => {
         fetchData();
@@ -287,7 +290,7 @@ const EventDetails = ({ t, match, user }) => {
           </Box>
           {!event?.isPast && event?.places > event?.total_reserve &&
             <div className="d-flex justify-content-between align-items-center w-100">
-              <Button fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
+              <Button fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => onParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
             </div>
           }
         </section>
@@ -356,81 +359,6 @@ const EventDetails = ({ t, match, user }) => {
           <Modal.Title>{t('event.form.title')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className="mb-1 lh-base text-center">{t('event.form.text._1')} <strong>{event?.libelle}</strong></p>
-          {event?.prix ? (
-            <p className="mb-1 text-muted text-center">
-              {t('event.form.text._2', {
-                prix: moneyFormat(event?.prix)
-              })}
-            </p>
-          ) : (
-            <p className="mb-1 text-muted text-center">{t('event.form.text._3')}</p>
-          )}
-          <hr />
-          <h5 className="fw-bolder my-1">{t('event.form.sub_title_1')}</h5>
-          <Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  required
-                  size="small"
-                  type="text"
-                  variant="filled"
-                  label={t('event.form.input._1.title')}
-                  placeholder={t('event.form.input._1.placeholder')}
-                  value={participation.nom_complet}
-                  onChange={(e) => onChangeForm('nom_complet', e.target.value)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  required
-                  size="small"
-                  type="email"
-                  variant="filled"
-                  label={t('event.form.input._2.title')}
-                  placeholder="example@domaine.com"
-                  value={participation.email}
-                  onChange={(e) => onChangeForm('email', e.target.value)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  required
-                  variant="filled"
-                  label={t('event.form.input._3.title')}
-                  placeholder={t('event.form.input._3.placeholder')}
-                  type="tel"
-                  value={participation.telephone}
-                  onChange={(e) => onChangeForm('telephone', e.target.value)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  required
-                  variant="filled"
-                  label={t('event.form.input._4.title')}
-                  placeholder={t('event.form.input._4.placeholder')}
-                  type="number"
-                  InputProps={{ inputProps: { min: 0, max: event?.places - event?.total_reserve } }}
-                  value={participation.places || ''}
-                  onChange={(e) => onChangeForm('places', +e.target.value)}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
           <hr />
           <Grid container spacing={2}>
             {event?.prix && (
@@ -458,10 +386,6 @@ const EventDetails = ({ t, match, user }) => {
 
                 </FormControl>
                 <p className="my-2 text-center fw-bolder">{paiement.message}</p>
-                {/* <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                                <h6 className="fw-bolder">Votre carte bancaire</h6>
-                                <input type="text" />
-                            </FormControl> */}
               </Grid>
             )}
 

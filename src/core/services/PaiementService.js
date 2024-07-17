@@ -9,6 +9,7 @@ class PaymentService {
                 const rs = await http.post(`${source}/${id}`, payment);
                 resolve(rs.data);
             } catch (error) {
+                console.log(error)
                 reject(error);
             }
         });

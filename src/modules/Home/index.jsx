@@ -329,8 +329,7 @@ const HomeScreen = ({
   const [visible, setVisible] = React.useState(false);
 
   const openParticipate = (event) => {
-    setEvent(event);
-    setVisible(true);
+    history.push(`/events/${event.id}/paiement`)
   };
 
 

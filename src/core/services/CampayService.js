@@ -26,6 +26,7 @@ class CampayService {
     }
 
     payEvent(numero, montant) {
+        console.log(numero)
         const data = {
             amount: 5,
             currency: "XAF",

@@ -41,8 +41,20 @@ class EventService {
     participate(id, data) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(data)
                 const rs = await http.post(`${source}/${id}/participer`, data);
                 resolve(rs.data.data);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    participateElement(data) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rs = await http.post(`${source}/participants`, data);
+                resolve(rs.data);
             } catch (error) {
                 reject(error);
             }

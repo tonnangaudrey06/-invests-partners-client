@@ -10,6 +10,7 @@ import { GoCalendar, GoLocation } from 'react-icons/go';
 import { Box, LinearProgress, CircularProgress, Button as Btn } from '@mui/material';
 
 import React from 'react';
+import { Link, useHistory } from "react-router-dom"
 
 import { Modal } from 'react-bootstrap';
 
@@ -46,7 +47,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const currentMonth = moment().month();
 const currentYear = moment().year();
 
-const Event = ({ t, history, user }) => {
+const Event = ({ t, user }) => {
 
     const [events, setEvents] = React.useState([]);
     const [months, setMonths] = React.useState([]);
@@ -74,10 +75,10 @@ const Event = ({ t, history, user }) => {
 
     
     const loc = useGeoLocation();
+    const history = useHistory()
 
-    const openParticipate = (event) => {
-        setEvent(event);
-        setVisible(true);
+    const onParticipate = (event) => {
+        history.push(`/events/${event.id}/paiement`)
     }
 
     const onChangeForm = (key, value) => {
@@ -345,7 +346,7 @@ const Event = ({ t, history, user }) => {
                                 </Box>
                             </Box>
                             <div className="d-flex justify-content-between align-items-center w-100">
-                                <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
+                                <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => onParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
                                 <Btn color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                             </div>
                         </div>
@@ -400,7 +401,7 @@ const Event = ({ t, history, user }) => {
                             </Box>
                             <div className="d-flex justify-content-between align-items-center w-100">
                                 {!item.isPast && item.places > item.total_reserve &&
-                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => openParticipate(item)}>
+                                    <Btn variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => onParticipate(item)}>
                                         {item.places === item.total_reserve ? t('button.complet') : t('button.participer')}
                                     </Btn>
                                 }
