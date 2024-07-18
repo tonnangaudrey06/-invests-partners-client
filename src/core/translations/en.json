@@ -138,7 +138,7 @@
         },
         "organise": "Organize by",
         "places": {
-            "restant": "Remaining seats"
+            "restant": "Occupied seats"
         },
         "form": {
             "title": "Participation in the event",
