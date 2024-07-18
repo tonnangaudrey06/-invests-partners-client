@@ -64,7 +64,6 @@ const Paiement = ({ history, t, user, language }) => {
   const [paymentDetails, setPaymentDetails] = useState({
     methodPaiement: "OM",
     numero: "655278375",
-    seats: 1,
   });
   const [paymentErrors, setPaymentErrors] = useState({});
   const [event, setEvent] = useState(null);
@@ -89,7 +88,7 @@ const Paiement = ({ history, t, user, language }) => {
   // changement du formulaire informations personnelles
   const handleChange = (key, value) => {
     setParticipation((prevData) => {
-      return { ...prevData, [key]: value };
+      return { ...prevData, [key]: value || 0};
     });
   };
 
@@ -153,6 +152,19 @@ const Paiement = ({ history, t, user, language }) => {
     EventService.participate(event?.id, participation).then(
       async (rs) => {
         hideParticipate();
+        
+        if (event?.prix){
+          await PaiementService.save(rs?.id, {
+            trans_id: trans,
+            methode: paymentDetails.methodPaiement,
+            telephone: paymentDetails.numero,
+            montant: event?.prix * participation?.places,
+            type: "EVENT",
+            etat: "REUSSI",
+            event: event?.id || id,
+            participant: true
+        });
+        }
         setEtat({
           error: false,
           success: true,
@@ -167,6 +179,7 @@ const Paiement = ({ history, t, user, language }) => {
           ville: "",
           numeroCNI: "",
           telephone: "",
+          places: 1,
           porteurProjet: "",
           presentationUn: "",
           presentationDeux: "",
@@ -194,7 +207,6 @@ const Paiement = ({ history, t, user, language }) => {
     setPaymentDetails({
       methodPaiement: "OM",
       numero: "",
-      seats: 1,
     });
     setPaiement({
       pending: false,
@@ -243,7 +255,7 @@ const Paiement = ({ history, t, user, language }) => {
 
   const payer = () => {
     if (validatePaymentForm()) {
-      setParticipation({ ...participation, places: paymentDetails.seats });
+      setParticipation({ ...participation, places: participation.places });
       EventService.checkSeat(event?.id, participation).then(
         async (rs) => {
           setPaiement({ pending: true, failed: false, message: "" });
@@ -356,13 +368,13 @@ const Paiement = ({ history, t, user, language }) => {
       valid = false;
     }
 
-    if (paymentDetails.seats < 1) {
-      newErrors.seats = "Le nombre de places doit être supérieur ou égal à 1";
+    if (participation.places < 1) {
+      newErrors.places = "Le nombre de places doit être supérieur ou égal à 1";
       valid = false;
     }
 
-    if (paymentDetails.seats > event?.places) {
-      newErrors.seats = `Le nombre de places doit être inférieur ou égal à ${event?.places}`;
+    if (participation.places > event?.places) {
+      newErrors.places = `Le nombre de places doit être inférieur ou égal à ${event?.places}`;
       valid = false;
     }
     setPaymentErrors(newErrors);
@@ -694,16 +706,17 @@ const Paiement = ({ history, t, user, language }) => {
             variant="filled"
             fullWidth
             margin="normal"
-            name="seats"
             type="number"
-            value={paymentDetails.seats}
-            onChange={(e) => handlePaymentChange("seats", e.target.value)}
+            value={participation.places}
+            onChange={(e) => {
+              handleChange("places", e.target.value)
+            }}
             required
-            error={!!paymentErrors.seats}
+            error={!!paymentErrors.places}
             InputProps={{
               inputProps: { min: 0, max: event?.places - event?.total_reserve },
             }}
-            helperText={paymentErrors.seats}
+            helperText={paymentErrors.places}
           />
         </DialogContent>
         <DialogActions
