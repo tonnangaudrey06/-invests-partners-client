@@ -114,7 +114,6 @@ const Event = ({ t, user }) => {
             async (rs) => {
                 fetchData();
                 hideParticipate();
-
                 await PaiementService.save(rs?.id, {
                     trans_id: trans,
                     methode: methodPaiement,

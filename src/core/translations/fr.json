@@ -156,6 +156,10 @@
                 "projet": {
                     "title":"Informations sur le projet",
                     "info": "Les champs sont facultatifs"
+                },
+                "participation": {
+                    "title":"Valider votre participation",
+                    "info": "Remplisez tous les champs"
                 }
             },
             "text": {

@@ -33,7 +33,6 @@ import {
 import { sleep } from "../../core/utils/helpers";
 import { useParams } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
-import { Modal } from "react-bootstrap";
 import useGeoLocation from "react-ipgeolocation";
 
 const Alert = forwardRef((props, ref) => {
@@ -42,7 +41,6 @@ const Alert = forwardRef((props, ref) => {
 
 const Paiement = ({ history, t, user, language }) => {
   const { id } = useParams();
-  const loc = useGeoLocation();
 
   const [participation, setParticipation] = useState({
     nom: "Test",
@@ -131,40 +129,30 @@ const Paiement = ({ history, t, user, language }) => {
   };
 
   const checkSeat = () => {
-    console.log(participation.places)
-    EventService.checkSeat(event?.id, participation).then(
-      (rs) => {
-        handleParticipe();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+    if (validatePaymentForm()) {
+      EventService.checkSeat(event?.id, participation).then(
+        (rs) => {
+          handleParticipe();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
-        setEtat({ error: true, success: false, message: resMessage });
-      }
-    );
+          setEtat({ error: true, success: false, message: resMessage });
+        }
+      );
+    }
   };
 
   // Envoie des donnees vers le serveur
   const handleParticipe = (trans = "") => {
     EventService.participate(event?.id, participation).then(
       async (rs) => {
-        fetchData();
         hideParticipate();
-        await PaiementService.save(rs?.id, {
-          trans_id: trans,
-          methode: paymentDetails.methodPaiement,
-          telephone: paymentDetails.numero,
-          montant: event?.prix * participation?.places,
-          type: "EVENT",
-          etat: "REUSSI",
-          event: event?.id,
-          participant: true,
-        });
         setEtat({
           error: false,
           success: true,
@@ -195,7 +183,6 @@ const Paiement = ({ history, t, user, language }) => {
           error.message ||
           error.toString();
 
-        console.log(error.response.data);
         setEtat({ error: true, success: false, message: resMessage });
       }
     );
@@ -257,7 +244,6 @@ const Paiement = ({ history, t, user, language }) => {
   const payer = () => {
     if (validatePaymentForm()) {
       setParticipation({ ...participation, places: paymentDetails.seats });
-      console.log(paymentDetails.numero);
       EventService.checkSeat(event?.id, participation).then(
         async (rs) => {
           setPaiement({ pending: true, failed: false, message: "" });
@@ -304,7 +290,7 @@ const Paiement = ({ history, t, user, language }) => {
   };
 
   // Validation du premier formulaire
-  const validateMainForm =  (e) => {
+  const validateMainForm = (e) => {
     e.preventDefault();
     const newErrors = {};
     let valid = true;
@@ -314,7 +300,6 @@ const Paiement = ({ history, t, user, language }) => {
         if (participation[field].trim() === "") {
           newErrors[field] = true;
           valid = false;
-          console.log(newErrors)
         } else {
           newErrors[field] = false;
         }
@@ -324,9 +309,30 @@ const Paiement = ({ history, t, user, language }) => {
     setErrors(newErrors);
     if (valid) {
       console.log(participation);
-      setPaymentModalOpen(true)
+      setPaymentModalOpen(true);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setParticipation({
+        nom: user?.nom,
+        prenom: user?.prenom,
+        dateNais: user?.dateNais,
+        sexe: user?.dateNais,
+        email: user?.email,
+        ville: user?.ville,
+        numeroCNI: user?.numeroCNI,
+        telephone: user?.telephone,
+        porteurProjet: user?.porteurProjet,
+        presentationUn: user?.presentationUn,
+        presentationDeux: user?.presentationDeux,
+        environnement: user?.environnement,
+        impact: user?.impact,
+        financement: user?.financement,
+      });
+    }
+  }, [user]);
 
   // validation du formulaire de paiement
   const validatePaymentForm = () => {
@@ -608,7 +614,7 @@ const Paiement = ({ history, t, user, language }) => {
             onChange={(e) => handleChange("financement", e.target.value)}
           />
           <div
-            style={{ display: "flex", marginTop: 30, justifyContent: "end" }}
+            style={{ display: "flex", marginTop: 30, justifyContent: "center" }}
           >
             <Button
               width="fit-content"
@@ -623,123 +629,66 @@ const Paiement = ({ history, t, user, language }) => {
       </Box>
 
       {/* Modal de paeiment */}
-
-      {/* <Modal
-        show={paymentModalOpen}
-        onHide={hideParticipate}
-        backdrop="static"
-        keyboard={false} 
-        centered
-      >
-        <Modal.Header closeButton={!paiement.pending}>
-          <Modal.Title>{t('event.form.title')}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <hr />
-          <Grid container spacing={2}>
-            {event?.prix && (
-              <Grid item xs={12} md={12}>
-                <FormControl component="fieldset" sx={{ my: .5, width: "100%" }} className="d-flex flex-column align-items-center">
-                  <h6 className="fw-bolder">{t('event.form.sub_title_2')}</h6>
-                  <RadioGroup
-                    row
-                    value={paymentDetails.methodPaiement || 'OM'}
-                    onChange={(e) => handlePaymentChange("methodPaiement", e.target.value)}
-                  >
-                    <FormControlLabel value="OM" control={<Radio />} label="Orange Money" />
-                    <FormControlLabel value="MOMO" control={<Radio />} label="MTN Mobile Money" />
-                  </RadioGroup>
-                </FormControl>
-                <FormControl component="fieldset" sx={{ my: .5, width: "100%" }}>
-                  <h6 className="fw-bolder mt-2 text-center">{t('event.form.pay._1.title')}</h6>
-                  <PhoneInput
-                    defaultCountry={loc.country}
-                    placeholder={t('event.form.pay._1.placeholder')}
-                    value={paymentDetails.numero || ''}
-                    onChange={(e) => handlePaymentChange("numero", e.target.value)}
-                  />
-
-                </FormControl>
-                <p className="my-2 text-center fw-bolder">{paiement.message}</p>
-              </Grid>
-            )}
-
-            <Grid item xs={12} md={12}>
-              <div className="d-flex justify-content-center align-items-center w-100">
-                {event?.prix ? (
-                  <LoadingButton
-                    className="btn-default btn-rounded mx-auto flex flex-align-center flex-justify-center w-50"
-                    loading={paiement.pending}
-                    disabled={!paymentDetails.numero}
-                    onClick={payer}
-                    variant="contained"
-                  >
-                    {t('event.form.btn._1')}
-                  </LoadingButton>
-                ) : (
-                  <LoadingButton
-                    className="btn-default btn-rounded mx-auto flex flex-align-center flex-justify-center w-50"
-                    onClick={checkSeat}
-                    variant="contained"
-                  >
-                    {t('event.form.btn._2')}
-                  </LoadingButton>
-                )}
-              </div>
-            </Grid>
-          </Grid>
-        </Modal.Body>
-      </Modal> */}
       <Dialog
         open={paymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}
       >
-        <DialogTitle>
-          <Typography fontWeight="bold" marginTop="1rem">
-            {t("event.form.subtitle.personnel.title")}
+        <DialogTitle
+          sx={{ maxWidth: "90vw", marginInline: "auto", width: 500 }}
+        >
+          <Typography fontWeight="bold" marginTop="1.2rem">
+            {t("event.form.subtitle.participation.title")}
           </Typography>
           <Typography variant="caption">
-            {t("event.form.subtitle.personnel.info")}
+            {t("event.form.subtitle.participation.info")}
           </Typography>
         </DialogTitle>
-        <DialogContent>
-          <FormControl
-            fullWidth
-            margin="normal"
-            error={!!paymentErrors.methodPaiement}
-          >
-            <InputLabel>{t("event.form.input._15.title")}</InputLabel>
-            <Select
-              value={paymentDetails.methodPaiement}
-              onChange={(e) =>
-                handlePaymentChange("methodPaiement", e.target.value)
-              }
-              variant="filled"
-              required
-            >
-              <MenuItem value="OM">Orange Money</MenuItem>
-              <MenuItem value="MOMO">MTN Mobile Money</MenuItem>
-            </Select>
-            {paymentErrors.methodPaiement && (
-              <FormHelperText>{paymentErrors.methodPaiement}</FormHelperText>
-            )}
-          </FormControl>
-          <TextField
-            label={t("event.form.input._17.title")}
-            variant="filled"
-            fullWidth
-            margin="normal"
-            value={paymentDetails.numero}
-            onChange={(e) => handlePaymentChange("numero", e.target.value)}
-            placeholder={
-              paymentDetails.methodPaiement === "OM"
-                ? "N° Orange Money (657650045)"
-                : "N° MTN Mobile Money (677546565)"
-            }
-            required
-            error={!!paymentErrors.numero}
-            helperText={paymentErrors.numero}
-          />
+        <DialogContent
+          sx={{ maxWidth: "90vw", marginInline: "auto", width: 500 }}
+        >
+          {event?.prix && (
+            <>
+              <FormControl
+                fullWidth
+                margin="normal"
+                error={!!paymentErrors.methodPaiement}
+              >
+                <InputLabel>{t("event.form.input._15.title")}</InputLabel>
+                <Select
+                  value={paymentDetails.methodPaiement}
+                  onChange={(e) =>
+                    handlePaymentChange("methodPaiement", e.target.value)
+                  }
+                  variant="filled"
+                  required
+                >
+                  <MenuItem value="OM">Orange Money</MenuItem>
+                  <MenuItem value="MOMO">MTN Mobile Money</MenuItem>
+                </Select>
+                {paymentErrors.methodPaiement && (
+                  <FormHelperText>
+                    {paymentErrors.methodPaiement}
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <TextField
+                label={t("event.form.input._17.title")}
+                variant="filled"
+                fullWidth
+                margin="normal"
+                value={paymentDetails.numero}
+                onChange={(e) => handlePaymentChange("numero", e.target.value)}
+                placeholder={
+                  paymentDetails.methodPaiement === "OM"
+                    ? "N° Orange Money (657650045)"
+                    : "N° MTN Mobile Money (677546565)"
+                }
+                required
+                error={!!paymentErrors.numero}
+                helperText={paymentErrors.numero}
+              />
+            </>
+          )}
           <TextField
             label={t("event.form.input._15.title")}
             variant="filled"
@@ -757,7 +706,14 @@ const Paiement = ({ history, t, user, language }) => {
             helperText={paymentErrors.seats}
           />
         </DialogContent>
-        <DialogActions style={{ justifyContent: "center" }}>
+        <DialogActions
+          sx={{
+            maxWidth: "90vw",
+            marginInline: "auto",
+            width: 500,
+            justifyContent: "center",
+          }}
+        >
           {event?.prix ? (
             <LoadingButton
               className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"

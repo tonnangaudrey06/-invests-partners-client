@@ -150,6 +150,10 @@
                 "projet": {
                     "title":"Project Informations",
                     "info": "Fields are optional"
+                },
+                "participation": {
+                    "title":"Validation of the Participation",
+                    "info": "Fill in all fields"
                 }
             },
             "text": {

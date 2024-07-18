@@ -66,6 +66,7 @@ class EventService {
             try {
                 const rs = await http.post(`${source}/${id}/participer/check/seat`, data);
                 resolve(rs);
+                console.log(rs)
             } catch (error) {
                 reject(error);
             }
