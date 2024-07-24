@@ -588,11 +588,30 @@
 }
 
 .event-title {
-  font-size: 1.3rem;
-  line-height: 1.3;
+  font-size: 1.8rem;
+  line-height: 95%;
   margin-bottom: 0.8rem;
+  font-family: "Building", sans-serif;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  margin-bottom: 0;
+  color: white;
 }
 
+.event-description {
+  margin-bottom: 15px;
+  color: #bbbbbb;
+  max-width: 90%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+}
 .event-item {
   position: relative;
   overflow: hidden;
@@ -603,9 +622,7 @@
   position: absolute;
   display: flex;
   color: white;
-  justify-content: center;
   align-items: center;
-  text-align: center;
   opacity: 1;
   top: 0;
   width: 100%;
@@ -633,6 +650,9 @@
   padding: 0.4rem;
   cursor: pointer;
   font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .event-button:hover {
