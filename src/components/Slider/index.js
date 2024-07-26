@@ -5,6 +5,10 @@ import AOS from 'aos';
 import React, { Fragment } from 'react';
 
 const BannerSlider = ({ slides, translate, lang }) => {
+  console.log("langue : " + lang)
+  // const [text, setTExt] = ({
+  //   title: 
+  // })
 
   AOS.init({
     isable: false,

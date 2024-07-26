@@ -466,7 +466,7 @@
             "done": "{{ prix }} FCFA investis"
         },
         "title": "LA MEILLEURE AFFAIRE S'OFFRE A VOUS",
-        "sub_title": "NOS SECTEURS D'ACTIVITÉES",
+        "sub_title": "NOS SECTEURS D'ACTIVITÉS",
         "not_found_secteur": "Aucun secteur pour l'instant",
         "not_found_pays": "Aucun pays pour l'instant",
         "not_found_ville": "Aucune ville pour l'instant",
