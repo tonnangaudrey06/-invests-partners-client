@@ -58,6 +58,7 @@ const Paiement = ({ history, t, user, language }) => {
     impact: "",
     financement: "",
   });
+
   const [errors, setErrors] = useState({});
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
@@ -289,9 +290,9 @@ const Paiement = ({ history, t, user, language }) => {
     e.preventDefault();
     const newErrors = {};
     let valid = true;
-    // console.log(participation)
+    const requiredElements = ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"]
 
-    ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"].forEach(
+    requiredElements.forEach(
       (field) => {
         if (participation[field].trim() === "") {
           newErrors[field] = true;
@@ -495,7 +496,7 @@ const Paiement = ({ history, t, user, language }) => {
               size="small"
               error={!!errors.telephone}
               helperText={t("event.form.helper")}
-              type="number"
+              type="text"
               variant="filled"
               label={t("event.form.input._6.title")}
               placeholder={t("event.form.input._6.placeholder")}
@@ -510,7 +511,7 @@ const Paiement = ({ history, t, user, language }) => {
               size="small"
               error={!!errors.numeroCNI}
               helperText={t("event.form.helper")}
-              type="number"
+              type="text"
               variant="filled"
               label={t("event.form.input._7.title")}
               placeholder={t("event.form.input._7.placeholder")}
