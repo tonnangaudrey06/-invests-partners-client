@@ -83,7 +83,7 @@ export default function CardEvent({ item, t }) {
               >
                 <div>{t("event.places.restant")}</div>
                 <div>
-                  {item.total_reserve}/{item.places}
+                  {item.total_reserve / item.places}
                 </div>
               </div>
               <LinearProgress

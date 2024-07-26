@@ -435,8 +435,8 @@ const HomeScreen = ({
         expertData,
       ] = values;
       setSliders(slidesData?.data?.data);
+      console.log(slidesData?.data?.data);
       setPartenaires(partnersDatas?.data?.data);
-      console.log(actualityData?.data);
       setActualites(actualityData?.data);
       setProjets(projectsData?.data?.data);
       setEvents(eventsData?.data?.data);
