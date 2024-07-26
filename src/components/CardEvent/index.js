@@ -1,7 +1,7 @@
 import React from "react";
 import placeholder from "../../assets/img/ip-13.jpg";
 import moment from "moment";
-import { GoCalendar, GoLocation } from "react-icons/go";
+import { GoCalendar, GoClock, GoLocation } from "react-icons/go";
 import { Box, Button, LinearProgress } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import "./style.css";
@@ -48,12 +48,14 @@ export default function CardEvent({ item, t }) {
         <h3 className="fw-default-title title" style={{ margin: ".5em 0" }}>
           {item.libelle}
         </h3>
-        <div className="d-flex align-items-center gap-2 w-100 mt-1">
+        <div className="d-flex align-items-center w-100 mt-1">
           <GoCalendar />
+          <span className='lh-sm fs-6 ml-1'>
           {moment(item.date_debut).format("DD MMMM YYYY")}
           {item.date_fin
             ? ` - ${moment(item.date_fin).format("DD MMMM YYYY")}`
             : ""}
+          </span>
         </div>
         {!item?.places && <p className="description">{item.description}</p>}
         {item?.lieu && (
@@ -62,6 +64,23 @@ export default function CardEvent({ item, t }) {
             <p className="lh-sm fs-6 ml-1">{item.lieu}</p>
           </div>
         )}
+        {item?.heure_debut && (
+              <div className="d-flex align-items-center mt-1 pe-4">
+                <GoClock />
+                <span className="lh-sm fs-6 ml-1">
+                  {t("date.time_format", {
+                    start: moment(
+                      new Date("Thu, 01 Jan 1970 " + item?.heure_debut)
+                    ).format("HH[H]mm"),
+                    end: moment(
+                      new Date("Thu, 01 Jan 1970 " + item?.heure_debut)
+                    )
+                      .add(+item?.duree, "hours")
+                      .format("HH[H]mm"),
+                  })}
+                </span>
+              </div>
+            )}
         {item?.places && (
           <Box>
             <Box
@@ -83,7 +102,7 @@ export default function CardEvent({ item, t }) {
               >
                 <div>{t("event.places.restant")}</div>
                 <div>
-                  {item.total_reserve / item.places}
+                  {item.total_reserve}/{item.places}
                 </div>
               </div>
               <LinearProgress

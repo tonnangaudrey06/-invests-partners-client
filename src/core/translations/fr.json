@@ -15,6 +15,10 @@
         "complet": "Complet",
         "back": "Retour"
     },
+    "details": {
+        "join": "Telecharger le fichier join",
+        "noJoin": "Pas de fichier join"
+    },
     "service": {
         "title": "Nos services",
         "_1": {
@@ -140,7 +144,7 @@
             "_1": "Ce mois",
             "_2": "Autres évènements"
         },
-        "organise": "Organiser par",
+        "organise": "Organisé par",
         "places": {
             "restant": "Places occupées"
         },

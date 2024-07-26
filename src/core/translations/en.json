@@ -4,6 +4,10 @@
         "pay": "Not free",
         "price": "Price"
     },
+    "details": {
+        "join": "Download join file",
+        "noJoin": "No attachments"
+    },
     "button": {
         "conseiller": "Talk to a consultant",
         "opportuniter": "Discover the opportunities",

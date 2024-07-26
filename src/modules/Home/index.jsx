@@ -430,7 +430,6 @@ const HomeScreen = ({
         expertData,
       ] = values;
       setSliders(slidesData?.data?.data);
-      console.log(slidesData?.data?.data);
       setPartenaires(partnersDatas?.data?.data);
       setActualites(actualityData?.data);
       setProjets(projectsData?.data?.data);
@@ -455,6 +454,7 @@ const HomeScreen = ({
 
   React.useEffect(() => {
     setLang(language);
+    console.log(t)
   }, [language]);
 
   const goToProfile = () => {
@@ -926,9 +926,11 @@ const HomeScreen = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
   language: state.app.language,
   user: state.auth.user,
-});
+}};
 
 export default withTranslation()(connect(mapStateToProps)(HomeScreen));
