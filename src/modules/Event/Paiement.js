@@ -311,20 +311,20 @@ const Paiement = ({ history, t, user, language }) => {
   useEffect(() => {
     if (user) {
       setParticipation({
-        nom: user?.nom,
-        prenom: user?.prenom,
-        dateNais: user?.dateNais,
-        sexe: user?.dateNais,
-        email: user?.email,
-        ville: user?.ville,
-        numeroCNI: user?.numeroCNI,
-        telephone: user?.telephone,
-        porteurProjet: user?.porteurProjet,
-        presentationUn: user?.presentationUn,
-        presentationDeux: user?.presentationDeux,
-        environnement: user?.environnement,
-        impact: user?.impact,
-        financement: user?.financement,
+        nom: user?.nom || "",
+        prenom: user?.prenom || "",
+        dateNais: user?.dateNais || "",
+        sexe: user?.dateNais || "",
+        email: user?.email || "",
+        ville: user?.ville || "",
+        numeroCNI: user?.numeroCNI || "",
+        telephone: user?.telephone || "",
+        porteurProjet: user?.porteurProjet || "",
+        presentationUn: user?.presentationUn || "",
+        presentationDeux: user?.presentationDeux || "",
+        environnement: user?.environnement || "",
+        impact: user?.impact || "",
+        financement: user?.financement || "",
       });
     }
   }, [user]);
