@@ -289,6 +289,7 @@ const Paiement = ({ history, t, user, language }) => {
     e.preventDefault();
     const newErrors = {};
     let valid = true;
+    // console.log(participation)
 
     ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"].forEach(
       (field) => {
@@ -303,7 +304,6 @@ const Paiement = ({ history, t, user, language }) => {
 
     setErrors(newErrors);
     if (valid) {
-      console.log(participation);
       setPaymentModalOpen(true);
     }
   };

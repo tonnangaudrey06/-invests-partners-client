@@ -5,10 +5,6 @@ import AOS from 'aos';
 import React, { Fragment } from 'react';
 
 const BannerSlider = ({ slides, translate, lang }) => {
-  console.log("langue : " + lang)
-  // const [text, setTExt] = ({
-  //   title: 
-  // })
 
   AOS.init({
     isable: false,
@@ -64,8 +60,8 @@ const BannerSlider = ({ slides, translate, lang }) => {
               <div className="circle-2"></div>
 
               <div className="carousel-caption text-white">
-                <h1 id="title" className="text-uppercase">{lang.includes('fr') ? slide.title : slide.title_en}</h1>
-                <div className="mb-2 textEntete">{lang.includes('fr') ? slide.description : slide.description_en}</div>
+                <h1 id="title" className="text-uppercase">{lang==='fr' ? slide.title : slide.title_en}</h1>
+                <div className="mb-2 textEntete">{lang==='fr' ? slide.description : slide.description_en}</div>
                 <div className="d-grid gap-2  bouttonEntete">
                   <Button title={translate('button.opportuniter')} color={'transparent'} borderColor={'white'} url={'/projets'} />
                   <Button title={translate('button.conseiller')} color={'#585b60'} borderColor={'grey'} url={'/contact'} />
