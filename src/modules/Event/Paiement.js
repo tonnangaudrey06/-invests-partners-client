@@ -292,6 +292,7 @@ const Paiement = ({ history, t, user, language }) => {
 
     ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"].forEach(
       (field) => {
+        console.log("");
         if (participation[field].trim() === "") {
           newErrors[field] = true;
           valid = false;
