@@ -7,7 +7,12 @@ import { BiMoney } from 'react-icons/bi';
 
 import {
   Box,
+<<<<<<< HEAD
   Button,
+=======
+  FormControl,
+  FormControlLabel,
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
   LinearProgress,
 } from '@mui/material';
 
@@ -28,7 +33,15 @@ import { connect } from "react-redux";
 import { EventService } from '../../core/services';
 
 import { withTranslation } from "react-i18next";
+<<<<<<< HEAD
 import { useHistory } from 'react-router-dom';
+=======
+import { Link } from 'react-router-dom';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
 
 const EventDetails = ({ t, match, user }) => {
   const { params: { id } } = match;
@@ -74,7 +87,11 @@ const EventDetails = ({ t, match, user }) => {
           </Box>
           {!event?.isPast && event?.places > event?.total_reserve &&
             <div className="d-flex justify-content-between align-items-center w-100">
+<<<<<<< HEAD
               <Button fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => onParticipate()}>{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Button>
+=======
+              <Link to={`/event/${id}/paiement`} fullWidth size="small" variant="contained" color="primary" className="btn-rounded btn-default px-2">{event?.places === event?.total_reserve ? t('button.complet') : t('button.participer')}</Link>
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
             </div>
           }
         </section>

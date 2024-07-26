@@ -31,15 +31,16 @@ import {
   PaiementService,
 } from "../../core/services";
 import { sleep } from "../../core/utils/helpers";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
 const Alert = forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Paiement = ({ history, t, user, language }) => {
+const Paiement = ({ t, user, language }) => {
   const { id } = useParams();
+  const history = useHistory();
 
   const [participation, setParticipation] = useState({
     nom: "Test",
@@ -166,6 +167,29 @@ const Paiement = ({ history, t, user, language }) => {
           success: true,
           message: "Votre réservation a été effectuée",
         });
+<<<<<<< HEAD
+=======
+        setParticipation({
+          nom: "",
+          prenom: "",
+          dateNais: new Date().toISOString().split("T")[0],
+          sexe: "M",
+          email: "",
+          ville: "",
+          numeroCNI: "",
+          telephone: "",
+          places: 1,
+          project: {
+            porteurProjet: "",
+            presentation1: "",
+            presentation2: "",
+            environement: "",
+            impact: "",
+            financement: "",
+          },
+        });
+        history.push("/events");
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
       },
       (error) => {
         const resMessage =

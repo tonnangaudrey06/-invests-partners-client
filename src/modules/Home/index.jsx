@@ -39,8 +39,13 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Button, CircularProgress } from "@mui/material";
 import LikeButton from "../../components/LikeButton/index";
+<<<<<<< HEAD
 import DOMPurify from "dompurify";
 import AccueilCard from "../../components/AccueilCard/AccueilCard";
+=======
+import DOMPurify from 'dompurify';
+import { Link } from "react-router-dom";
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
 
 const CustomSlide = ({
   history,
@@ -841,6 +846,7 @@ const HomeScreen = ({
           </div>
         )}
 
+<<<<<<< HEAD
         {(events || []).length > 0 && (
           <div className="section-event container pb-5">
             <SectionTitle title="event.title" />
@@ -865,6 +871,65 @@ const HomeScreen = ({
             >
               {t("button.see_more")} <FaArrowRight className="ml-1" />
             </Button>
+=======
+{(events || []).length > 0 && (
+        <div className="section-event container pb-5">
+          <SectionTitle title="event.title" />
+          <div className="row g-2">
+            {(events || [])
+              .sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut))
+              .slice(0, 4)
+              .map((item, index) => (
+                <div className="col-md-6 col-lg-4" key={item.id}>
+                  <div className="event-item shadow">
+                    <div className="event-image">
+                      <img src={item.image ? item.image : placeholder} alt="" />
+                    </div>
+                    <div className="event-hover p-3">
+                      <div className="w-100">
+                        <div className="fw-bolder event-title">{item.libelle}</div>
+                        <div className="row gx-3 gy-2 mb-2">
+                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                            <FaCalendarCheck size={15} fill="#c34839" className="me-1" />
+                            {moment(item.date_debut).format('DD MMMM YYYY')}
+                          </div>
+                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                            <FaClock size={15} fill="#c34839" className="me-1" />
+                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`)).format('HH[H]mm')} -{' '}
+                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`))
+                              .add(item.duree, 'hours')
+                              .format('HH[H]mm')}
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center">
+                          {!item.isPast && new Date(item.date_debut) > new Date() && item.places > item.total_reserve && (
+                          <Link
+                            to={`event/${item.id}/paiement`}
+                            size="small"
+                            className="mr-2"
+                            type="submit"
+                            variant="contained"
+                            onClick={() => openParticipate(item)}
+                          >
+                            {t("button.participer")}
+                          </Link>
+                          )}
+                          <Link
+                          to={`events/${item.id}`}
+                          size="small"
+                          type="button"
+                          variant="contained"
+                          color="white"
+                        >
+                          {t("button.savoir")}
+                        </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+>>>>>>> ff0aea0f2bef36a120f92b1f6eca1f736fb3a5d0
           </div>
         )}
 
