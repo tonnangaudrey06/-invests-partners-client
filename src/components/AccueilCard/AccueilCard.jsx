@@ -80,6 +80,7 @@ export default function AccueilCard({ item, t, type, onClickDetail }) {
                 new Date(item.date_debut) > new Date() &&
                 item.places > item.total_reserve && (
                   <Button
+                    disabled={new Date(item.date_fin) < new Date()}
                     size="small"
                     type="submit"
                     variant="contained"

@@ -106,8 +106,9 @@ export default function CardEvent({ item, t }) {
           >
             {t("button.savoir")}
           </Button>
-          {!item.isPast && item.places > item.total_reserve && (
+          {!item.isPast && item.places > item.total_reserve (
             <Button
+              disabled={new Date(item.date_fin) < new Date()}
               variant="contained"
               color="primary"
               className="btn-rounded btn-default px-2"
