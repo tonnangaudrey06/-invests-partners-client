@@ -1,7 +1,8 @@
 {
     "app": {
         "free": "Gratuit",
-        "pay": "Payant"
+        "pay": "Payant",
+        "price": "Prix"
     },
     "button": {
         "conseiller": "Parler à un conseiller",
@@ -114,10 +115,6 @@
     "partner": {
         "title": "Nos partenaires",
         "text": "IP INVESTMENT S.A. s'assure de vous offrir le meilleur accompagnement possible dans vos projects, et s'entoure ainsi de partenaires de qualité qui ont une maitrise de l'environnement économique. Ce réseau de partenaires a vocation à s'élargir afin de répondre au mieux à vos attentes."
-    },
-    "actualite": {
-        "title": "Nos actualités",
-        "text":"IP INVESTMENT S.A. vous donne des actualités en fonction des secteurs d'activité."
     },
     "projet_ip": {
         "title": "Nos projets"
@@ -252,6 +249,15 @@
             }
         }
     },
+    "actualite": {
+        "title": "Nos actualités",
+        "header": "The right pan-African platform for your investments and the management of your projects",
+        "text": "IP INVESTMENT S.A. vous donne des actualités en fonction des secteurs d'activité.",
+        "sub_title": {
+            "_1": "Ce mois",
+            "_2": "Nos Actualités"
+        }
+    },
     "header": {
         "home": "Accueil",
         "about": "Qui sommes nous?",
@@ -260,6 +266,7 @@
         "logout": "Déconnexion",
         "board": "Tableau de board",
         "signup": "Créer mon compte",
+        "actuality": "Actualités",
         "signin": "Connexion",
         "contact": "Contacts"
     },
@@ -283,7 +290,8 @@
         "copyright": "Copyright 2021 Tous droits réservés à IP INVESTMENT S.A."
     },
     "not_found": {
-        "event": "Aucun évènement pour l'instant"
+        "event": "Aucun évènement pour l'instant",
+        "actualite": "Aucune actualité pour l'instant"
     },
     "date": {
         "time_format": "De {{start}} à {{end}}"

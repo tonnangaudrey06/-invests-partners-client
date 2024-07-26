@@ -1,7 +1,8 @@
 {
     "app": {
         "free": "Free",
-        "pay": "Not free"
+        "pay": "Not free",
+        "price": "Price"
     },
     "button": {
         "conseiller": "Talk to a consultant",
@@ -246,6 +247,15 @@
             }
         }
     },
+    "actualite": {
+        "title": "Our Actualities",
+        "header": "The right pan-African platform for your investments and the management of your projects",
+        "text": "Take this opportunity, interact with advisors and begin the journey to financial independence.",
+        "sub_title": {
+            "_1": "This month",
+            "_2": "Other events"
+        }
+    },
     "header": {
         "home": "Home",
         "about": "About us",
@@ -253,6 +263,7 @@
         "event": "Events",
         "logout": "Logout",
         "board": "Dashboard",
+        "actuality": "Actualities",
         "signup": "Create my account",
         "signin": "Sign in",
         "contact": "Contacts"
@@ -277,7 +288,8 @@
         "copyright": "Copyright 2021 All rights reserved to IP INVESTMENT S.A."
     },
     "not_found": {
-        "event": "No event for the moment"
+        "event": "No event for the moment",
+        "actualite": "No actuality for the moment"
     },
     "date": {
         "time_format": "From {{start}} to {{end}}"

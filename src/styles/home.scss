@@ -602,6 +602,15 @@
   color: white;
 }
 
+.description{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  margin-bottom: 0;
+}
+
 .event-description {
   margin-bottom: 15px;
   color: #bbbbbb;

@@ -33,7 +33,6 @@ import {
 import { sleep } from "../../core/utils/helpers";
 import { useParams } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
-import useGeoLocation from "react-ipgeolocation";
 
 const Alert = forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

@@ -7,7 +7,7 @@ import placeholder from '../../assets/img/ip-13.jpg';
 import '../../styles/event.scss';
 
 import { GoCalendar, GoLocation } from 'react-icons/go';
-import { Box, LinearProgress, CircularProgress, Button as Btn } from '@mui/material';
+import { CircularProgress, Button as Btn } from '@mui/material';
 
 import React from 'react';
 import { useHistory } from "react-router-dom"

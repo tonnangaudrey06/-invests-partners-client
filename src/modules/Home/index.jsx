@@ -1,18 +1,16 @@
 import "../../styles/home.scss";
 import "reactjs-popup/dist/index.css";
 
-
-import React, { Fragment, useState  } from "react";
+import React, { Fragment, useState } from "react";
 import Popup from "reactjs-popup";
 
 import { Container, SectionTitle } from "../../components";
 
 import { HomeData } from "../../data";
-import placeholder from "../../assets/img/ip-13.jpg";
 
 import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import { Badge } from "react-bootstrap";
 
@@ -20,38 +18,28 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FormControl from "@mui/material/FormControl";
 
-
 import BannerSlider from "../../components/Slider";
 
 import { moneyFormat, millionFormat } from "../../core/utils/helpers";
 
 import "react-phone-number-input/style.css";
 
-import moment from "moment";
 import "moment/locale/fr";
 
 import { GrMail } from "react-icons/gr";
-import {
-  FaArrowLeft,
-  FaArrowRight,
-  FaCheck
-} from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
 import { RiEyeFill, RiTeamLine, RiCoinsLine } from "react-icons/ri";
 import { MdPhoneInTalk } from "react-icons/md";
 import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 
-import {
-  AppService,
-  EventService,
-  MessageService,
-} from "../../core/services";
+import { AppService, EventService, MessageService } from "../../core/services";
 
 import { withTranslation } from "react-i18next";
 
 import { connect } from "react-redux";
 import { Button, CircularProgress } from "@mui/material";
 import LikeButton from "../../components/LikeButton/index";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 import AccueilCard from "../../components/AccueilCard/AccueilCard";
 
 const CustomSlide = ({
@@ -148,7 +136,7 @@ const CustomSlide = ({
   const goToDetails = () => {
     history.push(`projets/${projet.id}/details`);
   };
-  
+
   return (
     <>
       <div className="mx-4 my-2 projet-ip-item shadow-sm">
@@ -275,7 +263,6 @@ const CustomSlide = ({
   );
 };
 
-
 const RiEyeFillIcon = React.forwardRef((props) => {
   return <RiEyeFill {...props} />;
 });
@@ -310,17 +297,16 @@ const HomeScreen = ({
 
   const [pageLoading, setPageLoading] = React.useState(true);
 
-
   //const sortedEvents = events.sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut));
 
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 2, 
+    slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true, 
-    autoplaySpeed: 1000, 
+    autoplay: true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1024,
@@ -330,14 +316,14 @@ const HomeScreen = ({
         },
       },
       {
-        breakpoint: 600, 
+        breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 480, 
+        breakpoint: 480,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -345,8 +331,6 @@ const HomeScreen = ({
       },
     ],
   };
-
-  
 
   const actualitesettings = {
     dots: true,
@@ -380,41 +364,38 @@ const HomeScreen = ({
       },
     ],
   };
-  
 
   function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString();
   }
 
   const processDescription = (htmlString) => {
-    const div = document.createElement('div');
-        div.innerHTML = htmlString;
+    const div = document.createElement("div");
+    div.innerHTML = htmlString;
 
-        let textContent = div.textContent || div.innerText || '';
-        if (textContent.length > 10) {
-            textContent = textContent.substring(0, 20) + '...';
-        }
+    let textContent = div.textContent || div.innerText || "";
+    if (textContent.length > 10) {
+      textContent = textContent.substring(0, 20) + "...";
+    }
 
-        let truncatedHTML = div.innerHTML;
+    let truncatedHTML = div.innerHTML;
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(truncatedHTML, 'text/html');
-        const images = doc.getElementsByTagName('img');
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(truncatedHTML, "text/html");
+    const images = doc.getElementsByTagName("img");
 
-        for (let img of images) {
-            img.style.width = '50px';
-            img.style.height = '50px';
-            img.style.float = 'left';
-            img.style.marginRight = '10px';
-        }
-    
+    for (let img of images) {
+      img.style.width = "50px";
+      img.style.height = "50px";
+      img.style.float = "left";
+      img.style.marginRight = "10px";
+    }
+
     return div.innerHTML;
-};
-
+  };
 
   const [selectedActualite, setSelectedActualite] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
 
   const openPopup = (actualite) => {
     setSelectedActualite(actualite);
@@ -427,7 +408,6 @@ const HomeScreen = ({
   };
 
   let slider = new Slider(settings);
-
 
   const loadDatas = async () => {
     setPageLoading(true);
@@ -449,10 +429,9 @@ const HomeScreen = ({
         eventsData,
         expertData,
       ] = values;
-      console.log(actualityData);
       setSliders(slidesData?.data?.data);
       setPartenaires(partnersDatas?.data?.data);
-      console.log(actualityData?.data)
+      console.log(actualityData?.data);
       setActualites(actualityData?.data);
       setProjets(projectsData?.data?.data);
       setEvents(eventsData?.data?.data);
@@ -477,7 +456,6 @@ const HomeScreen = ({
   React.useEffect(() => {
     setLang(language);
   }, [language]);
-
 
   const goToProfile = () => {
     history.push("/investor/profil");
@@ -712,46 +690,85 @@ const HomeScreen = ({
           </div>
         )}
 
-      {isPopupOpen && (
-        <div className="popup">
-          <div className="popup-content">
-          <button className="close-popup" onClick={closePopup}>X</button>
-            <div className="popup-inner">
-              <div className="popup-image-container">
-                <img src={selectedActualite.image} alt="Actualité" className="popup-image" />
-              </div>
-              <div className="popup-text">
-                <h3 className="popup-libelle">{selectedActualite.libelle}</h3>
-                <p>{selectedActualite.secteur_libelle}</p>
-                <div
-                  className="popup-description"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedActualite.description) }}
-                />
-                <p className="popup-date">Publié le : {new Date(selectedActualite.created_at).toLocaleDateString()}</p>
-                {/* Ajoutez d'autres détails ici si nécessaire */}
+        {isPopupOpen && (
+          <div className="popup">
+            <div className="popup-content">
+              <button className="close-popup" onClick={closePopup}>
+                X
+              </button>
+              <div className="popup-inner">
+                <div className="popup-image-container">
+                  <img
+                    src={selectedActualite.image}
+                    alt="Actualité"
+                    className="popup-image"
+                  />
+                </div>
+                <div className="popup-text">
+                  <h3 className="popup-libelle">{selectedActualite.libelle}</h3>
+                  <p>{selectedActualite.secteur_libelle}</p>
+                  <div
+                    className="popup-description"
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(selectedActualite.description),
+                    }}
+                  />
+                  <p className="popup-date">
+                    Publié le :{" "}
+                    {new Date(
+                      selectedActualite.created_at
+                    ).toLocaleDateString()}
+                  </p>
+                  {/* Ajoutez d'autres détails ici si nécessaire */}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
         {(projets || []).length > 0 && (
           <div className="section-projet py-5">
             <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
-                <Slider ref={(c) => (slider = c)} {...settings}>
-                  {(projets || []).map((item, index) => (
+                {/* {projets.length <= 2 ? (
+                  projets.map((projet) => (
                     <CustomSlide
+                      key={projet.id}
+                      projet={projet}
                       history={history}
-                      onOpenModal={(value) => setModalOpen(value)}
-                      projet={item}
                       t={t}
-                      user={user}
-                      key={index}
+                      onOpenModal={(value) => setModalOpen(value)}
                     />
-                  ))}
-                </Slider>
+                  ))
+                ) : (
+                  <Slider ref={(c) => (slider = c)} {...settings}>
+                    {(projets || []).map((projet) => (
+                      <CustomSlide
+                        history={history}
+                        onOpenModal={(value) => setModalOpen(value)}
+                        projet={projet}
+                        t={t}
+                        user={user}
+                        key={projet.id}
+                      />
+                    ))}
+                  </Slider>
+                )} */}
+                <Slider ref={(c) => (slider = c)} {...settings}>
+                    {(projets || []).map((projet) => (
+                      <CustomSlide
+                        history={history}
+                        onOpenModal={(value) => setModalOpen(value)}
+                        projet={projet}
+                        t={t}
+                        user={user}
+                        key={projet.id}
+                      />
+                    ))}
+                  </Slider>
+                
               </div>
+
               <div>
                 <span className="projet-ip-button-left " onClick={previous}>
                   <IoArrowBack />
@@ -824,50 +841,57 @@ const HomeScreen = ({
           </div>
         )}
 
-{(events || []).length > 0 && (
-        <div className="section-event container pb-5">
-          <SectionTitle title="event.title" />
-          <div className="row g-2">
-            {(events || [])
-              .sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut))
-              .slice(0, 3)
-              .map((item) => <AccueilCard key={item.id} item={item} t={t} onClickDetail={() => history.push(`/events/${item.id}`)} />)}
-          </div>
-          <Button variant="contained" color="primary" className="btn-rounded d-block mt-4 mx-auto btn-default px-2" onClick={(e) => history.push(`/events`)}>
-            {t('button.participer')} <FaArrowRight className="ml-1"/>
-          </Button>
-        </div>
-      )}
-
-    {(actualites || []).length > 0 && (
-        <div className="section-event container py-5">
-          <SectionTitle title="actualite.title" />
-          <div className="row g-2">
-            {actualites.slice(0, 3).map((item) => <AccueilCard type="actualite" key={item.id} item={item} t={t} onClickDetail={() => openPopup(item)}/>)}
-          </div>
-          <Button variant="contained" color="primary" className="btn-rounded d-block mt-4 mx-auto btn-default px-2" onClick={(e) => history.push(`/actualites`)}>
-            {t('button.participer')} <FaArrowRight className="ml-1"/>
-          </Button>
-              {/* <Slider {...actualitesettings}>
-                {actualites.map((item, index) => (
-                  <div className="actualite-item" key={index}>
-                    <img
-                      className="actualite-image"
-                      alt="Partenaires"
-                      src={item.image}
-                    />
-                    <div className="actualite-content">
-                      <h3 className="actualite-secteur">{item.secteur_libelle}</h3>
-                      <p className="actualite-libelle">{item.libelle}</p>
-                      <p className="actualite-description" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(processDescription(item.description)) }} />
-                      <p className="actualite-date">Publié le : {new Date(item.created_at).toLocaleDateString()}</p>
-                      <button onClick={() => openPopup(item)}>En savoir plus</button>
-                    </div>
-                  </div>
+        {(events || []).length > 0 && (
+          <div className="section-event container pb-5">
+            <SectionTitle title="event.title" />
+            <div className="row g-2">
+              {(events || [])
+                .sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut))
+                .slice(0, 3)
+                .map((item) => (
+                  <AccueilCard
+                    key={item.id}
+                    item={item}
+                    t={t}
+                    onClickDetail={() => history.push(`/events/${item.id}`)}
+                  />
                 ))}
-              </Slider> */}
-        </div>
-      )}
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              className="btn-rounded d-block mt-4 mx-auto btn-default px-2"
+              onClick={(e) => history.push(`/events`)}
+            >
+              {t("button.see_more")} <FaArrowRight className="ml-1" />
+            </Button>
+          </div>
+        )}
+
+        {(actualites || []).length > 0 && (
+          <div className="section-event container py-5">
+            <SectionTitle title="actualite.title" />
+            <div className="row g-2 justify-content-center">
+              {actualites.slice(0, 3).map((item) => (
+                <AccueilCard
+                  type="actualite"
+                  key={item.id}
+                  item={item}
+                  t={t}
+                  onClickDetail={() => history.push(`/actualites/${item.id}`)}
+                />
+              ))}
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              className="btn-rounded d-block mt-4 mx-auto btn-default px-2"
+              onClick={(e) => history.push(`/actualites`)}
+            >
+              {t("button.see_more")} <FaArrowRight className="ml-1" />
+            </Button>
+          </div>
+        )}
 
         <Popup
           position="top center"
@@ -897,12 +921,10 @@ const HomeScreen = ({
             </div>
           </div>
         </Popup>
-
       </Container>
     </Fragment>
   );
 };
-
 
 const mapStateToProps = (state) => ({
   language: state.app.language,

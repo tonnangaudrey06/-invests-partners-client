@@ -94,6 +94,10 @@ const Header = ({ removeUser, auth, headerActive }) => {
             {t("header.event")}
           </NavLink>
 
+          <NavLink to="/actualites" className="header-link" activeClassName="active">
+            {t("header.actuality")}
+          </NavLink>
+
           <NavLink to="/contact" className="header-link" activeClassName="active">
             {t("header.contact")}
           </NavLink>

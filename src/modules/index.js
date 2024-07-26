@@ -12,5 +12,7 @@ import DashboardInvestor from './Investor'
 import Event from './Event'
 import EventDetails from './Event/Details'
 import Paiement from './Event/Paiement'
+import Actualite from "./Actualite";
+import ActualiteDetails from "./Actualite/Details";
 
-export { Home, Auth, Projet, ProjetSecteur, ProjetTown, Dashboard, ProjetDetails, About, Contact, DashboardInvestor, Event, Paiement, ResetPassword, EventDetails }
+export { Home, Auth, Projet, ProjetSecteur, ProjetTown, Dashboard, ProjetDetails, About, Contact, DashboardInvestor, Event, Paiement, ResetPassword, EventDetails, Actualite, ActualiteDetails }

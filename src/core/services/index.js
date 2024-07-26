@@ -10,10 +10,12 @@ import AppService from './AppService'
 import ContactService from "./ContactService";
 import EventService from './EventService';
 import PaiementService from './PaiementService';
+import ActualiteService from './ActualiteService'
 
 export {
     AppService,
     AuthService,
+    ActualiteService,
     MembreService,
     SecteurService,
     UserService,

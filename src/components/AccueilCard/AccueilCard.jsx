@@ -10,6 +10,12 @@ import { GoLocation } from "react-icons/go";
 export default function AccueilCard({ item, t, type, onClickDetail }) {
 
   const history = useHistory();
+
+  const badgeContent = () => {
+    if (type === "actualite") return item.secteur_libelle
+    else if (item.price) return `${t("app.price")} : ${item?.price}`
+    return (t("app.free"))
+  }
   
   return (
     <div className="col-md-6 col-lg-4">
@@ -19,13 +25,13 @@ export default function AccueilCard({ item, t, type, onClickDetail }) {
         </div>
         <div className="event-hover p-3">
           <div className="w-100 d-flex justify-content-between flex-column">
-            <div className="d-flex gap-1 mb-2">
+            <div className="d-flex gap-1 mb-1">
               <Badge
                 pill
                 bg="primary"
                 style={{ width: "fit-content", display: "flex", gap: "4px" }}
               >
-                {type === "actualite" ? item.secteur_libelle : <><GoLocation />{item.lieu}</>}
+                {badgeContent()}
               </Badge>
             </div>
             <div className="">
@@ -39,9 +45,9 @@ export default function AccueilCard({ item, t, type, onClickDetail }) {
                       fill="#c34839"
                       className="me-1"
                     />
-                    Du {moment(item.date_debut).format("DD MMMM YYYY")}
+                    {moment(item.date_debut).format("DD MMMM YYYY")}
                     {item.date_fin
-                      ? ` au ${moment(item.date_fin).format("DD MMMM YYYY")}`
+                      ? ` - ${moment(item.date_fin).format("DD MMMM YYYY")}`
                       : ""}
                   </div>
                 </div>
@@ -52,10 +58,11 @@ export default function AccueilCard({ item, t, type, onClickDetail }) {
                     new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`)
                   ).format("HH[H]mm")}
                   {item.heure_fin &&
-                    ` à ${moment(new Date(`Thu, 01 Jan 1970 ${item.heure_fin}`))
+                    ` - ${moment(new Date(`Thu, 01 Jan 1970 ${item.heure_fin}`))
                       .add(item.duree, "hours")
                       .format("HH[H]mm")}`}
                 </div>}
+                {!type && <div className="d-flex align-items-center gap-2"><GoLocation size={15} fill="#c34839" className="me-1"/>{item.lieu}</div>}
               </div>
             </div>
             <div className="d-flex gap-2 align-items-center justify-content-end">
@@ -78,7 +85,7 @@ export default function AccueilCard({ item, t, type, onClickDetail }) {
                     variant="contained"
                     onClick={(e) => history.push(`events/${item.id}/paiement`)}
                   >
-                    {t("button.see_more")}
+                    {t("button.participer")}
                   </Button>
                 )}
             </div>

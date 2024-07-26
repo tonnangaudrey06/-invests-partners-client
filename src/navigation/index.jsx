@@ -15,6 +15,8 @@ import {
   Paiement,
   ResetPassword,
   EventDetails,
+  Actualite,
+  ActualiteDetails
 } from "../modules";
 
 const AppNavigator = (props) => {
@@ -27,6 +29,8 @@ const AppNavigator = (props) => {
       <Route exact path="/events" component={Event} />
       <Route exact path="/events/:id" component={EventDetails} />
       <Route exact path="/events/:id/paiement" component={Paiement} />
+      <Route exact path="/actualites" component={Actualite} />
+      <Route exact path="/actualites/:id" component={ActualiteDetails} />
       <Route exact path="/projets" component={Projet} />
       <Route exact path="/projets/:section" component={ProjetSecteur} />
       <Route exact path="/projets/:projet/details" component={ProjetDetails} />

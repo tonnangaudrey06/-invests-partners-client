@@ -8,64 +8,33 @@ import { BiMoney } from 'react-icons/bi';
 import {
   Box,
   Button,
-  FormControl,
-  FormControlLabel,
   LinearProgress,
-  Radio,
-  RadioGroup,
-  TextField,
-  Snackbar,
-  Grid
 } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import MuiAlert from '@mui/material/Alert';
-
-import { Modal } from 'react-bootstrap';
 
 import eventImg from '../../assets/img/events.png';
 import ene from '../../assets/img/ip-13.jpg';
 
 import '../../styles/event.scss';
 
-import { moneyFormat, sleep } from '../../core/utils/helpers'
+import { moneyFormat } from '../../core/utils/helpers'
 
 import moment from 'moment';
 import 'moment/locale/fr';
 
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-
-import useGeoLocation from "react-ipgeolocation";
 
 import { connect } from "react-redux";
 
-import { EventService, CampayService, PaiementService } from '../../core/services';
+import { EventService } from '../../core/services';
 
 import { withTranslation } from "react-i18next";
 import { useHistory } from 'react-router-dom';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const EventDetails = ({ t, match, user }) => {
   const { params: { id } } = match;
   const history = useHistory()
 
   const [event, setEvent] = React.useState(null);
-  const [visible, setVisible] = React.useState(false);
-  // const [loading, setLoading] = React.useState(false);
-  const [etat, setEtat] = React.useState({
-    message: '',
-    error: false,
-    success: false,
-  })
-  const [participation, setParticipation] = React.useState({
-    nom_complet: '',
-    email: '',
-    telephone: '',
-    places: 0
-  })
 
   const onParticipate = () => {
     history.push(`/events/${event.id}/paiement`);
@@ -85,16 +54,6 @@ const EventDetails = ({ t, match, user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  React.useEffect(() => {
-    if (user) {
-      setParticipation({
-        nom_complet: user?.nom_complet,
-        email: user?.email,
-        telephone: user?.telephone,
-        places: 0
-      })
-    }
-  }, [user])
 
   return (
     <Container header headerActive active="Events" footer>
