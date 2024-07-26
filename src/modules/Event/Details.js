@@ -193,8 +193,8 @@ const EventDetails = ({ t, match, user }) => {
         {event?.partenaires.length > 0 && (
           <>
             <div className="lh-base fs-6 mb-1">Partenaires</div>
-            <div className="d-flex align-items-center">
-              {event?.partenaires.map(partenaire => <img key={partenaire.id} alt="Partenaire profile" src={partenaire.image} style={{width: "30px", height: "30px", borderRadius: "9999px"}}/>)}
+            <div className="d-flex align-items-center w-full flex-wrap gap-2">
+              {event?.partenaires.map(partenaire => <img key={partenaire.id} alt="Partenaire profile" src={partenaire.image} style={{width: "100px", objectFit: "cover"}}/>)}
             </div>
           </>
         )}
