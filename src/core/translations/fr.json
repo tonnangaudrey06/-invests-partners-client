@@ -16,8 +16,8 @@
         "back": "Retour"
     },
     "details": {
-        "join": "Telecharger le fichier join",
-        "noJoin": "Pas de fichier join"
+        "join": "Telecharger le fichier joint",
+        "noJoin": "Pas de fichier joint"
     },
     "service": {
         "title": "Nos services",
