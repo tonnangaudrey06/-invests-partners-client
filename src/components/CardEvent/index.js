@@ -99,7 +99,7 @@ export default function CardEvent({ item, t }) {
           style={{ marginTop: 40 }}
         >
           <Button
-            variant={!item?.prix && "contained"}
+            variant={!item?.prix && item?.prix === "undifined" && "contained"}
             color="primary"
             className="btn-rounded btn-default px-2"
             onClick={(e) => item.places ? history.push(`events/${item.id}`) : history.push(`actualites/${item.id}`)}

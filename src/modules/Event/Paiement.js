@@ -65,6 +65,7 @@ const Paiement = ({ history, t, user, language }) => {
     numero: "655278375",
   });
   const [paymentErrors, setPaymentErrors] = useState({});
+  const [message, setMessage] = useState("");
   const [event, setEvent] = useState(null);
   const [paiement, setPaiement] = useState({
     pending: false,
@@ -121,10 +122,6 @@ const Paiement = ({ history, t, user, language }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Cacher la modalde paiement
-  const hideParticipate = () => {
-    setPaymentModalOpen(false);
-  };
 
   const checkSeat = () => {
     if (validatePaymentForm()) {
@@ -150,8 +147,7 @@ const Paiement = ({ history, t, user, language }) => {
   const handleParticipe = (trans = "") => {
     EventService.participate(event?.id, participation).then(
       async (rs) => {
-        hideParticipate();
-        
+        setPaymentModalOpen(false);
         if (event?.prix){
           await PaiementService.save(rs?.id, {
             trans_id: trans,
@@ -162,29 +158,13 @@ const Paiement = ({ history, t, user, language }) => {
             etat: "REUSSI",
             event: event?.id || id,
             participant: true
-        });
+          });
         }
+
         setEtat({
           error: false,
           success: true,
           message: "Votre réservation a été effectuée",
-        });
-        setParticipation({
-          nom: "",
-          prenom: "",
-          dateNais: new Date().toISOString().split("T")[0],
-          sexe: "M",
-          email: "",
-          ville: "",
-          numeroCNI: "",
-          telephone: "",
-          places: 1,
-          porteurProjet: "",
-          presentationUn: "",
-          presentationDeux: "",
-          environnement: "",
-          impact: "",
-          financement: "",
         });
       },
       (error) => {
@@ -207,6 +187,7 @@ const Paiement = ({ history, t, user, language }) => {
       methodPaiement: "OM",
       numero: "",
     });
+    setMessage("")
     setPaiement({
       pending: false,
       failed: false,
@@ -273,6 +254,8 @@ const Paiement = ({ history, t, user, language }) => {
               messageP = messageP + "Orange Money";
             }
 
+            setMessage(`${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`)
+
             setPaiement((prevData) => {
               return {
                 ...prevData,
@@ -282,6 +265,7 @@ const Paiement = ({ history, t, user, language }) => {
 
             countdown(rs.reference);
           } catch (error) {
+            setMessage("")
             setPaiement({ pending: false, failed: true, message: "" });
             console.error(error);
           }
@@ -717,6 +701,7 @@ const Paiement = ({ history, t, user, language }) => {
             }}
             helperText={paymentErrors.places}
           />
+          <p style={{textAlign: "center"}}>{message}</p>
         </DialogContent>
         <DialogActions
           sx={{
