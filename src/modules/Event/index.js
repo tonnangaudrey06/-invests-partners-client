@@ -1,4 +1,4 @@
-import { Container } from '../../components';
+ import { Container } from '../../components';
 
 import eventImg from '../../assets/img/events2.jpeg';
 import ene from '../../assets/img/ip-13.jpg';
@@ -333,7 +333,17 @@ const Event = ({ t, user }) => {
                             </h3>
                             <div className="d-flex align-items-center w-100 mt-1">
                                 <GoCalendar />
-                                <p className="lh-sm fs-6 ml-1">{moment(item.date_debut).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small></p>
+                                <p className="lh-sm fs-6 ml-1">
+                                    {moment(item.date_debut).format("DD MMMM YYYY")} - 
+                                    {item.date_fin ? moment(item.date_fin).format("DD MMMM YYYY") : ''}
+                                    |
+                                    <small>
+                                        {t('date.time_format', {
+                                        start: item.heure_debut ? moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm") : ' ',
+                                        end: item.heure_fin ? moment(new Date('Thu, 01 Jan 1970 ' + item.heure_fin)).add(+item.duree, 'hours').format('HH[H]mm') : ' '
+                                        })}
+                                    </small>
+                                </p>
                             </div>
                             <div className="d-flex align-items-center w-100 mt-1">
                                 <GoLocation />
@@ -346,7 +356,12 @@ const Event = ({ t, user }) => {
                                 </Box>
                             </Box>
                             <div className="d-flex justify-content-between align-items-center w-100">
+                            {!item.isPast && (
+                            (new Date(item.date_debut) <= new Date() && new Date(item.date_fin) > new Date()) || 
+                            (new Date(item.date_debut) > new Date() && new Date(item.date_fin) > new Date())
+                          ) && item.places > item.total_reserve && (
                                 <Btn disabled={item.places === item.total_reserve} variant="contained" color="primary" className="btn-rounded btn-default px-2" onClick={(e) => onParticipate(item)}>{item.places === item.total_reserve ? t('button.complet') : t('button.participer')}</Btn>
+                            )}
                                 <Btn color="primary" className="btn-rounded btn-default px-2" onClick={(e) => history.push(`events/${item.id}`)}>{t('button.savoir')}</Btn>
                             </div>
                         </div>
@@ -387,7 +402,17 @@ const Event = ({ t, user }) => {
                             </h3>
                             <div className="d-flex align-items-center w-100 mt-1">
                                 <GoCalendar />
-                                <p className="lh-sm fs-6 ml-1">{moment(item.date_debut).format("DD MMMM YYYY")} | <small>{t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).add(+item.duree, 'hours').format('HH[H]mm') })}</small></p>
+                                <p className="lh-sm fs-6 ml-1">
+                                    {moment(item.date_debut).format("DD MMMM YYYY")} - 
+                                    {item.date_fin ? moment(item.date_fin).format("DD MMMM YYYY") : ''}
+                                    |
+                                    <small>
+                                        {t('date.time_format', {
+                                        start: item.heure_debut ? moment(new Date('Thu, 01 Jan 1970 ' + item.heure_debut)).format("HH[H]mm") : ' ',
+                                        end: item.heure_fin ? moment(new Date('Thu, 01 Jan 1970 ' + item.heure_fin)).add(+item.duree, 'hours').format('HH[H]mm') : ' '
+                                        })}
+                                    </small>
+                                </p>
                             </div>
                             <div className="d-flex align-items-center w-100 mt-1">
                                 <GoLocation />

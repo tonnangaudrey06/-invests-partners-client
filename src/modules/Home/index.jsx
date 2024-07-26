@@ -1110,20 +1110,22 @@ const HomeScreen = ({
                       <div className="w-100">
                         <div className="fw-bolder event-title">{item.libelle}</div>
                         <div className="row gx-3 gy-2 mb-2">
-                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <FaCalendarCheck size={15} fill="#c34839" className="me-1" />
-                            {moment(item.date_debut).format('DD MMMM YYYY')}
-                          </div>
-                          <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                            <FaClock size={15} fill="#c34839" className="me-1" />
-                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`)).format('HH[H]mm')} -{' '}
-                            {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`))
-                              .add(item.duree, 'hours')
-                              .format('HH[H]mm')}
-                          </div>
+                        <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                          <FaCalendarCheck size={15} fill="#c34839" className="me-1" />
+                          Du {moment(item.date_debut).format('DD MMMM YYYY')}
+                          {item.date_fin ? ` au ${moment(item.date_fin).format('DD MMMM YYYY')}` : ''}
+                        </div>
+                        <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                          <FaClock size={15} fill="#c34839" className="me-1" />
+                          {moment(new Date(`Thu, 01 Jan 1970 ${item.heure_debut}`)).format('HH[H]mm')}
+                        {item.heure_fin && ` - ${moment(new Date(`Thu, 01 Jan 1970 ${item.heure_fin}`)).add(item.duree, 'hours').format('HH[H]mm')}`}
+                        </div>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
-                          {!item.isPast && new Date(item.date_debut) > new Date() && item.places > item.total_reserve && (
+                        {!item.isPast && (
+                            (new Date(item.date_debut) <= new Date() && new Date(item.date_fin) > new Date()) || 
+                            (new Date(item.date_debut) > new Date() && new Date(item.date_fin) > new Date())
+                          ) && item.places > item.total_reserve && (
                           <Button
                             size="small"
                             className="mr-2"

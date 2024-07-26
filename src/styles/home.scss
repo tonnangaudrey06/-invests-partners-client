@@ -651,12 +651,89 @@
   max-width: 100%;
 }
 
-.img-banner {
+.section-banner {
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  margin-bottom: 70px;
+  min-height: 520px;
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+  background-color: #c34839;
+  position: relative;
 }
+
+.section-banner .seperator {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  height: 100%;
+  clip-path: polygon(0 0, 42vw 0%, 32vw 100%, 0 100%);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url("../assets/img/ip-14.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: -30px center;
+
+  @media screen and (max-width: 940px) {
+    display: none;
+  }
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.banner-wrapper {
+  position: relative;
+  width: 55%;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 5em;
+
+  @media screen and (max-width: 940px) {
+    width: 100%;
+    padding: 2em;
+  }
+}
+
+.banner-content h5 {
+  font-size: 3rem;
+  font-family: "Building", sans-serif;
+}
+
+.banner-content p,
+.banner-content ul li {
+  font-size: 1.2rem;
+}
+
+.banner-button {
+  margin-top: 2em;
+  width: max-content;
+}
+
+.banner-button .next {
+  margin-left: 0.4em;
+  font-size: 2em;
+
+  @media screen and (max-width: 940px) {
+    font-size: 1.5em;
+  }
+}
+
+.banner-button .previous {
+  margin-right: 0.4em;
+  font-size: 2em;
+
+  @media screen and (max-width: 940px) {
+    font-size: 1.5em;
+  }
+}
+
 
 /**
   SLIDER

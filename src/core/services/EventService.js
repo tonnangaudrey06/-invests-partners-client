@@ -7,6 +7,7 @@ class EventService {
         return new Promise(async (resolve, reject) => {
             try {
                 const rs = await http.get(source);
+                console.log(rs);
                 resolve(rs);
             } catch (error) {
                 reject(error);
@@ -50,16 +51,16 @@ class EventService {
         });
     }
 
-    participateElement(data) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const rs = await http.post(`${source}/participants`, data);
-                resolve(rs.data);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
+    // participateElement(data) {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             const rs = await http.post(`${source}/participants`, data);
+    //             resolve(rs.data);
+    //         } catch (error) {
+    //             reject(error);
+    //         }
+    //     });
+    // }
 
     checkSeat(id, data) {
         return new Promise(async (resolve, reject) => {

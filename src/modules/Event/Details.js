@@ -305,19 +305,22 @@ const EventDetails = ({ t, match, user }) => {
           </h3>
 
           <div className="d-flex flex-wrap align-items-center">
-            {event?.date_debut &&
+            {event?.date_debut && (
               <div className="d-flex align-items-center pt-2 pe-4">
                 <GoCalendar />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>
                   {moment(event?.date_debut).format("DD MMMM YYYY")}
+                  {event?.date_fin ? ` - ${moment(event?.date_fin).format("DD MMMM YYYY")}` : ''}
                 </span>
               </div>
-            }
+            )}
             {event?.heure_debut &&
               <div className="d-flex align-items-center pt-2 pe-4">
                 <GoClock />
                 <span style={{ marginLeft: 10, fontSize: 14 }}>
-                  {t('date.time_format', { start: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).format("HH[H]mm"), end: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).add(+event?.duree, 'hours').format('HH[H]mm') })}
+                {t('date.time_format', { 
+                  start: moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_debut)).format("HH[H]mm"),
+                  end: event?.heure_fin ? moment(new Date('Thu, 01 Jan 1970 ' + event?.heure_fin)).format("HH[H]mm"):'' })}
                 </span>
               </div>
             }
