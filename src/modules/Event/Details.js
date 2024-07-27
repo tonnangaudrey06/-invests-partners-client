@@ -118,6 +118,7 @@ const EventDetails = ({ t, match, user }) => {
                 fullWidth
                 size="small"
                 variant="contained"
+                disabled={event.date_fin || new Date(event?.date_fin) < new Date()}
                 color="primary"
                 className="btn-rounded btn-default px-2"
                 onClick={(e) => onParticipate()}
@@ -192,7 +193,7 @@ const EventDetails = ({ t, match, user }) => {
           )}
         {event?.partenaires.length > 0 && (
           <>
-            <div className="lh-base fs-6 mb-1">Partenaires</div>
+            <div className="lh-base fs-8 mb-1" style={{color: "#c34839", fontWeight: "bold"}}>Partenaires</div>
             <div className="d-flex align-items-center w-full flex-wrap gap-2">
               {event?.partenaires.map(partenaire => <img key={partenaire.id} alt="Partenaire profile" src={partenaire.image} style={{width: "100px", objectFit: "cover"}}/>)}
             </div>

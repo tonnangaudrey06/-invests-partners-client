@@ -730,7 +730,8 @@ const HomeScreen = ({
             <SectionTitle title="projet_ip.title" />
             <div className="projet-ip-container mb-3">
               <div className="projet-ip-wrapper">
-                {/* {projets.length <= 2 ? (
+                
+                {projets.length <= 2 ? (
                   projets.map((projet) => (
                     <CustomSlide
                       key={projet.id}
@@ -753,8 +754,8 @@ const HomeScreen = ({
                       />
                     ))}
                   </Slider>
-                )} */}
-                <Slider ref={(c) => (slider = c)} {...settings}>
+                )}
+                {/* <Slider ref={(c) => (slider = c)} {...settings}>
                     {(projets || []).map((projet) => (
                       <CustomSlide
                         history={history}
@@ -765,7 +766,7 @@ const HomeScreen = ({
                         key={projet.id}
                       />
                     ))}
-                  </Slider>
+                  </Slider> */}
                 
               </div>
 
