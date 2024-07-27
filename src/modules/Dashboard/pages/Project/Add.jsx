@@ -154,7 +154,19 @@ const ProjetAdd = (props) => {
   };
 
   const handleNext = () => {
-    if (activeStep === 1 && !doc_presentation) {
+    const labelTable = ["intitule", "secteur", "avancement", "pays_activite", "ville_activite", "description"]
+    let valid = true;
+
+    labelTable.forEach((label) => {
+      if ( projet[label].trim()+"" === "") {
+        valid = false
+        console.log(label, valid);
+      }
+    })
+    if(!doc_presentation){
+      valid = false
+    } 
+    if (activeStep === 1 && !valid) {
       setErrorMessage('Vérifier que les champs obligatoires ont bien été remplis.');
       return;
     }
@@ -985,6 +997,7 @@ const ProjetAdd = (props) => {
                     </h5>
                     <RadioGroup
                       row
+                      required
                       aria-label="etat"
                       name="row-etat-buttons-group"
                       value={projet.avancement}
@@ -1057,6 +1070,7 @@ const ProjetAdd = (props) => {
                   <FormControl sx={{ m: 1, width: "100%" }}>
                     <TextField
                       fullWidth
+                      required
                       size="small"
                       variant="filled"
                       type="url"
