@@ -31,15 +31,16 @@ import {
   PaiementService,
 } from "../../core/services";
 import { sleep } from "../../core/utils/helpers";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 
 const Alert = forwardRef((props, ref) => {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Paiement = ({ history, t, user, language }) => {
+const Paiement = ({ t, user, language }) => {
   const { id } = useParams();
+  const history = useHistory() 
 
   const [participation, setParticipation] = useState({
     nom: "Test",
@@ -89,7 +90,7 @@ const Paiement = ({ history, t, user, language }) => {
   // changement du formulaire informations personnelles
   const handleChange = (key, value) => {
     setParticipation((prevData) => {
-      return { ...prevData, [key]: value || 0};
+      return { ...prevData, [key]: value || 0 };
     });
   };
 
@@ -103,9 +104,7 @@ const Paiement = ({ history, t, user, language }) => {
   };
 
   const handleSuccessAlertClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
+    history.push(`/events/${id}`);
     setEtat((prevData) => {
       return { ...prevData, success: false };
     });
@@ -122,7 +121,6 @@ const Paiement = ({ history, t, user, language }) => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   const checkSeat = () => {
     if (validatePaymentForm()) {
@@ -144,58 +142,61 @@ const Paiement = ({ history, t, user, language }) => {
     }
   };
 
-  // Envoie des donnees vers le serveur
-  const handleParticipe = (trans = "") => {
-    EventService.participate(event?.id, participation).then(
-      async (rs) => {
-        setPaymentModalOpen(false);
-        if (event?.prix){
-          await PaiementService.save(rs?.id, {
-            trans_id: trans,
-            methode: paymentDetails.methodPaiement,
-            telephone: paymentDetails.numero,
-            montant: event?.prix * participation?.places,
-            type: "EVENT",
-            etat: "REUSSI",
-            event: event?.id || id,
-            participant: true
-          });
+  const payer = () => {
+    if (validatePaymentForm()) {
+      setParticipation({ ...participation, places: participation.places });
+      EventService.checkSeat(event?.id, participation).then(
+        async (rs) => {
+          setPaiement({ pending: true, failed: false, message: "" });
+          try {
+            const rs = await CampayService.payEvent(
+              "+237" + paymentDetails.numero,
+              event?.prix * participation?.places
+            );
+            let messageP = "La transaction ";
+            console.log("1. cheack seat participant");
+
+            if (paymentDetails.methodPaiement === "MOMO") {
+              messageP = messageP + "MTN Mobile Money";
+            }
+
+            if (paymentDetails.methodPaiement === "OM") {
+              messageP = messageP + "Orange Money";
+            }
+
+            setMessage(
+              `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`
+            );
+
+            setPaiement((prevData) => {
+              return {
+                ...prevData,
+                message: `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`,
+              };
+            });
+
+            countdown(rs.reference);
+          } catch (error) {
+            setMessage("");
+            setPaiement({ pending: false, failed: true, message: "" });
+            console.error(error);
+          }
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setEtat({ error: true, success: false, message: resMessage });
         }
-
-        setEtat({
-          error: false,
-          success: true,
-          message: "Votre réservation a été effectuée",
-        });
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setEtat({ error: true, success: false, message: resMessage });
-      }
-    );
+      );
+    }
   };
-
-  // Paiement effectue avec success
-  const payementDone = () => {
-    setPaymentModalOpen(false);
-    setPaymentDetails({
-      methodPaiement: "OM",
-      numero: "",
-    });
-    setMessage("")
-    setPaiement({
-      pending: false,
-      failed: false,
-      message: "",
-    });
-  };
-
+  
+  //Initiatition du paiement
   const countdown = async (refrence) => {
     let status = "PENDING";
     setPaiement({ ...paiement, pending: true, failed: false });
@@ -204,6 +205,7 @@ const Paiement = ({ history, t, user, language }) => {
     while (status === "PENDING" || status === "ERROR") {
       try {
         const rs = await CampayService.checkPayment(refrence);
+        console.log("2. Attente de paiement");
         status = rs.status;
         if (rs.status !== "PENDING") {
           break;
@@ -234,55 +236,58 @@ const Paiement = ({ history, t, user, language }) => {
     }
   };
 
-  const payer = () => {
-    if (validatePaymentForm()) {
-      setParticipation({ ...participation, places: participation.places });
-      EventService.checkSeat(event?.id, participation).then(
-        async (rs) => {
-          setPaiement({ pending: true, failed: false, message: "" });
-          try {
-            const rs = await CampayService.payEvent(
-              "+237" + paymentDetails.numero,
-              event?.prix * participation?.places
-            );
-            let messageP = "La transaction ";
+  // Paiement effectue avec success
+  const payementDone = () => {
+    console.log("3. Paiement Effectuer");
+    setPaymentDetails({
+      methodPaiement: "OM",
+      numero: "",
+    });
+    setMessage("");
+  };
 
-            if (paymentDetails.methodPaiement === "MOMO") {
-              messageP = messageP + "MTN Mobile Money";
-            }
-
-            if (paymentDetails.methodPaiement === "OM") {
-              messageP = messageP + "Orange Money";
-            }
-
-            setMessage(`${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`)
-
-            setPaiement((prevData) => {
-              return {
-                ...prevData,
-                message: `${messageP} a été initiée. Veuillez composer ${rs.ussd_code} sur votre téléphone pour valider la transaction.`,
-              };
-            });
-
-            countdown(rs.reference);
-          } catch (error) {
-            setMessage("")
-            setPaiement({ pending: false, failed: true, message: "" });
-            console.error(error);
-          }
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          setEtat({ error: true, success: false, message: resMessage });
+  // Envoie des donnees vers le serveur
+  const handleParticipe = (trans = "") => {
+    EventService.participate(event?.id, participation).then(
+      async (rs) => {
+        console.log("4. Participation Enregistrer");
+        if (event?.prix) {
+          await PaiementService.save(rs?.id, {
+            trans_id: trans,
+            methode: paymentDetails.methodPaiement,
+            telephone: paymentDetails.numero,
+            montant: event?.prix * participation?.places,
+            type: "EVENT",
+            etat: "REUSSI",
+            event: event?.id || id,
+            participant: true,
+          });
+          setPaiement({
+            pending: false,
+            failed: false,
+            message: "",
+          });
+          setPaymentModalOpen(false);
+          console.log("5. Paiement Enregistrer");
         }
-      );
-    }
+
+        setEtat({
+          error: false,
+          success: true,
+          message: "Votre réservation a été effectuée",
+        });
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setEtat({ error: true, success: false, message: resMessage });
+      }
+    );
   };
 
   // Validation du premier formulaire
@@ -290,18 +295,23 @@ const Paiement = ({ history, t, user, language }) => {
     e.preventDefault();
     const newErrors = {};
     let valid = true;
-    const requiredElements = ["nom", "prenom", "email", "ville", "numeroCNI", "telephone"]
+    const requiredElements = [
+      "nom",
+      "prenom",
+      "email",
+      "ville",
+      "numeroCNI",
+      "telephone",
+    ];
 
-    requiredElements.forEach(
-      (field) => {
-        if (participation[field].trim() === "") {
-          newErrors[field] = true;
-          valid = false;
-        } else {
-          newErrors[field] = false;
-        }
+    requiredElements.forEach((field) => {
+      if (participation[field].trim() === "") {
+        newErrors[field] = true;
+        valid = false;
+      } else {
+        newErrors[field] = false;
       }
-    );
+    });
 
     setErrors(newErrors);
     if (valid) {
@@ -693,7 +703,7 @@ const Paiement = ({ history, t, user, language }) => {
             type="number"
             value={participation.places}
             onChange={(e) => {
-              handleChange("places", e.target.value)
+              handleChange("places", e.target.value);
             }}
             required
             error={!!paymentErrors.places}
@@ -702,7 +712,7 @@ const Paiement = ({ history, t, user, language }) => {
             }}
             helperText={paymentErrors.places}
           />
-          <p style={{textAlign: "center"}}>{message}</p>
+          <p style={{ textAlign: "center" }}>{message}</p>
         </DialogContent>
         <DialogActions
           sx={{
@@ -739,7 +749,6 @@ const Paiement = ({ history, t, user, language }) => {
         key="bottomright"
         open={etat.error}
         autoHideDuration={10000}
-        onClose={handleErrorAlertClose}
       >
         <Alert
           onClose={handleErrorAlertClose}
@@ -755,7 +764,6 @@ const Paiement = ({ history, t, user, language }) => {
         key="bottomrightsuccess"
         open={etat.success}
         autoHideDuration={10000}
-        onClose={handleSuccessAlertClose}
       >
         <Alert
           onClose={handleSuccessAlertClose}
