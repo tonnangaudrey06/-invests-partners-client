@@ -2,12 +2,10 @@ import { Container } from "../../components";
 
 import eventImg from "../../assets/img/events2.jpeg";
 import ene from "../../assets/img/ip-13.jpg";
-import placeholder from "../../assets/img/ip-13.jpg";
 
 import "../../styles/event.scss";
 
-import { GoCalendar, GoLocation } from "react-icons/go";
-import { CircularProgress, Button as Btn } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 import React from "react";
 import { useHistory } from "react-router-dom";
@@ -29,10 +27,6 @@ import CardEvent from "../../components/CardEvent";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
-const currentDate = moment().date();
-const currentMonth = moment().month();
-const currentYear = moment().year();
 
 const Event = ({ t, user }) => {
   const [events, setEvents] = React.useState([]);

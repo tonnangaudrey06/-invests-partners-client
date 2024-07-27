@@ -624,6 +624,7 @@ const Paiement = ({ t, user, language }) => {
           >
             <Button
               width="fit-content"
+              disabled={event?.date_fin && new Date(event?.date_fin) < new Date()}
               type="submit"
               variant="contained"
               className="btn-default btn-rounded flex flex-align-center flex-justify-center w-50"
