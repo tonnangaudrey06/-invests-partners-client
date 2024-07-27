@@ -193,7 +193,7 @@ const EventDetails = ({ t, match, user }) => {
           )}
         {event?.partenaires.length > 0 && (
           <>
-            <div className="lh-base fs-8 mb-1" style={{color: "#c34839", fontWeight: "bold"}}>Partenaires</div>
+            <div className="lh-base fs-8 mb-1" style={{color: "#c34839", fontWeight: "bold"}}>{t("event.partner")}</div>
             <div className="d-flex align-items-center w-full flex-wrap gap-2">
               {event?.partenaires.map(partenaire => <img key={partenaire.id} alt="Partenaire profile" src={partenaire.image} style={{width: "100px", objectFit: "cover"}}/>)}
             </div>

@@ -146,6 +146,7 @@
         "places": {
             "restant": "Occupied seats"
         },
+        "partner": "Event partners",
         "form": {
             "title": "Participation in the event",
             "subtitle":{
