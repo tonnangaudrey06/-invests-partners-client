@@ -844,7 +844,7 @@ const HomeScreen = ({
         {(events || []).length > 0 && (
           <div className="section-event container pb-5">
             <SectionTitle title="event.title" />
-            <div className="row g-2">
+            <div className="row g-2 justify-content-center">
               {(events || [])
                 .sort((a, b) => new Date(b.date_debut) - new Date(a.date_debut))
                 .slice(0, 3)
