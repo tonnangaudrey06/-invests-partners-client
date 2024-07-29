@@ -269,6 +269,10 @@ const Paiement = ({ t, user, language }) => {
           });
           setPaymentModalOpen(false);
           console.log("5. Paiement Enregistrer");
+          
+          setTimeout(() => {
+            history.push(`/events/${id}`);
+          }, 5000);
         }
 
         setEtat({

@@ -112,7 +112,7 @@ const EventDetails = ({ t, match, user }) => {
               {t("details.noJoin")}
             </div>
           )}
-          {!event?.isPast && event?.places > event?.total_reserve && (
+          {/* {!event?.isPast && event?.places > event?.total_reserve && (
             <div className="d-flex justify-content-between align-items-center w-100">
               <Button
                 fullWidth
@@ -128,6 +128,19 @@ const EventDetails = ({ t, match, user }) => {
                   : t("button.participer")}
               </Button>
             </div>
+          )} */}
+          {!event?.isPast && event?.places > event?.total_reserve && (
+            <Button
+              disabled={event.date_fin && new Date(event?.date_fin) < new Date()}
+              variant="contained"
+              color="primary"
+              className="btn-rounded btn-default px-2"
+              onClick={(e) => onParticipate()}
+            >
+              {event?.places === event?.total_reserve
+                ? t("button.complet")
+                : t("button.participer")}
+            </Button>
           )}
         </section>
 
