@@ -1070,11 +1070,10 @@ const ProjetAdd = (props) => {
                   <FormControl sx={{ m: 1, width: "100%" }}>
                     <TextField
                       fullWidth
-                      required
                       size="small"
                       variant="filled"
                       type="url"
-                      label="Site web du projet"
+                      label="Site web du projet" 
                       placeholder="Site web"
                       value={projet.site}
                       onChange={(e) =>
