@@ -110,7 +110,7 @@ const EventDetails = ({ t, match, user }) => {
       <Button
         variant="contained"
         color="primary"
-        className="btn-rounded d-block mt-4 mx-auto btn-default px-2"
+        className="btn-rounded d-block mt-3 mb-4 mx-auto btn-default px-2"
         onClick={(e) => history.push(`/actualites`)}
       >
         {t("button.see_more")} <FaArrowRight className="ml-1" />
