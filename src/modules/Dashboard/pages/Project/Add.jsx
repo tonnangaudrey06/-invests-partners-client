@@ -154,24 +154,35 @@ const ProjetAdd = (props) => {
   };
 
   const handleNext = () => {
-    const labelTable = ["intitule", "secteur", "avancement", "pays_activite", "ville_activite", "description"]
+    const labelTable = [
+      "intitule",
+      "secteur",
+      "avancement",
+      "pays_activite",
+      "ville_activite",
+      "description",
+    ];
     let valid = true;
 
     labelTable.forEach((label) => {
-      if ( projet[label].trim()+"" === "") {
-        valid = false
-        console.log(label, valid);
+      if (projet[label].trim() + "" === "") {
+        valid = false;
       }
-    })
-    if(!doc_presentation){
-      valid = false
-    } 
+    });
+    if (projet.financement <= 0) {
+      valid = false;
+    }
+    if (!doc_presentation) {
+      valid = false;
+    }
     if (activeStep === 1 && !valid) {
-      setErrorMessage('Vérifier que les champs obligatoires ont bien été remplis.');
+      setErrorMessage(
+        "Vérifier que les champs obligatoires ont bien été remplis."
+      );
       return;
     }
-    
-    setErrorMessage('');
+
+    setErrorMessage("");
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
@@ -935,10 +946,10 @@ const ProjetAdd = (props) => {
                 </span>
               </p>
               {errorMessage && (
-            <Typography color="error" variant="body2">
-              {errorMessage}
-            </Typography>
-          )}
+                <Typography color="error" variant="body2">
+                  {errorMessage}
+                </Typography>
+              )}
 
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>

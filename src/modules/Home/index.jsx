@@ -47,6 +47,7 @@ const CustomSlide = ({
   projet,
   t,
   user,
+  className,
   errorMessage = (value) => {
     return;
   },
@@ -139,7 +140,7 @@ const CustomSlide = ({
 
   return (
     <>
-      <div className="mx-4 my-2 projet-ip-item shadow-sm">
+      <div className={`mx-4 my-2 projet-ip-item shadow-sm ${className}`}>
         <div className="projet-ip-image">
           <img src={projet.logo} alt={projet.intitule} />
         </div>
@@ -732,15 +733,18 @@ const HomeScreen = ({
               <div className="projet-ip-wrapper">
                 
                 {projets.length <= 2 ? (
-                  projets.map((projet) => (
-                    <CustomSlide
-                      key={projet.id}
-                      projet={projet}
-                      history={history}
-                      t={t}
-                      onOpenModal={(value) => setModalOpen(value)}
-                    />
-                  ))
+                  <div className="d-flex">
+                    {projets.map((projet) => (
+                      <CustomSlide
+                        className="flex-grow-1"
+                        key={projet.id}
+                        projet={projet}
+                        history={history}
+                        t={t}
+                        onOpenModal={(value) => setModalOpen(value)}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <Slider ref={(c) => (slider = c)} {...settings}>
                     {(projets || []).map((projet) => (
@@ -770,14 +774,14 @@ const HomeScreen = ({
                 
               </div>
 
-              <div>
+              {projets?.length > 2 && <div>
                 <span className="projet-ip-button-left " onClick={previous}>
                   <IoArrowBack />
                 </span>
                 <span className="projet-ip-button-right" onClick={next}>
                   <IoArrowForward />
                 </span>
-              </div>
+              </div>}
             </div>
           </div>
         )}

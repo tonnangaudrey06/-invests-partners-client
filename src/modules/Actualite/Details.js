@@ -1,65 +1,62 @@
-import { Container } from '../../components';
+import { Container } from "../../components";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { GoCalendar, GoClock, GoLocation } from 'react-icons/go';
-import { BiMoney } from 'react-icons/bi';
+import { GoCalendar, GoClock, GoLocation } from "react-icons/go";
+import { BiMoney } from "react-icons/bi";
 
-import {
-  Box,
-  Button,
-  LinearProgress,
-} from '@mui/material';
+import { Box, Button, LinearProgress } from "@mui/material";
 
-import eventImg from '../../assets/img/events.png';
-import ene from '../../assets/img/ip-13.jpg';
+import eventImg from "../../assets/img/events.png";
+import ene from "../../assets/img/ip-13.jpg";
 
-import '../../styles/event.scss';
+import "../../styles/event.scss";
 
-import { moneyFormat } from '../../core/utils/helpers'
+import { moneyFormat } from "../../core/utils/helpers";
 
-import moment from 'moment';
-import 'moment/locale/fr';
+import moment from "moment";
+import "moment/locale/fr";
 
-import 'react-phone-number-input/style.css'
+import "react-phone-number-input/style.css";
 
 import { connect } from "react-redux";
 
-import { ActualiteService } from '../../core/services';
+import { ActualiteService } from "../../core/services";
 
 import { withTranslation } from "react-i18next";
-import { useHistory } from 'react-router-dom';
-import { FaTag } from 'react-icons/fa';
-import { Badge } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
+import { FaArrowRight, FaTag } from "react-icons/fa";
+import { Badge } from "react-bootstrap";
 
 const EventDetails = ({ t, match, user }) => {
-  const { params: { id } } = match;
-  const history = useHistory()
+  const {
+    params: { id },
+  } = match;
+  const history = useHistory();
 
   const [actualite, setActualite] = React.useState(null);
 
   const onParticipate = () => {
     history.push(`/actualite`);
-  }
-
+  };
 
   const fetchData = () => {
-    ActualiteService.getOne(id).then(
-      (data) => {
-        setActualite(data.data.data);
-      }
-    )
+    ActualiteService.getOne(id).then((data) => {
+      setActualite(data.data.data);
+    });
   };
 
   React.useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+  }, []);
 
   return (
     <Container header headerActive active="Events" footer>
-      <div style={{ backgroundImage: `url(${eventImg})` }} className="event-details-bg-image">
+      <div
+        style={{ backgroundImage: `url(${eventImg})` }}
+        className="event-details-bg-image"
+      >
         <div className="blur"></div>
       </div>
 
@@ -72,30 +69,30 @@ const EventDetails = ({ t, match, user }) => {
 
         <section className="col-md-8 m-0 p-4">
           <div className="d-flex align-items-center justify-content-between w-full">
-          <small className="text-muted small" style={{ fontSize: ".8em" }}>
-            IP INVESTMENT S.A.
-          </small>
-          <Badge
-                pill
-                bg="primary"
-                style={{ width: "fit-content", display: "flex", gap: "4px" }}
-              >
-                {actualite?.secteur_libelle && actualite.secteur_libelle}
-          </Badge>
+            <small className="text-muted small" style={{ fontSize: ".8em" }}>
+              IP INVESTMENT S.A.
+            </small>
+            <Badge
+              pill
+              bg="primary"
+              style={{ width: "fit-content", display: "flex", gap: "4px" }}
+            >
+              {actualite?.secteur_libelle && actualite.secteur_libelle}
+            </Badge>
           </div>
 
-          <h3 className="fw-default-title" style={{ margin: '.5em 0' }}>
+          <h3 className="fw-default-title" style={{ margin: ".5em 0" }}>
             {actualite?.libelle}
           </h3>
 
-            {actualite?.updated_at &&
-              <div className="d-flex align-items-center pe-4">
-                <GoCalendar />
-                <span style={{ marginLeft: 10, fontSize: 14 }}>
-                  {moment(actualite?.updated_at).format("DD MMMM YYYY")}
-                </span>
-              </div>
-            }
+          {actualite?.updated_at && (
+            <div className="d-flex align-items-center pe-4">
+              <GoCalendar />
+              <span style={{ marginLeft: 10, fontSize: 14 }}>
+                {moment(actualite?.updated_at).format("DD MMMM YYYY")}
+              </span>
+            </div>
+          )}
 
           {actualite?.description && (
             <section className="py-4 d-none d-lg-block">
@@ -110,10 +107,18 @@ const EventDetails = ({ t, match, user }) => {
         )}
       </div>
 
+      <Button
+        variant="contained"
+        color="primary"
+        className="btn-rounded d-block mt-4 mx-auto btn-default px-2"
+        onClick={(e) => history.push(`/actualites`)}
+      >
+        {t("button.see_more")} <FaArrowRight className="ml-1" />
+      </Button>
     </Container>
   );
-}
+};
 
-const mapStateToProps = (state) => ({ user: state.auth.user })
+const mapStateToProps = (state) => ({ user: state.auth.user });
 
 export default withTranslation()(connect(mapStateToProps)(EventDetails));
